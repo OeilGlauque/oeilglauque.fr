@@ -22,16 +22,18 @@
         "symfony/validator": "^4.0",
         "symfony/web-link": "^4.0",
         "symfony/webpack-encore-pack": "*",
-        "symfony/yaml": "^4.0"
+        "symfony/yaml": "^4.0",
+        "web-token/jwt-framework": "^1.1"
     },
     "require-dev": {
+        "sensiolabs/security-checker": "^4.1",
         "symfony/browser-kit": "^4.0",
         "symfony/css-selector": "^4.0",
         "symfony/debug-pack": "*",
         "symfony/dotenv": "^4.0",
-        "symfony/maker-bundle": "^1.0",
+        "symfony/maker-bundle": "^1.5",
         "symfony/phpunit-bridge": "^4.0",
-        "symfony/profiler-pack": "*",
+        "symfony/profiler-pack": "^1.0",
         "symfony/web-server-bundle": "^4.0"
     },
     "config": {
@@ -59,7 +61,8 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install --symlink --relative %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install --symlink --relative %PUBLIC_DIR%": "symfony-cmd",
+            "security-checker security:check": "script"
         },
         "post-install-cmd": [
             "@auto-scripts"
