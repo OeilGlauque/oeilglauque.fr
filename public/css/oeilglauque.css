@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Andada');
 
+/* Header */
+
 #main {
     text-align: center;
 }
@@ -136,4 +138,37 @@ ul {
     background-position-x: center;
     background-color: #000;
     height: 228px;
+}
+
+
+
+/* Footer */
+
+footer {
+    background-image: url(/img/footer_repeat.png);
+    min-height: 230px;
+    padding: 30px;
+    text-align: center;
+}
+
+footer p {
+    color: #3E3D3D;
+}
+
+footer a {
+    color: #3E3D3D;
+    text-shadow: #000 0 0;
+}
+
+footer a:hover {
+    color: #3E3D3D;
+    text-shadow: #000 0 0;
+}
+
+
+
+/* Body */
+
+.red {
+    color: #C22B2B;
 }
