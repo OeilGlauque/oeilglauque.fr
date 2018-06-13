@@ -14,7 +14,7 @@ class MainPageController extends Controller {
     public function index() {
         //return new Response("Hello world !");
         return $this->render('oeilglauque/index.html.twig', array(
-            'var' => 0, 
+            'dates' => "Du 10 au 31 octobre", 
         ));
     }
 }

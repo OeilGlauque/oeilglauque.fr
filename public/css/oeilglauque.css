@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css?family=Andada');
+
+#main {
+    text-align: center;
+}
+
+body {
+    background-color: #181514;
+}
+
+* {
+    color: #EEEEEE;
+    font-family: 'Andada', sans-serif;
+}
+
+a {
+    color: #EEEEEE;
+    text-shadow: 2px 1px #C22B2B;
+}
+
+a:hover {
+    color: #C22B2B;
+    text-shadow: 2px 1px #EEEEEE;
+}
+
+header {
+    background-image: url(/img/header_bg.png);
+    background-repeat: repeat-x;
+    height: 417px;
+    background-color: #110E0E;
+}
+
+#flag {
+    background-image: url(/img/flag_header.png);
+    width: 301px;
+    height: 603px;
+    margin-left: 15%;
+    position: relative;
+    z-index: 100;
+}
+
+#oeil {
+    background-image: url(/img/logo.png);
+    width: 177px;
+    height: 177px;
+    position: absolute;
+    bottom: 75px;
+    left: 62px;
+}
+
+#title {
+    background-image: url(/img/title.png);
+    width: 366px;
+    height: 187px;
+    position: absolute;
+    top: 20px;
+    left: -33px;
+}
+
+#fest {
+    background-image: url(/img/fest.png);
+    width: 301px;
+    height: 238px;
+    position: absolute;
+    top: 50px;
+    right: 17%;
+}
+
+#dates {
+    font-size: 1.5em;
+    text-align: center;
+    width: 301px;
+    margin-top: 6px;
+}
+
+#connexion {
+    background-image: url(/img/connexion_back.png);
+    background-position-y: bottom;
+    background-repeat: no-repeat;
+    width: 207px;
+    height: 708px;
+    margin-left: 70%;
+    top: 0;
+    position: absolute;
+    z-index: 35;
+}
+
+nav {
+    background: #110E0E;
+    position: relative;
+    z-index: 50;
+}
+
+.navbar-toggler {
+    margin: 0px 0px 40px 0px;
+}
+
+nav li {
+    margin: -30px 20px 10px 0px;
+}
+
+nav a {
+    font-size: 1.5em;
+    text-transform: uppercase;
+    margin-top: 5px;
+}
+
+#under-flag {
+    margin-left: 15%;
+    /*border: 1px solid red;*/
+    width: 301px;
+}
+
+ul {
+    width: 100%;
+}
+
+.li-blank {
+    width: 100%;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.navbar-toggler-icon {
+    background-color: white;
+}
+
+#nav-right {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+#sub-banner {
+    background-image: url(/img/back_menu.png);
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-color: #000;
+    height: 228px;
+}
