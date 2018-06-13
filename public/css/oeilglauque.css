@@ -182,6 +182,10 @@ footer a:hover {
 
 /* Body */
 
+.container {
+    padding: 2em;
+}
+
 .red {
     color: #C22B2B;
 }
