@@ -50,6 +50,18 @@ header {
     left: 62px;
 }
 
+#cthulhu {
+    background-image: url(/img/cthulhu.png);
+    width: 379px;
+    height: 355px;
+    z-index: 90;
+    margin: auto;
+    margin-top: -603px;
+    position: relative;
+    top: 0px;
+    opacity: 1;
+}
+
 #title {
     background-image: url(/img/title.png);
     width: 366px;
@@ -66,6 +78,7 @@ header {
     position: absolute;
     top: 50px;
     right: 17%;
+    z-index: 95;
 }
 
 #dates {
