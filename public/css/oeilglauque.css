@@ -120,6 +120,20 @@ nav a {
     margin-top: 5px;
 }
 
+.dropdown-menu {
+    background-color: #181514;
+}
+
+nav .dropdown-item {
+    color: #C22B2B;
+    text-shadow: #000 0 0;
+}
+
+nav .dropdown-item:hover {
+    color: #EEEEEE;
+    background-color: #181514;
+}
+
 #under-flag {
     margin-left: 15%;
     /*border: 1px solid red;*/
