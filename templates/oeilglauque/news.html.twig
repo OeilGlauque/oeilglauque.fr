@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+        <main role="main" class="container">
+            <h1>News</h1>
+            {% for row in news | batch(2) %}
+            <div class="row">
+                {% for n in row %}
+                <div class="col-lg-6">
+                    {{ include('oeilglauque/shards/news.html.twig', {'title': n.title, 'text': n.text}) }}
+                </div>
+                {% endfor %}
+            </div><br />
+            {% endfor %}
+        </main><!-- /.container -->
+
+{% endblock %}

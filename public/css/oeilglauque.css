@@ -203,3 +203,13 @@ footer a:hover {
 .red {
     color: #C22B2B;
 }
+
+.redandblack {
+    color: #C22B2B;
+    text-shadow: 2px 1px #000;
+}
+
+.well {
+    padding: 2em;
+    background-color: #110E0E;
+}
