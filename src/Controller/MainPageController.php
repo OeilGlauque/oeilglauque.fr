@@ -17,6 +17,15 @@ class MainPageController extends Controller {
             'dates' => "Du 10 au 31 octobre", 
         ));
     }
+
+    /**
+     * @Route("/infos")
+     */
+    public function infos() {
+        return $this->render('oeilglauque/infos.html.twig', array(
+            'dates' => "Du 10 au 31 octobre", 
+        ));
+    }
 }
 
 ?>

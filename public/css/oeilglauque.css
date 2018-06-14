@@ -209,7 +209,19 @@ footer a:hover {
     text-shadow: 2px 1px #000;
 }
 
+h1,h2 {
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+    color: #C22B2B;
+    text-shadow: 2px 1px #000;
+}
+
 .well {
     padding: 2em;
     background-color: #110E0E;
+}
+
+p {
+    text-align: justify;
+    text-justify: auto;
 }
