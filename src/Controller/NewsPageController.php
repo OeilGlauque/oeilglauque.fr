@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use App\Entity\News;
 
 class NewsPageController extends Controller {
     
@@ -12,7 +13,18 @@ class NewsPageController extends Controller {
      * @Route("/news")
      */
     public function index() {
+        $news = $this->getDoctrine()->getRepository(News::class)->findAll();
+        $newsArray = array();
+
+        foreach($news as $n) {
+            array_push($newsArray, $n->asArray());
+        }
+        
         return $this->render('oeilglauque/news.html.twig', array(
+            'dates' => "Du 10 au 31 octobre", 
+            'news' => $newsArray
+        ));
+        /*return $this->render('oeilglauque/news.html.twig', array(
             'dates' => "Du 10 au 31 octobre", 
             'news' => array(
                 array(
@@ -41,7 +53,7 @@ class NewsPageController extends Controller {
                     "slug" => htmlspecialchars("touffy"), 
                 ), 
             ), 
-        ));
+        ));*/
     }
 }
 
