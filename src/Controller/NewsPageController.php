@@ -10,7 +10,7 @@ use App\Entity\News;
 class NewsPageController extends Controller {
     
     /**
-     * @Route("/news")
+     * @Route("/news", name="newsIndex")
      */
     public function index() {
         $news = $this->getDoctrine()->getRepository(News::class)->findAll();
@@ -24,36 +24,23 @@ class NewsPageController extends Controller {
             'dates' => "Du 10 au 31 octobre", 
             'news' => $newsArray
         ));
-        /*return $this->render('oeilglauque/news.html.twig', array(
-            'dates' => "Du 10 au 31 octobre", 
-            'news' => array(
-                array(
-                    "title" => htmlspecialchars("Première news !"), 
-                    "text" => htmlspecialchars("Ceci est la première news. Il y en aura plus bientôt !"), 
-                    "slug" => htmlspecialchars("premiere-news"), 
-                ), 
-                array(
-                    "title" => htmlspecialchars("Encore une news !"), 
-                    "text" => htmlspecialchars("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."), 
-                    "slug" => htmlspecialchars("autre-news"), 
-                ), 
-                array(
-                    "title" => htmlspecialchars("Encore une news !"), 
-                    "text" => htmlspecialchars("Bon j'ai plus d'inspi. Tant pis !"), 
-                    "slug" => htmlspecialchars("encore-news"), 
-                ), 
-                array(
-                    "title" => htmlspecialchars("Encore une news !"), 
-                    "text" => htmlspecialchars("C'était mieux avant. "), 
-                    "slug" => htmlspecialchars("nouvelle-news"), 
-                ), 
-                array(
-                    "title" => htmlspecialchars("Encore une news !"), 
-                    "text" => htmlspecialchars("Touffy président ! "), 
-                    "slug" => htmlspecialchars("touffy"), 
-                ), 
-            ), 
-        ));*/
+    }
+
+    /**
+     * @Route("/news/{slug}")
+     */
+    public function showNews($slug) {
+        $news = $this->getDoctrine()->getRepository(News::class)->findOneBy(['slug' => $slug]);
+        if($news) {
+            return $this->render('oeilglauque/showNews.html.twig', array(
+                'dates' => "Du 10 au 31 octobre", 
+                'title' => $news->getTitle(), 
+                'text' => $news->getText(), 
+                'back_url' => $this->generateUrl("newsIndex")
+            ));
+        }else{
+            throw $this->createNotFoundException('The product does not exist');
+        }
     }
 }
 

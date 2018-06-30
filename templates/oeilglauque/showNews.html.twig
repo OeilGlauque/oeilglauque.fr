@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+        <main role="main" class="container">
+            <h1>{{ title }}</h1>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>{{ text }}</p><br />
+                    <a href="{{ back_url }}">Retour aux news</a>
+                </div>
+            </div>
+        </main><!-- /.container -->
+
+{% endblock %}
