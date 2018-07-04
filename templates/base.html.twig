@@ -20,11 +20,21 @@
                 <div id="oeil"></div>
             </div>
             <div class="d-none d-lg-block" id="connexion">
-
+                <div>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {# Link to user control panel : {{ app.user.username }} #}
+                {% else %}
+                <form action="{{ path('login') }}" method="post" class="smallform">
+                    <input type="text" id="username" name="_username" placeholder="Pseudo" />
+                    <input type="password" id="password" name="_password" placeholder="Mot de passe" />
+                    <button type="submit">login</button>
+                </form>
+                {% endif %}
+                </div>
             </div>
             <div id="cthulhu" class="d-none d-xl-block"></div>
             <div id="fest">
-                <div id="dates">{{ dates }}</div>
+                <div id="dates">{{ dates|default('Généralement en octobre') }}</div>
             </div>
         </header>
 
@@ -37,7 +47,7 @@
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Accueil <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/">Accueil <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Festival</a>
@@ -55,7 +65,11 @@
                     </li>
 
                     <li class="nav-item" id="nav-right">
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <a class="nav-link" href="/logout">Déconnexion</a>
+                        {% else %}
                         <a class="nav-link" href="#">Inscription</a>
+                        {% endif %}
                     </li>
                     <li class="li-blank"></li>
                     <!--<li class="nav-item">

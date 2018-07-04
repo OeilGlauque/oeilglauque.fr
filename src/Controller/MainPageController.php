@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class MainPageController extends Controller {
     
     /**
-     * @Route("/")
+     * @Route("/", name="index")
      */
     public function index() {
         //return new Response("Hello world !");
@@ -25,6 +25,13 @@ class MainPageController extends Controller {
         return $this->render('oeilglauque/infos.html.twig', array(
             'dates' => "Du 10 au 31 octobre", 
         ));
+    }
+
+    /**
+     * @Route("/admin")
+     */
+    public function admin() {
+        return new Response("admin page !");
     }
 }
 

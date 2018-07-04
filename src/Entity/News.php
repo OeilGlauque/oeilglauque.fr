@@ -110,9 +110,9 @@ class News
 
     public function asArray(): array {
         return array(
-            "title" => htmlspecialchars($this->getTitle()), 
-            "text" => htmlspecialchars($this->getText()), 
-            "slug" => htmlspecialchars($this->getSlug()), 
+            "title" => $this->getTitle(), 
+            "text" => $this->getText(), 
+            "slug" => $this->getSlug(), 
         );
     }
 }
