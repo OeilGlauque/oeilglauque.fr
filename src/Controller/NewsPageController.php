@@ -14,15 +14,10 @@ class NewsPageController extends Controller {
      */
     public function index() {
         $news = $this->getDoctrine()->getRepository(News::class)->findAll();
-        $newsArray = array();
-
-        foreach($news as $n) {
-            array_push($newsArray, $n->asArray());
-        }
         
         return $this->render('oeilglauque/news.html.twig', array(
             'dates' => "Du 10 au 31 octobre", 
-            'news' => $newsArray
+            'news' => $news
         ));
     }
 

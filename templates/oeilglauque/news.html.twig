@@ -8,7 +8,7 @@
             <div class="row">
                 {% for n in row %}
                 <div class="col-lg-6">
-                    {{ include('oeilglauque/shards/news.html.twig', {'title': n.title, 'text': n.text, 'slug': n.slug}) }}
+                    {{ include('oeilglauque/shards/news.html.twig', {'title': n.getTitle(), 'text': n.getText(), 'slug': n.getSlug()}) }}
                 </div>
                 {% endfor %}
             </div><br />

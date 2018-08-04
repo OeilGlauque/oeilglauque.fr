@@ -106,13 +106,4 @@ class News
 
         return $this;
     }
-
-
-    public function asArray(): array {
-        return array(
-            "title" => $this->getTitle(), 
-            "text" => $this->getText(), 
-            "slug" => $this->getSlug(), 
-        );
-    }
 }
