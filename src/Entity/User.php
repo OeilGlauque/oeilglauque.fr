@@ -6,6 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Table(name="app_users")
@@ -32,16 +34,29 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=64, unique=true)
+     * @Assert\NotBlank()
      */
     private $pseudo;
 
     /**
+     * length=64 : for bcrypt
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank()
      */
     private $password;
     
+    // This will not be mapped in database, but needs to be accessible during registration
+    /**
+     * length=4096 for security reasons (see https://symfony.com/blog/cve-2013-5750-security-issue-in-fosuserbundle-login-form)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=4096)
+     */
+    private $plainPassword;
+
     /**
     * @ORM\Column(type="string", length=254, unique=true)
+    * @Assert\NotBlank()
+    * @Assert\Email()
     */
     private $email;
 
@@ -74,6 +89,10 @@ class User implements UserInterface, \Serializable
     public function __construct()
     {
         $this->newsRedacted = new ArrayCollection();
+        $this->roles = "ROLE_USER";
+        $this->password = "_";
+        $this->dateCreated = new \DateTime();
+        $this->isActive = true;
     }
 
     public function getId()
@@ -128,6 +147,17 @@ class User implements UserInterface, \Serializable
 
         return $this;
     }
+
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
+    }
+
 
     public function getEmail(): ?string
     {
