@@ -85,6 +85,16 @@ class User implements UserInterface, \Serializable
      */
     private $roles;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Game", mappedBy="author")
+     */
+    private $partiesOrganisees;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Game", mappedBy="players")
+     */
+    private $partiesJouees;
+
 
     public function __construct()
     {
@@ -93,6 +103,8 @@ class User implements UserInterface, \Serializable
         $this->password = "_";
         $this->dateCreated = new \DateTime();
         $this->isActive = true;
+        $this->partiesOrganisees = new ArrayCollection();
+        $this->partiesJouees = new ArrayCollection();
     }
 
     public function getId()
@@ -268,6 +280,65 @@ class User implements UserInterface, \Serializable
     public function setRoles(?string $roles): self
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Game[]
+     */
+    public function getPartiesOrganisees(): Collection
+    {
+        return $this->partiesOrganisees;
+    }
+
+    public function addPartiesOrganisee(Game $partiesOrganisee): self
+    {
+        if (!$this->partiesOrganisees->contains($partiesOrganisee)) {
+            $this->partiesOrganisees[] = $partiesOrganisee;
+            $partiesOrganisee->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removePartiesOrganisee(Game $partiesOrganisee): self
+    {
+        if ($this->partiesOrganisees->contains($partiesOrganisee)) {
+            $this->partiesOrganisees->removeElement($partiesOrganisee);
+            // set the owning side to null (unless already changed)
+            if ($partiesOrganisee->getAuthor() === $this) {
+                $partiesOrganisee->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Game[]
+     */
+    public function getPartiesJouees(): Collection
+    {
+        return $this->partiesJouees;
+    }
+
+    public function addPartiesJouee(Game $partiesJouee): self
+    {
+        if (!$this->partiesJouees->contains($partiesJouee)) {
+            $this->partiesJouees[] = $partiesJouee;
+            $partiesJouee->addPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removePartiesJouee(Game $partiesJouee): self
+    {
+        if ($this->partiesJouees->contains($partiesJouee)) {
+            $this->partiesJouees->removeElement($partiesJouee);
+            $partiesJouee->removePlayer($this);
+        }
 
         return $this;
     }
