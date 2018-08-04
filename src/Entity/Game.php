@@ -162,6 +162,11 @@ class Game
         return $this;
     }
 
+    public function getFreeSeats() :?int 
+    {
+        return ($this->getForceOnlineSeats() ? $this->getSeats() - count($this->getPlayers()) : floor($this->getSeats()/2) - count($this->getPlayers()));
+    }
+
     public function getForceOnlineSeats(): ?bool
     {
         return $this->forceOnlineSeats;

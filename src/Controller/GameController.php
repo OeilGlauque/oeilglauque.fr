@@ -41,17 +41,17 @@ class GameController extends Controller {
     /**
      * @Route("/parties", name="listeParties")
      */
-    public function index() {
+    public function listGames() {
         $games = $this->getDoctrine()->getRepository(Game::class)->findAll();
-        $gamesArray = array();
+        /*$gamesArray = array();
 
         foreach($games as $n) {
-            array_push($gamesArray, $n->asArray());
-        }
+            array_push($gamesArray, $n);
+        }*/
         
         return $this->render('oeilglauque/gamesList.html.twig', array(
             'dates' => "Du 10 au 31 octobre", 
-            'games' => $gamesArray
+            'games' => $games
         ));
     }
 }
