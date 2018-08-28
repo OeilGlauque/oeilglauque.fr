@@ -4,7 +4,26 @@ Site web du Festival de l'OEil Glauque
 
 ## Installation
 
-`todo`
+Pour installer le site localement, il faut au préalable avoir installé PHP7, Composer et MariaDB. L'installation varie selon la distribution mais est normalement triviale. 
+
+ * Exemple d'installation pour Fedora 28 : 
+
+```bash
+sudo dnf install php-cli php-common php-pdo_mysql composer mariadb-server
+sudo systemctl start mariadb
+mysql --user root --execute "select version()" # To check wether your MariaDB installation is working
+mysql_secure_installation # To secure your MariaDB installation
+```
+
+Après avoir configuré localement le connecteur MariaDB dans le fichier `.env` selon votre installation, il ne reste plus qu'à installer les dépendances, effectuer une migration de la base de données et lancer le serveur de développement : 
+
+```bash
+composer install
+php bin/console doctrine:database:create
+php bin/console make:migration
+php bin/console doctrine:migrations:migrate
+php bin/console server:run
+```
 
 ## Déploiement
 
