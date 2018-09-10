@@ -32,7 +32,7 @@ class StaticPagesController extends Controller {
     /**
      * @Route("/planning", name="planning")
      */
-    public function infosClub() {
+    public function planning() {
         return $this->render('oeilglauque/planning.html.twig', array(
             'dates' => "Du 19 au 21 octobre", 
         ));
