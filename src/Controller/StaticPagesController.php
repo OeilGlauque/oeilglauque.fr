@@ -55,6 +55,15 @@ class StaticPagesController extends Controller {
             'dates' => "Du 19 au 21 octobre", 
         ));
     }
+
+    /**
+     * @Route("/photos", name="photos")
+     */
+    public function photos() {
+        return $this->render('oeilglauque/photos.html.twig', array(
+            'dates' => "Du 19 au 21 octobre", 
+        ));
+    }
 }
 
 ?>
