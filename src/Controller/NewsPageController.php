@@ -16,7 +16,7 @@ class NewsPageController extends Controller {
         $news = $this->getDoctrine()->getRepository(News::class)->findAll();
         
         return $this->render('oeilglauque/news.html.twig', array(
-            'dates' => "Du 10 au 31 octobre", 
+            'dates' => "Du 19 au 21 octobre", 
             'news' => $news
         ));
     }
@@ -28,7 +28,7 @@ class NewsPageController extends Controller {
         $news = $this->getDoctrine()->getRepository(News::class)->findOneBy(['slug' => $slug]);
         if($news) {
             return $this->render('oeilglauque/showNews.html.twig', array(
-                'dates' => "Du 10 au 31 octobre", 
+                'dates' => "Du 19 au 21 octobre", 
                 'title' => $news->getTitle(), 
                 'text' => $news->getText(), 
                 'back_url' => $this->generateUrl("newsIndex")

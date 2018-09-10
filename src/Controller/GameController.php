@@ -33,7 +33,7 @@ class GameController extends Controller {
         }
 
         return $this->render('oeilglauque/newGame.html.twig', array(
-            'dates' => "Du 10 au 31 octobre", 
+            'dates' => "Du 19 au 21 octobre", 
             'form' => $form->createView()
         ));
     }
@@ -50,7 +50,7 @@ class GameController extends Controller {
         }*/
         
         return $this->render('oeilglauque/gamesList.html.twig', array(
-            'dates' => "Du 10 au 31 octobre", 
+            'dates' => "Du 19 au 21 octobre", 
             'games' => $games
         ));
     }

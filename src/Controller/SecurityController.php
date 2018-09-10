@@ -30,6 +30,7 @@ class SecurityController extends Controller
         return $this->render('oeilglauque/login.html.twig', array(
             'last_username' => $lastUsername,
             'error'         => $error,
+            'dates' => "Du 19 au 21 octobre", 
         ));
     }
 
@@ -62,7 +63,7 @@ class SecurityController extends Controller
 
         return $this->render(
             'oeilglauque/register.html.twig',
-            array('form' => $form->createView())
+            array('form' => $form->createView(), 'dates' => "Du 19 au 21 octobre")
         );
     }
 }
