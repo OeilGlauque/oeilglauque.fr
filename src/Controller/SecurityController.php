@@ -28,8 +28,6 @@ class SecurityController extends Controller
         $lastUsername = $authenticationUtils->getLastUsername();
         */
         return $this->render('oeilglauque/login.html.twig', array(
-            'last_username' => $lastUsername,
-            'error'         => $error,
             'dates' => "Du 19 au 21 octobre", 
         ));
     }
