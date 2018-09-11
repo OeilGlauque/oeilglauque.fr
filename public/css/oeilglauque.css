@@ -257,3 +257,9 @@ input {
 button {
     color: black;
 }
+
+.affiche {
+    display: block;
+    margin: auto;
+    width: 70%;
+}
