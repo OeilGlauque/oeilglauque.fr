@@ -25,6 +25,10 @@ a:hover {
     text-shadow: 2px 1px #EEEEEE;
 }
 
+pre {
+    color: #EEEEEE;
+}
+
 header {
     background-image: url(/img/header_bg.png);
     background-repeat: repeat-x;
