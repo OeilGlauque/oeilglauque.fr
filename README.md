@@ -29,6 +29,16 @@ php bin/console server:run
 
 `todo`
 
+Mise à jour vers une nouvelle version :
+
+```bash
+git pull origin master
+git fetch --tags
+git checkout <version tag name>
+php bin/console cache:clear --env=prod --no-debug && chmod -R 777 var/cache
+docker-compose restart php-fpm
+```
+
 ## Développement
 
 ### Access control
