@@ -76,7 +76,11 @@
                     </li>
 
                     <li class="nav-item" id="nav-right">
-                        
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <a class="nav-link" href="/logout">Déconnexion</a>
+                        {% else %}
+                        <a class="nav-link" href="/register">Inscription</a>
+                        {% endif %}
                     </li>
                     <li class="li-blank"></li>
                     <!--<li class="nav-item">

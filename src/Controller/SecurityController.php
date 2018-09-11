@@ -15,8 +15,7 @@ class SecurityController extends Controller
     /**
      * @Route("/login", name="login")
      */
-    public function login(Request $request, AuthenticationUtils $authenticationUtils, AuthorizationCheckerInterface $authChecker) {
-        /*
+    public function login(Request $request, AuthenticationUtils $authenticationUtils, AuthorizationCheckerInterface $authChecker) { 
         if ($authChecker->isGranted('ROLE_USER')) {
             return $this->redirectToRoute("index");
         }
@@ -26,8 +25,9 @@ class SecurityController extends Controller
 
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
-        */
         return $this->render('oeilglauque/login.html.twig', array(
+            'last_username' => $lastUsername,
+            'error'         => $error,
             'dates' => "Du 19 au 21 octobre", 
         ));
     }
@@ -36,7 +36,6 @@ class SecurityController extends Controller
      * @Route("/register")
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder) {
-        /*
         // 1 : Construction du formulaire
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -59,10 +58,10 @@ class SecurityController extends Controller
 
             return $this->redirectToRoute('index');
         }
-        */
+        
         return $this->render(
             'oeilglauque/register.html.twig',
-            array('dates' => "Du 19 au 21 octobre")
+            array('form' => $form->createView(), 'dates' => "Du 19 au 21 octobre")
         );
     }
 }
