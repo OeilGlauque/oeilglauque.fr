@@ -267,3 +267,15 @@ button {
     margin: auto;
     width: 70%;
 }
+
+table {
+    width: 100%;
+}
+
+.btn:hover {
+    text-shadow: none;
+}
+
+.btn-admin {
+    margin-top: 20px;
+}

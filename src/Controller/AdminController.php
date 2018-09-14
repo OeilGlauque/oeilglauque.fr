@@ -1,0 +1,88 @@
+<?php
+
+namespace App\Controller;
+
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use App\Entity\Edition;
+use App\Entity\GameSlot;
+
+class AdminController extends Controller {
+
+    /**
+     * @Route("/admin", name="admin")
+     */
+    public function admin() {
+        return $this->render('oeilglauque/admin.html.twig', array(
+            'dates' => "Du 19 au 21 octobre", 
+        ));
+    }
+
+
+    /**
+     * @Route("/admin/editions", name="admin_editions")
+     */
+    public function editionsAdmin() {
+        $editions = $this->getDoctrine()->getRepository(Edition::class)->findAll();
+        return $this->render('oeilglauque/admin/editions.html.twig', array(
+            'dates' => "Du 19 au 21 octobre", 
+            'editions' => $editions
+        ));
+    }
+
+    /**
+     * @Route("/admin/editions/updateSlot/{slot}", name="updateSlot")
+     */
+    public function updateSlot(Request $request, $slot) {
+        $slotval = $this->getDoctrine()->getRepository(GameSlot::class)->find($slot);
+        if (!$slotval) {
+            throw $this->createNotFoundException(
+                'Aucun slot n\'a pour id '.$slot
+            );
+        }
+        if($request->query->get('text') != "") {
+            $slotval->setText($request->query->get('text'));
+            $slotval->setMaxGames($request->query->get('maxGames'));
+            $this->getDoctrine()->getManager()->flush();
+        }
+        return $this->redirectToRoute('admin_editions');
+    }
+
+    /**
+     * @Route("/admin/editions/deleteSlot/{slot}", name="deleteSlot")
+     */
+    public function deleteSlot(Request $request, $slot) {
+        $slotval = $this->getDoctrine()->getRepository(GameSlot::class)->find($slot);
+        if ($slotval) {
+            $this->getDoctrine()->getManager()->remove($slotval);
+            $this->getDoctrine()->getManager()->flush();
+        }
+        return $this->redirectToRoute('admin_editions');
+    }
+
+    /**
+     * @Route("/admin/editions/addSlot/{edition}", name="addSlot")
+     */
+    public function addSlot(Request $request, $edition) {
+        if($request->query->get('text') != "") {
+            $slot = new GameSlot();
+            $slot->setText($request->query->get('text'));
+            $slot->setMaxGames($request->query->get('maxGames'));
+            $editionval = $this->getDoctrine()->getRepository(Edition::class)->find($edition);
+            if (!$editionval) {
+                throw $this->createNotFoundException(
+                    'Aucune édition n\'a pour id '.$edition
+                );
+            }
+            $slot->setEdition($editionval);
+            $this->getDoctrine()->getManager()->persist($slot);
+            $this->getDoctrine()->getManager()->flush();
+        }
+
+        return $this->redirectToRoute('admin_editions');
+    }
+}
+
+?>

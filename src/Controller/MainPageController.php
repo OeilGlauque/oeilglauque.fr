@@ -17,13 +17,6 @@ class MainPageController extends Controller {
             'dates' => "Du 19 au 21 octobre", 
         ));
     }
-
-    /**
-     * @Route("/admin")
-     */
-    public function admin() {
-        return new Response("admin page !");
-    }
 }
 
 ?>

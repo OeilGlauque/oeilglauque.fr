@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+        <main role="main" class="container">
+            <h1>Gestion des éditions</h1>
+            {% for e in editions %}
+                <div class="well">
+                    <h3>Édition {{e.getAnnee()}}</h3>
+                    <p>Dates : {{e.getDates() }}</p>
+                    {% for slot in e.getGameSlots() %}
+                        <form class="form-inline" method="GET" action="{{ path('updateSlot', {'slot': slot.getId() }) }}">
+                            <input type="text" name="text" value="{{ slot.getText() }}" class="form-control mr-sm-2" />
+                            <input type="number" name="maxGames" value="{{ slot.getMaxGames() }}" min="1" max="20" class="form-control mr-sm-2" />
+                            <input type="submit" class="form-control mr-sm-2 btn btn-danger" value="Mettre à jour" /> 
+                            <a href="{{ path('deleteSlot', {'slot': slot.getId() }) }}" class="form-control mr-sm-2 btn btn-danger">Supprimer</a> 
+                        </form>
+                        <br />
+                    {% else %}
+                        <p>Pas de slot pour cette édition...</p>
+                    {% endfor %}
+                    <form class="form-inline" method="GET" action="{{ path('addSlot', {'edition': e.getId() }) }}">
+                        <input type="text" name="text" placeholder="Nouveau slot" class="form-control mr-sm-2" />
+                        <input type="number" name="maxGames" placeholder="Parties max" min="1" max="20" value="9" class="form-control mr-sm-2" />
+                        <input type="submit" class="form-control mr-sm-2 btn btn-danger" value="Ajouter" /> 
+                    </form>
+                </div>
+            {% else %}
+                <div class="row">
+                    <p>Aucune édition n'est encore configurée. </p>
+                </div>
+            {% endfor %}
+            <br /><p><a href="{{ path('admin') }}">Retour à l'interface d'administration</a></p>
+        </main><!-- /.container -->
+
+{% endblock %}

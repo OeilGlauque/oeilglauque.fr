@@ -62,7 +62,7 @@ class Game
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\GameSlot", inversedBy="games")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $gameSlot;
 

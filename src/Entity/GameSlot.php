@@ -25,19 +25,19 @@ class GameSlot
     private $edition;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $day;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Game", mappedBy="gameSlot")
      */
     private $games;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $text;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $maxGames;
 
     public function __construct()
     {
@@ -57,18 +57,6 @@ class GameSlot
     public function setEdition(?Edition $edition): self
     {
         $this->edition = $edition;
-
-        return $this;
-    }
-
-    public function getDay(): ?int
-    {
-        return $this->day;
-    }
-
-    public function setDay(int $day): self
-    {
-        $this->day = $day;
 
         return $this;
     }
@@ -112,6 +100,18 @@ class GameSlot
     public function setText(string $text): self
     {
         $this->text = $text;
+
+        return $this;
+    }
+
+    public function getMaxGames(): ?int
+    {
+        return $this->maxGames;
+    }
+
+    public function setMaxGames(int $maxGames): self
+    {
+        $this->maxGames = $maxGames;
 
         return $this;
     }
