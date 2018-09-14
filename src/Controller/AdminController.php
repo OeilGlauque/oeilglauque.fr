@@ -8,8 +8,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Edition;
 use App\Entity\GameSlot;
+use App\Entity\Game;
 
 class AdminController extends Controller {
+
+    /****************************************
+     *      Interface d'administration      *
+     ****************************************/
 
     /**
      * @Route("/admin", name="admin")
@@ -19,6 +24,11 @@ class AdminController extends Controller {
             'dates' => "Du 19 au 21 octobre", 
         ));
     }
+
+
+    /**********************************
+     *      Gestion des éditions      *
+     **********************************/
 
 
     /**
@@ -82,6 +92,34 @@ class AdminController extends Controller {
         }
 
         return $this->redirectToRoute('admin_editions');
+    }
+
+    /************************************
+     *      Validation des parties      *
+     ************************************/
+
+    /**
+     * @Route("/admin/games/validate", name="unvalidatedGamesList")
+     */
+    public function unvalidatedGamesList() {
+        $games = $this->getDoctrine()->getRepository(Game::class)->findBy(["validated" => false]);
+        return $this->render('oeilglauque/admin/unvalidatedGamesList.html.twig', array(
+            'dates' => "Du 19 au 21 octobre", 
+            'games' => $games
+        ));
+    }
+
+    /**
+     * @Route("/admin/games/validate/{id}", name="validateGame")
+     */
+    public function validateGame($id) {
+        $game = $this->getDoctrine()->getRepository(Game::class)->find($id);
+        if($game) {
+            $game->setValidated(true);
+            $this->getDoctrine()->getManager()->persist($game);
+            $this->getDoctrine()->getManager()->flush();
+        }
+        return $this->redirectToRoute('unvalidatedGamesList');
     }
 }
 

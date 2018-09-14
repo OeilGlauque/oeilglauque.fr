@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+        <main role="main" class="container">
+            <h1>Validation des parties en attente</h1>
+            {% for g in games %}
+                <div class="well">
+                    <h3>{{ g.getTitle() }}</h3>
+                    <p>Proposé par {{ g.getAuthor().getPseudo() }} ({{ g.getAuthor().getFirstName() }} {{ g.getAuthor().getName() }}, {{ g.getAuthor().getEmail() }})</p>
+                    <p>Slot : {{ g.getGameSlot().getText() }}</p>
+                    <p>{{ g.getDescription()|striptags('<br>')|raw }}</p>
+                    <hr />
+                    <p>{{ g.getSeats() }} places, forcer toutes les réservations en ligne : {% if g.getForceOnlineSeats() %}oui{% else %}non{% endif %}</p>
+                    <a href="{{ path('validateGame', {'id': g.getId()}) }}" class="btn btn-success">Valider cette partie</a>
+                    <a href="" class="btn btn-danger">Supprimer cette partie</a>
+                </div><br />
+            {% else %}
+                <div class="row">
+                    <p>Aucune partie en attente de validation. </p>
+                </div>
+            {% endfor %}
+            <br /><p><a href="{{ path('admin') }}">Retour à l'interface d'administration</a></p>
+        </main><!-- /.container -->
+
+{% endblock %}

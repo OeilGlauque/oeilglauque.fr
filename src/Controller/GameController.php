@@ -42,7 +42,7 @@ class GameController extends Controller {
      * @Route("/parties", name="listeParties")
      */
     public function listGames() {
-        $games = $this->getDoctrine()->getRepository(Game::class)->findAll();
+        $games = $this->getDoctrine()->getRepository(Game::class)->findBy(["validated" => true]);
         /*$gamesArray = array();
 
         foreach($games as $n) {

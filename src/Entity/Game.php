@@ -66,9 +66,15 @@ class Game
      */
     private $gameSlot;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $validated;
+
     public function __construct()
     {
         $this->players = new ArrayCollection();
+        $this->validated = false;
     }
 
     public function getId()
@@ -90,7 +96,7 @@ class Game
 
     public function getDescription(): ?string
     {
-        return $this->description;
+        return str_replace("\n", "<br />", $this->description);
     }
 
     public function setDescription(string $description): self
@@ -167,6 +173,11 @@ class Game
         return ($this->getForceOnlineSeats() ? $this->getSeats() - count($this->getPlayers()) : floor($this->getSeats()/2) - count($this->getPlayers()));
     }
 
+    public function getOfflineSeats() :?int
+    {
+        return ($this->getForceOnlineSeats() ? 0 : ceil($this->getSeats()/2));
+    }
+
     public function getForceOnlineSeats(): ?bool
     {
         return $this->forceOnlineSeats;
@@ -187,6 +198,18 @@ class Game
     public function setGameSlot(?GameSlot $gameSlot): self
     {
         $this->gameSlot = $gameSlot;
+
+        return $this;
+    }
+
+    public function getValidated(): ?bool
+    {
+        return $this->validated;
+    }
+
+    public function setValidated(bool $validated): self
+    {
+        $this->validated = $validated;
 
         return $this;
     }
