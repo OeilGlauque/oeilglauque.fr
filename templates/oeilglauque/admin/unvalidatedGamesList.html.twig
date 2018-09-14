@@ -13,7 +13,7 @@
                     <hr />
                     <p>{{ g.getSeats() }} places, forcer toutes les réservations en ligne : {% if g.getForceOnlineSeats() %}oui{% else %}non{% endif %}</p>
                     <a href="{{ path('validateGame', {'id': g.getId()}) }}" class="btn btn-success">Valider cette partie</a>
-                    <a href="" class="btn btn-danger">Supprimer cette partie</a>
+                    <a href="{{ path('deleteGame', {'id': g.getId()}) }}" class="btn btn-danger">Supprimer cette partie</a>
                 </div><br />
             {% else %}
                 <div class="row">

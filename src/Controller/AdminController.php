@@ -63,7 +63,7 @@ class AdminController extends Controller {
     /**
      * @Route("/admin/editions/deleteSlot/{slot}", name="deleteSlot")
      */
-    public function deleteSlot(Request $request, $slot) {
+    public function deleteSlot($slot) {
         $slotval = $this->getDoctrine()->getRepository(GameSlot::class)->find($slot);
         if ($slotval) {
             $this->getDoctrine()->getManager()->remove($slotval);
@@ -117,6 +117,18 @@ class AdminController extends Controller {
         if($game) {
             $game->setValidated(true);
             $this->getDoctrine()->getManager()->persist($game);
+            $this->getDoctrine()->getManager()->flush();
+        }
+        return $this->redirectToRoute('unvalidatedGamesList');
+    }
+
+    /**
+     * @Route("/admin/games/deleteGame/{id}", name="deleteGame")
+     */
+    public function deleteGame($id) {
+        $game = $this->getDoctrine()->getRepository(Game::class)->find($id);
+        if ($game) {
+            $this->getDoctrine()->getManager()->remove($game);
             $this->getDoctrine()->getManager()->flush();
         }
         return $this->redirectToRoute('unvalidatedGamesList');
