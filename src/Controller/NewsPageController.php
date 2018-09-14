@@ -29,12 +29,10 @@ class NewsPageController extends Controller {
         if($news) {
             return $this->render('oeilglauque/showNews.html.twig', array(
                 'dates' => "Du 19 au 21 octobre", 
-                'title' => $news->getTitle(), 
-                'text' => $news->getText(), 
-                'back_url' => $this->generateUrl("newsIndex")
+                'news' => $news
             ));
         }else{
-            throw $this->createNotFoundException('The product does not exist');
+            throw $this->createNotFoundException('Impossible de trouver cette news');
         }
     }
 }
