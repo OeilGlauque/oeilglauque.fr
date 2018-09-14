@@ -9,7 +9,7 @@ Pour installer le site localement, il faut au préalable avoir installé PHP7, C
  * Exemple d'installation pour Fedora 28 : 
 
 ```bash
-sudo dnf install php-cli php-common php-pdo_mysql composer mariadb-server
+sudo dnf install php-cli php-common php-pdo_mysql php-gmp composer mariadb-server
 sudo systemctl start mariadb
 mysql --user root --execute "select version()" # To check wether your MariaDB installation is working
 mysql_secure_installation # To secure your MariaDB installation
@@ -20,7 +20,6 @@ Après avoir configuré localement le connecteur MariaDB dans le fichier `.env` 
 ```bash
 composer install
 php bin/console doctrine:database:create
-php bin/console make:migration
 php bin/console doctrine:migrations:migrate
 php bin/console server:run
 ```
