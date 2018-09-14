@@ -1,16 +1,16 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="well">
-            <a href="/partie/{{ id }}"><h2 class="redandblack">{{ title }}</h2></a>
-            <p class="small">Proposé par {{ author }}<br />
-            Créneau : {{ slot }}</p>
-            <p>{{ text }}</p>
+            <a href="{{ path('showGame', {'id':game.getId()}) }}"><h2 class="redandblack">{{ game.getTitle() }}</h2></a>
+            <p class="small">Proposé par {{ game.getAuthor().getPseudo() }}<br />
+            Créneau : {{ game.getGameSlot().getText() }}</p>
+            <p>{{ game.getDescription()|striptags('<br>')|raw }}</p>
             <br />
-            {% if freeSeats > 0 %}
-            <p>{{freeSeats}} places disponibles</p>
+            {% if game.getFreeSeats() > 0 %}
+            <p>{{ game.getFreeSeats() }} places disponibles</p>
             {% else %}
             <p>Malheureusement, il n'y a plus de places disponible...
-            {% if onlineOnly == false %}
+            {% if game.getForceOnlineSeats() == false %}
             Mais vous pourrez encore vous inscrire à l'accueil du festival !
             {% endif %}
             </p>

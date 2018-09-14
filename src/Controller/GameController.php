@@ -22,14 +22,14 @@ class GameController extends Controller {
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $game->setAuthor($user = $this->getUser());
+            $game->setAuthor($this->getUser());
 
             // Sauvegarde en base
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($game);
             $entityManager->flush();
 
-            return $this->redirectToRoute('index');
+            return $this->redirectToRoute('listeParties');
         }
 
         return $this->render('oeilglauque/newGame.html.twig', array(
@@ -53,6 +53,59 @@ class GameController extends Controller {
             'dates' => "Du 19 au 21 octobre", 
             'games' => $games
         ));
+    }
+
+    /**
+     * @Route("/partie/{id}", name="showGame")
+     */
+    public function showGame($id) {
+        $game = $this->getDoctrine()->getRepository(Game::class)->find($id);
+        if($game) {
+            return $this->render('oeilglauque/showGame.html.twig', array(
+                'dates' => "Du 19 au 21 octobre", 
+                'game' => $game, 
+                'registered' => $game->getPlayers()->contains($this->getUser()), 
+            ));
+        }else{
+            throw $this->createNotFoundException('Impossible de trouver la partie demandée. ');
+        }
+    }
+
+    /**
+     * @Route("/partie/register/{id}", name="registerGame")
+     */
+    public function registerGame($id) {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $game = $this->getDoctrine()->getRepository(Game::class)->find($id);
+        if($game) {
+            $user = $this->getUser();
+            $game->addPlayer($user); // Handles 'contains' verification
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($game);
+            $entityManager->flush();
+            return $this->redirectToRoute('showGame', ["id" => $id]);
+        }else{
+            throw $this->createNotFoundException('Impossible de trouver la partie demandée. ');
+        }
+    }
+
+
+    /**
+     * @Route("/partie/unregister/{id}", name="unregisterGame")
+     */
+    public function unregisterGame($id) {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $game = $this->getDoctrine()->getRepository(Game::class)->find($id);
+        if($game) {
+            $user = $this->getUser();
+            $game->removePlayer($user); // Handles 'contains' verification
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($game);
+            $entityManager->flush();
+            return $this->redirectToRoute('showGame', ["id" => $id]);
+        }else{
+            throw $this->createNotFoundException('Impossible de trouver la partie demandée. ');
+        }
     }
 }
 

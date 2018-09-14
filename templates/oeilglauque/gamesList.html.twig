@@ -7,13 +7,7 @@
             {% for g in games %}
                 {{ include('oeilglauque/shards/game.html.twig', 
                             {
-                                'title': g.getTitle(), 
-                                'text': g.getDescription(), 
-                                'id': g.getId(), 
-                                'author': g.getAuthor().getPseudo(), 
-                                'slot': g.getGameSlot().getText(), 
-                                'freeSeats': g.getFreeSeats(), 
-                                'onlineOnly': g.getForceOnlineSeats()
+                                'game': g
                             }) }}
             {% else %}
             <div class="row">

@@ -17,7 +17,7 @@ body {
 
 a {
     color: #EEEEEE;
-    text-shadow: 2px 1px #C22B2B;
+    text-shadow: 2px 1px #C22B2B ;
 }
 
 a:hover {
@@ -278,4 +278,10 @@ table {
 
 .btn-admin {
     margin-top: 20px;
+}
+
+hr {
+    background-color: #EEEEEE;
+    width: 90%;
+    margin: 2em;
 }
