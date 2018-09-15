@@ -75,10 +75,19 @@ class GameController extends Controller {
         $game = $this->getDoctrine()->getRepository(Game::class)->find($id);
         if($game) {
             $user = $this->getUser();
+            // Check if the user has no other game on the same slot
+            $otherGames = $user->getPartiesJouees();
+            foreach ($otherGames as $g) {
+                if($g->getGameSlot() == $game->getGameSlot()) {
+                    $this->addFlash('error', "Vous avez déjà la partie ".$g->getTitle()." prévue sur cet horaire !");
+                    return $this->redirectToRoute('showGame', ["id" => $id]);
+                }
+            }
             $game->addPlayer($user); // Handles 'contains' verification
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($game);
             $entityManager->flush();
+            $this->addFlash('success', "Vous avez bien été inscrit à la partie ".$game->getTitle());
             return $this->redirectToRoute('showGame', ["id" => $id]);
         }else{
             throw $this->createNotFoundException('Impossible de trouver la partie demandée. ');
