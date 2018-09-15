@@ -94,6 +94,33 @@ class AdminController extends Controller {
         return $this->redirectToRoute('admin_editions');
     }
 
+    /******************************
+     *      Nouvelle édition      *
+     ******************************/
+
+    /**
+    * @Route("/admin/editions/nouvelle", name="newEdition")
+    */
+    public function newEdition() {
+        return $this->render('oeilglauque/admin/newEdition.html.twig', array(
+            'dates' => "Du 19 au 21 octobre", 
+        ));
+    }
+
+    /**
+    * @Route("/admin/editions/creer", name="createEdition")
+    */
+    public function createEdition(Request $request) {
+        if($request->query->get('annee') != "" && $request->query->get('dates')) {
+            $edition = new Edition();
+            $edition->setAnnee($request->query->get('annee'));
+            $edition->setDates($request->query->get('dates'));
+            $this->getDoctrine()->getManager()->persist($edition);
+            $this->getDoctrine()->getManager()->flush();
+        }
+        return $this->redirectToRoute('admin');
+    }
+
     /************************************
      *      Validation des parties      *
      ************************************/

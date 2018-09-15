@@ -254,6 +254,12 @@ form .row {
     margin-bottom: 1em;
 }
 
+.center {
+    margin: auto;
+    text-align: center;
+    display: block;
+}
+
 input {
     color: black;
 }

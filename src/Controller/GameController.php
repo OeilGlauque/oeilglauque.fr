@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Game;
+use App\Entity\Edition;
 use App\Form\GameType;
 
 class GameController extends Controller {
@@ -43,11 +44,6 @@ class GameController extends Controller {
      */
     public function listGames() {
         $games = $this->getDoctrine()->getRepository(Game::class)->findBy(["validated" => true]);
-        /*$gamesArray = array();
-
-        foreach($games as $n) {
-            array_push($gamesArray, $n);
-        }*/
         
         return $this->render('oeilglauque/gamesList.html.twig', array(
             'dates' => "Du 19 au 21 octobre", 
