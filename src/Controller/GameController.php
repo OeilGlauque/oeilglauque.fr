@@ -83,11 +83,15 @@ class GameController extends Controller {
                     return $this->redirectToRoute('showGame', ["id" => $id]);
                 }
             }
-            $game->addPlayer($user); // Handles 'contains' verification
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($game);
-            $entityManager->flush();
-            $this->addFlash('success', "Vous avez bien été inscrit à la partie ".$game->getTitle());
+            if($game->getFreeSeats() > 0) {
+                $game->addPlayer($user); // Handles 'contains' verification
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($game);
+                $entityManager->flush();
+                $this->addFlash('success', "Vous avez bien été inscrit à la partie ".$game->getTitle());
+            }else {
+                $this->addFlash('error', "Malheureusement il n'y a plus de place disponible en ligne pour la partie ".$game->getTitle()."... ");
+            }
             return $this->redirectToRoute('showGame', ["id" => $id]);
         }else{
             throw $this->createNotFoundException('Impossible de trouver la partie demandée. ');
@@ -107,6 +111,7 @@ class GameController extends Controller {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($game);
             $entityManager->flush();
+            $this->addFlash('info', "Vous avez bien été désinscrit de la partie ".$game->getTitle());
             return $this->redirectToRoute('showGame', ["id" => $id]);
         }else{
             throw $this->createNotFoundException('Impossible de trouver la partie demandée. ');
