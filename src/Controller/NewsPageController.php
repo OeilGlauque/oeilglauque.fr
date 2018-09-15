@@ -15,9 +15,11 @@ class NewsPageController extends Controller {
     public function index() {
         $news = $this->getDoctrine()->getRepository(News::class)->findAll();
         
+        
         return $this->render('oeilglauque/news.html.twig', array(
             'dates' => "Du 19 au 21 octobre", 
-            'news' => $news
+            'news' => $news, 
+            //'admin' => array_contains($this->getUser()->getRoles(), 'ROLE_ADMIN'), 
         ));
     }
 

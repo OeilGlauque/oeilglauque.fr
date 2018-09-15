@@ -3,7 +3,7 @@
 {% block body %}
 
         <main role="main" class="container">
-            <h1>Publier une news</h1>
+            <h1>{% if edit %}Éditer{% else %}Publier{% endif %} une news</h1>
             {{ form(form) }}
         </main><!-- /.container -->
 

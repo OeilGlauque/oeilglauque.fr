@@ -138,7 +138,38 @@ class AdminController extends Controller {
 
         return $this->render('oeilglauque/admin/writeNews.html.twig', array(
             'dates' => "Du 19 au 21 octobre", 
-            'form' => $form->createView()
+            'form' => $form->createView(), 
+            'edit' => false, 
+        ));
+    }
+
+    /**
+     * @Route("/admin/news/edit/{slug}", name="editNews")
+     */
+    public function editNews(Request $request, $slug) {
+        $news = $this->getDoctrine()->getRepository(News::class)->findOneBy(['slug' => $slug]);
+        if(!$news) {
+            throw $this->createNotFoundException(
+                'Impossible de trouver la resource demandée'
+            );
+        }
+        $form = $this->createForm(NewsType::class, $news);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $news->setAuthor($this->getUser());
+
+            // Sauvegarde en base
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+
+            return $this->redirectToRoute('newsIndex');
+        }
+
+        return $this->render('oeilglauque/admin/writeNews.html.twig', array(
+            'dates' => "Du 19 au 21 octobre", 
+            'form' => $form->createView(), 
+            'edit' => true, 
         ));
     }
 
