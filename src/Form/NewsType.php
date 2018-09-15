@@ -15,7 +15,7 @@ class NewsType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, array('label' => 'Titre'))
-            ->add('text', TextareaType::class, array('label' => 'Description'))
+            ->add('text', TextareaType::class, array('label' => 'Contenu'))
             ->add('slug', TextType::class, array('label' => 'Slug'))
             
             ->add('save', SubmitType::class, array('label' => 'Publier'));

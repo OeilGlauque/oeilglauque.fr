@@ -1,6 +1,7 @@
 <div class="well">
     {% if is_granted('ROLE_ADMIN') %}
-    <a href="{{ path('editNews', {'slug': slug}) }}">Éditer</a>
+    <a class="btn btn-danger btn-sm" href="{{ path('editNews', {'slug': slug}) }}">Éditer</a>
+    <a class="btn btn-danger btn-sm" href="{{ path('deleteNews', {'slug': slug}) }}">Supprimer</a>
     {% endif %}
     <a href="/news/{{ slug }}"><h2 class="redandblack">{{ title }}</h2></a>
     <p>{{ text }}</p>

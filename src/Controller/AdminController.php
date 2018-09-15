@@ -173,6 +173,23 @@ class AdminController extends Controller {
         ));
     }
 
+    /**
+     * @Route("/admin/news/delete/{slug}", name="deleteNews")
+     */
+    public function deleteNews(Request $request, $slug) {
+        $news = $this->getDoctrine()->getRepository(News::class)->findOneBy(['slug' => $slug]);
+        if(!$news) {
+            throw $this->createNotFoundException(
+                'Impossible de trouver la resource demandée'
+            );
+        }
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($news);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('newsIndex');
+    }
+
 
     /******************************
      *      Nouvelle édition      *
