@@ -2,30 +2,28 @@
 
 {% block body %}
 
-        <main role="main" class="container">
-            <h1>Administration</h1>
-            <div class="row">
-                <div class="col-md-4">
-                    <a href="{{ path('admin_editions') }}" class="btn btn-danger btn-lg btn-block btn-admin">Gestion des éditions</a>
-                </div>
-                <div class="col-md-4">
-                    <a href="{{ path('unvalidatedGamesList') }}" class="btn btn-danger btn-lg btn-block btn-admin">Validation des parties en attente</a>
-                </div>
-                <div class="col-md-4">
-                    <a href="{{ path('newEdition') }}" class="btn btn-danger btn-lg btn-block btn-admin">Nouvelle édition</a>
-                </div>
+        <h1>Administration</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <a href="{{ path('admin_editions') }}" class="btn btn-danger btn-lg btn-block btn-admin">Gestion des éditions</a>
             </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <a href="{{ path('writeNews') }}" class="btn btn-danger btn-lg btn-block btn-admin">Publier une news</a>
-                </div>
-                <div class="col-md-4">
-                    <a href="{{ path('newsIndex') }}" class="btn btn-danger btn-lg btn-block btn-admin">Éditer une news</a>
-                </div>
-                <div class="col-md-4">
-                    <a href="{{ path('newEdition') }}" class="btn btn-danger btn-lg btn-block btn-admin">Link</a>
-                </div>
+            <div class="col-md-4">
+                <a href="{{ path('unvalidatedGamesList') }}" class="btn btn-danger btn-lg btn-block btn-admin">Validation des parties en attente</a>
             </div>
-        </main><!-- /.container -->
+            <div class="col-md-4">
+                <a href="{{ path('newEdition') }}" class="btn btn-danger btn-lg btn-block btn-admin">Nouvelle édition</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <a href="{{ path('writeNews') }}" class="btn btn-danger btn-lg btn-block btn-admin">Publier une news</a>
+            </div>
+            <div class="col-md-4">
+                <a href="{{ path('newsIndex') }}" class="btn btn-danger btn-lg btn-block btn-admin">Éditer une news</a>
+            </div>
+            <div class="col-md-4">
+                <a href="{{ path('newEdition') }}" class="btn btn-danger btn-lg btn-block btn-admin">Link</a>
+            </div>
+        </div>
 
 {% endblock %}

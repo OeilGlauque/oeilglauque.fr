@@ -2,26 +2,24 @@
 
 {% block body %}
 
-        <main role="main" class="container">
-            <h1>Nouvelle édition</h1>
-            <p>Attention ! En créant une nouvelle édition, les parties acuellement présentes sur le site seront archivées et ne seront plus accessibles par les utilisateurs. 
-            Les parties créées ensuite seront ratachées à cette nouvelle édition. Êtes vous sûrs de vouloir faire ça ? Si c'est le cas, entrez l'année et les dates de cette nouvelle édition :
-            <form method="GET" action="{{ path('createEdition') }}">
-                <div class="row">
-                    <div class="col-md-2"></div>
-                    <label for="annee" class="col-md-2">Année :</label>
-                    <input type="number" name="annee" id="annee" class="col-md-4" />
-                    <div class="col-md-4"></div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2"></div>
-                    <label for="dates" class="col-md-2">Dates :</label>
-                    <input name="dates" id="dates" class="col-md-4" />
-                    <div class="col-md-4"></div>
-                </div>
-                <input type="submit" value="Valider" />
-            </form>
-            <br /><p><a href="{{ path('admin') }}">Retour à l'interface d'administration</a></p>
-        </main><!-- /.container -->
+        <h1>Nouvelle édition</h1>
+        <p>Attention ! En créant une nouvelle édition, les parties acuellement présentes sur le site seront archivées et ne seront plus accessibles par les utilisateurs. 
+        Les parties créées ensuite seront ratachées à cette nouvelle édition. Êtes vous sûrs de vouloir faire ça ? Si c'est le cas, entrez l'année et les dates de cette nouvelle édition :
+        <form method="GET" action="{{ path('createEdition') }}">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <label for="annee" class="col-md-2">Année :</label>
+                <input type="number" name="annee" id="annee" class="col-md-4" />
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <label for="dates" class="col-md-2">Dates :</label>
+                <input name="dates" id="dates" class="col-md-4" />
+                <div class="col-md-4"></div>
+            </div>
+            <input type="submit" value="Valider" />
+        </form>
+        <br /><p><a href="{{ path('admin') }}">Retour à l'interface d'administration</a></p>
 
 {% endblock %}

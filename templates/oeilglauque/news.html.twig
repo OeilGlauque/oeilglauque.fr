@@ -2,23 +2,21 @@
 
 {% block body %}
 
-        <main role="main" class="container">
-            <h1>News</h1>
-            {% for row in news | batch(2) %}
-            <div class="row">
-                {% for n in row %}
-                <div class="col-lg-6">
-                    {{ include('oeilglauque/shards/news.html.twig', {'title': n.getTitle(), 'text': n.getText(), 'slug': n.getSlug()}) }}
-                </div>
-                {% endfor %}
-            </div><br />
-            {% else %}
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Il n'y a pas encore de news à afficher... </p>
-                </div>
+        <h1>News</h1>
+        {% for row in news | batch(2) %}
+        <div class="row">
+            {% for n in row %}
+            <div class="col-lg-6">
+                {{ include('oeilglauque/shards/news.html.twig', {'title': n.getTitle(), 'text': n.getText(), 'slug': n.getSlug()}) }}
             </div>
             {% endfor %}
-        </main><!-- /.container -->
+        </div><br />
+        {% else %}
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Il n'y a pas encore de news à afficher... </p>
+            </div>
+        </div>
+        {% endfor %}
 
 {% endblock %}

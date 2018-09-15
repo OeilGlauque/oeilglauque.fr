@@ -8,42 +8,36 @@
 {% set ponct = '' %}
 {% endif %}
 
-        <main role="main" class="container">
-            <h1>{{ game.getTitle() }}</h1>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Proposé par {{ game.getAuthor().getPseudo() }}<br />
-                    Créneau : {{ game.getGameSlot().getText() }}</p>
-                    <hr />
-                    <p>{{ game.getDescription()|striptags('<br>')|raw }}</p>
-                    <hr />
-                    {% for player in game.getPlayers() %}
-                    {{ player.getPseudo() }}
-                    {% else %}
-                    Il n'y a pas encore de joueur inscrit à cette partie. 
-                    {% endfor %}
-                    {% if game.getFreeSeats() > 0 %}
-                    <p>
-                        Il reste encore {{ game.getFreeSeats() }} place{{ponct}} disponible{{ponct}}. 
-                        {% if game.getForceOnlineSeats() == false %}
-                        Il y aura également {{ game.getOfflineSeats() }} places disponibles directement à l'accueil du festival. Soyez rapide pour vous y inscrire !
-                        {% endif %}
-                        <br />
-                        {% if registered %}
-                        <a href="{{ path('unregisterGame', {'id': game.getId()}) }}">-&gt; Me désinscrire de cette partie &lt;-</a>
-                        {% else %}
-                        <a href="{{ path('registerGame', {'id': game.getId()}) }}">-&gt; M'inscrire à cette partie &lt;-</a>
-                        {% endif %}
-                    </p>
-                    {% else %}
-                    <p>Malheureusement, il n'y a plus de place disponible...
-                    {% if game.getForceOnlineSeats() == false %}
-                    Mais vous pourrez encore vous inscrire à l'accueil du festival !
-                    {% endif %}
-                    </p>
-                    {% endif %}
-                </div>
-            </div>
-        </main><!-- /.container -->
+        <h1>{{ game.getTitle() }}</h1>
+        <p>Proposé par {{ game.getAuthor().getPseudo() }}<br />
+        Créneau : {{ game.getGameSlot().getText() }}</p>
+        <hr />
+        <p>{{ game.getDescription()|striptags('<br>')|raw }}</p>
+        <hr />
+        {% for player in game.getPlayers() %}
+        {{ player.getPseudo() }}
+        {% else %}
+        Il n'y a pas encore de joueur inscrit à cette partie. 
+        {% endfor %}
+        {% if game.getFreeSeats() > 0 %}
+        <p>
+            Il reste encore {{ game.getFreeSeats() }} place{{ponct}} disponible{{ponct}}. 
+            {% if game.getForceOnlineSeats() == false %}
+            Il y aura également {{ game.getOfflineSeats() }} places disponibles directement à l'accueil du festival. Soyez rapide pour vous y inscrire !
+            {% endif %}
+            <br />
+            {% if registered %}
+            <a href="{{ path('unregisterGame', {'id': game.getId()}) }}">-&gt; Me désinscrire de cette partie &lt;-</a>
+            {% else %}
+            <a href="{{ path('registerGame', {'id': game.getId()}) }}">-&gt; M'inscrire à cette partie &lt;-</a>
+            {% endif %}
+        </p>
+        {% else %}
+        <p>Malheureusement, il n'y a plus de place disponible...
+        {% if game.getForceOnlineSeats() == false %}
+        Mais vous pourrez encore vous inscrire à l'accueil du festival !
+        {% endif %}
+        </p>
+        {% endif %}
 
 {% endblock %}
