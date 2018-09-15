@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Edition;
 use App\Entity\GameSlot;
 use App\Entity\Game;
+use App\Entity\News;
+use App\Form\NewsType;
 
 class AdminController extends Controller {
 
@@ -110,6 +112,36 @@ class AdminController extends Controller {
 
         return $this->redirectToRoute('admin_editions');
     }
+
+    /******************************
+     *      Gestion des news      *
+     ******************************/
+
+    /**
+     * @Route("/admin/news/rediger", name="writeNews")
+     */
+    public function writeNews(Request $request) {
+        $news = new News();
+        $form = $this->createForm(NewsType::class, $news);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $news->setAuthor($this->getUser());
+
+            // Sauvegarde en base
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($news);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('newsIndex');
+        }
+
+        return $this->render('oeilglauque/admin/writeNews.html.twig', array(
+            'dates' => "Du 19 au 21 octobre", 
+            'form' => $form->createView()
+        ));
+    }
+
 
     /******************************
      *      Nouvelle édition      *

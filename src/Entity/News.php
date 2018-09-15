@@ -42,6 +42,11 @@ class News
      */
     private $Author;
 
+    public function __construct()
+    {
+        $this->date_created = new \DateTime();
+    }
+
     public function getId()
     {
         return $this->id;
