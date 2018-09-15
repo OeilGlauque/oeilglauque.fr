@@ -7,7 +7,11 @@
             {% for e in editions %}
                 <div class="well">
                     <h3>Édition {{e.getAnnee()}}</h3>
-                    <p>Dates : {{e.getDates() }}</p>
+                    <form class="form-inline" method="GET" action="{{ path('updateDates', {'edition': e.getId()}) }}">
+                        <p class="mr-3 mt-3">Dates : </p>
+                        <input type="text" name="dates" value="{{ e.getDates() }}" class="form-control form-control-sm mr-sm-2" />
+                        <input type="submit" class="form-control mr-sm-2 btn btn-danger btn-sm" value="Mettre à jour" /> 
+                    </form><br />
                     {% for slot in e.getGameSlots() %}
                         <form class="form-inline" method="GET" action="{{ path('updateSlot', {'slot': slot.getId() }) }}">
                             <input type="text" name="text" value="{{ slot.getText() }}" class="form-control mr-sm-2" />
@@ -24,7 +28,7 @@
                         <input type="number" name="maxGames" placeholder="Parties max" min="1" max="20" value="9" class="form-control mr-sm-2" />
                         <input type="submit" class="form-control mr-sm-2 btn btn-danger" value="Ajouter" /> 
                     </form>
-                </div>
+                </div><br />
             {% else %}
                 <div class="row">
                     <p>Aucune édition n'est encore configurée. </p>

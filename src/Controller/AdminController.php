@@ -43,6 +43,23 @@ class AdminController extends Controller {
     }
 
     /**
+     * @Route("/admin/editions/updateDates/{edition}", name="updateDates")
+     */
+    public function updateDates(Request $request, $edition) {
+        $editionval = $this->getDoctrine()->getRepository(Edition::class)->find($edition);
+        if(!$editionval) {
+            throw $this->createNotFoundException(
+                'Aucune édition n\'a pour id '.$edition
+            );
+        }
+        if($request->query->get('dates') != "") {
+            $editionval->setDates($request->query->get('dates'));
+            $this->getDoctrine()->getManager()->flush();
+        }
+        return $this->redirectToRoute('admin_editions');
+    }
+
+    /**
      * @Route("/admin/editions/updateSlot/{slot}", name="updateSlot")
      */
     public function updateSlot(Request $request, $slot) {
