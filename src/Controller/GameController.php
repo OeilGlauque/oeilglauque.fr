@@ -83,6 +83,13 @@ class GameController extends Controller {
                     return $this->redirectToRoute('showGame', ["id" => $id]);
                 }
             }
+            $proposedGames = $user->getPartiesOrganisees();
+            foreach ($proposedGames as $g) {
+                if($g->getGameSlot() == $game->getGameSlot()) {
+                    $this->addFlash('error', "Vous êtes déjà Maître du Jeu de la partie ".$g->getTitle()." sur cet horaire !");
+                    return $this->redirectToRoute('showGame', ["id" => $id]);
+                }
+            }
             if($game->getFreeSeats() > 0) {
                 $game->addPlayer($user); // Handles 'contains' verification
                 $entityManager = $this->getDoctrine()->getManager();
