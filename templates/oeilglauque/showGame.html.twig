@@ -19,8 +19,9 @@
         <hr />
         <p>{{ game.getDescription()|striptags('<br>')|raw }}</p>
         <hr />
+        <b>Participants : </b>
         {% for player in game.getPlayers() %}
-        {{ player.getPseudo() }}
+        <span class="badge badge-pill badge-light">{{ player.getPseudo() }}</span>
         {% else %}
         Il n'y a pas encore de joueur inscrit à cette partie. 
         {% endfor %}
