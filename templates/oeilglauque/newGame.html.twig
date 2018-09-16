@@ -2,7 +2,7 @@
 
 {% block body %}
 
-        <h1>Proposer une partie</h1>
+        <h1>{% if edit %}Mettre à jour{% else %}Proposer{% endif %} une partie</h1>
         {{ form(form) }}
         <p>Attention : Lorsque vous proposez une nouvelle partie, elle n'apparait pas en ligne immédiatement. 
         Elle doit être validée par notre équipe avant d'être publiée, et apparaitra donc prochainement dans la liste des parties disponibles. 

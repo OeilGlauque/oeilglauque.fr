@@ -96,7 +96,7 @@ class Game
 
     public function getDescription(): ?string
     {
-        return str_replace("\n", "<br />", $this->description);
+        return $this->description;
     }
 
     public function setDescription(string $description): self

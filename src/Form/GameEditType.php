@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-class GameType extends AbstractType
+class GameEditType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -23,12 +23,13 @@ class GameType extends AbstractType
             ->add('gameSlot', EntityType::class, array(
                 'class' => GameSlot::class, 
                 'choice_label' => 'text', 
-                'label' => 'Créneau',
+                'label' => 'Créneau', 
+                'disabled' => true
             ))
             ->add('seats', IntegerType::class, array('label' => 'Places disponibles', 'invalid_message' => "Veuillez entrer un nombre"))
             ->add('forceOnlineSeats', CheckboxType::class, array('label' => 'Permettre de réserver toutes les places en ligne (déconseillé)', 'required' => false))
             
-            ->add('save', SubmitType::class, array('label' => 'Valider'));
+            ->add('save', SubmitType::class, array('label' => 'Mettre à jour'));
     }
 
     public function configureOptions(OptionsResolver $resolver)

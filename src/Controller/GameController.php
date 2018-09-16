@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Game;
 use App\Entity\Edition;
 use App\Form\GameType;
+use App\Form\GameEditType;
 
 class GameController extends CustomController {
     
@@ -60,7 +61,8 @@ class GameController extends CustomController {
 
         return $this->render('oeilglauque/newGame.html.twig', array(
             'dates' => $this->getCurrentEdition()->getDates(), 
-            'form' => $form->createView()
+            'form' => $form->createView(), 
+            'edit' => false
         ));
     }
 
@@ -102,6 +104,66 @@ class GameController extends CustomController {
             'hasRegistered' => count($userGames) > 0, 
             'userProposedGames' => $userProposedGames, 
             'isMJ' => count($userProposedGames) > 0, 
+        ));
+    }
+
+    /**
+     * @Route("/partie/edit/{id}", name="editGame")
+     */
+    public function editGame(Request $request, $id) {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+
+        $game = $this->getDoctrine()->getRepository(Game::class)->find($id);
+
+        // Check we are editing our own game
+        if($game->getAuthor() != $user) {
+            $this->addFlash('danger', "Vous ne pouvez pas éditer la partie d'un autre utilisateur...");
+            return $this->redirectToRoute('showGame', ["id" => $id]);
+        }
+
+        $form = $this->createForm(GameEditType::class, $game);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $game->setAuthor($user);
+
+            // Check if the slot belongs to the current edition
+            if($game->getGameSlot()->getEdition() != $this->getCurrentEdition()) {
+                $this->addFlash('danger', "Vous ne pouvez proposer une partie que pour l'édition actuelle !");
+                return $this->redirectToRoute('editGame', ["id" => $id]);
+            }
+
+            // Check if the user has no other game on the same slot
+            $otherGames = $user->getPartiesJouees();
+            foreach ($otherGames as $g) {
+                if($g->getGameSlot() == $game->getGameSlot()) {
+                    $this->addFlash('danger', "Vous avez déjà la partie ".$g->getTitle()." prévue sur cet horaire !");
+                    return $this->redirectToRoute('editGame', ["id" => $id]);
+                }
+            }
+            // Check if the user has not proposed an other game on this slot
+            $proposedGames = $user->getPartiesOrganisees();
+            foreach ($proposedGames as $g) {
+                if($g->getGameSlot() == $game->getGameSlot() && $g->getId() != $id) {
+                    $this->addFlash('danger', "Vous êtes déjà Maître du Jeu de la partie ".$g->getTitle()." sur cet horaire !");
+                    return $this->redirectToRoute('editGame', ["id" => $id]);
+                }
+            }
+
+            // Sauvegarde en base
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($game);
+            $entityManager->flush();
+            $this->addFlash('success', "Votre partie a bien été mise à jour !");
+
+            return $this->redirectToRoute('showGame', ["id" => $id]);
+        }
+
+        return $this->render('oeilglauque/newGame.html.twig', array(
+            'dates' => $this->getCurrentEdition()->getDates(), 
+            'form' => $form->createView(), 
+            'edit' => true
         ));
     }
 

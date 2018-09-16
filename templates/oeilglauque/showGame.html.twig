@@ -30,24 +30,24 @@
         {% else %}
         Il n'y a pas encore de joueur inscrit à cette partie. 
         {% endfor %}
+        <br />
         {% if game.getFreeSeats() > 0 %}
-        <p>
-            Il reste encore {{ game.getFreeSeats() }} place{{accord}} disponible{{accord}}. 
+            <p>Il reste encore {{ game.getFreeSeats() }} place{{accord}} disponible{{accord}}. 
             {% if game.getForceOnlineSeats() == false %}
             Il y aura également {{ game.getOfflineSeats() }} place{{accordOffline}} disponible{{accordOffline}} directement à l'accueil du festival. Soyez rapide pour vous y inscrire !
             {% endif %}
-            <br />
-            {% if game.getValidated() %}
+            <br /><br />
+            {% if game.getValidated() and game.getAuthor() != app.user %}
                 {% if registered %}
-                <br /><a href="{{ path('unregisterGame', {'id': game.getId()}) }}" class="btn btn-warning">Me désinscrire de cette partie</a>
+                <a href="{{ path('unregisterGame', {'id': game.getId()}) }}" class="btn btn-warning">Me désinscrire de cette partie</a>
                 {% else %}
-                <br /><a href="{{ path('registerGame', {'id': game.getId()}) }}" class="btn btn-success">M'inscrire à cette partie</a>
+                <a href="{{ path('registerGame', {'id': game.getId()}) }}" class="btn btn-success">M'inscrire à cette partie</a>
                 {% endif %}
             {% endif %}
-        </p>
+            </p>
         {% else %}
             {# plus de place #}
-            {% if game.getValidated() %}
+            {% if game.getValidated() and game.getAuthor() != app.user %}
                 {% if registered %}
                 <br /><a href="{{ path('unregisterGame', {'id': game.getId()}) }}" class="btn btn-warning">Me désinscrire de cette partie</a>
                 {% else %}
@@ -58,6 +58,10 @@
                 </p>
                 {% endif %}
             {% endif %}
+        {% endif %}
+        <br /><br />
+        {% if game.getAuthor() == app.user %}
+        <a href="{{ path('editGame', {'id': game.getId()}) }}" class="btn btn-info">Éditer cette partie</a><br /><br />
         {% endif %}
         <a href="{{ path('listeParties') }}">Retour à la liste des parties</a>
 
