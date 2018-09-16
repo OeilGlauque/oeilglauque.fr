@@ -32,15 +32,15 @@
             {% endif %}
             <br />
             {% if registered %}
-            <a href="{{ path('unregisterGame', {'id': game.getId()}) }}">-&gt; Me désinscrire de cette partie &lt;-</a>
+            <br /><a href="{{ path('unregisterGame', {'id': game.getId()}) }}" class="btn btn-warning">Me désinscrire de cette partie</a>
             {% else %}
-            <a href="{{ path('registerGame', {'id': game.getId()}) }}">-&gt; M'inscrire à cette partie &lt;-</a>
+            <br /><a href="{{ path('registerGame', {'id': game.getId()}) }}" class="btn btn-success">M'inscrire à cette partie</a>
             {% endif %}
         </p>
         {% else %}
         {# plus de place #}
             {% if registered %}
-            <a href="{{ path('unregisterGame', {'id': game.getId()}) }}">-&gt; Me désinscrire de cette partie &lt;-</a>
+            <br /><a href="{{ path('unregisterGame', {'id': game.getId()}) }}" class="btn btn-warning">Me désinscrire de cette partie</a>
             {% else %}
             <p>Malheureusement, il n'y a plus de place disponible...
                 {% if game.getForceOnlineSeats() == false %}
