@@ -1,15 +1,23 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="well">
+
+{% if game.getFreeSeats() > 1 %}
+{% set accord = 's' %}
+{% else %}
+{% set accord = '' %}
+{% endif %}
+
             <a href="{{ path('showGame', {'id':game.getId()}) }}"><h2 class="redandblack">{{ game.getTitle() }}</h2></a>
             <p class="small">Proposé par {{ game.getAuthor().getPseudo() }}<br />
             Créneau : {{ game.getGameSlot().getText() }}</p>
             <p>{{ game.getDescription()|striptags('<br>')|raw }}</p>
             <br />
             {% if game.getFreeSeats() > 0 %}
-            <p>{{ game.getFreeSeats() }} places disponibles</p>
+            
+            <p>{{ game.getFreeSeats() }} place{{accord}} disponible{{accord}}</p>
             {% else %}
-            <p>Malheureusement, il n'y a plus de places disponible...
+            <p>Malheureusement, il n'y a plus de place disponible...
             {% if game.getForceOnlineSeats() == false %}
             Mais vous pourrez encore vous inscrire à l'accueil du festival !
             {% endif %}
