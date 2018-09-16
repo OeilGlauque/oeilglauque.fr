@@ -27,6 +27,7 @@ a:hover {
 
 pre {
     color: #EEEEEE;
+    display: inline;
 }
 
 header {
@@ -262,6 +263,8 @@ form .row {
 
 input {
     color: black;
+    background-color: #EEEEEE;
+    border-radius: 5px;
 }
 
 button {

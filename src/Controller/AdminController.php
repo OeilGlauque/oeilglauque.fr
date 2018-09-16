@@ -12,7 +12,7 @@ use App\Entity\Game;
 use App\Entity\News;
 use App\Form\NewsType;
 
-class AdminController extends Controller {
+class AdminController extends CustomController {
 
     /****************************************
      *      Interface d'administration      *
@@ -23,7 +23,7 @@ class AdminController extends Controller {
      */
     public function admin() {
         return $this->render('oeilglauque/admin.html.twig', array(
-            'dates' => "Du 19 au 21 octobre", 
+            'dates' => $this->getCurrentEdition()->getDates(), 
         ));
     }
 
@@ -39,7 +39,7 @@ class AdminController extends Controller {
     public function editionsAdmin() {
         $editions = $this->getDoctrine()->getRepository(Edition::class)->findAll();
         return $this->render('oeilglauque/admin/editions.html.twig', array(
-            'dates' => "Du 19 au 21 octobre", 
+            'dates' => $this->getCurrentEdition()->getDates(), 
             'editions' => $editions
         ));
     }
@@ -142,7 +142,7 @@ class AdminController extends Controller {
         }
 
         return $this->render('oeilglauque/admin/writeNews.html.twig', array(
-            'dates' => "Du 19 au 21 octobre", 
+            'dates' => $this->getCurrentEdition()->getDates(), 
             'form' => $form->createView(), 
             'edit' => false, 
         ));
@@ -173,7 +173,7 @@ class AdminController extends Controller {
         }
 
         return $this->render('oeilglauque/admin/writeNews.html.twig', array(
-            'dates' => "Du 19 au 21 octobre", 
+            'dates' => $this->getCurrentEdition()->getDates(), 
             'form' => $form->createView(), 
             'edit' => true, 
         ));
@@ -207,7 +207,7 @@ class AdminController extends Controller {
     */
     public function newEdition() {
         return $this->render('oeilglauque/admin/newEdition.html.twig', array(
-            'dates' => "Du 19 au 21 octobre", 
+            'dates' => $this->getCurrentEdition()->getDates(), 
         ));
     }
 
@@ -236,7 +236,7 @@ class AdminController extends Controller {
     public function unvalidatedGamesList() {
         $games = $this->getDoctrine()->getRepository(Game::class)->findBy(["validated" => false]);
         return $this->render('oeilglauque/admin/unvalidatedGamesList.html.twig', array(
-            'dates' => "Du 19 au 21 octobre", 
+            'dates' => $this->getCurrentEdition()->getDates(), 
             'games' => $games
         ));
     }

@@ -10,7 +10,7 @@ use App\Form\UserType;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class SecurityController extends Controller
+class SecurityController extends CustomController
 {
     /**
      * @Route("/login", name="login")
@@ -28,7 +28,7 @@ class SecurityController extends Controller
         return $this->render('oeilglauque/login.html.twig', array(
             'last_username' => $lastUsername,
             'error'         => $error,
-            'dates' => "Du 19 au 21 octobre", 
+            'dates' => $this->getCurrentEdition()->getDates(), 
         ));
     }
 
@@ -61,7 +61,8 @@ class SecurityController extends Controller
         
         return $this->render(
             'oeilglauque/register.html.twig',
-            array('form' => $form->createView(), 'dates' => "Du 19 au 21 octobre")
+            array('form' => $form->createView(), 
+            'dates' => $this->getCurrentEdition()->getDates(), )
         );
     }
 }

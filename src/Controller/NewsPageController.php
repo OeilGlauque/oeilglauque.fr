@@ -7,7 +7,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\News;
 
-class NewsPageController extends Controller {
+class NewsPageController extends CustomController {
     
     /**
      * @Route("/news", name="newsIndex")
@@ -17,7 +17,7 @@ class NewsPageController extends Controller {
         
         
         return $this->render('oeilglauque/news.html.twig', array(
-            'dates' => "Du 19 au 21 octobre", 
+            'dates' => $this->getCurrentEdition()->getDates(), 
             'news' => $news, 
             //'admin' => array_contains($this->getUser()->getRoles(), 'ROLE_ADMIN'), 
         ));
@@ -30,7 +30,7 @@ class NewsPageController extends Controller {
         $news = $this->getDoctrine()->getRepository(News::class)->findOneBy(['slug' => $slug]);
         if($news) {
             return $this->render('oeilglauque/showNews.html.twig', array(
-                'dates' => "Du 19 au 21 octobre", 
+                'dates' => $this->getCurrentEdition()->getDates(), 
                 'news' => $news
             ));
         }else{

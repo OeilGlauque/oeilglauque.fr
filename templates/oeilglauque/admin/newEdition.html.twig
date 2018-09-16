@@ -3,13 +3,18 @@
 {% block body %}
 
         <h1>Nouvelle édition</h1>
-        <p>Attention ! En créant une nouvelle édition, les parties acuellement présentes sur le site seront archivées et ne seront plus accessibles par les utilisateurs. 
-        Les parties créées ensuite seront ratachées à cette nouvelle édition. Êtes vous sûrs de vouloir faire ça ? Si c'est le cas, entrez l'année et les dates de cette nouvelle édition :
+        <p>Attention ! Pour des raisons de performances (et de sécurité) la dernière édition n'est pas chargée directement en base de données. 
+        Pour passer le site vers une nouvelle édition, il faut d'abord la créer en base sur cette page puis l'activer en modifiant le paramètre <pre>current_edition</pre>
+        du fichier <span><pre>config/services.yaml</pre></span>. En cas de doute, contactez le Webmaster. </p><br />
+        
+        <p>En créant une nouvelle édition, les parties acuellement présentes sur le site seront archivées et ne seront plus accessibles par les utilisateurs. 
+        Les parties créées ensuite seront ratachées à cette nouvelle édition. Êtes vous sûrs de vouloir faire ça ? Si c'est le cas, entrez l'année et les dates de cette nouvelle édition : </p><br />
+        
         <form method="GET" action="{{ path('createEdition') }}">
             <div class="row">
                 <div class="col-md-2"></div>
                 <label for="annee" class="col-md-2">Année :</label>
-                <input type="number" name="annee" id="annee" class="col-md-4" />
+                <input type="number" name="annee" id="annee" min="2018" max="2030" class="col-md-4" />
                 <div class="col-md-4"></div>
             </div>
             <div class="row">
@@ -18,8 +23,8 @@
                 <input name="dates" id="dates" class="col-md-4" />
                 <div class="col-md-4"></div>
             </div>
-            <input type="submit" value="Valider" />
-        </form>
-        <br /><p><a href="{{ path('admin') }}">Retour à l'interface d'administration</a></p>
+            <input type="submit" class="btn btn-danger" value="Valider" />
+        </form><br />
+        <p><a href="{{ path('admin') }}">Retour à l'interface d'administration</a></p>
 
 {% endblock %}

@@ -10,7 +10,7 @@ use App\Entity\Game;
 use App\Entity\Edition;
 use App\Form\GameType;
 
-class GameController extends Controller {
+class GameController extends CustomController {
     
     /**
      * @Route("/nouvellePartie", name="nouvellePartie")
@@ -52,7 +52,7 @@ class GameController extends Controller {
         }
 
         return $this->render('oeilglauque/newGame.html.twig', array(
-            'dates' => "Du 19 au 21 octobre", 
+            'dates' => $this->getCurrentEdition()->getDates(), 
             'form' => $form->createView()
         ));
     }
@@ -64,7 +64,7 @@ class GameController extends Controller {
         $games = $this->getDoctrine()->getRepository(Game::class)->findBy(["validated" => true]);
         
         return $this->render('oeilglauque/gamesList.html.twig', array(
-            'dates' => "Du 19 au 21 octobre", 
+            'dates' => $this->getCurrentEdition()->getDates(), 
             'games' => $games
         ));
     }
@@ -76,7 +76,7 @@ class GameController extends Controller {
         $game = $this->getDoctrine()->getRepository(Game::class)->find($id);
         if($game) {
             return $this->render('oeilglauque/showGame.html.twig', array(
-                'dates' => "Du 19 au 21 octobre", 
+                'dates' => $this->getCurrentEdition()->getDates(), 
                 'game' => $game, 
                 'registered' => $game->getPlayers()->contains($this->getUser()), 
             ));
