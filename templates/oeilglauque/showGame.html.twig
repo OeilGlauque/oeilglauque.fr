@@ -14,6 +14,11 @@
 {% endif %}
 
         <h1>{{ game.getTitle() }}</h1>
+        {% if not game.getValidated() %}
+        <div class="alert alert-danger" role="alert">
+        Attention ! Cette partie n'a pas encore été validée par notre équipe, et n'est donc pas encore publiée. Les joueurs ne peuvent pas encore s'y inscrire. 
+        </div>
+        {% endif %}
         <p>Proposé par {{ game.getAuthor().getPseudo() }}<br />
         Créneau : {{ game.getGameSlot().getText() }}</p>
         <hr />
@@ -32,23 +37,28 @@
             Il y aura également {{ game.getOfflineSeats() }} place{{accordOffline}} disponible{{accordOffline}} directement à l'accueil du festival. Soyez rapide pour vous y inscrire !
             {% endif %}
             <br />
-            {% if registered %}
-            <br /><a href="{{ path('unregisterGame', {'id': game.getId()}) }}" class="btn btn-warning">Me désinscrire de cette partie</a>
-            {% else %}
-            <br /><a href="{{ path('registerGame', {'id': game.getId()}) }}" class="btn btn-success">M'inscrire à cette partie</a>
+            {% if game.getValidated() %}
+                {% if registered %}
+                <br /><a href="{{ path('unregisterGame', {'id': game.getId()}) }}" class="btn btn-warning">Me désinscrire de cette partie</a>
+                {% else %}
+                <br /><a href="{{ path('registerGame', {'id': game.getId()}) }}" class="btn btn-success">M'inscrire à cette partie</a>
+                {% endif %}
             {% endif %}
         </p>
         {% else %}
-        {# plus de place #}
-            {% if registered %}
-            <br /><a href="{{ path('unregisterGame', {'id': game.getId()}) }}" class="btn btn-warning">Me désinscrire de cette partie</a>
-            {% else %}
-            <p>Malheureusement, il n'y a plus de place disponible...
-                {% if game.getForceOnlineSeats() == false %}
-                Mais vous pourrez encore vous inscrire à l'accueil du festival !
+            {# plus de place #}
+            {% if game.getValidated() %}
+                {% if registered %}
+                <br /><a href="{{ path('unregisterGame', {'id': game.getId()}) }}" class="btn btn-warning">Me désinscrire de cette partie</a>
+                {% else %}
+                <p>Malheureusement, il n'y a plus de place disponible...
+                    {% if game.getForceOnlineSeats() == false %}
+                    Mais vous pourrez encore vous inscrire à l'accueil du festival !
+                    {% endif %}
+                </p>
                 {% endif %}
-            </p>
             {% endif %}
         {% endif %}
+        <a href="{{ path('listeParties') }}">Retour à la liste des parties</a>
 
 {% endblock %}
