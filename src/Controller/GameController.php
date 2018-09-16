@@ -78,9 +78,23 @@ class GameController extends CustomController {
             return $element->getGameSlot()->getEdition()->getAnnee() == $this->getParameter('current_edition');
         });
         
+        $user = $this->getUser();
+        $userGames = ($user != null) ? $this->getUser()->getPartiesJouees()->toArray() : array();
+        $userGames = array_filter($userGames, function($element) {
+            return $element->getGameSlot()->getEdition()->getAnnee() == $this->getParameter('current_edition');
+        });
+        $userProposedGames = ($user != null) ? $this->getUser()->getPartiesOrganisees()->toArray() : array();
+        $userProposedGames = array_filter($userProposedGames, function($element) {
+            return $element->getGameSlot()->getEdition()->getAnnee() == $this->getParameter('current_edition');
+        });
+
         return $this->render('oeilglauque/gamesList.html.twig', array(
             'dates' => $this->getCurrentEdition()->getDates(), 
             'games' => $games, 
+            'userGames' => $userGames, 
+            'hasRegistered' => count($userGames) > 0, 
+            'userProposedGames' => $userProposedGames, 
+            'isMJ' => count($userProposedGames) > 0, 
         ));
     }
 

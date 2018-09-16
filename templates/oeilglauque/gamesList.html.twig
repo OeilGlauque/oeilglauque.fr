@@ -3,6 +3,24 @@
 {% block body %}
 
         <h1>Liste des parties</h1>
+        {% if hasRegistered %}
+            <b>Parties jouées cette année :</b><br />
+            <ul>
+            {% for g in userGames %}
+            <li><a href="{{ path('showGame', {'id': g.getId()}) }}">{{ g.getTitle }}</a> ({{ g.getGameSlot().getText() }})</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if isMJ %}
+            <b>Parties organisées cette année :</b><br />
+            <ul>
+            {% for g in userProposedGames %}
+            <li><a href="{{ path('showGame', {'id': g.getId()}) }}">{{ g.getTitle }}</a> ({{ g.getGameSlot().getText() }})</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+
         {% for g in games %}
             {{ include('oeilglauque/shards/game.html.twig', 
                         {
