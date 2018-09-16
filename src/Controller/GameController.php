@@ -58,14 +58,29 @@ class GameController extends CustomController {
     }
 
     /**
+     * @Route("/parties/slots")
+     */
+    public function listGameSlots() {
+        $res = array();
+        $slots = $this->getCurrentEdition()->getGameSlots();
+        foreach ($slots as $s) {
+            array_push($res, array('id' => $s->getId(), 'text' => $s->getText()));
+        }
+        return $this->json($res);
+    }
+
+    /**
      * @Route("/parties", name="listeParties")
      */
     public function listGames() {
         $games = $this->getDoctrine()->getRepository(Game::class)->findBy(["validated" => true]);
+        $games = array_filter($games, function($element) {
+            return $element->getGameSlot()->getEdition()->getAnnee() == $this->getParameter('current_edition');
+        });
         
         return $this->render('oeilglauque/gamesList.html.twig', array(
             'dates' => $this->getCurrentEdition()->getDates(), 
-            'games' => $games
+            'games' => $games, 
         ));
     }
 
