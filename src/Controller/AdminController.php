@@ -57,6 +57,7 @@ class AdminController extends Controller {
         if($request->query->get('dates') != "") {
             $editionval->setDates($request->query->get('dates'));
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', "Les dates ont bien été mises à jour. ");
         }
         return $this->redirectToRoute('admin_editions');
     }
@@ -75,6 +76,7 @@ class AdminController extends Controller {
             $slotval->setText($request->query->get('text'));
             $slotval->setMaxGames($request->query->get('maxGames'));
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', "Le slot a bien été mis à jour. ");
         }
         return $this->redirectToRoute('admin_editions');
     }
@@ -87,6 +89,7 @@ class AdminController extends Controller {
         if ($slotval) {
             $this->getDoctrine()->getManager()->remove($slotval);
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', "Le slot a bien été supprimé. ");
         }
         return $this->redirectToRoute('admin_editions');
     }
@@ -108,6 +111,7 @@ class AdminController extends Controller {
             $slot->setEdition($editionval);
             $this->getDoctrine()->getManager()->persist($slot);
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', "Le slot a bien été ajouté. ");
         }
 
         return $this->redirectToRoute('admin_editions');
@@ -132,6 +136,7 @@ class AdminController extends Controller {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($news);
             $entityManager->flush();
+            $this->addFlash('success', "La news ".$news->getTitle()." a bien été publiée.");
 
             return $this->redirectToRoute('newsIndex');
         }
@@ -162,6 +167,7 @@ class AdminController extends Controller {
             // Sauvegarde en base
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
+            $this->addFlash('success', "La news a bien été modifiée.");
 
             return $this->redirectToRoute('newsIndex');
         }
@@ -186,6 +192,7 @@ class AdminController extends Controller {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($news);
         $entityManager->flush();
+        $this->addFlash('success', "La news ".$news->getTitle()." a bien été supprimée.");
 
         return $this->redirectToRoute('newsIndex');
     }
@@ -214,6 +221,7 @@ class AdminController extends Controller {
             $edition->setDates($request->query->get('dates'));
             $this->getDoctrine()->getManager()->persist($edition);
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', "La nouvelle édition a bien été ajoutée");
         }
         return $this->redirectToRoute('admin');
     }
@@ -242,6 +250,7 @@ class AdminController extends Controller {
             $game->setValidated(true);
             $this->getDoctrine()->getManager()->persist($game);
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', "La partie a bien été validée.");
         }
         return $this->redirectToRoute('unvalidatedGamesList');
     }
@@ -254,6 +263,7 @@ class AdminController extends Controller {
         if ($game) {
             $this->getDoctrine()->getManager()->remove($game);
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', "La partie a bien été supprimée.");
         }
         return $this->redirectToRoute('unvalidatedGamesList');
     }
