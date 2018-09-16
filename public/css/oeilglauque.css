@@ -185,6 +185,7 @@ ul {
     width: 100%;
     height: 1.5em;
     margin-bottom: 1em;
+    border-radius: initial;
 }
 
 
@@ -222,6 +223,10 @@ footer a:hover {
 
 .red {
     color: #C22B2B;
+}
+
+.black {
+    color: #000;
 }
 
 .redandblack {

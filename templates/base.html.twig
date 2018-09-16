@@ -107,7 +107,10 @@
         <main role="main" class="container">
         {% for label, messages in app.flashes %}
             {% for message in messages %}
-                <div class="flash-{{ label }}">
+                <div class="alert alert-dismissible alert-{{ label }} fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Fermer">
+                        <span aria-hidden="true" class="black">&times;</span>
+                    </button>
                     {{ message }}
                 </div>
             {% endfor %}

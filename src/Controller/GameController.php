@@ -30,7 +30,7 @@ class GameController extends CustomController {
             $otherGames = $user->getPartiesJouees();
             foreach ($otherGames as $g) {
                 if($g->getGameSlot() == $game->getGameSlot()) {
-                    $this->addFlash('error', "Vous avez déjà la partie ".$g->getTitle()." prévue sur cet horaire !");
+                    $this->addFlash('danger', "Vous avez déjà la partie ".$g->getTitle()." prévue sur cet horaire !");
                     return $this->redirectToRoute('showGame', ["id" => $id]);
                 }
             }
@@ -38,7 +38,7 @@ class GameController extends CustomController {
             $proposedGames = $user->getPartiesOrganisees();
             foreach ($proposedGames as $g) {
                 if($g->getGameSlot() == $game->getGameSlot()) {
-                    $this->addFlash('error', "Vous êtes déjà Maître du Jeu de la partie ".$g->getTitle()." sur cet horaire !");
+                    $this->addFlash('danger', "Vous êtes déjà Maître du Jeu de la partie ".$g->getTitle()." sur cet horaire !");
                     return $this->redirectToRoute('showGame', ["id" => $id]);
                 }
             }
@@ -97,7 +97,7 @@ class GameController extends CustomController {
             $otherGames = $user->getPartiesJouees();
             foreach ($otherGames as $g) {
                 if($g->getGameSlot() == $game->getGameSlot()) {
-                    $this->addFlash('error', "Vous avez déjà la partie ".$g->getTitle()." prévue sur cet horaire !");
+                    $this->addFlash('danger', "Vous avez déjà la partie ".$g->getTitle()." prévue sur cet horaire !");
                     return $this->redirectToRoute('showGame', ["id" => $id]);
                 }
             }
@@ -105,7 +105,7 @@ class GameController extends CustomController {
             $proposedGames = $user->getPartiesOrganisees();
             foreach ($proposedGames as $g) {
                 if($g->getGameSlot() == $game->getGameSlot()) {
-                    $this->addFlash('error', "Vous êtes déjà Maître du Jeu de la partie ".$g->getTitle()." sur cet horaire !");
+                    $this->addFlash('danger', "Vous êtes déjà Maître du Jeu de la partie ".$g->getTitle()." sur cet horaire !");
                     return $this->redirectToRoute('showGame', ["id" => $id]);
                 }
             }
@@ -116,7 +116,7 @@ class GameController extends CustomController {
                 $entityManager->flush();
                 $this->addFlash('success', "Vous avez bien été inscrit à la partie ".$game->getTitle());
             }else {
-                $this->addFlash('error', "Malheureusement il n'y a plus de place disponible en ligne pour la partie ".$game->getTitle()."... ");
+                $this->addFlash('danger', "Malheureusement il n'y a plus de place disponible en ligne pour la partie ".$game->getTitle()."... ");
             }
             return $this->redirectToRoute('showGame', ["id" => $id]);
         }else{
