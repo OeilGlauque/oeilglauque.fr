@@ -10,6 +10,7 @@ use App\Entity\Game;
 use App\Entity\Edition;
 use App\Form\GameType;
 use App\Form\GameEditType;
+use App\Service\GlauqueMarkdownParser;
 
 class GameController extends CustomController {
     
@@ -97,6 +98,10 @@ class GameController extends CustomController {
             return $element->getGameSlot()->getEdition() == $this->getCurrentEdition();
         });
 
+        foreach ($games as $g) {
+            $g->setDescription(GlauqueMarkdownParser::parse($g->getDescription()));
+        }
+
         return $this->render('oeilglauque/gamesList.html.twig', array(
             'dates' => $this->getCurrentEdition()->getDates(), 
             'games' => $games, 
@@ -179,6 +184,8 @@ class GameController extends CustomController {
                 $this->addFlash('danger', "Cette partie n'a pas encore été validée par notre équipe. ");
                 return $this->redirectToRoute('listeParties');
             }
+
+            $game->setDescription(GlauqueMarkdownParser::parse($game->getDescription()));
 
             return $this->render('oeilglauque/showGame.html.twig', array(
                 'dates' => $this->getCurrentEdition()->getDates(), 
