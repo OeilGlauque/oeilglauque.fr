@@ -22,7 +22,7 @@
         <p>Proposé par {{ game.getAuthor().getPseudo() }}<br />
         Créneau : {{ game.getGameSlot().getText() }}</p>
         <hr />
-        <p>{{ game.getDescription()|striptags('<br>')|raw }}</p>
+        <p>{{ game.getDescription()|striptags('<br>,<em>,<b>,<u>,<h3>')|raw }}</p>
         <hr />
         <b>Participants : </b>
         {% for player in game.getPlayers() %}

@@ -11,7 +11,7 @@
             <a href="{{ path('showGame', {'id':game.getId()}) }}"><h2 class="redandblack">{{ game.getTitle() }}</h2></a>
             <p class="small">Proposé par {{ game.getAuthor().getPseudo() }}<br />
             Créneau : {{ game.getGameSlot().getText() }}</p>
-            <p>{{ game.getDescription()|striptags('<br>')|raw }}</p>
+            <p>{{ game.getDescription()|striptags('<br>,<em>,<b>,<u>,<h3>')|raw }}</p>
             <br />
             {% if game.getFreeSeats() > 0 %}
             

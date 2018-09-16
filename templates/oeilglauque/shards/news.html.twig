@@ -4,5 +4,5 @@
     <a class="btn btn-danger btn-sm" href="{{ path('deleteNews', {'slug': slug}) }}">Supprimer</a>
     {% endif %}
     <a href="/news/{{ slug }}"><h2 class="redandblack">{{ title }}</h2></a>
-    <p>{{ text }}</p>
+    <p>{{ text|striptags('<br>,<em>,<b>,<u>,<h3>')|raw }}</p>
 </div>

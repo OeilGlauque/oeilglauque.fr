@@ -131,7 +131,8 @@ nav a {
 }
 
 .dropdown-menu {
-    background-color: #181514;
+    background-color: #110E0E;
+    border: 1px solid black;
 }
 
 nav .dropdown-item {
@@ -141,7 +142,8 @@ nav .dropdown-item {
 
 nav .dropdown-item:hover {
     color: #EEEEEE;
-    background-color: #181514;
+    /*background-color: #181514;*/
+    background-color: #110E0E;
 }
 
 #under-flag {
@@ -302,4 +304,8 @@ hr {
 
 .btn {
     text-shadow: none;
+}
+
+.inline {
+    display: inline;
 }

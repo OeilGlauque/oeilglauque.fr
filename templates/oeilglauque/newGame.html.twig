@@ -3,6 +3,15 @@
 {% block body %}
 
         <h1>{% if edit %}Mettre à jour{% else %}Proposer{% endif %} une partie</h1>
+        <p>
+            Vous pouvez utiliser les tags suivants dans la description : 
+            <ul>
+                <li><pre>*italique*</pre> : <em>italique</em></li>
+                <li><pre>**gras**</pre> : <b>gras</b></li>
+                <li><pre>__souligné__</pre> : <u>souligné</u></li>
+                <li><pre>#Titre</pre> : <h3 class="inline">Titre</h3></li>
+            </ul>
+        </p><br />
         {{ form(form) }}
         <p>Attention : Lorsque vous proposez une nouvelle partie, elle n'apparait pas en ligne immédiatement. 
         Elle doit être validée par notre équipe avant d'être publiée, et apparaitra donc prochainement dans la liste des parties disponibles. 
