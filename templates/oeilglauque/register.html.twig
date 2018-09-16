@@ -3,6 +3,10 @@
 {% block body %}
 
         <h1>Inscription</h1>
+        {% if allow_registration %}
         {{ form(form) }}
+        {% else %}
+        <p>L'inscription est close pour le moment. Revenez plus tard !</p>
+        {% endif %}
 
 {% endblock %}

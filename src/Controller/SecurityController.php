@@ -49,20 +49,25 @@ class SecurityController extends CustomController
             $user->setPassword($password);
 
             // 4) Sauvegarde en base
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
+            if($this->getParameter('allow_registration')) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($user);
+                $entityManager->flush();
+            }
 
             // ... do any other work - like sending them an email, etc
-            // maybe set a "flash" success message for the user
+            $this->addFlash('success', "Votre inscription a réussi, vous pouvez dès maintenant vous connecter !");
 
             return $this->redirectToRoute('index');
         }
         
         return $this->render(
             'oeilglauque/register.html.twig',
-            array('form' => $form->createView(), 
-            'dates' => $this->getCurrentEdition()->getDates(), )
+            array(
+                'form' => $form->createView(), 
+                'dates' => $this->getCurrentEdition()->getDates(), 
+                'allow_registration' => $this->getParameter('allow_registration'), 
+            )
         );
     }
 }
