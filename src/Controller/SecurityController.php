@@ -33,7 +33,7 @@ class SecurityController extends CustomController
     }
 
     /**
-     * @Route("/register")
+     * @Route("/register", name="register")
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder) {
         // 1 : Construction du formulaire
