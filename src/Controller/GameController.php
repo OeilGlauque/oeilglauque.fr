@@ -25,6 +25,24 @@ class GameController extends Controller {
         if ($form->isSubmitted() && $form->isValid()) {
             $game->setAuthor($this->getUser());
 
+            $user = $this->getUser();
+            // Check if the user has no other game on the same slot
+            $otherGames = $user->getPartiesJouees();
+            foreach ($otherGames as $g) {
+                if($g->getGameSlot() == $game->getGameSlot()) {
+                    $this->addFlash('error', "Vous avez déjà la partie ".$g->getTitle()." prévue sur cet horaire !");
+                    return $this->redirectToRoute('showGame', ["id" => $id]);
+                }
+            }
+            // Check if the user has not proposed an other game on this spot
+            $proposedGames = $user->getPartiesOrganisees();
+            foreach ($proposedGames as $g) {
+                if($g->getGameSlot() == $game->getGameSlot()) {
+                    $this->addFlash('error', "Vous êtes déjà Maître du Jeu de la partie ".$g->getTitle()." sur cet horaire !");
+                    return $this->redirectToRoute('showGame', ["id" => $id]);
+                }
+            }
+
             // Sauvegarde en base
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($game);
@@ -83,6 +101,7 @@ class GameController extends Controller {
                     return $this->redirectToRoute('showGame', ["id" => $id]);
                 }
             }
+            // Check if the user has not proposed an other game on this spot
             $proposedGames = $user->getPartiesOrganisees();
             foreach ($proposedGames as $g) {
                 if($g->getGameSlot() == $game->getGameSlot()) {
