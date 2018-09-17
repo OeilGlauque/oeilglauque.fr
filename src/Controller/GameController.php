@@ -21,7 +21,7 @@ class GameController extends CustomController {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $game = new Game();
-        $form = $this->createForm(GameType::class, $game);
+        $form = $this->createForm(GameType::class, $game, array('slots' => $this->getCurrentEdition()->getGameSlots()));
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -127,7 +127,7 @@ class GameController extends CustomController {
             return $this->redirectToRoute('showGame', ["id" => $id]);
         }
 
-        $form = $this->createForm(GameEditType::class, $game);
+        $form = $this->createForm(GameEditType::class, $game, array('slots' => $this->getCurrentEdition()->getGameSlots()));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

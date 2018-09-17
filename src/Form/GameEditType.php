@@ -24,7 +24,8 @@ class GameEditType extends AbstractType
                 'class' => GameSlot::class, 
                 'choice_label' => 'text', 
                 'label' => 'Créneau', 
-                'disabled' => true
+                'disabled' => true, 
+                'choices' => $options['slots'], 
             ))
             ->add('seats', IntegerType::class, array('label' => 'Places disponibles', 'invalid_message' => "Veuillez entrer un nombre"))
             ->add('forceOnlineSeats', CheckboxType::class, array('label' => 'Permettre de réserver toutes les places en ligne (déconseillé)', 'required' => false))
@@ -36,6 +37,7 @@ class GameEditType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => Game::class,
+            'slots' => array()
         ));
     }
 }
