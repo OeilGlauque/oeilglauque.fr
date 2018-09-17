@@ -48,6 +48,15 @@ class StaticPagesController extends CustomController {
     }
 
     /**
+     * @Route("/partenaires", name="partenaires")
+     */
+    public function partenaires() {
+        return $this->render('oeilglauque/partenaires.html.twig', array(
+            'dates' => $this->getCurrentEdition()->getDates(), 
+        ));
+    }
+
+    /**
      * @Route("/reservations", name="reservations")
      */
     public function reservations() {

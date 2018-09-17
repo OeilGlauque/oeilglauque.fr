@@ -309,3 +309,8 @@ hr {
 .inline {
     display: inline;
 }
+
+.partenaire {
+    width: 80%;
+    margin: auto;
+}
