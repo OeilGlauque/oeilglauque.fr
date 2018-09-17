@@ -2,8 +2,7 @@
 
 ## Front-end
 
- * Utiliser Glyphicon quand c'est possible
- * Filtrer la liste des partie selon les slots
+ * Utiliser des icones quand c'est possible
 
 ## Back-end
 

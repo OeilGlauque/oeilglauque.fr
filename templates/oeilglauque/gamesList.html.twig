@@ -21,6 +21,8 @@
             </ul>
         {% endif %}
 
+        <div class="btn-group btn-group-toggle" data-toggle="buttons" id="filtre"></div><br /><br />
+
         {% for g in games %}
             {{ include('oeilglauque/shards/game.html.twig', 
                         {
@@ -34,4 +36,8 @@
         </div>
         {% endfor %}
 
+{% endblock %}
+
+{% block scripts %}
+<script src="/js/selectGames.js"></script>
 {% endblock %}
