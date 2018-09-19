@@ -26,7 +26,12 @@
         <hr />
         <b>Participants : </b>
         {% for player in game.getPlayers() %}
-        <span class="badge badge-pill badge-light">{{ player.getPseudo() }}</span>
+        <span class="badge badge-pill badge-light">
+            {{ player.getPseudo() }}&nbsp;
+            {% if game.getAuthor() == app.user %}
+                ({{ player.getEmail() }})
+            {% endif %}
+        </span>
         {% else %}
         Il n'y a pas encore de joueur inscrit à cette partie. 
         {% endfor %}
