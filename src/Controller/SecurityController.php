@@ -44,11 +44,21 @@ class SecurityController extends CustomController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // 3) Encodage du mot de passe
+            // 3) Vérification de l'adresse mail et du pseudo
+            if(count($this->getDoctrine()->getRepository(User::class)->findBy(["email" => $user->getEmail()])) > 0) {
+                $this->addFlash('danger', "Cette adresse mail est déjà utilisée, veuillez en choisir une autre !"); 
+                return $this->redirectToRoute('register');
+            }
+            if(count($this->getDoctrine()->getRepository(User::class)->findBy(["pseudo" => $user->getPseudo()])) > 0) {
+                $this->addFlash('danger', "Ce pseudo est déjà utilisé, veuillez en choisir un autre !");
+                return $this->redirectToRoute('register');
+            }
+
+            // 4) Encodage du mot de passe
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
 
-            // 4) Sauvegarde en base
+            // 5) Sauvegarde en base
             if($this->getParameter('allow_registration')) {
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($user);
