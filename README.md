@@ -40,6 +40,27 @@ php bin/console cache:clear --env=prod --no-debug && chmod -R 777 var/cache
 docker-compose restart php-fpm
 ```
 
+Mise à jour du mot de passe de la base de données :
+
+ * Éditer la variable d'environnement MYSQL_ROOT_PASSWORD du container de base de données
+ * Mettre à jour le mot de passe de l'instance actuelle :
+
+```bash
+docker exec -it web_fog-db_1 mysql -u root -p
+<ancien mot de passe>
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'newpassword';
+ALTER USER 'root'@'%' IDENTIFIED BY 'newpassword';
+Ctrl+P Ctrl+Q
+```
+
+ * Modifier le fichier .env du site Symfony
+ * Mettre à jour le cache et redémarrer le process PHP :
+
+```bash
+php bin/console cache:clear --env=prod --no-debug && chmod -R 777 var/cache
+docker-compose restart php-fpm(-dev)
+```
+
 ## Développement
 
 ### Access control
