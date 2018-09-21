@@ -26,9 +26,11 @@ php bin/console server:run
 
 ## Déploiement
 
+### Nouvelle installation 
+
 `todo`
 
-Mise à jour vers une nouvelle version :
+### Mise à jour vers une nouvelle version
 
 ```bash
 git pull origin master
@@ -40,7 +42,7 @@ php bin/console cache:clear --env=prod --no-debug && chmod -R 777 var/cache
 docker-compose restart php-fpm
 ```
 
-Mise à jour du mot de passe de la base de données :
+### Mise à jour du mot de passe de la base de données
 
  * Éditer la variable d'environnement MYSQL_ROOT_PASSWORD du container de base de données
  * Mettre à jour le mot de passe de l'instance actuelle :
