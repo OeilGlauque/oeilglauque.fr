@@ -274,6 +274,11 @@ input {
     border-radius: 5px;
 }
 
+select {
+    color: black;
+    background-color: #EEEEEE;
+}
+
 button {
     color: black;
 }
