@@ -83,10 +83,7 @@ class GameController extends CustomController {
      * @Route("/parties", name="listeParties")
      */
     public function listGames() {
-        $games = $this->getDoctrine()->getRepository(Game::class)->findBy(["validated" => true]);
-        $games = array_filter($games, function($element) {
-            return $element->getGameSlot()->getEdition() == $this->getCurrentEdition();
-        });
+        $games = $this->getDoctrine()->getRepository(Game::class)->getOrderedGameList($this->getCurrentEdition(), true);
         
         $user = $this->getUser();
         $userGames = ($user != null) ? $this->getUser()->getPartiesJouees()->toArray() : array();

@@ -221,7 +221,7 @@ class AdminController extends CustomController {
      * @Route("/admin/games/validate", name="unvalidatedGamesList")
      */
     public function unvalidatedGamesList() {
-        $games = $this->getDoctrine()->getRepository(Game::class)->findBy(["validated" => false]);
+        $games = $this->getDoctrine()->getRepository(Game::class)->getOrderedGameList($this->getCurrentEdition(), false);
         return $this->render('oeilglauque/admin/unvalidatedGamesList.html.twig', array(
             'dates' => $this->getCurrentEdition()->getDates(), 
             'games' => $games
@@ -232,10 +232,7 @@ class AdminController extends CustomController {
      * @Route("/admin/games", name="adminGamesList")
      */
     public function adminGamesList() {
-        $games = $this->getDoctrine()->getRepository(Game::class)->findBy(["validated" => true]);
-        $games = array_filter($games, function($element) {
-            return $element->getGameSlot()->getEdition() == $this->getCurrentEdition();
-        });
+        $games = $this->getDoctrine()->getRepository(Game::class)->getOrderedGameList($this->getCurrentEdition(), true);
         return $this->render('oeilglauque/admin/gamesList.html.twig', array(
             'dates' => $this->getCurrentEdition()->getDates(), 
             'games' => $games, 

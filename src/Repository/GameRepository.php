@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Game;
+use App\Entity\Edition;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -17,6 +18,23 @@ class GameRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Game::class);
+    }
+
+    /**
+     * @return Game[]
+     */
+    public function getOrderedGameList(Edition $edition, $validated): array
+    {
+        return $this->createQueryBuilder('g')
+            ->leftJoin('g.gameSlot', 'gs')
+            ->leftJoin('gs.edition', 'ed')
+            ->where('ed = :edition')
+            ->andWhere('g.validated = :validated')
+            ->setParameter('edition', $edition)
+            ->setParameter('validated', $validated)
+            ->orderBy('g.gameSlot', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**
