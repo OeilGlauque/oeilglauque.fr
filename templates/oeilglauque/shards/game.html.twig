@@ -14,14 +14,19 @@
             <p>{{ game.getDescription()|striptags('<br>,<em>,<b>,<u>,<h3>')|raw }}</p>
             <br />
             {% if game.getFreeSeats() > 0 %}
-            
-            <p>{{ game.getFreeSeats() }} place{{accord}} disponible{{accord}}</p>
+
+                {% if app.user in game.getPlayers() %}
+                    <p>Vous êtes inscrit à cette partie !</p>
+                {% else %}
+                    <p>{{ game.getFreeSeats() }} place{{accord}} disponible{{accord}}</p>
+                {% endif %}
+
             {% else %}
-            <p>Malheureusement, il n'y a plus de place disponible...
-            {% if game.getForceOnlineSeats() == false %}
-            Mais vous pourrez encore vous inscrire à l'accueil du festival !
-            {% endif %}
-            </p>
+                <p>Malheureusement, il n'y a plus de place disponible en ligne...
+                {% if game.getForceOnlineSeats() == false %}
+                Mais vous pourrez encore vous inscrire à l'accueil du festival !
+                {% endif %}
+                </p>
             {% endif %}
         </div>
     </div>
