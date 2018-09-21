@@ -51,6 +51,13 @@ class GameController extends CustomController {
                 }
             }
 
+            //Check if the slot is not full
+            $slot = $game->getGameSlot();
+            if(count($slot->getGames()) >= $slot->getMaxGames()) {
+                $this->addFlash('danger', "Malheureusement, il n'y a plus de place disponnible sur le créneau ".$slot->getText()."... ");
+                return $this->redirectToRoute('nouvellePartie');
+            }
+
             // Sauvegarde en base
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($game);
