@@ -121,8 +121,8 @@ class GameController extends CustomController {
 
         $game = $this->getDoctrine()->getRepository(Game::class)->find($id);
 
-        // Check we are editing our own game
-        if($game->getAuthor() != $user) {
+        // Check we are editing our own game, or we are an admin
+        if($game->getAuthor() != $user && ! $user->hasRole('ROLE_ADMIN')) {
             $this->addFlash('danger', "Vous ne pouvez pas éditer la partie d'un autre utilisateur...");
             return $this->redirectToRoute('showGame', ["id" => $id]);
         }
@@ -131,28 +131,30 @@ class GameController extends CustomController {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $game->setAuthor($user);
 
-            // Check if the slot belongs to the current edition
-            if($game->getGameSlot()->getEdition() != $this->getCurrentEdition()) {
-                $this->addFlash('danger', "Vous ne pouvez proposer une partie que pour l'édition actuelle !");
-                return $this->redirectToRoute('editGame', ["id" => $id]);
-            }
+            if($user == $game->getAuthor()) {   // Let admins edit games no matter what
 
-            // Check if the user has no other game on the same slot
-            $otherGames = $user->getPartiesJouees();
-            foreach ($otherGames as $g) {
-                if($g->getGameSlot() == $game->getGameSlot()) {
-                    $this->addFlash('danger', "Vous avez déjà la partie ".$g->getTitle()." prévue sur cet horaire !");
+                // Check if the slot belongs to the current edition
+                if($game->getGameSlot()->getEdition() != $this->getCurrentEdition()) {
+                    $this->addFlash('danger', "Vous ne pouvez proposer une partie que pour l'édition actuelle !");
                     return $this->redirectToRoute('editGame', ["id" => $id]);
                 }
-            }
-            // Check if the user has not proposed an other game on this slot
-            $proposedGames = $user->getPartiesOrganisees();
-            foreach ($proposedGames as $g) {
-                if($g->getGameSlot() == $game->getGameSlot() && $g->getId() != $id) {
-                    $this->addFlash('danger', "Vous êtes déjà Maître du Jeu de la partie ".$g->getTitle()." sur cet horaire !");
-                    return $this->redirectToRoute('editGame', ["id" => $id]);
+
+                // Check if the user has no other game on the same slot
+                $otherGames = $user->getPartiesJouees();
+                foreach ($otherGames as $g) {
+                    if($g->getGameSlot() == $game->getGameSlot()) {
+                        $this->addFlash('danger', "Vous avez déjà la partie ".$g->getTitle()." prévue sur cet horaire !");
+                        return $this->redirectToRoute('editGame', ["id" => $id]);
+                    }
+                }
+                // Check if the user has not proposed an other game on this slot
+                $proposedGames = $user->getPartiesOrganisees();
+                foreach ($proposedGames as $g) {
+                    if($g->getGameSlot() == $game->getGameSlot() && $g->getId() != $id) {
+                        $this->addFlash('danger', "Vous êtes déjà Maître du Jeu de la partie ".$g->getTitle()." sur cet horaire !");
+                        return $this->redirectToRoute('editGame', ["id" => $id]);
+                    }
                 }
             }
 

@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+        <h1>Édition des parties</h1>
+        <p>Attention, seules les parties de l'édition courante sont éditables. 
+        Seules les parties validées sont montrées ici, pour éditer une partie non validée utilisez la page de <a href="{{ path('unvalidatedGamesList') }}">validation des parties</a>. </p>
+        
+        {% for g in games %}
+            <div class="well">
+                <h3>{{ g.getTitle() }}</h3>
+                <p>Proposé par {{ g.getAuthor().getPseudo() }} ({{ g.getAuthor().getFirstName() }} {{ g.getAuthor().getName() }}, {{ g.getAuthor().getEmail() }})</p>
+                <p>Slot : {{ g.getGameSlot().getText() }}</p>
+                <p>{{ g.getDescription()|striptags('<br>')|raw }}</p>
+                <hr />
+                <p>{{ g.getSeats() }} places au total, forcer toutes les réservations en ligne : {% if g.getForceOnlineSeats() %}oui{% else %}non{% endif %}</p>
+
+                {% if g.getPlayers()|length > 0 %}
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Prénom</th>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Pseudo</th>
+                            <th scope="col">Adresse mail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for player in g.getPlayers() %}
+                        <tr>
+                            <td>{{ player.getFirstName() }}</td>
+                            <td>{{ player.getName() }}</td>
+                            <td>{{ player.getPseudo() }}</td>
+                            <td>{{ player.getEmail() }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+                {% else %}
+                    <p>Pas encore de joueur inscrit à cette partie. </p><br />
+                {% endif %}
+
+                <a href="{{ path('editGame', {'id': g.getId()}) }}" class="btn btn-info">Éditer cette partie</a>&nbsp;
+                <a href="{{ path('deleteGame', {'id': g.getId()}) }}" class="btn btn-danger">Supprimer cette partie</a>
+            </div><br />
+        {% else %}
+            <div class="row">
+                <p>Aucune partie en attente de validation. </p>
+            </div>
+        {% endfor %}
+        <br />
+
+        Liste des gentils MJs (cliquez pour sélectionner) : <br />
+        <div class="my-selectable">
+        {% set mjs = [] %}
+        {% for g in games %}
+            {% if g.getAuthor() not in mjs %}
+                <pre>{{ g.getAuthor().getPseudo() }} &lt;{{ g.getAuthor().getEmail() }}&gt;;</pre>
+                {% set mjs = mjs|merge([g.getAuthor()]) %}
+            {% endif %}
+        {% endfor %}
+        </div>
+
+        <br /><p><a href="{{ path('admin') }}">Retour à l'interface d'administration</a></p>
+
+{% endblock %}

@@ -17,7 +17,6 @@
                         <input type="text" name="text" value="{{ slot.getText() }}" class="form-control mr-sm-2" />
                         <input type="number" name="maxGames" value="{{ slot.getMaxGames() }}" min="1" max="20" class="form-control mr-sm-2" />
                         <input type="submit" class="form-control mr-sm-2 btn btn-danger" value="Mettre à jour" /> 
-                        <a href="{{ path('deleteSlot', {'slot': slot.getId() }) }}" class="form-control mr-sm-2 btn btn-danger">Supprimer</a> 
                     </form>
                     <br />
                 {% else %}

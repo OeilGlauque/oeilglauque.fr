@@ -82,19 +82,6 @@ class AdminController extends CustomController {
     }
 
     /**
-     * @Route("/admin/editions/deleteSlot/{slot}", name="deleteSlot")
-     */
-    public function deleteSlot($slot) {
-        $slotval = $this->getDoctrine()->getRepository(GameSlot::class)->find($slot);
-        if ($slotval) {
-            $this->getDoctrine()->getManager()->remove($slotval);
-            $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('success', "Le slot a bien été supprimé. ");
-        }
-        return $this->redirectToRoute('admin_editions');
-    }
-
-    /**
      * @Route("/admin/editions/addSlot/{edition}", name="addSlot")
      */
     public function addSlot(Request $request, $edition) {
@@ -227,7 +214,7 @@ class AdminController extends CustomController {
     }
 
     /************************************
-     *      Validation des parties      *
+     *      Gestion des parties      *
      ************************************/
 
     /**
@@ -238,6 +225,20 @@ class AdminController extends CustomController {
         return $this->render('oeilglauque/admin/unvalidatedGamesList.html.twig', array(
             'dates' => $this->getCurrentEdition()->getDates(), 
             'games' => $games
+        ));
+    }
+
+    /**
+     * @Route("/admin/games", name="adminGamesList")
+     */
+    public function adminGamesList() {
+        $games = $this->getDoctrine()->getRepository(Game::class)->findBy(["validated" => true]);
+        $games = array_filter($games, function($element) {
+            return $element->getGameSlot()->getEdition() == $this->getCurrentEdition();
+        });
+        return $this->render('oeilglauque/admin/gamesList.html.twig', array(
+            'dates' => $this->getCurrentEdition()->getDates(), 
+            'games' => $games, 
         ));
     }
 

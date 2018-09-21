@@ -28,7 +28,7 @@
         {% for player in game.getPlayers() %}
         <span class="badge badge-pill badge-light">
             {{ player.getPseudo() }}&nbsp;
-            {% if game.getAuthor() == app.user %}
+            {% if (game.getAuthor() == app.user) or is_granted('ROLE_ADMIN') %}
                 ({{ player.getEmail() }})
             {% endif %}
         </span>
