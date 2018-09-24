@@ -32,6 +32,7 @@
                 <div>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 {# Link to user control panel : {{ app.user.username }} #}
+                <a href="{{ path('ucp') }}" class="ucp">{{ app.user.username }}</a>
                 {% else %}
                 <form action="{{ path('login') }}" method="post" class="smallform">
                     <input type="text" id="username" name="_username" placeholder="Pseudo" />

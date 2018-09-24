@@ -6,7 +6,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use App\Form\UserType;
+use App\Form\UserEditType;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -77,6 +84,78 @@ class SecurityController extends CustomController
                 'form' => $form->createView(), 
                 'dates' => $this->getCurrentEdition()->getDates(), 
                 'allow_registration' => $this->getParameter('allow_registration'), 
+            )
+        );
+    }
+
+    /**
+     * @Route("/user", name="ucp")
+     */
+    public function ucp(Request $request, UserPasswordEncoderInterface $passwordEncoder) {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        // 1 : Construction du formulaire
+        $user = $this->getUser();
+        $correct = true;
+
+        $form = $this->createFormBuilder()
+            ->add('email', EmailType::class, array(
+                'label' => 'Adresse mail', 
+                'invalid_message' => 'Veuillez fournir une adresse mail valide',
+                'constraints' => new NotBlank(),
+                'data' => $user->getEmail()
+            ))
+            ->add('name', TextType::class, array('label' => 'Nom', 'data' => $user->getName(), 'constraints' => new NotBlank()))
+            ->add('firstname', TextType::class, array('label' => 'Prénom', 'data' => $user->getFirstName(), 'constraints' => new NotBlank()))
+            ->add('newPassword', RepeatedType::class, array(
+                'type' => PasswordType::class,
+                'invalid_message' => 'Les mots de passe doivent être identiques',
+                'help' => 'Laissez vide pour ne pas modifier', 
+                'first_options'  => array('label' => 'Nouveau mot de passe (laissez vide pour ne pas modifier)'),
+                'second_options' => array('label' => 'Nouveau mot de passe (confirmation)'),
+                'required' => false, 
+            ))
+            ->add('save', SubmitType::class, array('label' => 'Mise à jour'))
+            ->getForm();
+
+
+        // 2 : Gestion du submit (POST)
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            // 3) Vérification de l'adresse mail
+            $sameAddr = $this->getDoctrine()->getRepository(User::class)->findOneBy(["email" => $data['email']]);
+            if($sameAddr != null && $sameAddr != $user) {
+                $this->addFlash('danger', "Cette adresse mail est déjà utilisée, veuillez en choisir une autre !"); 
+                $correct = false;
+            }
+
+            // 4) Encodage du mot de passe
+            $password = $user->getPassword();
+            if($data['newPassword'] != "") {
+                $password = $passwordEncoder->encodePassword($user, $data['newPassword']);
+            }
+
+            // 5) Sauvegarde en base
+            if($correct) {
+                $user->setEmail($data["email"]);
+                $user->setName($data["name"]);
+                $user->setFirstName($data["firstname"]);
+                $user->setPassword($password);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->flush();
+                $this->addFlash('success', "Votre profil a bien été modifié !");
+                return $this->redirectToRoute('index');
+            }
+        }
+        
+        return $this->render(
+            'oeilglauque/ucp.html.twig',
+            array(
+                'form' => $form->createView(), 
+                'pseudo' => $user->getPseudo(), 
+                'dates' => $this->getCurrentEdition()->getDates(), 
             )
         );
     }
