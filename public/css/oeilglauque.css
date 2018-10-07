@@ -275,7 +275,7 @@ input {
     border-radius: 5px;
 }
 
-select {
+select option {
     color: black;
     background-color: #EEEEEE;
 }
