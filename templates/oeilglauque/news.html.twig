@@ -3,7 +3,7 @@
 {% block body %}
 
         <h1>News</h1>
-        {% for row in news | batch(2) %}
+        {% for row in news | reverse | batch(2) %}
         <div class="row">
             {% for n in row %}
             <div class="col-lg-6">
