@@ -25,6 +25,7 @@ class UserType extends AbstractType
                 'invalid_message' => 'Les mots de passe doivent être identiques',
                 'first_options'  => array('label' => 'Mot de passe'),
                 'second_options' => array('label' => 'Mot de passe (confirmation)'),
+                'options' => array("attr" => array("maxlength" => 64))
             ))
             ->add('save', SubmitType::class, array('label' => 'Inscription'));
     }

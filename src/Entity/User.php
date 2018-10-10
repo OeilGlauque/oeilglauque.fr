@@ -46,10 +46,16 @@ class User implements UserInterface, \Serializable
     private $password;
     
     // This will not be mapped in database, but needs to be accessible during registration
+    // Limit of 64 in database; this must also be set in Forms/UserType.php !!!
+    // This limit of 64 is due to a bug causing too long passwords encoded with more than one byte per char to break registration (bcrypt hashing)
     /**
-     * length=4096 for security reasons (see https://symfony.com/blog/cve-2013-5750-security-issue-in-fosuserbundle-login-form)
+     * length=64
      * @Assert\NotBlank()
-     * @Assert\Length(max=4096)
+     * @Assert\Length(
+     *      min=2, 
+     *      max=64, 
+     *      minMessage="Votre mot de passe doit contenir au moins {{ limit }} caractères", 
+     *      maxMessage="Votre mot de passe ne peut pas contenir plus de {{ limit }} caractères")
      */
     private $plainPassword;
 
