@@ -34,7 +34,6 @@ header {
     background-image: url(/img/header_bg.png);
     background-repeat: repeat-x;
     background-position-y: 88%; 
-/*    height: 150px;*/
     background-color: #181514;
     display: flex;
     flex-direction: column;
@@ -51,8 +50,6 @@ header {
     background-image: url(/img/flag_header.png);
     width: 301px;
     height: 230px;
-/*    margin-left: 15%;
-    position: relative;*/
     z-index: 100;
     display: flex!important;
     flex-direction: column;
@@ -77,10 +74,6 @@ header {
     width: 379px;
     height: 120px;
     z-index: 90;
-/*    margin: auto;
-    margin-top: -150px;
-    position: relative;
-    top: 0px;*/
     opacity: 1;
 }
 
@@ -88,7 +81,6 @@ header {
     background-image: url(/img/title.png);
     width: 300px;
     height: 180px;
-/*    left: -33px;*/
     background-repeat: no-repeat;
     background-size: 75%;
     background-position: center;
@@ -98,10 +90,6 @@ header {
 #fest {
     background-image: url(/img/fest.png);
     width: 301px;
-/*    height: 100px;
-    position: absolute;
-    top: 5px;
-    right: 17%;*/
     z-index: 95;
     background-size: 80%;
     background-repeat: no-repeat;
@@ -121,18 +109,8 @@ header {
     background-position-y: 95%;
     background-repeat: no-repeat;
     width: 207px;
-/*    height: 450px;
-    margin-left: 70%;
-    top: 0;
-    position: absolute;*/
     z-index: 35;
     margin-right: 3.5em;
-}
-
-#connexion div {
-/*    position: absolute;
-    top: 230px;
-    width: 100%;*/
 }
 
 nav {
@@ -167,7 +145,6 @@ nav .dropdown-item {
 
 nav .dropdown-item:hover {
     color: #EEEEEE;
-    /*background-color: #181514;*/
     background-color: #110E0E;
 }
 
