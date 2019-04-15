@@ -72,3 +72,8 @@ Le contrôle d'accès est fait en yaml dans `config/packages/security.yaml`.
 ### Personalisation des formulaires
 
 Les formulaires sont rendus avec un style défini dans `config/packages/twig.yaml`. Actuellement le style `bootstrap_4_horizontal_layout.html.twig` est utilisé, mais il est possible d'écraser ce style avec des champs personnalisés dans `templates/oeilglauque/form/fields.html.twig`. 
+
+### Note for the passwordReset branch
+
+La réinitialisation se fait par envoi d'un mail. Pour des tests en local, aller dans le fichier .env et ajouter la ligne `MAILER_URL=gmail://username:password@localhost` (ou remplacer la ligne déjà existante)
+Je ferai une methode d'envoi de mail plus propre quand j'aurai le temps.
