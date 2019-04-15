@@ -23,13 +23,13 @@
     </head>
     <body>
         
-        <header>
-            <div class="" id="banner">
+        <header class="d-flex flex-column">
+            <div class="d-flex flex-row justify-content-center justify-content-sm-end" id="banner">
                 <div class="d-none d-lg-block" id="flag"></div>
                 <div id="fest">
                     <div id="dates">{{ dates|default('Début octobre') }}</div>
                 </div>
-                <div class="d-none d-lg-block" id="connexion">
+                <div class="d-none d-sm-block" id="connexion">
                     <div>
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     {# Link to user control panel : {{ app.user.username }} #}
@@ -44,10 +44,10 @@
                     </div>
                 </div>
             </div>
-            <nav class="navbar navbar-expand-md">
+            <nav class="navbar navbar-expand-sm">
                 <span id="under-flag" class="d-none d-lg-block"></span>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                    <img src="img/menu.png" alt="" id="menu"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarsExampleDefault">
@@ -78,9 +78,7 @@
                         {#<li class="nav-item">
                             <a class="nav-link" href="#">Club</a>
                         </li>#}
-                        <li class="li-blank">
-
-                        </li>
+                        <li class="li-blank d-none d-sm-block"></li>
 
                         <li class="nav-item" id="nav-right">
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}

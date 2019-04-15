@@ -35,14 +35,9 @@ header {
     background-repeat: repeat-x;
     background-position-y: 88%; 
     background-color: #181514;
-    display: flex;
-    flex-direction: column;
 }
 
 #banner{
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-end;
     height: 150px;
 }
 
@@ -51,40 +46,9 @@ header {
     width: 301px;
     height: 230px;
     z-index: 100;
-    display: flex!important;
-    flex-direction: column;
-    align-items: center;
     position: absolute;
     left: 20px;
     background-position-y: 45%;
-}
-
-#oeil {
-    background-image: url(/img/logo.png);
-    width: 177px;
-    height: 177px;
-    position: absolute;
-    bottom: 75px;
-    left: 62px;
-    display: none;
-}
-
-#cthulhu {
-    background-image: url(/img/logo.png);
-    width: 379px;
-    height: 120px;
-    z-index: 90;
-    opacity: 1;
-}
-
-#title {
-    background-image: url(/img/title.png);
-    width: 300px;
-    height: 180px;
-    background-repeat: no-repeat;
-    background-size: 75%;
-    background-position: center;
-    display: none;
 }
 
 #fest {
@@ -94,7 +58,6 @@ header {
     background-size: 80%;
     background-repeat: no-repeat;
     background-position-x: center;
-    margin-right: 5em;
 }
 
 #dates {
@@ -120,7 +83,7 @@ nav {
 }
 
 .navbar-toggler {
-    margin: 0px 0px 40px 0px;
+    margin: 0px 0px 0px 0px;
 }
 
 nav li {
@@ -131,6 +94,11 @@ nav a {
     font-size: 1.5em;
     text-transform: uppercase;
     margin-top: 5px;
+}
+
+#menu{
+    width: 40px;
+    height: 40px;
 }
 
 .dropdown-menu {
