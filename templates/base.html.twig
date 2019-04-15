@@ -37,6 +37,7 @@
                 <form action="{{ path('login') }}" method="post" class="smallform">
                     <input type="text" id="username" name="_username" placeholder="Pseudo" />
                     <input type="password" id="password" name="_password" placeholder="Mot de passe" />
+                    <a href="{{ path('forgotPassword') }}" class="forgotPassword"> Mot de passe oublié </a>
                     <button type="submit">login</button>
                 </form>
                 {% endif %}

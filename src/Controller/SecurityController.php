@@ -159,5 +159,138 @@ class SecurityController extends CustomController
             )
         );
     }
+
+    /**
+     * Contrôle la page d'oubli de mot de passe
+     * @Route("/forgotPassword", name="forgotPassword")
+     */
+
+    public function forgotPassword(Request $request, \Swift_Mailer $mailer){
+
+
+        $form = $this->createFormBuilder(null, [
+            'action' => '/forgotPassword',
+            'method' => 'POST',
+        ])
+            ->add('mail', EmailType::class, [
+                'label' => "Adresse mail",
+            ])
+            ->getForm();
+
+        // Gestion du submit (POST)
+        $form->handleRequest($request);
+        $mail = $form->getData()['mail'];
+
+        if($form->isSubmitted() && $form->isValid()){
+            if(count($this->getDoctrine()->getRepository(User::class)->findBy(["email" => $mail])) == 0) {
+                $this->addFlash('danger', "Cette adresse mail n'est pas utilisée. Veuillez choisir une adresse mail valide !");
+                return $this->redirectToRoute('forgotPassword');
+            }
+
+            // On ajoute le token de reinitialisation à la base
+            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(["email" => $mail]);
+            $pseudo = $user->getPseudo();
+            $tok = $this->getToken($mail);
+            $user->setForgottenPassword($tok);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+
+            // On envoie le mail
+            $message = (new \Swift_Message('Réinitialisation de votre mot de passe'))
+                ->setFrom('noreply@test.kon')
+                ->setTo($mail)
+                ->setBody(
+                    $this->renderView(
+                        'oeilglauque/email/passwordResetMail.html.twig',
+                        [
+                            'pseudo' => $pseudo,
+                            'url' => 'http://127.0.0.1:8000/passwordReset?tokid=' . $tok,
+                            'tok' => $tok
+                        ]
+                    ),
+                    'text/html'
+                );
+            $mailer->send($message);
+            return $this->render('oeilglauque/forgotPassword.html.twig',
+                [
+                    'mailsent' => true
+                ]);
+        }
+
+        return $this->render(
+            'oeilglauque/forgotPassword.html.twig',
+            [
+                'form' =>  $form->createView(),
+                'mail' => $mail,
+                'mailsent' => false
+            ]);
+    }
+
+
+    /**
+     * Contrôle la page de réinitialisation du mot de passe
+     * @Route("/passwordReset", name="passwordReset")
+     */
+    public function passwordReset(Request $request, UserPasswordEncoderInterface $passwordEncoder){
+        // Récupération du token de reinitialisation et recherche de l'utilisateur correspondant
+        $tok = $request->query->get('tokid');
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(["forgottenPassword" => $tok]);
+
+        if($user === null || $tok == "") {
+            return $this->render('oeilglauque/passwordReset.html.twig',
+                [
+                    'valid' => false
+                ]
+            );
+        }
+
+        $form = $this->createFormBuilder(null, [
+            'method' => 'POST',
+        ])
+            ->add('newPassword', RepeatedType::class, array(
+                'type' => PasswordType::class,
+                'invalid_message' => 'Les mots de passe doivent être identiques',
+                'first_options'  => array('label' => 'Nouveau mot de passe'),
+                'second_options' => array('label' => 'Nouveau mot de passe (confirmation)'),
+                'required' => true,
+            ))
+            ->add('save', SubmitType::class, array('label' => 'Enregistrer le nouveau mot de passe'))
+            ->getForm();
+
+        // Gestion du submit (POST)
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Encodage du mot de passe
+            $password = $passwordEncoder->encodePassword($user, $form->getData()['newPassword']);
+
+            // Mise a jour du mot de passe, suppression du token de reinitialisation
+            $user->setPassword($password);
+            $user->setForgottenPassword(null);
+
+            // Mise à jour de la base
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+            $this->addFlash('success', "Votre profil a bien été modifié !");
+
+            return $this->redirectToRoute('index');
+        }
+
+        $pseudo = $user->getPseudo();
+        return $this->render('oeilglauque/passwordReset.html.twig',
+            [
+                'form' => $form->createView(),
+                'pseudo' => $pseudo,
+                'valid' => true
+            ]
+        );
+    }
+
+    private function getToken($email){
+        $time = time();
+        $tok = $time . '' . $email;
+        $tok = hash('sha256',$tok);
+        return $tok;
+    }
 }
 ?>

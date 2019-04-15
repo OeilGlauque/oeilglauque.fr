@@ -92,6 +92,11 @@ class User implements UserInterface, \Serializable
     private $roles;
 
     /**
+     * Used for the forgotten password method
+     * @ORM\Column(name="forgotten_password", type="string", length=64, nullable=true)
+     */
+    private $forgottenPassword;
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Game", mappedBy="author")
      */
     private $partiesOrganisees;
@@ -100,7 +105,6 @@ class User implements UserInterface, \Serializable
      * @ORM\ManyToMany(targetEntity="App\Entity\Game", mappedBy="players")
      */
     private $partiesJouees;
-
 
     public function __construct()
     {
@@ -111,6 +115,7 @@ class User implements UserInterface, \Serializable
         $this->isActive = true;
         $this->partiesOrganisees = new ArrayCollection();
         $this->partiesJouees = new ArrayCollection();
+        $this->forgottenPassword = null;
     }
 
     public function getId()
@@ -211,6 +216,14 @@ class User implements UserInterface, \Serializable
         $this->dateCreated = $dateCreated;
 
         return $this;
+    }
+
+    public function getForgottenPassword(){
+        return $this->forgottenPassword;
+    }
+
+    public function setForgottenPassword($tok){
+        $this->forgottenPassword = $tok;
     }
 
     /**

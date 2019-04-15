@@ -2,5 +2,13 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
+forgotPassword:
+  path: /forgotPassword
+  controller: App\Controller\SecurityController::forgotPassword
+
+passwordReset:
+  path: /passwordReset
+  controller: App\Controller\SecurityController::passwordReset
+
 logout:
   path: /logout
