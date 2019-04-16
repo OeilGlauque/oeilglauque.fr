@@ -234,6 +234,19 @@ form {
 
 form .row {
     margin-bottom: 1em;
+    width: 100%;
+}
+
+#user{
+    width: 100%;
+}
+
+#registerLink{
+    margin-top: 20px;
+}
+
+#registerLink a{
+    margin: 0 10px 0 10px;
 }
 
 .center {
@@ -255,8 +268,8 @@ select option {
 
 button {
     color: black;
-    width: 80px;
     background-color: #c5c5c5;
+    cursor: pointer;
 }
 
 .affiche {

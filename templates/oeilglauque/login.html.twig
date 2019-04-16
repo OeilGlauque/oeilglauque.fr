@@ -21,7 +21,10 @@
                     <input type="hidden" name="_target_path" value="/account" />
                 #}
                     <button type="submit">login</button>
-                <p><a href="{{ path('register') }}">Créer un compte</a></p>
+                <p id="registerLink">
+                    <a href="{{ path('register') }}">Créer un compte</a>
+                    <a href="">Mot de passe oublié ?</a>
+                </p>
             </form>
         </div>
 
