@@ -15,7 +15,29 @@ mysql --user root --execute "select version()" # To check wether your MariaDB in
 mysql_secure_installation # To secure your MariaDB installation
 ```
 
-Après avoir configuré localement le connecteur MariaDB dans le fichier `.env` selon votre installation, il ne reste plus qu'à installer les dépendances, effectuer une migration de la base de données et lancer le serveur de développement : 
+ * Cas particulier d'Ubuntu (Ici 18.04)
+
+```
+sudo apt-get install php-cli php-common php-gmp php7.2-mysql php7.2-mbstring composer
+ # Installation of the latest version of MariaDB
+sudo apt-get install software-properties-common
+sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+sudo add-apt-repository 'deb [arch=amd64] http://mirror.zol.co.zw/mariadb/repo/10.3/ubuntu bionic main'
+sudo apt update
+sudo apt -y install mariadb-server mariadb-client
+mysql -u root -p # Check MariaDB is working properly
+select version(); # Check version
+```
+
+Après, il faut configurer localement le connecteur MariaDB dans le fichier `.env` selon votre installation :
+
+``` 
+DATABASE_URL=mysql://user:password@127.0.0.1:3306/databaseName
+ # Remplacer user et password par ce que vous avez rempli lors de l'installation de MariaDB
+ # Remplacer databaseName par le nom que vous voulez donner à la base de donnée
+```
+
+Il ne reste plus qu'à installer les dépendances, effectuer une migration de la base de données et lancer le serveur de développement : 
 
 ```bash
 composer install
