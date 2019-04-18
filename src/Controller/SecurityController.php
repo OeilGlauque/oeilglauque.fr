@@ -173,7 +173,7 @@ class SecurityController extends CustomController
             'method' => 'POST',
         ])
             ->add('mail', EmailType::class, [
-                'label' => "Adresse mail",
+                'label' => "Email",
             ])
             ->getForm();
 
