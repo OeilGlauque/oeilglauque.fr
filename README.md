@@ -99,3 +99,4 @@ Les formulaires sont rendus avec un style défini dans `config/packages/twig.yam
 
 La réinitialisation se fait par envoi d'un mail. Pour des tests en local, aller dans le fichier .env et ajouter la ligne `MAILER_URL=gmail://username:password@localhost` (ou remplacer la ligne déjà existante)
 Une méthode plus apropriée et moins dépendante de google devrait être développée sous peu.
+Il faut probablement recréer la base et rééffectuer les migrations également.
