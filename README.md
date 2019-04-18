@@ -98,4 +98,4 @@ Les formulaires sont rendus avec un style défini dans `config/packages/twig.yam
 ### Note for the passwordReset branch
 
 La réinitialisation se fait par envoi d'un mail. Pour des tests en local, aller dans le fichier .env et ajouter la ligne `MAILER_URL=gmail://username:password@localhost` (ou remplacer la ligne déjà existante)
-Je ferai une methode d'envoi de mail plus propre quand j'aurai le temps.
+Une méthode plus apropriée et moins dépendante de google devrait être développée sous peu.
