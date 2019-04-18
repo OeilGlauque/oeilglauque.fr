@@ -39,6 +39,7 @@
                         <input type="text" id="username" name="_username" placeholder="Pseudo" />
                         <input type="password" id="password" name="_password" placeholder="Mot de passe" />
                         <button type="submit">login</button>
+                        <a href="#">mdp oublié</a>
                     </form>
                     {% endif %}
                     </div>
@@ -49,6 +50,7 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                     <img src="img/menu.png" alt="" id="menu"></span>
                 </button>
+                <a href="{{ path('login') }}" class="d-sm-none">Connexion</a>
 
                 <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                     <ul class="navbar-nav mr-auto">
