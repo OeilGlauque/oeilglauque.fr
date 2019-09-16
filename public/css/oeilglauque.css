@@ -44,11 +44,17 @@ header {
 #flag {
     background-image: url(/img/flag_header.png);
     width: 301px;
-    height: 230px;
+    height: 252px;
     z-index: 100;
     position: absolute;
-    left: 20px;
-    background-position-y: 45%;
+    left: 70px;
+    background-position-y: 100%;
+}
+
+@media screen and (max-width: 1500px) {
+    #flag {
+        left: 20px;
+    }
 }
 
 #fest {
@@ -312,6 +318,13 @@ hr {
 .partenaire {
     width: 80%;
     margin: auto;
+}
+
+@media screen and (max-width: 768px) {
+    .partenaire {
+        width: 50%;
+        margin: 5px auto;
+    }
 }
 
 .my-selectable {

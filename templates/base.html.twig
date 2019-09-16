@@ -24,10 +24,10 @@
     <body>
         
         <header class="d-flex flex-column">
-            <div class="d-flex flex-row justify-content-center justify-content-sm-end" id="banner">
+            <div class="d-flex flex-row justify-content-around justify-content-md-around justify-content-lg-end" id="banner">
                 <div class="d-none d-lg-block" id="flag"></div>
                 <div id="fest">
-                    <div id="dates">{{ dates|default('Début octobre') }}</div>
+                    <div id="dates">{{ dates|default('Du 18 au 20 octobre') }}</div>
                 </div>
                 <div class="d-none d-sm-block" id="connexion">
                     <div>
@@ -38,7 +38,7 @@
                     <form action="{{ path('login') }}" method="post" class="smallform">
                         <input type="text" id="username" name="_username" placeholder="Pseudo" />
                         <input type="password" id="password" name="_password" placeholder="Mot de passe" />
-                        <a href="{{ path('forgotPassword') }}">Mot de passe oublié?</a>
+                        <a href="{{ path('forgotPassword') }}">Mot de passe oublié ?</a>
                         <button type="submit">login</button>
                     </form>
                     {% endif %}
