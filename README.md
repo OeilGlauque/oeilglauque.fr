@@ -60,6 +60,7 @@ git pull origin master
 git fetch --tags
 git checkout <version tag name>
 composer install
+php bin/console doctrine:migrations:diff
 php bin/console doctrine:migrations:migrate
 php bin/console cache:clear --env=prod --no-debug && chmod -R 777 var/cache
 docker-compose restart php-fpm
