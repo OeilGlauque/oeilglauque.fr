@@ -18,6 +18,7 @@ mysql_secure_installation # To secure your MariaDB installation
  * Cas particulier d'Ubuntu (Ici 18.04)
 
 ```
+ # ubuntu repository may not have the latest php version, in that case search for a ppa
 sudo apt-get install php-cli php-common php7.3-gmp php7.3-mysql php7.3-mbstring php7.3-xml composer
  # Installation of the latest version of MariaDB
 sudo apt-get install software-properties-common
