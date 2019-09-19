@@ -23,88 +23,80 @@
     </head>
     <body>
         
-        <header>
-            <div class="d-none d-lg-block" id="flag">
-                <div id="title"></div>
-                <div id="oeil"></div>
-            </div>
-            <div class="d-none d-lg-block" id="connexion">
-                <div>
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                {# Link to user control panel : {{ app.user.username }} #}
-                <a href="{{ path('ucp') }}" class="ucp">{{ app.user.username }}</a>
-                {% else %}
-                <form action="{{ path('login') }}" method="post" class="smallform">
-                    <input type="text" id="username" name="_username" placeholder="Pseudo" />
-                    <input type="password" id="password" name="_password" placeholder="Mot de passe" />
-                    <button type="submit">login</button>
-                </form>
-                {% endif %}
+        <header class="d-flex flex-column">
+            <div class="d-flex flex-row justify-content-around justify-content-md-around justify-content-lg-end" id="banner">
+                <div class="d-none d-lg-block" id="flag"></div>
+                <div id="fest">
+                    <div id="dates">{{ dates|default('Du 18 au 20 octobre') }}</div>
+                </div>
+                <div class="d-none d-sm-block" id="connexion">
+                    <div>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {# Link to user control panel : {{ app.user.username }} #}
+                    <a href="{{ path('ucp') }}" class="ucp">{{ app.user.username }}</a>
+                    {% else %}
+                    <form action="{{ path('login') }}" method="post" class="smallform">
+                        <input type="text" id="username" name="_username" placeholder="Pseudo" />
+                        <input type="password" id="password" name="_password" placeholder="Mot de passe" />
+                        <button type="submit">Login</button>
+                    </form>
+                    {% endif %}
+                    </div>
                 </div>
             </div>
-            <div id="cthulhu" class="d-none d-xl-block"></div>
-            <div id="fest">
-                <div id="dates">{{ dates|default('Début octobre') }}</div>
-            </div>
+            <nav class="navbar navbar-expand-sm">
+                <span id="under-flag" class="d-none d-lg-block"></span>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                    <img src="img/menu.png" alt="" id="menu"></span>
+                </button>
+                <a href="{{ path('login') }}" class="d-sm-none">Connexion</a>
+
+                <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/">Accueil</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Festival</a>
+                            <div class="dropdown-menu" aria-labelledby="dropdown01">
+                                <a class="dropdown-item" href="{{path('infosFest')}}">Informations</a>
+                                <a class="dropdown-item" href="{{path('newsIndex')}}">News</a>
+                                <a class="dropdown-item" href="{{path('planning')}}">Planning</a>
+                                <a class="dropdown-item" href="{{path('listeParties')}}">Liste des parties</a>
+                                <a class="dropdown-item" href="{{path('nouvellePartie')}}">Proposer une partie</a>
+                                <a class="dropdown-item" href="{{path('photos')}}">Photos</a>
+                                <a class="dropdown-item" href="{{path('partenaires')}}">Partenaires</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Club</a>
+                            <div class="dropdown-menu" aria-labelledby="dropdown02">
+                                <a class="dropdown-item" href="{{path('infosClub')}}">Informations</a>
+                                <a class="dropdown-item" href="{{path('contact')}}">Contact</a>
+                                <a class="dropdown-item" href="{{path('reservations')}}">Réservation du local</a>
+                            </div>
+                        </li>
+                        {#<li class="nav-item">
+                            <a class="nav-link" href="#">Club</a>
+                        </li>#}
+                        <li class="li-blank d-none d-sm-block"></li>
+
+                        <li class="nav-item" id="nav-right">
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <a class="nav-link" href="/logout">Déconnexion</a>
+                            {% else %}
+                            <a class="nav-link" href="/register">Inscription</a>
+                            {% endif %}
+                        </li>
+                        <li class="li-blank"></li>
+                        {#<li class="nav-item">
+                            <a class="nav-link disabled" href="#">Disabled</a>
+                        </li>#}
+
+                    </ul>
+                </div>
+            </nav>
         </header>
-
-        <nav class="navbar navbar-expand-md">
-            <span id="under-flag" class="d-none d-lg-block"></span>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/">Accueil</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Festival</a>
-                        <div class="dropdown-menu" aria-labelledby="dropdown01">
-                            <a class="dropdown-item" href="{{path('infosFest')}}">Informations</a>
-                            <a class="dropdown-item" href="{{path('newsIndex')}}">News</a>
-                            <a class="dropdown-item" href="{{path('planning')}}">Planning</a>
-                            <a class="dropdown-item" href="{{path('listeParties')}}">Liste des parties</a>
-                            <a class="dropdown-item" href="{{path('nouvellePartie')}}">Proposer une partie</a>
-                            <a class="dropdown-item" href="{{path('photos')}}">Photos</a>
-                            <a class="dropdown-item" href="{{path('partenaires')}}">Partenaires</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Club</a>
-                        <div class="dropdown-menu" aria-labelledby="dropdown02">
-                            <a class="dropdown-item" href="{{path('infosClub')}}">Informations</a>
-                            <a class="dropdown-item" href="{{path('contact')}}">Contact</a>
-                            <a class="dropdown-item" href="{{path('reservations')}}">Réservation du local</a>
-                        </div>
-                    </li>
-                    {#<li class="nav-item">
-                        <a class="nav-link" href="#">Club</a>
-                    </li>#}
-                    <li class="li-blank">
-
-                    </li>
-
-                    <li class="nav-item" id="nav-right">
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <a class="nav-link" href="/logout">Déconnexion</a>
-                        {% else %}
-                        <a class="nav-link" href="/register">Inscription</a>
-                        {% endif %}
-                    </li>
-                    <li class="li-blank"></li>
-                    {#<li class="nav-item">
-                        <a class="nav-link disabled" href="#">Disabled</a>
-                    </li>#}
-                    
-                </ul>
-            </div>
-        </nav>
-
-        <div id="sub-banner">
-
-        </div>
 
         <main role="main" class="container">
         {% for label, messages in app.flashes %}
