@@ -5,7 +5,7 @@ Site web du Festival de l’Œil Glauque
 
 ## Installation
 
-Pour installer le site localement, il faut au préalable avoir installé PHP7, Composer et MariaDB. L'installation varie selon la distribution mais est normalement relativement simple. 
+Pour installer le site localement, il faut au préalable avoir installé PHP7.3, Composer et MariaDB. L'installation varie selon la distribution mais est normalement relativement simple. 
 
  ### Exemple d'installation pour Fedora 28 : 
 
@@ -19,11 +19,14 @@ mysql_secure_installation # Pour finaliser et sécuriser
  ### Cas particulier d'Ubuntu (18.04)
 
 ```bash
-sudo apt-get install php-cli php-common php7.3-gmp php7.3-mysql php7.3-mbstring php7.3-xml composer
- # Installation de la dernière version de MariaDB, les dépots Debian sont rarement à jour
+sudo apt-get install composer
+ # Installation de la dernière version de php et MariaDB, les dépots Debian sont rarement à jour
+sudo add-apt-repository ppa:ondrej/php
+sudo apt-get install php7.3-common php7.3-cli php7.3-mysql php7.3-gmp php7.3-mbstring php7.3-xml
+ # MariaDB à présent
 sudo apt-get install software-properties-common
 sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
-sudo add-apt-repository 'deb [arch=amd64] http://mirror.zol.co.zw/mariadb/repo/10.3/ubuntu bionic main'
+sudo add-apt-repository 'deb [arch=amd64,arm64,ppc64el] http://mariadb.mirror.liquidtelecom.com/repo/10.4/ubuntu bionic main'
 sudo apt update
 sudo apt -y install mariadb-server mariadb-client
 # Vérifier l'installation de MariaDB
@@ -34,11 +37,11 @@ select version();
 
 * Télécharger et dézipper dans le dossier de votre choix la dernière version de php pour windows sur [windows.php.net](windows.php.net)
 * Ajouter le dossier de php à la variable d'environnement PATH (voir [PATH](#Mettre-à-jour-PATH))
-* Pour vérifier l'installation : créer un fichier test.php contenant `<?php echo phpinfo(); ?>`, l'exécuter depuis un terminal. La version de php doit s'afficher.
+* Depuis un terminal, `php -v"` pour vérifier l'installation. La version de php doit s'afficher.
 * Dans le fichier `php.ini`, décommenter les lignes `extension=gmp` et `extension=pdo_mysql`
-* Télécharger et installer Composer avec l'exécutable disponible sur [getcomposer.org](getcomposer.org).
+* Télécharger et installer Composer avec l'exécutable disponible sur [getcomposer.org](getcomposer.org). Redémarrer explorer.exe pour PATH.
 * Depuis un terminal, `composer --version` pour vérifier l'installation.
-* Télécharger et installer Symfony avec l'exécutable disponible sur [symfony.com](symfony.com).
+* Télécharger et installer Symfony avec l'exécutable disponible sur [symfony.com](symfony.com). Redémarrer explorer.exe pour PATH.
 * Depuis un terminal, `symfony check:requirements` pour vérifier l'installation.
 * Télécharger et installer MariaDB avec l'exécutable disponible sur [downloads.mariadb.org](downloads.mariadb.org). N'oublier pas de renseigner un mot de passe. Mettre à jour PATH.
 * Depuis un terminal, `mysql -u root -p --execute "select version()"` pour vérifier l'installation.
