@@ -13,4 +13,13 @@ class LocalReservationRepository extends ServiceEntityRepository
         parent::__construct($registry, LocalReservation::class);
     }
 
+    /**
+     * @return LocalReservation[]
+     */
+    public function getOrderedGameList(): array
+    {
+        return $this->createQueryBuilder('r')
+            ->getQuery()
+            ->getResult();
+    }
 }

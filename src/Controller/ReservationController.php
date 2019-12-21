@@ -17,7 +17,7 @@ class ReservationController extends CustomController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $reservation = new LocalReservation();
-        $form = $this->createForm(ReservationType::class, $reservation, array('slots' => $this->getCurrentEdition()->getGameSlots()));
+        $form = $this->createForm(ReservationType::class, $reservation, array());
 
         return $this->render('oeilglauque/reservations.html.twig', array(
             'dates' => $this->getCurrentEdition()->getDates(),

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -29,10 +30,14 @@ class LocalReservation
     private $forceOnlineSeats;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\GameSlot", inversedBy="games")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\Column(type="datetime")
      */
-    private $gameSlot;
+    private $date;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $duration;
 
     /**
      * @ORM\Column(type="boolean")
@@ -79,14 +84,26 @@ class LocalReservation
         return $this;
     }
 
-    public function getGameSlot(): ?GameSlot
+    public function getDate(): ?GameSlot
     {
-        return $this->gameSlot;
+        return $this->date;
     }
 
-    public function setGameSlot(?GameSlot $gameSlot): self
+    public function setDate(DateTime $dateTime): self
     {
-        $this->gameSlot = $gameSlot;
+        $this->date = $dateTime;
+
+        return $this;
+    }
+
+    public function getDuration(): ?GameSlot
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(float $duration): self
+    {
+        $this->duration = $duration;
 
         return $this;
     }
