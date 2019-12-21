@@ -3,8 +3,12 @@
 {% block body %}
 
         <h1>Réservations du local</h1>
-        <p>Il sera bientôt possible de réserver le local du club en ligne. En attendant, effectuez les réservations auprès du Bureau !</p>
-	<!-- Commentaire pour créer la branche -->
+        <p>La réponse vous sera envoyée via l'adress e-mail renseignée sur votre compte.</p>
+        <!-- <p>Il sera bientôt possible de réserver le local du club en ligne. En attendant, effectuez les réservations auprès du Bureau !</p>-->
+
+    {{ form(form) }}
+
+    <p>AN'hésitez pas à <a href="{{ path('contact') }}">nous contacter</a> en cas de doute !</p>
 
 
 {% endblock %}

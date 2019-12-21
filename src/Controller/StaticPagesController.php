@@ -55,15 +55,7 @@ class StaticPagesController extends CustomController {
             'dates' => $this->getCurrentEdition()->getDates(), 
         ));
     }
-
-    /**
-     * @Route("/reservations", name="reservations")
-     */
-    public function reservations() {
-        return $this->render('oeilglauque/reservations.html.twig', array(
-            'dates' => $this->getCurrentEdition()->getDates(), 
-        ));
-    }
+    
 
     /**
      * @Route("/photos", name="photos")
