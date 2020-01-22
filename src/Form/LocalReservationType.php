@@ -1,22 +1,16 @@
 <?php
 namespace App\Form;
 
-use App\Entity\Game;
-use App\Entity\GameSlot;
 use App\Entity\LocalReservation;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-class ReservationType extends AbstractType
+class LocalReservationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -29,9 +23,13 @@ class ReservationType extends AbstractType
                 'html5' => true,
                 'type' => 'datetime',
                 'placeholder' => '01/01/2020 15:30'*/))
-            ->add('duration',NumberType::class,array('label' => 'Durée (minutes)'))
-            ->add('note', TextareaType::class, array('label' => 'Note'))
+            // TODO: Better way to pick date & time
+
+            ->add('duration',IntegerType::class,array('label' => 'Durée (minutes)', 'invalid_message' => "Veuillez entrer un nombre"))
+            ->add('motif', TextareaType::class, array('label' => 'Motif'))
             ->add('save', SubmitType::class, array('label' => 'Valider'));
+        // TODO: Work on margins
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -3,8 +3,8 @@
 namespace App\Entity;
 
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use FG\ASN1\Universal\Integer;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\LocalReservationRepository")
@@ -25,17 +25,12 @@ class LocalReservation
     private $author;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $forceOnlineSeats;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $date;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="integer")
      */
     private $duration;
 
@@ -47,12 +42,13 @@ class LocalReservation
     /**
      * @ORM\Column(type="text")
      */
-    private $note;
+    private $motif;
 
 
     public function __construct()
     {
         $this->validated = false;
+        $this->date = new DateTime();
     }
 
     public function getId()
@@ -60,14 +56,14 @@ class LocalReservation
         return $this->id;
     }
 
-    public function getNote(): ?string
+    public function getMotif(): ?string
     {
-        return $this->note;
+        return $this->motif;
     }
 
-    public function setNote(string $note): self
+    public function setMotif(string $motif): self
     {
-        $this->note = $note;
+        $this->motif = $motif;
 
         return $this;
     }
@@ -84,7 +80,7 @@ class LocalReservation
         return $this;
     }
 
-    public function getDate(): ?GameSlot
+    public function getDate(): ?DateTime
     {
         return $this->date;
     }
@@ -96,7 +92,7 @@ class LocalReservation
         return $this;
     }
 
-    public function getDuration(): ?GameSlot
+    public function getDuration(): ?Integer
     {
         return $this->duration;
     }
