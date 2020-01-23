@@ -27,4 +27,17 @@ class LocalReservationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @return LocalReservation[]
+     */
+    public function getLocalReservationArchive(): array
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.date < :today')
+            ->setParameter('today', new \DateTime(), \Doctrine\DBAL\Types\Type::DATETIME)
+            ->addOrderBy('r.date', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -271,8 +271,11 @@ class AdminController extends CustomController {
      *     Gestion des reservations     *
      ************************************/
 
-    //TODO: Archives (being able to see old reservations)
-    //TODO: sent e-mails
+    /*****************
+     *     local     *
+     *****************/
+
+    //TODO: Send e-mails
     //TODO: Style
 
     /**
@@ -281,7 +284,8 @@ class AdminController extends CustomController {
     public function localReservationList() {
         $reservations = $this->getDoctrine()->getRepository(LocalReservation::class)->getLocalReservationList();
         return $this->render('oeilglauque/admin/localReservationList.html.twig', array(
-            'reservations' => $reservations
+            'reservations' => $reservations,
+            'archive' => false
         ));
     }
     /**
@@ -302,6 +306,8 @@ class AdminController extends CustomController {
      * @Route("/admin/reservations/local/delete/{id}", name="deleteLocalReservation")
      */
     public function deleteLocalReservation($id) {
+        $archive = false;
+
         $reservations = $this->getDoctrine()->getRepository(LocalReservation::class)->find($id);
         if ($reservations) {
             $this->getDoctrine()->getManager()->remove($reservations);
@@ -310,6 +316,22 @@ class AdminController extends CustomController {
         }
         return $this->redirectToRoute('localReservationList');
     }
+    /**
+     * @Route("/admin/reservations/local/archive", name="localReservationArchive")
+     */
+    public function localReservationArchive() {
+        $reservations = $this->getDoctrine()->getRepository(LocalReservation::class)->getLocalReservationArchive();
+        return $this->render('oeilglauque/admin/localReservationList.html.twig', array(
+            'reservations' => $reservations,
+            'archive' => true
+        ));
+
+    }
+
+    /*****************
+     *      jeux     *
+     *****************/
+    //TODO: réservation des jeux
 }
 
 ?>
