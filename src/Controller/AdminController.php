@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\LocalReservation;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -214,7 +215,7 @@ class AdminController extends CustomController {
     }
 
     /************************************
-     *      Gestion des parties      *
+     *       Gestion des parties        *
      ************************************/
 
     /**
@@ -264,6 +265,20 @@ class AdminController extends CustomController {
             $this->addFlash('success', "La partie a bien été supprimée.");
         }
         return $this->redirectToRoute('unvalidatedGamesList');
+    }
+
+    /************************************
+     *     Gestion des reservations     *
+     ************************************/
+
+    /**
+     * @Route("/admin/reservations/local", name="localReservationList")
+     */
+    public function localReservation() {
+        $reservations = $this->getDoctrine()->getRepository(LocalReservation::class)->getLocalReservationList(0, 10);
+        return $this->render('oeilglauque/admin/localReservationList.html.twig', array(
+            'reservations' => $reservations
+        ));
     }
 }
 

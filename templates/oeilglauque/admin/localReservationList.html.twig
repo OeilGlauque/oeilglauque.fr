@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+        <h1>Demandes de réservation du local</h1>
+    <!-- TODO: format -->
+    <!-- TODO: gérer les réservations déjà acceptées -->
+        {% for r in reservations %}
+            <div class="well">
+                <p>Demande par {{ r.getAuthor().getPseudo() }} ({{ r.getAuthor().getFirstName() }} {{ r.getAuthor().getName() }}, {{ r.getAuthor().getEmail() }})</p>
+                <p>Début : {{ r.getDate().format('D j M Y G:i') }}</p>
+                <p>Durée : {{ r.getDuration() }} minutes</p>
+                <p> Motif : {{ r.getMotif() }}</p>
+                <hr />
+                <!--<a href="{{ path('validateGame', {'id': r.getId()}) }}" class="btn btn-success">Valider cette réservation</a>
+                <a href="{{ path('deleteGame', {'id': r.getId()}) }}" class="btn btn-danger">Supprimer cette réservation</a>-->
+            </div><br />
+        {% else %}
+            <div class="row">
+                <p>Aucune demande de réservation du local. </p>
+            </div>
+        {% endfor %}
+        <br /><p><a href="{{ path('admin') }}">Retour à l'interface d'administration</a></p>
+
+{% endblock %}

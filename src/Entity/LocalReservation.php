@@ -80,7 +80,7 @@ class LocalReservation
         return $this;
     }
 
-    public function getDate(): ?DateTime
+    public function getDate(): DateTime
     {
         return $this->date;
     }
@@ -92,7 +92,7 @@ class LocalReservation
         return $this;
     }
 
-    public function getDuration(): ?Integer
+    public function getDuration(): ?int
     {
         return $this->duration;
     }
