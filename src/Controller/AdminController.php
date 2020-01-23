@@ -271,14 +271,44 @@ class AdminController extends CustomController {
      *     Gestion des reservations     *
      ************************************/
 
+    //TODO: Archives (being able to see old reservations)
+    //TODO: sent e-mails
+    //TODO: Style
+
     /**
      * @Route("/admin/reservations/local", name="localReservationList")
      */
-    public function localReservation() {
-        $reservations = $this->getDoctrine()->getRepository(LocalReservation::class)->getLocalReservationList(0, 10);
+    public function localReservationList() {
+        $reservations = $this->getDoctrine()->getRepository(LocalReservation::class)->getLocalReservationList();
         return $this->render('oeilglauque/admin/localReservationList.html.twig', array(
             'reservations' => $reservations
         ));
+    }
+    /**
+     * @Route("/admin/reservations/local/validate/{id}", name="validateLocalReservation")
+     */
+    public function validateLocalReservation($id) {
+        $reservations = $this->getDoctrine()->getRepository(LocalReservation::class)->find($id);
+        if($reservations) {
+            $reservations->setValidated(true);
+            $this->getDoctrine()->getManager()->persist($reservations);
+            $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', "La demande a bien été acceptée.");
+        }
+        return $this->redirectToRoute('localReservationList');
+    }
+
+    /**
+     * @Route("/admin/reservations/local/delete/{id}", name="deleteLocalReservation")
+     */
+    public function deleteLocalReservation($id) {
+        $reservations = $this->getDoctrine()->getRepository(LocalReservation::class)->find($id);
+        if ($reservations) {
+            $this->getDoctrine()->getManager()->remove($reservations);
+            $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', "La demande a bien été supprimée.");
+        }
+        return $this->redirectToRoute('localReservationList');
     }
 }
 

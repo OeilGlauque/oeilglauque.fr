@@ -17,13 +17,13 @@ class LocalReservationRepository extends ServiceEntityRepository
 
     /**
      * @return LocalReservation[]
-     * @throws Exception
      */
-    public function getLocalReservationList($start, $count): array
+    public function getLocalReservationList(): array
     {
         return $this->createQueryBuilder('r')
             ->where('r.date > :yesterday')
             ->setParameter('yesterday', new \DateTime('-1 day'), \Doctrine\DBAL\Types\Type::DATETIME)
+            ->addOrderBy('r.date', 'ASC')
             ->getQuery()
             ->getResult();
     }
