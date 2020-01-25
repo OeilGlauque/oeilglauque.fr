@@ -32,14 +32,32 @@ class ReservationController extends CustomController
             $entityManager->flush();
             $this->addFlash('info', "Votre réservation a bien été enregistrée, vous recevrez une confirmation par e-mail dès qu'elle sera acceptée.");
 
+            $this->sendmail($reservation, $this->get('swiftmailer.mailer.default'));
+
             return $this->redirectToRoute('index');
         }
-
 
         return $this->render('oeilglauque/reservations.html.twig', array(
             'dates' => $this->getCurrentEdition()->getDates(),
             'form' => $form->createView()
         ));
+    }
+
+    private function sendmail(LocalReservation $reservation, \Swift_Mailer $mailer) {
+        $message = (new \Swift_Message('Nouvelle demande de réservation du local FOG'))
+            ->setFrom('oeilglauque@gmail.com')
+            // ->setTo('oeilglauque@gmail.com')
+            ->setTo($reservation->getAuthor()->getEmail())
+            ->setBody(
+                $this->renderView(
+                // templates/emails/registration.html.twig
+                    'oeilglauque/emails/nouvelleReservation.html.twig',
+                    ['reservation' => $reservation]
+                ),
+                'text/html'
+            );
+
+        $mailer->send($message);
     }
 }
 ?>

@@ -35,7 +35,9 @@ class LocalReservationRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('r')
             ->where('r.date < :today')
+            ->andWhere('r.date > :lastyear')
             ->setParameter('today', new \DateTime(), \Doctrine\DBAL\Types\Type::DATETIME)
+            ->setParameter('lastyear', new \DateTime('-1 year'), \Doctrine\DBAL\Types\Type::DATETIME)
             ->addOrderBy('r.date', 'ASC')
             ->getQuery()
             ->getResult();
