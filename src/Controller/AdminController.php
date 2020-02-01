@@ -282,7 +282,7 @@ class AdminController extends CustomController {
      * @Route("/admin/reservations/local", name="localReservationList")
      */
     public function localReservationList() {
-        $reservations =php $this->getDoctrine()->getRepository(LocalReservation::class)->getLocalReservationList();
+        $reservations =$this->getDoctrine()->getRepository(LocalReservation::class)->getLocalReservationList();
         return $this->render('oeilglauque/admin/localReservationList.html.twig', array(
             'reservations' => $reservations,
             'archive' => false
