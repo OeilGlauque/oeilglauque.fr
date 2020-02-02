@@ -30,9 +30,10 @@ class ReservationController extends CustomController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($reservation);
             $entityManager->flush();
-            $this->addFlash('info', "Votre réservation a bien été enregistrée, vous recevrez une confirmation par e-mail dès qu'elle sera acceptée.");
 
             $this->sendmail($reservation, $this->get('swiftmailer.mailer.default'));
+
+            $this->addFlash('info', "Votre réservation a bien été enregistrée, vous recevrez une confirmation par e-mail dès qu'elle sera acceptée.");
 
             return $this->redirectToRoute('index');
         }
@@ -50,7 +51,6 @@ class ReservationController extends CustomController
             ->setTo($reservation->getAuthor()->getEmail())
             ->setBody(
                 $this->renderView(
-                // templates/emails/registration.html.twig
                     'oeilglauque/emails/nouvelleReservation.html.twig',
                     ['reservation' => $reservation]
                 ),

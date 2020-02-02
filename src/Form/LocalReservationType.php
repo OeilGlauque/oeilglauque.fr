@@ -25,7 +25,8 @@ class LocalReservationType extends AbstractType
                 'placeholder' => '01/01/2020 15:30'*/))
             // TODO: Better way to pick date & time
 
-            ->add('duration',IntegerType::class,array('label' => 'Durée (minutes)', 'invalid_message' => "Veuillez entrer un nombre"))
+            ->add('duration',IntegerType::class,array('label' => 'Durée (minutes)', 'invalid_message' => "Veuillez entrer un nombre",
+                'min' => 15, 'max' => 300, ))
             ->add('motif', TextareaType::class, array('label' => 'Motif'))
             ->add('save', SubmitType::class, array('label' => 'Valider'));
         // TODO: Work on margins
