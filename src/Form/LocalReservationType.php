@@ -26,7 +26,7 @@ class LocalReservationType extends AbstractType
             // TODO: Better way to pick date & time
 
             ->add('duration',IntegerType::class,array('label' => 'Durée (minutes)', 'invalid_message' => "Veuillez entrer un nombre",
-                'min' => 15, 'max' => 300, ))
+                'attr' => ['min'=>'15', 'max'=>'300', 'step'=>'15']))
             ->add('motif', TextareaType::class, array('label' => 'Motif'))
             ->add('save', SubmitType::class, array('label' => 'Valider'));
         // TODO: Work on margins
