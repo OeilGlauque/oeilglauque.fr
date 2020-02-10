@@ -47,7 +47,7 @@ class ReservationController extends CustomController
     private function sendmail(LocalReservation $reservation, \Swift_Mailer $mailer) {
         $message = (new \Swift_Message('Nouvelle demande de réservation du local FOG'))
             ->setFrom('oeilglauque@gmail.com')
-            // ->setTo('oeilglauque@gmail.com')
+            // ->setBcc('oeilglauque@gmail.com')
             ->setTo($reservation->getAuthor()->getEmail())
             ->setBody(
                 $this->renderView(

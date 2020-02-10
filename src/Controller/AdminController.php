@@ -12,6 +12,7 @@ use App\Entity\GameSlot;
 use App\Entity\Game;
 use App\Entity\News;
 use App\Form\NewsType;
+use Symfony\Component\Validator\Constraints\Date;
 
 class AdminController extends CustomController {
 
@@ -292,11 +293,18 @@ class AdminController extends CustomController {
      * @Route("/admin/reservations/local/validate/{id}", name="validateLocalReservation")
      */
     public function validateLocalReservation($id) {
-        $reservations = $this->getDoctrine()->getRepository(LocalReservation::class)->find($id);
-        if($reservations) {
-            $reservations->setValidated(true);
-            $this->getDoctrine()->getManager()->persist($reservations);
+        $reservation = $this->getDoctrine()->getRepository(LocalReservation::class)->find($id);
+        if($reservation) {
+            $reservation->setValidated(true);
+            $this->getDoctrine()->getManager()->persist($reservation);
             $this->getDoctrine()->getManager()->flush();
+
+            $this->sendmail('Demande de réservation du local FOG Acceptée !',
+                $reservation->getAuthor()->getEmail(),
+                'confirmationReservation',
+                ['reservation' => $reservation],
+                $this->get('swiftmailer.mailer.default'));
+
             $this->addFlash('success', "La demande a bien été acceptée.");
         }
         return $this->redirectToRoute('localReservationList');
@@ -308,10 +316,19 @@ class AdminController extends CustomController {
     public function deleteLocalReservation($id) {
         $archive = false;
 
-        $reservations = $this->getDoctrine()->getRepository(LocalReservation::class)->find($id);
-        if ($reservations) {
-            $this->getDoctrine()->getManager()->remove($reservations);
+        $reservation = $this->getDoctrine()->getRepository(LocalReservation::class)->find($id);
+        if ($reservation) {
+            $this->getDoctrine()->getManager()->remove($reservation);
             $this->getDoctrine()->getManager()->flush();
+
+            if($reservation->getDate() < new \DateTime()) {
+                $this->sendmail('Demande de réservation du local FOG refusée',
+                    $reservation->getAuthor()->getEmail(),
+                    'suppressionReservation',
+                    ['reservation' => $reservation],
+                    $this->get('swiftmailer.mailer.default'));
+            }
+
             $this->addFlash('success', "La demande a bien été supprimée.");
         }
         return $this->redirectToRoute('localReservationList');
@@ -326,6 +343,22 @@ class AdminController extends CustomController {
             'archive' => true
         ));
 
+    }
+
+    private function sendmail(string $obj, string $to, string $templateName, array $data, \Swift_Mailer $mailer) {
+        $message = (new \Swift_Message($obj))
+            ->setFrom('oeilglauque@gmail.com')
+            // ->setBcc('oeilglauque@gmail.com')
+            ->setTo($to)
+            ->setBody(
+                $this->renderView(
+                    'oeilglauque/emails/' . $templateName . '.html.twig',
+                    $data
+                ),
+                'text/html'
+            );
+
+        $mailer->send($message);
     }
 
     /*****************

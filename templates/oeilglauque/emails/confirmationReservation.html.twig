@@ -1,0 +1,14 @@
+<p>
+Bonjour {{ reservation.getAuthor().getPseudo() }} !
+</p>
+
+<p>
+Nous vous confirmons votre réservation du {{ reservation.getDate().format('D j M Y G:i') }} (durée : {{ reservation.getDuration() }}  minutes)
+</p>
+
+<p>
+Pour rappel, le motif était :
+{{ reservation.getMotif() }}
+</p>
+
+<p>Foguement</p>
