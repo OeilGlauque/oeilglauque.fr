@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Edition;
 
-class CustomController extends Controller {
+class CustomController extends AbstractController {
     
     
     public function getCurrentEdition(): ?Edition {
