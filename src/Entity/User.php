@@ -101,6 +101,10 @@ class User implements UserInterface, \Serializable
      */
     private $partiesJouees;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\LocalReservation", mappedBy="author")
+     */
+    private $localReservations;
 
     public function __construct()
     {
@@ -348,6 +352,36 @@ class User implements UserInterface, \Serializable
         if ($this->partiesJouees->contains($partiesJouee)) {
             $this->partiesJouees->removeElement($partiesJouee);
             $partiesJouee->removePlayer($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LocalReservation[]
+     */
+    public function getLocalReservation(): Collection
+    {
+        return $this->localReservations;
+    }
+
+    public function addLocalReservation(LocalReservation $localReservation): self
+    {
+        if (!$this->localReservations->contains($localReservation)) {
+            $this->localReservations[] = $localReservation;
+            $localReservation->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLocalReservation(LocalReservation $localReservation): self
+    {
+        if ($this->localReservations->contains($localReservation)) {
+            $this->localReservations->removeElement($localReservation);
+            if ($localReservation->getAuthor() === $this) {
+                $localReservation->setAuthor(null);
+            }
         }
 
         return $this;

@@ -19,7 +19,7 @@ class LocalReservation
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="partiesOrganisees")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="localReservations")
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
