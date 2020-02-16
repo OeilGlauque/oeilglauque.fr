@@ -3,7 +3,7 @@ Bonjour {{ reservation.getAuthor().getPseudo() }} !
 </p>
 
 <p>
-Nous vous confirmons votre réservation du {{ reservation.getDate().format('D j M Y G:i') }} (durée : {{ reservation.getDuration() }}  minutes)
+Nous vous confirmons votre réservation du {{ reservation.getDate().format("D j M Y") }} à {{ reservation.getTime().format("H:m") }} (durée : {{ reservation.getDuration() }}  minutes)
 </p>
 
 <p>

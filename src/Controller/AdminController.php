@@ -276,9 +276,6 @@ class AdminController extends CustomController {
      *     local     *
      *****************/
 
-    //TODO: Send e-mails
-    //TODO: Style
-
     /**
      * @Route("/admin/reservations/local", name="localReservationList")
      */
@@ -342,7 +339,6 @@ class AdminController extends CustomController {
             'reservations' => $reservations,
             'archive' => true
         ));
-
     }
 
     private function sendmail(string $obj, string $to, string $templateName, array $data, \Swift_Mailer $mailer) {

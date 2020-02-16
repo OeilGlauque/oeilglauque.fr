@@ -4,7 +4,7 @@ Email : <a href="mailto:{{ reservation.getAuthor().getEmail() }}">{{ reservation
 </p>
 
 <p>
-Le {{ reservation.getDate().format('D j M Y G:i') }} pendant {{ reservation.getDuration() }}  minutes
+Le {{ reservation.getDate().format("D j M Y") }} à {{ reservation.getTime().format("H:m") }} pendant {{ reservation.getDuration() }}  minutes
 </p>
 
 <p>

@@ -21,8 +21,6 @@ class ReservationController extends CustomController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            //TODO: check up if everything is OK
-
             $user = $this->getUser();
             $reservation->setAuthor($user);
 
@@ -56,7 +54,6 @@ class ReservationController extends CustomController
                 ),
                 'text/html'
             );
-
         $mailer->send($message);
     }
 }

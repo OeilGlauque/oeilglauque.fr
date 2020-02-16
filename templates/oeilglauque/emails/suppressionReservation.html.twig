@@ -3,7 +3,7 @@ Bonjour {{ reservation.getAuthor().getPseudo() }},
 </p>
 
 <p>
-Malheureusement, il nous est impossible de satisfaire votre demande de réservation du {{ reservation.getDate().format('D j M Y G:i') }}.
+Malheureusement, il nous est impossible de satisfaire votre demande de réservation du {{ reservation.getDate().format("D j M Y") }} à {{ reservation.getTime().format("H:m") }}.
 </p>
 
 <p>

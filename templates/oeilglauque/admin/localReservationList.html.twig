@@ -7,7 +7,7 @@
     {% for r in reservations %}
         <div class="well">
             <p>Demande par {{ r.getAuthor().getPseudo() }} ({{ r.getAuthor().getFirstName() }} {{ r.getAuthor().getName() }}, {{ r.getAuthor().getEmail() }})</p>
-            <p>Début : {{ r.getDate().format('D j M Y G:i') }}</p>
+            <p>Début : {{ r.getDate().format("D j M Y") }} à {{ r.getTime().format("H:m") }} </p>
             <p>Durée : {{ r.getDuration() }} minutes</p>
             <p> Motif : {{ r.getMotif() }}</p>
             <hr />
