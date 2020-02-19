@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\LocalReservation;
+use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -297,7 +298,7 @@ class AdminController extends CustomController {
             $this->getDoctrine()->getManager()->flush();
 
             $this->sendmail('Demande de réservation du local FOG Acceptée !',
-                $reservation->getAuthor()->getEmail(),
+                [$reservation->getAuthor()->getEmail() => $reservation->getAuthor()->getPseudo()],
                 'confirmationReservation',
                 ['reservation' => $reservation],
                 $this->get('swiftmailer.mailer.default'));
@@ -320,7 +321,7 @@ class AdminController extends CustomController {
 
             if($reservation->getDate() < new \DateTime()) {
                 $this->sendmail('Demande de réservation du local FOG refusée',
-                    $reservation->getAuthor()->getEmail(),
+                [$reservation->getAuthor()->getEmail() => $reservation->getAuthor()->getPseudo()],
                     'suppressionReservation',
                     ['reservation' => $reservation],
                     $this->get('swiftmailer.mailer.default'));
@@ -341,10 +342,13 @@ class AdminController extends CustomController {
         ));
     }
 
-    private function sendmail(string $obj, string $to, string $templateName, array $data, \Swift_Mailer $mailer) {
+    private function sendmail(string $obj, array $to, string $templateName, array $data, \Swift_Mailer $mailer) {
+        $dotenv = new Dotenv();
+        $dotenv->load(__DIR__.'/../../.env');
+
         $message = (new \Swift_Message($obj))
-            ->setFrom(['oeilglauque@gmail.com' => 'L\'équipe du FOG'])
-            // ->setBcc('oeilglauque@gmail.com')
+            ->setFrom([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
+            ->setBcc($_ENV['MAILER_ADDRESS'])
             ->setTo($to)
             ->setBody(
                 $this->renderView(
@@ -355,6 +359,11 @@ class AdminController extends CustomController {
             );
 
         $mailer->send($message);
+
+        // TODO find a way to avoid this ugly code or to make BCC to self working
+        if(array_keys($to)[0] != $_ENV['MAILER_ADDRESS']) {
+            $this->sendmail($obj, [$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'], $templateName, $data, $mailer);
+        }
     }
 
     /*****************

@@ -6,6 +6,7 @@ use App\Entity\LocalReservation;
 use App\Form\LocalReservationType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Dotenv\Dotenv;
 
 class ReservationController extends CustomController
 {
@@ -43,10 +44,27 @@ class ReservationController extends CustomController
     }
 
     private function sendmail(LocalReservation $reservation, \Swift_Mailer $mailer) {
+        $dotenv = new Dotenv();
+        $dotenv->load(__DIR__.'/../../.env');
+
+
         $message = (new \Swift_Message('Nouvelle demande de réservation du local FOG'))
-            ->setFrom(['oeilglauque@gmail.com' => 'L\'équipe du FOG'])
-            // ->setBcc('oeilglauque@gmail.com')
-            ->setTo($reservation->getAuthor()->getEmail())
+            ->setFrom([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
+            ->setBcc($_ENV['MAILER_ADDRESS'])
+            ->setTo([$reservation->getAuthor()->getEmail() => $reservation->getAuthor()->getPseudo()])
+            ->setBody(
+                $this->renderView(
+                    'oeilglauque/emails/nouvelleReservation.html.twig',
+                    ['reservation' => $reservation]
+                ),
+                'text/html'
+            );
+        $mailer->send($message);
+
+        // TODO find a way to avoid this ugly code or to make BCC to self working
+        $message = (new \Swift_Message('Nouvelle demande de réservation du local FOG'))
+            ->setFrom([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
+            ->setTo([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
             ->setBody(
                 $this->renderView(
                     'oeilglauque/emails/nouvelleReservation.html.twig',
