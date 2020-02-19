@@ -343,7 +343,7 @@ class AdminController extends CustomController {
 
     private function sendmail(string $obj, string $to, string $templateName, array $data, \Swift_Mailer $mailer) {
         $message = (new \Swift_Message($obj))
-            ->setFrom('oeilglauque@gmail.com')
+            ->setFrom(['oeilglauque@gmail.com' => 'L\'équipe du FOG'])
             // ->setBcc('oeilglauque@gmail.com')
             ->setTo($to)
             ->setBody(

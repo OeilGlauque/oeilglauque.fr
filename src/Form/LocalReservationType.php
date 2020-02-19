@@ -35,7 +35,6 @@ class LocalReservationType extends AbstractType
             ->add('motif', TextareaType::class, array('label' => 'Motif'))
 
             ->add('save', SubmitType::class, array('label' => 'Valider'));
-        // TODO: Work on margins (may be fixed with new style guide ?)
     }
 
     public function configureOptions(OptionsResolver $resolver)
