@@ -8,12 +8,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Dotenv\Dotenv;
 
-class ReservationController extends CustomController
+class LocalReservationController extends CustomController
 {
     /**
-     * @Route("/reservations", name="reservations")
+     * @Route("/reservations/local", name="localReservation")
      */
-    public function reservations(Request $request)
+    public function localReservation(Request $request)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -37,7 +37,7 @@ class ReservationController extends CustomController
             return $this->redirectToRoute('index');
         }
 
-        return $this->render('oeilglauque/reservations.html.twig', array(
+        return $this->render('oeilglauque/localReservation.html.twig', array(
             'dates' => $this->getCurrentEdition()->getDates(),
             'form' => $form->createView()
         ));
