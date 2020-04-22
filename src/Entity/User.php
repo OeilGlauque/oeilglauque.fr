@@ -106,6 +106,11 @@ class User implements UserInterface, \Serializable
      */
     private $localReservations;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\BoardGameReservation", mappedBy="author")
+     */
+    private $boardGameReservations;
+
     public function __construct()
     {
         $this->newsRedacted = new ArrayCollection();
@@ -115,6 +120,7 @@ class User implements UserInterface, \Serializable
         $this->isActive = true;
         $this->partiesOrganisees = new ArrayCollection();
         $this->partiesJouees = new ArrayCollection();
+        $this->boardGameReservations = new ArrayCollection();
     }
 
     public function getId()
@@ -381,6 +387,37 @@ class User implements UserInterface, \Serializable
             $this->localReservations->removeElement($localReservation);
             if ($localReservation->getAuthor() === $this) {
                 $localReservation->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BoardGameReservation[]
+     */
+    public function getBoardGameReservations(): Collection
+    {
+        return $this->boardGameReservations;
+    }
+
+    public function addBoardGameReservation(BoardGameReservation $boardGameReservation): self
+    {
+        if (!$this->boardGameReservations->contains($boardGameReservation)) {
+            $this->boardGameReservations[] = $boardGameReservation;
+            $boardGameReservation->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBoardGameReservation(BoardGameReservation $boardGameReservation): self
+    {
+        if ($this->boardGameReservations->contains($boardGameReservation)) {
+            $this->boardGameReservations->removeElement($boardGameReservation);
+            // set the owning side to null (unless already changed)
+            if ($boardGameReservation->getAuthor() === $this) {
+                $boardGameReservation->setAuthor(null);
             }
         }
 
