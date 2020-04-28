@@ -54,7 +54,7 @@ class LocalReservationController extends CustomController
             ->setTo([$reservation->getAuthor()->getEmail() => $reservation->getAuthor()->getPseudo()])
             ->setBody(
                 $this->renderView(
-                    'oeilglauque/emails/nouvelleReservation.html.twig',
+                    'oeilglauque/emails/localReservation/nouvelleReservation.html.twig',
                     ['reservation' => $reservation]
                 ),
                 'text/html'
@@ -67,7 +67,7 @@ class LocalReservationController extends CustomController
             ->setTo([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
             ->setBody(
                 $this->renderView(
-                    'oeilglauque/emails/nouvelleReservation.html.twig',
+                    'oeilglauque/emails//localReservation/nouvelleReservation.html.twig',
                     ['reservation' => $reservation]
                 ),
                 'text/html'

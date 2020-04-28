@@ -1,5 +1,16 @@
 {% extends 'base.html.twig' %}
 
+{% block scripts %}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.select2multiple').select2();
+        });
+    </script>
+{% endblock %}
+
 {% block body %}
 
         <h1>Réservations de jeux</h1>
@@ -7,7 +18,7 @@
 
     {{ form(form) }}
 
-    <h2>Liste des jeux (affichage temporaire)</h2>
+    <!--<h2>Liste des jeux</h2>
     <table>
         <tr>
             <th scope="col">id</th>
@@ -20,16 +31,16 @@
         </tr>
         {% for g in boardGames %}
             <tr>
-                <td>{{ g.id }}</td>
-                <td>{{ g.name }}</td>
-                <td>{{ g.year }}</td>
-                <td>{% if g.price != null %}{{ g.price | number_format(2, ',', ' ') }} € {% endif %}</td>
-                <td>{{ g.missing }}</td>
-                <td>{{ g.excess }}</td>
-                <td>{{ g.note }}</td>
+                <td>{{ g.getId() }}</td>
+                <td>{{ g.getName() }}</td>
+                <td>{{ g.getYear() }}</td>
+                <td>{% if g.getPrice() != null %}{{ g.getPrice() | number_format(2, ',', ' ') }} € {% endif %}</td>
+                <td>{{ g.getMissing() }}</td>
+                <td>{{ g.getExcess() }}</td>
+                <td>{{ g.getNote() }}</td>
             </tr>
         {% endfor %}
-    </table>
+    </table>-->
 
     <br>
     <p>N'hésitez pas à <a href="{{ path('contact') }}">nous contacter</a> en cas de doute !</p>

@@ -56,6 +56,7 @@ class BoardGameReservation
 
     public function __construct()
     {
+        $this->validated = false;
         $this->boardGames = new ArrayCollection();
     }
 
