@@ -425,12 +425,12 @@ class AdminController extends CustomController {
         return $this->redirectToRoute('boardGameReservationList');
     }
     /**
-     * @Route("/admin/reservations/local/archive", name="boardGameReservationArchive")
+     * @Route("/admin/reservations/boardGame/archive", name="boardGameReservationArchive")
      */
     public function boardGameReservationArchive()
     {
-        $reservations = $this->getDoctrine()->getRepository(BoardGameReservation::class)->getLocalReservationArchive();
-        return $this->render('oeilglauque/admin/localReservationList.html.twig', array(
+        $reservations = $this->getDoctrine()->getRepository(BoardGameReservation::class)->getBoardGameReservationArchive();
+        return $this->render('oeilglauque/admin/boardGameReservationList.html.twig', array(
             'reservations' => $reservations,
             'archive' => true
         ));

@@ -203,11 +203,24 @@
 	<ul>
 		{% for g in reservation.getBoardGames() %}
 			<li>
-				{{ g.getName() }} ({{ g.getYear() }}, {% if g.getPrice() != null %}{{ g.getPrice() | number_format(2, ',', ' ') }} € {% endif %}) ; Manquant : {{ g.getMissing() }} ; Surplus : {{ g.getExcess() }}. ({{ g.getNote() }})
+				{{ g.getName() }} ({{ g.getYear() }}{% if g.getPrice() != null %}, {{ g.getPrice() | number_format(2, ',', ' ') }} €{% endif %})
+				{% if ((g.getMissing() != null) or (g.getExcess() != null) or (g.getNote() != null)) %}
+					<ul>
+						{% if g.getMissing() != null %}
+							<li>Pièces manquantes : {{ g.getMissing() }}</li>
+						{% endif %}
+						{% if g.getExcess() != null %}
+							<li>Pièces en trop : {{ g.getExcess() }}</li>
+						{% endif %}
+						{% if g.getNote() != null %}
+							<li>Note : {{ g.getNote() }}</li>
+						{% endif %}
+					</ul>
+				{% endif %}
 			</li>
 		{% endfor %}
 	</ul>
-	<p style="font-size: 14px; line-height: 1.5; text-align: center; font-family: lucida sans unicode, lucida grande, sans-serif; word-break: break-word; mso-line-height-alt: 21px; margin: 0;">Note {{ reservation.getNote() }}</p>
+	<p style="font-size: 14px; line-height: 1.5; text-align: center; font-family: lucida sans unicode, lucida grande, sans-serif; word-break: break-word; mso-line-height-alt: 21px; margin: 0;">Note : {{ reservation.getNote() }}</p>
 </div>
 </div>
 <!--[if mso]></td></tr></table><![endif]-->
