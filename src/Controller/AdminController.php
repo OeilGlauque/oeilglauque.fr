@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\BoardGameReservation;
 use App\Entity\LocalReservation;
+use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -297,8 +299,8 @@ class AdminController extends CustomController {
             $this->getDoctrine()->getManager()->flush();
 
             $this->sendmail('Demande de réservation du local FOG Acceptée !',
-                $reservation->getAuthor()->getEmail(),
-                'confirmationReservation',
+                [$reservation->getAuthor()->getEmail() => $reservation->getAuthor()->getPseudo()],
+                'localReservation/confirmationReservation',
                 ['reservation' => $reservation],
                 $this->get('swiftmailer.mailer.default'));
 
@@ -320,8 +322,8 @@ class AdminController extends CustomController {
 
             if($reservation->getDate() < new \DateTime()) {
                 $this->sendmail('Demande de réservation du local FOG refusée',
-                    $reservation->getAuthor()->getEmail(),
-                    'suppressionReservation',
+                [$reservation->getAuthor()->getEmail() => $reservation->getAuthor()->getPseudo()],
+                    'localReservation/suppressionReservation',
                     ['reservation' => $reservation],
                     $this->get('swiftmailer.mailer.default'));
             }
@@ -341,10 +343,13 @@ class AdminController extends CustomController {
         ));
     }
 
-    private function sendmail(string $obj, string $to, string $templateName, array $data, \Swift_Mailer $mailer) {
+    private function sendmail(string $obj, array $to, string $templateName, array $data, \Swift_Mailer $mailer) {
+        $dotenv = new Dotenv();
+        $dotenv->load(__DIR__.'/../../.env');
+
         $message = (new \Swift_Message($obj))
-            ->setFrom('oeilglauque@gmail.com')
-            // ->setBcc('oeilglauque@gmail.com')
+            ->setFrom([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
+            ->setBcc($_ENV['MAILER_ADDRESS'])
             ->setTo($to)
             ->setBody(
                 $this->renderView(
@@ -355,12 +360,81 @@ class AdminController extends CustomController {
             );
 
         $mailer->send($message);
+
+        // TODO find a way to avoid this ugly code or to make BCC to self working
+        if(array_keys($to)[0] != $_ENV['MAILER_ADDRESS']) {
+            $this->sendmail($obj, [$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'], $templateName, $data, $mailer);
+        }
     }
 
     /*****************
      *      jeux     *
      *****************/
-    //TODO: réservation des jeux
+    /**
+     * @Route("/admin/reservations/boardGame", name="boardGameReservationList")
+     */
+    public function boardGameReservationList() {
+        $reservations =$this->getDoctrine()->getRepository(BoardGameReservation::class)->getBoardGameReservationList();
+        return $this->render('oeilglauque/admin/boardGameReservationList.html.twig', array(
+            'reservations' => $reservations,
+            'archive' => false
+        ));
+    }
+    /**
+     * @Route("/admin/reservations/boardGame/validate/{id}", name="validateBoardGameReservation")
+     */
+    public function validateBoardGameReservation($id) {
+        $reservation = $this->getDoctrine()->getRepository(BoardGameReservation::class)->find($id);
+        if($reservation) {
+            $reservation->setValidated(true);
+            $this->getDoctrine()->getManager()->persist($reservation);
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->sendmail('Demande de réservation de jeu au FOG Acceptée !',
+                [$reservation->getAuthor()->getEmail() => $reservation->getAuthor()->getPseudo()],
+                'boardGameReservation/confirmationReservation',
+                ['reservation' => $reservation],
+                $this->get('swiftmailer.mailer.default'));
+
+            $this->addFlash('success', "La demande a bien été acceptée.");
+        }
+        return $this->redirectToRoute('boardGameReservationList');
+    }
+
+    /**
+     * @Route("/admin/reservations/boardGame/delete/{id}", name="deleteBoardGameReservation")
+     */
+    public function deleteBoardGameReservation($id) {
+        $archive = false;
+
+        $reservation = $this->getDoctrine()->getRepository(BoardGameReservation::class)->find($id);
+        if ($reservation) {
+            $this->getDoctrine()->getManager()->remove($reservation);
+            $this->getDoctrine()->getManager()->flush();
+
+            if($reservation->getDate() < new \DateTime()) {
+                $this->sendmail('Demande de réservation de jeu au FOG refusée',
+                    [$reservation->getAuthor()->getEmail() => $reservation->getAuthor()->getPseudo()],
+                    'boardGameReservation/suppressionReservation',
+                    ['reservation' => $reservation],
+                    $this->get('swiftmailer.mailer.default'));
+            }
+
+            $this->addFlash('success', "La demande a bien été supprimée.");
+        }
+        return $this->redirectToRoute('boardGameReservationList');
+    }
+    /**
+     * @Route("/admin/reservations/boardGame/archive", name="boardGameReservationArchive")
+     */
+    public function boardGameReservationArchive()
+    {
+        $reservations = $this->getDoctrine()->getRepository(BoardGameReservation::class)->getBoardGameReservationArchive();
+        return $this->render('oeilglauque/admin/boardGameReservationList.html.twig', array(
+            'reservations' => $reservations,
+            'archive' => true
+        ));
+    }
 }
 
 ?>

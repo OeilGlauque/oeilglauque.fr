@@ -55,12 +55,15 @@ Certains installateurs modifient Path par eux-même. Néanmoins, il reste néces
 
 ### Suite de l'installation
 
-Une fois le git cloné, il faut faire une copie de `.env.dist` en `.env`. Ensuite, on peut configurer localement le connecteur MariaDB dans le fichier `.env` selon votre installation :
+Une fois le git cloné, il faut faire une copie de `.env.dist` en `.env`. Ensuite, on peut configurer localement le connecteur MariaDB dans le fichier `.env` selon votre installation. On en profite aussi pour paramétrer le système de mail :
 
 ```bash
 DATABASE_URL=mysql://user:password@127.0.0.1:3306/databaseName
  # Remplacer user et password par ce que vous avez rempli lors de l'installation de MariaDB
  # Remplacer databaseName par le nom que vous voulez donner à la base de donnée
+MAILER_URL=gmail://fogfogtest@gmail.com:of@5991.diia2D@localhost
+MAILER_ADDRESS=fogfogtest@gmail.com
+ # Cette adresse gmail sert de test pour le système de mail
 ```
 
 Il ne reste plus qu'à installer les dépendances, effectuer une migration de la base de données et lancer le serveur de développement : 
@@ -73,6 +76,12 @@ php bin/console doctrine:migrations:migrate
 php bin/console server:run
 # Ajouter --no-interaction à une commande si cette dernière plante en posant une question
 ```
+
+Pour remplir la base de donnée actuellement pleine de table vide, on a à disposition une sauvegarde de bdd factice que l'on peut injecter en utilisant, dans le shell MySQL, la commande `source chemin/vers/la/fogdbsample.sql`.
+En particulier, les utilisateurs enregistrés sont :
+- root (pwd : root)
+- TheBoss (pwd : portal)
+- Ours de markarth (pwd : skyrim)
 
 ## Déploiement
 
