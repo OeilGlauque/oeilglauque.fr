@@ -16,6 +16,8 @@ use App\Form\UserType;
 use App\Form\UserEditType;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SecurityController extends CustomController
 {
@@ -155,6 +157,88 @@ class SecurityController extends CustomController
             array(
                 'form' => $form->createView(), 
                 'pseudo' => $user->getPseudo(), 
+                'dates' => $this->getCurrentEdition()->getDates(), 
+            )
+        );
+    }
+
+    /**
+     * @Route("/forgotpwd", name="forgotPwd")
+     */
+    public function forgotPwd(Request $request, \Swift_Mailer $mailer, TokenGeneratorInterface $tokenGenerator) {
+        if ($request->isMethod('POST')) {
+            $email = $request->request->get('email');
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $user = $entityManager->getRepository(User::class)->findOneByEmail($email);
+
+            if ($user === null) {
+                $this->addFlash('danger', 'Email Inconnu');
+            } else {
+                $token = $tokenGenerator->generateToken();
+                $user->setResetToken($token);
+                $entityManager->flush();
+
+                $url = $this->generateUrl('resetPwd', array('token' => $token), UrlGeneratorInterface::ABSOLUTE_URL);
+
+                $this->addFlash('danger', $url . $user->getName());
+                
+                $message = (new \Swift_Message('Demande de réinitialisation de mot de passe'))
+                ->setFrom([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
+                ->setTo([$user->getEmail() => $user->getPseudo()])
+                ->setBody(
+                    $this->renderView(
+                        'oeilglauque/emails/resetPwdRequest.html.twig',
+                        ['user' => $user,
+                        'url' => $url]
+                    ),
+                    'text/html'
+                );
+                $mailer->send($message);
+
+                $this->addFlash('notice', 'Mail envoyé');
+                return $this->redirectToRoute('index');
+            }
+        }
+
+        $token = $tokenGenerator->generateToken();
+
+        return $this->render(
+            'oeilglauque/forgotPwd.html.twig',
+            array(
+                'dates' => $this->getCurrentEdition()->getDates(), 
+            )
+        );
+    }
+    
+    /**
+     * @Route("/resetpwd/{token}", name="resetPwd")
+     */
+    public function resetPwd(Request $request, string $token, UserPasswordEncoderInterface $passwordEncoder) {
+
+        if ($request->isMethod('POST')) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $user = $entityManager->getRepository(User::class)->findOneByResetToken($token);
+
+            if ($user === null) {
+                $this->addFlash('danger', 'Token Inconnu');
+                return $this->redirectToRoute('index');
+            }
+
+            $user->setResetToken(null);
+            $password = $passwordEncoder->encodePassword($user, $request->request->get('password'));
+            $user->setPassword($password);
+            $entityManager->flush();
+
+            $this->addFlash('notice', 'Mot de passe mis à jour, vous pouvez vous connecter !');
+
+            return $this->redirectToRoute('index');
+        }
+
+        return $this->render(
+            'oeilglauque/resetPwd.html.twig',
+            array(
+                'token' => $token,
                 'dates' => $this->getCurrentEdition()->getDates(), 
             )
         );

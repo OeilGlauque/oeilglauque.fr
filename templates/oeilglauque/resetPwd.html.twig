@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+        <h1>Créer un nouveau mot de passe</h1>
+        <form method="post">
+                <label for="inputPassword" class="sr-only">Mot de passe</label>
+                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                <input type="hidden" name="token" value="{{ token }}">
+
+                <button class="btn btn-lg btn-primary" type="submit">Valider</button>
+    </form>
+
+{% endblock %}

@@ -60,6 +60,11 @@ class User implements UserInterface, \Serializable
     private $plainPassword;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $resetToken;
+
+    /**
     * @ORM\Column(type="string", length=254, unique=true)
     * @Assert\NotBlank()
     * @Assert\Email()
@@ -186,6 +191,15 @@ class User implements UserInterface, \Serializable
         $this->plainPassword = $password;
     }
 
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken)
+    {
+        $this->resetToken = $resetToken;
+    }
 
     public function getEmail(): ?string
     {
