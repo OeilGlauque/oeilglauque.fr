@@ -37,7 +37,7 @@ class BoardGameReservationType extends AbstractType
                 'multiple' => true,
                 'attr' => ['class' => 'select2multiple'/*, 'multiple'=> 'multiple'*/]))
 
-            ->add('note', TextareaType::class, array('label' => 'Note'))
+            ->add('note', TextareaType::class, array('label' => 'Note', 'required' => false, "empty_data"=>""))
 
             ->add('save', SubmitType::class, array('label' => 'Valider'));
     }
