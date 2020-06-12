@@ -22,10 +22,10 @@
 
     {{ form(form) }}
 
-    <!--<h2>Liste des jeux</h2>
+    <h2>Liste des jeux</h2>
     <table>
         <tr>
-            <th scope="col">id</th>
+            <!--<th scope="col">id</th>-->
             <th scope="col">Nom</th>
             <th scope="col">Année</th>
             <th scope="col">Prix</th>
@@ -35,7 +35,7 @@
         </tr>
         {% for g in boardGames %}
             <tr>
-                <td>{{ g.getId() }}</td>
+                <!--<td>{{ g.getId() }}</td>-->
                 <td>{{ g.getName() }}</td>
                 <td>{{ g.getYear() }}</td>
                 <td>{% if g.getPrice() != null %}{{ g.getPrice() | number_format(2, ',', ' ') }} € {% endif %}</td>
@@ -44,7 +44,7 @@
                 <td>{{ g.getNote() }}</td>
             </tr>
         {% endfor %}
-    </table>-->
+    </table>
 
     <br>
     <p>N'hésitez pas à <a href="{{ path('contact') }}">nous contacter</a> en cas de doute !</p>

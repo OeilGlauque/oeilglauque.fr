@@ -320,7 +320,7 @@ class AdminController extends CustomController {
             $this->getDoctrine()->getManager()->remove($reservation);
             $this->getDoctrine()->getManager()->flush();
 
-            if($reservation->getDate() < new \DateTime()) {
+            if($reservation->getDateBeg() < new \DateTime()) {
                 $this->sendmail('Demande de réservation du local FOG refusée',
                 [$reservation->getAuthor()->getEmail() => $reservation->getAuthor()->getPseudo()],
                     'localReservation/suppressionReservation',
@@ -412,7 +412,7 @@ class AdminController extends CustomController {
             $this->getDoctrine()->getManager()->remove($reservation);
             $this->getDoctrine()->getManager()->flush();
 
-            if($reservation->getDate() < new \DateTime()) {
+            if($reservation->getDateBeg() < new \DateTime()) {
                 $this->sendmail('Demande de réservation de jeu au FOG refusée',
                     [$reservation->getAuthor()->getEmail() => $reservation->getAuthor()->getPseudo()],
                     'boardGameReservation/suppressionReservation',
