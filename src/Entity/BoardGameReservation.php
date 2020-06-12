@@ -25,11 +25,6 @@ class BoardGameReservation
     private $author;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $duration;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $validated;
@@ -40,14 +35,14 @@ class BoardGameReservation
     private $note;
 
     /**
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="date")
      */
-    private $time;
+    private $dateBeg;
 
     /**
      * @ORM\Column(type="date")
      */
-    private $date;
+    private $dateEnd;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\BoardGame", inversedBy="reservations")
@@ -77,18 +72,6 @@ class BoardGameReservation
         return $this;
     }
 
-    public function getDuration(): ?int
-    {
-        return $this->duration;
-    }
-
-    public function setDuration(int $duration): self
-    {
-        $this->duration = $duration;
-
-        return $this;
-    }
-
     public function getValidated(): ?bool
     {
         return $this->validated;
@@ -113,26 +96,26 @@ class BoardGameReservation
         return $this;
     }
 
-    public function getTime(): ?\DateTimeInterface
+    public function getDateBeg(): ?\DateTimeInterface
     {
-        return $this->time;
+        return $this->dateBeg;
     }
 
-    public function setTime(\DateTimeInterface $time): self
+    public function setDateBeg(\DateTimeInterface $date): self
     {
-        $this->time = $time;
+        $this->dateBeg = $date;
 
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDateEnd(): ?\DateTimeInterface
     {
-        return $this->date;
+        return $this->dateEnd;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDateEnd(\DateTimeInterface $date): self
     {
-        $this->date = $date;
+        $this->dateEnd = $date;
 
         return $this;
     }

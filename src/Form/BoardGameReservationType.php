@@ -18,21 +18,17 @@ class BoardGameReservationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('date', DateType::class,
+            ->add('dateBeg', DateType::class,
                 ['widget' => 'single_text',
                     'html5' => true,
-                    'years' => [date("Y"), date("Y")+1]])
+                    'years' => [date("Y"), date("Y")+1],
+                    'label' => 'Date de Début'])
 
-            ->add('time', TimeType::class,
+            ->add('dateEnd', DateType::class,
                 ['widget' => 'single_text',
-                'label' => 'Heure',
-                'html5' => true,
-                'invalid_message' => 'L\'heure doit être rentrée en incrément de 15 minutes',
-                'attr' => ['step' => 900]])
-
-            ->add('duration',IntegerType::class,array('label' => 'Durée (minutes)',
-                'invalid_message' => 'La durée doit être rentrée en incrément de 15 minutes',
-                'attr' => ['min'=>'15', 'max'=>'300', 'step'=>'15']))
+                    'html5' => true,
+                    'years' => [date("Y"), date("Y")+1],
+                    'label' => 'Date de fin'])
 
             ->add('boardGames', EntityType::class, array(
                 'label'=>'Jeux',

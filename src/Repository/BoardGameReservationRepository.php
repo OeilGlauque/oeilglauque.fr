@@ -25,9 +25,9 @@ class BoardGameReservationRepository extends ServiceEntityRepository
     public function getBoardGameReservationList(): array
     {
         return $this->createQueryBuilder('r')
-            ->where('r.date > :yesterday')
+            ->where('r.dateEnd > :yesterday')
             ->setParameter('yesterday', new \DateTime('-1 day'), \Doctrine\DBAL\Types\Type::DATETIME)
-            ->addOrderBy('r.date', 'ASC')
+            ->addOrderBy('r.dateBeg', 'ASC')
             ->getQuery()
             ->getResult();
     }
@@ -38,11 +38,11 @@ class BoardGameReservationRepository extends ServiceEntityRepository
     public function getBoardGameReservationArchive(): array
     {
         return $this->createQueryBuilder('r')
-            ->where('r.date < :today')
-            ->andWhere('r.date > :lastyear')
+            ->where('r.dateEnd < :today')
+            ->andWhere('r.dateEnd > :lastyear')
             ->setParameter('today', new \DateTime(), \Doctrine\DBAL\Types\Type::DATETIME)
             ->setParameter('lastyear', new \DateTime('-1 year'), \Doctrine\DBAL\Types\Type::DATETIME)
-            ->addOrderBy('r.date', 'ASC')
+            ->addOrderBy('r.dateBeg', 'ASC')
             ->getQuery()
             ->getResult();
     }
