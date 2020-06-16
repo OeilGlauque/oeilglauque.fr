@@ -21,13 +21,11 @@ class BoardGameReservationType extends AbstractType
             ->add('dateBeg', DateType::class,
                 ['widget' => 'single_text',
                     'html5' => true,
-                    'years' => [date("Y"), date("Y")+1],
                     'label' => 'Date de Début'])
 
             ->add('dateEnd', DateType::class,
                 ['widget' => 'single_text',
                     'html5' => true,
-                    'years' => [date("Y"), date("Y")+1],
                     'label' => 'Date de fin'])
 
             ->add('boardGames', EntityType::class, array(

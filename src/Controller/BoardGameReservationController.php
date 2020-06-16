@@ -68,13 +68,12 @@ class BoardGameReservationController extends CustomController
             );
         $mailer->send($message);
 
-        // TODO find a way to avoid this ugly code or to make BCC to self working
         $message = (new \Swift_Message('Nouvelle demande de réservation de jeu au FOG'))
             ->setFrom([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
             ->setTo([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
             ->setBody(
                 $this->renderView(
-                    'oeilglauque/emails/boardGameReservation/nouvelleReservation.html.twig',
+                    'oeilglauque/emails/boardGameReservation/admin/nouvelleReservation.html.twig',
                     ['reservation' => $reservation]
                 ),
                 'text/html'
