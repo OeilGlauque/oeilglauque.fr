@@ -17,7 +17,7 @@ class BoardGameReservationController extends CustomController
      */
     public function boardGameReservation(Request $request)
     {
-        // $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $reservation = new BoardGameReservation();
         $form = $this->createForm(BoardGameReservationType::class, $reservation, array());
