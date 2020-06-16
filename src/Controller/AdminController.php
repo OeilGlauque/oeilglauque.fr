@@ -304,6 +304,12 @@ class AdminController extends CustomController {
                 ['reservation' => $reservation],
                 $this->get('swiftmailer.mailer.default'));
 
+            $this->sendmail('Demande de réservation du local FOG Acceptée',
+                [$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'],
+                'localReservation/admin/confirmationReservation',
+                ['reservation' => $reservation],
+                $this->get('swiftmailer.mailer.default'));
+
             $this->addFlash('success', "La demande a bien été acceptée.");
         }
         return $this->redirectToRoute('localReservationList');
@@ -320,10 +326,16 @@ class AdminController extends CustomController {
             $this->getDoctrine()->getManager()->remove($reservation);
             $this->getDoctrine()->getManager()->flush();
 
-            if($reservation->getDateBeg() < new \DateTime()) {
+            if($reservation->getDate() > new \DateTime()) {
                 $this->sendmail('Demande de réservation du local FOG refusée',
                 [$reservation->getAuthor()->getEmail() => $reservation->getAuthor()->getPseudo()],
                     'localReservation/suppressionReservation',
+                    ['reservation' => $reservation],
+                    $this->get('swiftmailer.mailer.default'));
+
+                $this->sendmail('Demande de réservation du local FOG refusée',
+                    [$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'],
+                    'localReservation/admin/suppressionReservation',
                     ['reservation' => $reservation],
                     $this->get('swiftmailer.mailer.default'));
             }
