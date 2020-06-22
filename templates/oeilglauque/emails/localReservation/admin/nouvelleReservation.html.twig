@@ -3,7 +3,7 @@
     Bonjour, {{ reservation.getAuthor().getPseudo() }} veut une réservation du local.
 {% endset %}
 {% set first_paragraph %}
-    La demande de réservation du local du FOG est pour le {{ reservation.getDate().format("D j M Y") }} à {{ reservation.getTime().format("H:m") }} pendant {{ reservation.getDuration() }} minutes.
+    La demande de réservation du local du FOG est pour le {{ reservation.getDate().format("D j M Y") }} à {{ reservation.getTime().format("H:i") }} pendant {{ reservation.getDuration() }} minutes.
 {%  endset %}
 {%  set second_paragraph %}
     Le motif de la réservation est le suivant : {{ reservation.getMotif() }}.
