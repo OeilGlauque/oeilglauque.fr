@@ -1,7 +1,8 @@
 twig:
-    paths: ['%kernel.project_dir%/templates']
+    default_path: '%kernel.project_dir%/templates'
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    exception_controller: null
     form_themes:
         - 'oeilglauque/form/fields.html.twig'
         - 'bootstrap_4_horizontal_layout.html.twig'

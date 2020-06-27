@@ -180,8 +180,6 @@ class SecurityController extends CustomController
                 $entityManager->flush();
 
                 $url = $this->generateUrl('resetPwd', array('token' => $token), UrlGeneratorInterface::ABSOLUTE_URL);
-
-                $this->addFlash('danger', $url . $user->getName());
                 
                 $message = (new \Swift_Message('Demande de réinitialisation de mot de passe'))
                 ->setFrom([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])

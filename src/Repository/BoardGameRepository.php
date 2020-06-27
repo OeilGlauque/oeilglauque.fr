@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\BoardGame;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method BoardGame|null find($id, $lockMode = null, $lockVersion = null)
