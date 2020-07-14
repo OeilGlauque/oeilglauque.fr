@@ -6,15 +6,19 @@
     text-align: center;
 }
 
+/* backgroung color body-body or header-body ? 
+   if header-body where background color body-body ? */
+
 body {
-    background-color: #181514;
+    background-color: #f5dcc0;
 }
 
 * {
-    color: #EEEEEE;
+    color: #ffffff;
     font-family: 'Andada', sans-serif;
 }
 
+/* menu -> inutile */
 a {
     color: #EEEEEE;
     text-shadow: 2px 1px #C22B2B ;
@@ -34,7 +38,7 @@ header {
     background-image: url(/img/header_bg.png);
     background-repeat: repeat-x;
     background-position-y: 88%; 
-    background-color: #181514;
+    background-color: #3d1921;
 }
 
 #banner {
@@ -57,6 +61,7 @@ header {
     }
 }
 
+/* image inutile sur header */
 #fest {
     background-image: url(/img/fest.png);
     width: 301px;
@@ -66,6 +71,7 @@ header {
     background-position-x: center;
 }
 
+/* dates au dessus image inutile */
 #dates {
     font-size: 1.5em;
     text-align: center;
@@ -83,6 +89,7 @@ header {
     margin-right: 3.5em;
 }
 
+/* barre de navigation */
 nav {
     background: #110E0E66;
     position: relative;
@@ -172,19 +179,46 @@ ul {
     transform: scale(0.9);
 }
 
-/* Footer */
+/* Menu */
 
-footer {
-    background-image: url(/img/footer_repeat.png);
-    min-height: 230px;
-    padding: 30px;
+menu {
+    background: #fbecd8;
+    color: #3d1921;
     text-align: center;
 }
 
-footer p {
-    color: #3E3D3D;
+menu .item-menu-dropdown{
+    color: #973504;
 }
 
+menu .item-menu-dropdown:hover{
+    color: #973504;
+}
+
+/* Footer */
+
+footer {
+    background-image: url(/img/footer_img.png);
+    min-height: 230px;
+    padding: 30px;
+    text-align: center;
+    background-color: #ad775a;
+}
+
+/* ajout shadow inutile
+#footer-area{
+    -webkit-box-shadow: 0px -4px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px -4px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px -4px 5px 0px rgba(0,0,0,0.75);
+    }
+*/
+
+footer p {
+    color: #fbecd8;
+    text-align: center;
+}
+
+/* liens à garder ? */
 footer a {
     color: #3E3D3D;
     text-shadow: #000 0 0;
@@ -205,6 +239,10 @@ footer a:hover {
 
 .red {
     color: #C22B2B;
+}
+
+.copyright {
+    color: #682828;
 }
 
 .black {
