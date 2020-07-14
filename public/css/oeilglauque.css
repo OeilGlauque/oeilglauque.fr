@@ -1,5 +1,15 @@
 @import url('https://fonts.googleapis.com/css?family=Andada');
 
+@font-face {
+    font-family: "Mirkwood_Chronicle";
+    src: url('Mirkwood_Chronicle.ttf');
+}
+
+@font-face {
+    font-family: "OldNewspaperTypes";
+    src: url('OldNewspaperTypes.ttf');
+}
+
 /* Header */
 
 #main {
