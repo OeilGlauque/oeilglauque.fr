@@ -43,20 +43,20 @@ body {
 =======
     color: #ffffff;
     font-family: 'Andada', sans-serif;
-}
+}*/
 
 /* menu -> inutile */
-a {
+/*a {
 >>>>>>> e0860b405ac7d9ad47275ffff3fdb7644a110c02
     color: #EEEEEE;
     text-shadow: 2px 1px #C22B2B ;
 	
 }*/
 
-a:hover {
+/*a:hover {
     color: #C22B2B;
     text-shadow: 2px 1px #EEEEEE;
-}
+}*/
 
 pre {
     color: #EEEEEE;
@@ -64,11 +64,12 @@ pre {
 }
 
 header {
-    background-image: url(/img/header-background.JPG);
+    background-image: url(/img/background_image.png);
     background-repeat: repeat-x;
     background-position-y: 88%; 
     background-color: #3d1921;
 }
+
 
 #banner {
     height: 150px;
@@ -81,8 +82,8 @@ header {
 	top: 30px;
 	left: 100px;
 	position: absolute;
-	
-}
+	}
+
 
 @media screen and (max-width: 1500px) {
     #flag {
@@ -90,7 +91,6 @@ header {
     }
 }
 
-/* image inutile sur header */
 #fest {
     background-image: url(/img/fest.png);
     width: 301px;
@@ -100,26 +100,19 @@ header {
     background-position-x: center;
 }
 
-<<<<<<< HEAD
 #date {
 	margin-left:auto;
 	margin-right:auto;
 	margin-top: 30px;
 	font-size: 1.2em;
 	font-family:'Mirkwood_Chronicle', sans-serif;
-	text-align: center
+	text-align: center;
+	color:white;
 }
 #date h3 {
 	margin-top:10px;
-	font-size:1.5em
-=======
-/* dates au dessus image inutile */
-#dates {
-    font-size: 1.5em;
-    text-align: center;
-    width: 301px;
-    margin-top: 6px;
->>>>>>> e0860b405ac7d9ad47275ffff3fdb7644a110c02
+	font-size:1.5em;
+	color:white;
 }
 	
 #inscription {
@@ -127,18 +120,8 @@ header {
 	margin-left:85%;
 	font-family:'OldNewspaperTypes', sans-serif;
 	font-size:large;
+	color:white;
 	position:absolute;
-}
-
-
-#connexion {
-    background-image: url(/img/connexion_back.png);
-    background-position-y: 95%;
-    background-repeat: no-repeat;
-    width: 207px;
-    font-size: 1em;
-    z-index: 35;
-    margin-right: 3.5em;
 }
 
 /* barre de navigation */
@@ -156,11 +139,11 @@ nav li {
     margin: -10px 20px 0px 0px;
 }
 
-nav a {
+/*nav a {
     font-size: 1.5em;
     text-transform: uppercase;
     margin-top: 5px;
-}
+}*/
 
 #menu{
     width: 40px;
@@ -308,9 +291,7 @@ footer a:hover {
 
 h1,h2 {
     margin-top: 0.5em;
-    margin-bottom: 1em;
-    color: #C22B2B;
-    text-shadow: 2px 1px #000;
+    margin-bottom: 1em;	
 }
 
 .well {
@@ -321,6 +302,7 @@ h1,h2 {
 p {
     text-align: justify;
     text-justify: auto;
+    font-family: 'OldNewspaperTypes', sans-serif;
 }
 
 form {
@@ -329,11 +311,29 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+}
+a{
+	color:white;
+}
+
+a:hover {
+	color:white;
 }
 
 form .row {
     margin-bottom: 1em;
     width: 100%;
+	margin-left:auto;
+	margin-right:auto;
+}
+#username {
+	margin-left:auto;
+	margin-right:auto;
+}
+#password {
+	margin-left:auto;
+	margin-right:auto;
 }
 
 #user {
@@ -366,9 +366,12 @@ select option {
 }
 
 button {
-    color: black;
-    background-color: #c5c5c5;
+    color: white;
+    background-image: url(/img/bouton.png);
     cursor: pointer;
+	width:150px;
+	height:50px;
+	background-size:150px,50px;
 }
 
 .affiche {
