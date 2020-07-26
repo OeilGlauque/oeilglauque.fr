@@ -96,24 +96,24 @@ class BoardGameReservation
         return $this;
     }
 
-    public function getDateBeg(): ?\DateTimeInterface
+    public function getDateBeg(): ?\DateTime
     {
         return $this->dateBeg;
     }
 
-    public function setDateBeg(\DateTimeInterface $date): self
+    public function setDateBeg(\DateTime $date): self
     {
         $this->dateBeg = $date;
 
         return $this;
     }
 
-    public function getDateEnd(): ?\DateTimeInterface
+    public function getDateEnd(): ?\DateTime
     {
         return $this->dateEnd;
     }
 
-    public function setDateEnd(\DateTimeInterface $date): self
+    public function setDateEnd(\DateTime $date): self
     {
         $this->dateEnd = $date;
 
@@ -145,5 +145,11 @@ class BoardGameReservation
 
         return $this;
     }
-    
+
+    public function __toString()
+    {
+        return $this->author->getName() . ', ' . $this->getDateBeg()->format("j M Y")
+            . '-' . $this->getDateEnd()->format("j M Y")
+            . ' (' . implode(", ", $this->boardGames->toArray()) . ')';
+    }
 }

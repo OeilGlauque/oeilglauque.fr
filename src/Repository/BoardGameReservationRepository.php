@@ -5,7 +5,10 @@ namespace App\Repository;
 use App\Entity\BoardGameReservation;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\DBAL\Types\Type;
+use Exception;
+use phpDocumentor\Reflection\Types\Object_;
 
 /**
  * @method BoardGameReservation|null find($id, $lockMode = null, $lockVersion = null)
@@ -46,6 +49,43 @@ class BoardGameReservationRepository extends ServiceEntityRepository
             ->addOrderBy('r.dateBeg', 'ASC')
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @param BoardGameReservation $reservation
+     * @return int
+     */
+    public function findBoardGameReservationOverlap(BoardGameReservation $reservation): array
+    {
+        $qb = $this->createQueryBuilder('r');
+
+        $c1 = $qb->expr()->andX(
+            $qb->expr()->lte('r.dateBeg', ':begDate'),
+            $qb->expr()->gte('r.dateEnd', ':begDate')
+        );
+
+        $c2 = $qb->expr()->andX(
+            $qb->expr()->lte('r.dateBeg', ':endDate'),
+            $qb->expr()->gte('r.dateEnd', ':endDate')
+        );
+
+        $c3 = $qb->expr()->andX(
+            $qb->expr()->gte('r.dateBeg', ':begDate'),
+            $qb->expr()->lte('r.dateEnd', ':endDate')
+        );
+
+        $qb->where($qb->expr()->orX($c1, $c2, $c3))
+            ->setParameter('begDate', $reservation->getDateBeg(), Type::DATETIME)
+            ->setParameter('endDate', $reservation->getDateEnd(), Type::DATETIME);
+
+        $res = $qb->getQuery()->getResult();
+        $ret = [];
+
+        foreach($res as $l) {
+            $ret = array_merge($ret, $l->getBoardGames()->toArray());
+        }
+
+        return array_unique(array_intersect($ret, $reservation->getBoardGames()->toArray()));
     }
 
     // /**
