@@ -55,12 +55,13 @@ Certains installateurs modifient Path par eux-même. Néanmoins, il reste néces
 
 ### Suite de l'installation
 
-Une fois le git cloné, il faut faire une copie de `.env.dist` en `.env`. Ensuite, on peut configurer localement le connecteur MariaDB dans le fichier `.env` selon votre installation. On en profite aussi pour paramétrer le système de mail :
+Une fois le git cloné, il faut faire une copie de `.env` en `.env.local`. Ensuite, on peut configurer localement le connecteur MariaDB dans le fichier `.env` selon votre installation. On en profite aussi pour paramétrer le système de mail :
 
 ```bash
-DATABASE_URL=mysql://user:password@127.0.0.1:3306/databaseName
+DATABASE_URL=mysql://user:password@127.0.0.1:3306/databaseName?serverVersion=5.7
  # Remplacer user et password par ce que vous avez rempli lors de l'installation de MariaDB
  # Remplacer databaseName par le nom que vous voulez donner à la base de donnée
+ # Remplacer x.x.x par le numéro de version de mariadb obtenu plus haut
 MAILER_URL=gmail://fogfogtest@gmail.com:of@5991.diia2D@localhost
 MAILER_ADDRESS=fogfogtest@gmail.com
  # Cette adresse gmail sert de test pour le système de mail
@@ -71,7 +72,7 @@ Il ne reste plus qu'à installer les dépendances, effectuer une migration de la
 ```bash
 composer install
 php bin/console doctrine:database:create
-php bin/console make:migration
+php bin/console doctrine:migrations:diff
 php bin/console doctrine:migrations:migrate
 php bin/console server:run
 # Ajouter --no-interaction à une commande si cette dernière plante en posant une question
@@ -87,7 +88,7 @@ En particulier, les utilisateurs enregistrés sont :
 
 ### Nouvelle installation 
 
-`todo`
+Voir [DEPLOY.md](DEPLOY.md)
 
 ### Mise à jour vers une nouvelle version
 
@@ -96,9 +97,10 @@ git pull origin master
 git fetch --tags
 git checkout <version tag name>
 composer install
+php bin/console doctrine:migrations:diff
 php bin/console doctrine:migrations:migrate
 php bin/console cache:clear --env=prod --no-debug && chmod -R 777 var/cache
-docker-compose restart php-fpm
+docker-compose restart php
 ```
 
 ### Mise à jour du mot de passe de la base de données
@@ -107,10 +109,10 @@ docker-compose restart php-fpm
  * Mettre à jour le mot de passe de l'instance actuelle :
 
 ```bash
-docker exec -it web_fog-db_1 mysql -u root -p
+docker-compose exec -u 0 mysql mysql -u fog -p
 <ancien mot de passe>
-ALTER USER 'root'@'localhost' IDENTIFIED BY 'newpassword';
-ALTER USER 'root'@'%' IDENTIFIED BY 'newpassword';
+ALTER USER 'fog'@'localhost' IDENTIFIED BY 'newpassword';
+ALTER USER 'fog'@'%' IDENTIFIED BY 'newpassword';
 Ctrl+P Ctrl+Q
 ```
 
@@ -119,7 +121,7 @@ Ctrl+P Ctrl+Q
 
 ```bash
 php bin/console cache:clear --env=prod --no-debug && chmod -R 777 var/cache
-docker-compose restart php-fpm(-dev)
+docker-compose restart php
 ```
 
 ## Développement
