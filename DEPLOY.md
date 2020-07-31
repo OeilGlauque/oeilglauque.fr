@@ -86,7 +86,7 @@ services:
 ```
 
 La version du fichier dépends de la version de docker mais ubuntu peut être un peu capricieux. La version stable la plus récente fera l'affaire. Pour mariadb, on choisira l'image stable la plus récente, idem pour nginx en version alpine. Adminer n'est là que pour pouvoir monitorer facilement la bdd et n'est pas absolument nécessaire.  Certbot permet d'obtenir des certificats let'sencrypt automatiquement.
-On précise les options dont on a envie pour mysql, avec de meilleure mot de passe bien sûr. Si nécessaire, on stop tout les autres services écoutant sur les port 80 et 443.
+On précise les options dont on a envie pour mysql, avec de meilleurs mots de passe bien sûr. Si nécessaire, on stop tout les autres services écoutant sur les port 80 et 443.
 
 Le fichier de configuration nginx est le suivant :
 ```nginx
@@ -130,7 +130,7 @@ server {
 	access_log /var/log/nginx/access.log;
 }
 ```
-Il y a en réalité 2 serveur nginx. Un écoute le http et renvoie vers le https ou résoue les challenges ssl. Le second écoute en https et sert le site.
+Il y a en réalité 2 serveurs nginx. Un écoute le http et renvoie vers le https ou résout les challenges ssl. Le second écoute en https et sert le site.
 On peut, dans un premier temps, tester en enlevant les références à php/https et en modifiant la config nginx pour du http seulement. `sudo docker-compose up -d` pour lancer les containers. Normalement, les localhost :80 et :8080 doivent afficher les interfaces nginx et adminer et on peut se connecter à la bdd via ce dernier.
 
 ## Préparer le container php
@@ -171,7 +171,8 @@ On utilise la version de php-fpm stable la plus récente.
 Il faut absolument préparer le `.env.local` correctement dans le projet. Notamment :
  - `APP_ENV=prod`
  - `DATABASE_URL=mysql://fog:fogpwd@mysql:3306/fogdb?serverVersion=mariadb-10.5.3` (La version mariadb dépend de l'install)
- - TODO MAILER
+ - `MAILER_URL=gmail://emailfog:password@localhost`
+ - `MAILER_ADDRESS=emailfog`
 
 Ensuite, il faut build le Dockerfile: `sudo docker-compose build` et relancer les containers `sudo docker-compose up -d` en s'assurant que la définition du container php soit bien présent dans le docker-compose.yml.
 
@@ -187,15 +188,15 @@ php bin/console doctrine:migrations:migrate
 
 Cette partie se base sur [cet article](https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71).
 
-On peut cette fois ci utiliser la config finale. Pour pouvoir lancer nginx en https il faut faire une manip un peu complexe qui est automatisée par un script. On récupère donc le script en question et on l'édite avec les bons paramètres (domaines avec et sans www, adresse email et `data_path="./docker/certbot"`). 
+On peut cette fois-ci utiliser la config finale. Pour pouvoir lancer nginx en https il faut faire une manip un peu complexe qui est automatisée par un script. On récupère donc le script en question et on l'édite avec les bons paramètres (domaines avec et sans www, adresse email et `data_path="./docker/certbot"`). 
 
 ```bash
 curl -L https://raw.githubusercontent.com/wmnnd/nginx-certbot/master/init-letsencrypt.sh -o init-letsencrypt.sh
 ```
-Dans un premier temps, pour tester, on peut mettre staging à 1 afin de ne pas épuiser le quota de certificat/site/semaine de let'sencrypt en cas de problème. Dans ce cas le certificat sera bien présent mais ne sera pas trusté par les navigateurs.
+Dans un premier temps, pour tester, on peut mettre staging à 1 afin de ne pas épuiser le quota de certificat/site/semaine de let'sencrypt en cas de problème. Dans ce cas le certificat sera bien présent, mais ne sera pas trusté par les navigateurs.
 Ensuite, on peut exécuter le script.
 ```bash
 chmod +x init-letsencrypt.sh
 sudo ./init-letsencrypt.sh
 ```
-Si tout se passe bien, certbot nous félicite, on peut accéder au site en https et le http redirige vers le https. On peut alors le faire définitevement avec staging à 0. Cette opération n'est à faire qu'une fois pour initialiser les certificats. Ces derniers sont normalement renouvelés tout les ~90 jours.
+Si tout se passe bien, certbot nous félicite, on peut accéder au site en https et le http redirige vers le https. On peut alors le faire définitivement avec staging à 0. Cette opération n'est à faire qu'une fois pour initialiser les certificats. Ces derniers sont normalement renouvelés tous les ~90 jours.
