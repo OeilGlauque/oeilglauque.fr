@@ -26,25 +26,6 @@ body {
     font-family: 'OldNewspaperTypes', sans-serif;
 }
 
-/*a {
-=======
-    color: #ffffff;
-    font-family: 'Andada', sans-serif;
-}*/
-
-/* menu -> inutile */
-/*a {
->>>>>>> e0860b405ac7d9ad47275ffff3fdb7644a110c02
-    color: #EEEEEE;
-    text-shadow: 2px 1px #C22B2B ;
-	
-}*/
-
-/*a:hover {
-    color: #C22B2B;
-    text-shadow: 2px 1px #EEEEEE;
-}*/
-
 pre {
     color: #EEEEEE;
     display: inline;
@@ -126,12 +107,6 @@ nav li {
     margin: -10px 20px 0px 0px;
 }
 
-/*nav a {
-    font-size: 1.5em;
-    text-transform: uppercase;
-    margin-top: 5px;
-}*/
-
 #menu{
     width: 40px;
     height: 40px;
@@ -154,7 +129,6 @@ nav .dropdown-item:hover {
 
 #under-flag {
     margin-left: 15%;
-    /*border: 1px solid red;*/
     width: 301px;
 }
 
@@ -226,14 +200,6 @@ footer {
     text-align: center;
     background-color: #ad775a;
 }
-
-/* ajout shadow inutile
-#footer-area{
-    -webkit-box-shadow: 0px -4px 5px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px -4px 5px 0px rgba(0,0,0,0.75);
-    box-shadow: 0px -4px 5px 0px rgba(0,0,0,0.75);
-    }
-*/
 
 footer p {
     color: #fbecd8;
