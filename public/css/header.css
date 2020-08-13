@@ -1,0 +1,75 @@
+/* Nom du festival et dates */
+header {
+	background-image: url(/img/background_image.jpg);
+	background-size: 100% 100%;
+	background-color: #3d1921;
+	padding: 2em 0 3em;
+	position: relative; /* Needed in order to absolutely position child elements */
+}
+
+header h1, header #date {
+	text-align: center;
+	font-family: 'Mirkwood_Chronicle', sans-serif;
+	font-weight: 500; /* 400 is normal weight */
+	color: white;
+}
+
+header h1 {
+	font-size: 2em;
+	margin-bottom: 1em;
+}
+
+header #date {
+	font-size: 1.2em;
+}
+
+/* Boutons Inscription/Connexion */
+#login {
+	font-family: 'OldNewspaperTypes', sans-serif;
+	font-size: 1.5em;
+	position: absolute;
+	right: 2%;
+	top: 1em;
+	color: white;
+}
+
+@media screen and (max-width: 1100px) {
+	#login {
+		position: static;
+		text-align: center;
+		margin-top: 2em;
+	}
+}
+
+#login > a {
+	margin: 0 0.2em;
+}
+
+/* Bouton Menu */
+
+header #menu {
+	background-image: url(/img/circle.png);
+	width: 60px;
+	height: 60px;
+
+	position: absolute;
+	top: 25%;
+	left: 17%;
+}
+
+@media screen and (max-width: 1100px) and (min-width: 850px) {
+	header #menu {
+		left: 10%;
+		top: 2.5em;
+	}
+}
+
+@media screen and (max-width: 850px) {
+	header #menu {
+		position: static;
+		margin-left: 2em;
+	}
+}
+
+
+

@@ -9,87 +9,8 @@
     src: url('OldNewspaperTypes.ttf');
 }
 
-/* Header */
-
-#main {
-    text-align: center;
-}
-
-/* backgroung color body-body or header-body ? 
-   if header-body where background color body-body ? */
-
 body {
     background-color: #f5dcc0;
-}
-
-* {
-    font-family: 'OldNewspaperTypes', sans-serif;
-}
-
-pre {
-    color: #EEEEEE;
-    display: inline;
-}
-
-header {
-    background-image: url(/img/background_image.png);
-    background-repeat: repeat-x;
-    background-position-y: 88%; 
-    background-color: #3d1921;
-}
-
-
-#banner {
-    height: 150px;
-}
-
-#flag {
-    background-image: url(/img/circle.png);
-    width: 60px;
-    height: 60px;
-	top: 30px;
-	left: 100px;
-	position: absolute;
-	}
-
-
-@media screen and (max-width: 1500px) {
-    #flag {
-        left: 20px;
-    }
-}
-
-#fest {
-    background-image: url(/img/fest.png);
-    width: 301px;
-    z-index: 95;
-    background-size: 80%;
-    background-repeat: no-repeat;
-    background-position-x: center;
-}
-
-#date {
-	margin-left:auto;
-	margin-right:auto;
-	margin-top: 30px;
-	font-size: 1.2em;
-	font-family:'Mirkwood_Chronicle', sans-serif;
-	text-align: center;
-	color:white;
-}
-#date h3 {
-	margin-top:10px;
-	font-size:1.5em;
-	color:white;
-}
-	
-#inscription {
-	margin-top:20px;
-	margin-left:85%;
-	font-family:'OldNewspaperTypes', sans-serif;
-	font-size:large;
-	color:white;
-	position:absolute;
 }
 
 /* barre de navigation */
