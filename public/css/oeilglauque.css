@@ -5,21 +5,10 @@
 }
 
 @font-face {
-<<<<<<< HEAD
-	font-family: "OldNewspaperTypes";
-	src: url('OldNewspaperTypes.ttf');
-}
-=======
-    font-family: "Mirkwood_Chronicle";
-    src: url('Mirkwood_Chronicle.ttf');
-}
-
-@font-face {
     font-family: "OldNewspaperTypes";
     src: url('OldNewspaperTypes.ttf');
 }
 
->>>>>>> e0860b405ac7d9ad47275ffff3fdb7644a110c02
 /* Header */
 
 #main {
@@ -34,8 +23,6 @@ body {
 }
 
 * {
-<<<<<<< HEAD
-    color: #EEEEEE;
     font-family: 'OldNewspaperTypes', sans-serif;
 }
 
