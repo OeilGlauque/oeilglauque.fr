@@ -1,0 +1,22 @@
+body {
+	/*background-color: #a1694d;*/
+}
+
+img {
+	width: 100%;
+	height: auto;
+	margin: 3em 0;
+}
+
+
+.lead {
+	background-color: #fbecd8;
+	border-radius: 25px;
+	padding: 1.5em;
+
+	font-family: 'Andada', sans-serif;
+}
+
+.lead strong {
+	color: #973504;
+}
