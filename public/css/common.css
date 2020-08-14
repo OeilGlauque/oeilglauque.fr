@@ -245,18 +245,6 @@ hr {
     display: inline;
 }
 
-.partenaire {
-    width: 80%;
-    margin: auto;
-}
-
-@media screen and (max-width: 768px) {
-    .partenaire {
-        width: 50%;
-        margin: 5px auto;
-    }
-}
-
 .my-selectable {
     -webkit-user-select: all;  /* Chrome all / Safari all */
     -moz-user-select: all;     /* Firefox all */
