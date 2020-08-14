@@ -112,46 +112,11 @@ menu .item-menu-dropdown:hover{
     color: #973504;
 }
 
-/* Footer */
-
-footer {
-    background-image: url(/img/footer_img.png);
-    min-height: 230px;
-    padding: 30px;
-    text-align: center;
-    background-color: #ad775a;
-}
-
-footer p {
-    color: #fbecd8;
-    text-align: center;
-}
-
-/* liens à garder ? */
-footer a {
-    color: #3E3D3D;
-    text-shadow: #000 0 0;
-}
-
-footer a:hover {
-    color: #3E3D3D;
-    text-shadow: #000 0 0;
-}
-
-
 
 /* Body */
 
 .container {
     padding: 0.5em 2em 2em 2em;
-}
-
-.red {
-    color: #C22B2B;
-}
-
-.copyright {
-    color: #682828;
 }
 
 .black {

@@ -1,0 +1,25 @@
+footer {
+	background-image: url(/img/footer_img.png);
+	background-color: #c2987d;
+	background-size: 100% 100%;
+	padding: 2em 1em;
+}
+
+footer p {
+	text-align: center;
+	color: #fbecd8;
+}
+
+footer p.copyright {
+	color: #682828;
+}
+
+footer p:last-child {
+	margin-bottom: 0;
+}
+
+/* Just in case some links are added */
+footer a, footer a:hover {
+	color: #3e3d3d;
+	text-shadow: #000 0 0;
+}
