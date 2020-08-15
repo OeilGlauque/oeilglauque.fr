@@ -2,6 +2,10 @@ body {
 	/*background-color: #a1694d;*/
 }
 
+.container {
+	background-color: inherit;
+}
+
 img {
 	width: 100%;
 	height: auto;
