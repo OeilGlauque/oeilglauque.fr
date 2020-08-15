@@ -48,6 +48,7 @@ h1.titre {
     font-family: 'Mirkwood_Chronicle', serif;
     color: #3d1921;
     font-size: 2em;
+    text-transform: uppercase;
     text-align: center;
 
     background-image: url("/img/title_bg.png");
@@ -57,10 +58,6 @@ h1.titre {
     margin: 1em auto;
 
     max-width: 800px;
-}
-
-h1.titre:first-letter {
-    text-transform: uppercase;
 }
 
 .well {
