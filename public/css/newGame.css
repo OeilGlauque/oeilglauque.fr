@@ -1,0 +1,46 @@
+/* First paragraph */
+pre {
+	display: inline;
+	font-family: monospace;
+	margin-right: 0.5em;
+}
+
+.italic {
+	font-style: italic;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.underline {
+	text-decoration: underline;
+}
+
+.title {
+	font-size: 2em;
+}
+
+/* Form */
+#game-form form>div {
+	width: 100%;
+	max-width: 900px;
+	margin-bottom: 2em;
+}
+
+#game-form label:not(.form-check-label) {
+	text-align: right;
+	/* Overriding bootstrap style */
+	flex: 0 0 25%;
+	max-width: 25%;
+}
+
+#game-form label.form-check-label {
+	margin-left: 0.5em;
+}
+
+#game-form label+div {
+	/* Overriding bootstrap style */
+	flex: 0 0 75%;
+	max-width: 75%;
+}
