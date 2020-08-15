@@ -45,6 +45,15 @@ header #date {
 	margin: 0 0.2em;
 }
 
+header a {
+	color: white;
+}
+
+header a:hover {
+	color: white;
+}
+
+
 /* Bouton Menu */
 
 header #menu {

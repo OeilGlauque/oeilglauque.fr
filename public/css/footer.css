@@ -6,11 +6,13 @@ footer {
 }
 
 footer p {
+	font-family: 'BookAntiqua';
 	text-align: center;
 	color: #fbecd8;
 }
 
 footer p.copyright {
+	font-family: 'OldNewspaperTypes';
 	color: #682828;
 }
 
@@ -20,6 +22,6 @@ footer p:last-child {
 
 /* Just in case some links are added */
 footer a, footer a:hover {
-	color: #3e3d3d;
+	color: #fbecd8;
 	text-shadow: #000 0 0;
 }

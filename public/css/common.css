@@ -9,6 +9,11 @@
     src: url('OldNewspaperTypes.ttf');
 }
 
+@font-face {
+    font-family: "BookAntiqua";
+    src: url('book_ant.ttf');
+}
+
 body {
     background-color: #f5dcc0;
 }
@@ -49,6 +54,16 @@ h1,h2 {
     margin-bottom: 1em;	
 }
 
+h1 {
+    color: #3d1921;
+    font-family: 'Mirkwood_Chronicle';
+}
+
+h2 {
+    color: #973504;
+    font-family: 'OldNewspaperTypes';
+}
+
 .well {
     padding: 2em;
     background-color: #110E0E;
@@ -57,7 +72,13 @@ h1,h2 {
 p {
     text-align: justify;
     text-justify: auto;
-    font-family: 'OldNewspaperTypes', sans-serif;
+    font-family: 'Andada';
+    color: #3d1921;
+}
+
+li {
+    font-family: 'Andada';
+    color: #3d1921;
 }
 
 form {
@@ -68,12 +89,13 @@ form {
     align-items: center;
 
 }
-a{
-	color:white;
+
+a {
+    color: #3d1921;
 }
 
-a:hover {
-	color:white;
+a:hover{
+	color:#a4817b;
 }
 
 form .row {
