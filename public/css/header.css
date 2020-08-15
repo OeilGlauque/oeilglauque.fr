@@ -19,6 +19,10 @@ header h1 {
 	margin-bottom: 1em;
 }
 
+header h1 a:hover {
+	text-decoration: none;
+}
+
 header #date {
 	font-size: 1.2em;
 }
