@@ -1,0 +1,18 @@
+body {
+	/*background-color: #a1694d;*/
+}
+
+img {
+	width: 50%;
+	height: auto;
+    margin: 3em auto;
+    text-align: center;
+    display: block;
+}
+
+iframe {
+    margin: 3em auto;
+    text-align: center;
+    display: block;
+    border: 7px solid #f7d0b0;
+} 
