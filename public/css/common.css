@@ -35,12 +35,31 @@ h1,h2 {
 
 h1 {
     color: #3d1921;
-    font-family: 'Mirkwood_Chronicle';
+    font-family: 'Mirkwood_Chronicle', serif;
 }
 
 h2 {
     color: #973504;
-    font-family: 'OldNewspaperTypes';
+    font-family: 'OldNewspaperTypes', serif;
+}
+
+h1.titre {
+    font-family: 'Mirkwood_Chronicle', serif;
+    color: #3d1921;
+    font-size: 2em;
+    text-align: center;
+
+    background-image: url("/img/title_bg.png");
+    background-size: 100% 100%;
+    padding: 75px 0;
+    display: block;
+    margin: 1em auto;
+
+    max-width: 800px;
+}
+
+h1.titre:first-letter {
+    text-transform: uppercase;
 }
 
 .well {
