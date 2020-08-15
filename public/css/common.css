@@ -8,45 +8,24 @@
     font-family: "OldNewspaperTypes";
     src: url('OldNewspaperTypes.ttf');
 }
-
 @font-face {
     font-family: "BookAntiqua";
     src: url('book_ant.ttf');
 }
 
+
+/*
+    The rules in this file are common to all pages, so take care when modifying them!
+    Rules should be specified as much as possible in per-page stylesheets, so that the rules of one
+    page do not impact other pages.
+ */
+
 body {
     background-color: #f5dcc0;
 }
 
-/* Menu */
-menu {
-    background: #fbecd8;
-    color: #3d1921;
-    text-align: center;
-}
-
-menu .item-menu-dropdown{
-    color: #973504;
-}
-
-menu .item-menu-dropdown:hover{
-    color: #973504;
-}
-
-
-/* Body */
-
 .container {
     padding: 0.5em 2em 2em 2em;
-}
-
-.black {
-    color: #000;
-}
-
-.redandblack {
-    color: #C22B2B;
-    text-shadow: 2px 1px #000;
 }
 
 h1,h2 {
@@ -81,6 +60,47 @@ li {
     color: #3d1921;
 }
 
+a {
+    color: #3d1921;
+}
+
+a:hover{
+	color:#a4817b;
+}
+
+.center {
+    margin: auto;
+    text-align: center;
+    display: block;
+}
+
+button {
+    color: white;
+    background-image: url(/img/bouton.png);
+    cursor: pointer;
+    width: 150px;
+    height: 50px;
+    background-size: 150px, 50px;
+}
+
+.btn {
+    text-shadow: none;
+}
+
+.btn:hover {
+    text-shadow: none;
+}
+
+.btn-admin {
+    margin-top: 20px;
+}
+
+hr {
+    background-color: #eee;
+    width: 90%;
+    margin: 2em;
+}
+
 form {
     margin: 0.2em auto 0 auto;
     text-align: center;
@@ -90,20 +110,13 @@ form {
 
 }
 
-a {
-    color: #3d1921;
-}
-
-a:hover{
-	color:#a4817b;
-}
-
 form .row {
     margin-bottom: 1em;
     width: 100%;
-	margin-left:auto;
-	margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
 }
+
 #username {
 	margin-left:auto;
 	margin-right:auto;
@@ -111,24 +124,6 @@ form .row {
 #password {
 	margin-left:auto;
 	margin-right:auto;
-}
-
-#user {
-    width: 100%;
-}
-
-#registerLink {
-    margin-top: 20px;
-}
-
-#registerLink {
-    margin: 0 10px 0 10px;
-}
-
-.center {
-    margin: auto;
-    text-align: center;
-    display: block;
 }
 
 input {
@@ -142,57 +137,9 @@ select option {
     background-color: #EEEEEE;
 }
 
-button {
-    color: white;
-    background-image: url(/img/bouton.png);
-    cursor: pointer;
-	width:150px;
-	height:50px;
-	background-size:150px,50px;
-}
-
-.affiche {
-    display: block;
-    margin: auto;
-    width: 70%;
-}
-
-table {
-    width: 100%;
-}
-
-.btn:hover {
-    text-shadow: none;
-}
-
-.btn-admin {
-    margin-top: 20px;
-}
-
-hr {
-    background-color: #EEEEEE;
-    width: 90%;
-    margin: 2em;
-}
-
-.btn {
-    text-shadow: none;
-}
-
-.inline {
-    display: inline;
-}
-
 .my-selectable {
     -webkit-user-select: all;  /* Chrome all / Safari all */
     -moz-user-select: all;     /* Firefox all */
     -ms-user-select: all;      /* IE 10+ */
     user-select: all;          /* Likely future */ 
-}
-
-.ucp {
-    text-align: center;
-    width: 100%;
-    display: block;
-    font-size: 1.5em;
 }
