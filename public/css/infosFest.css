@@ -5,7 +5,7 @@ body {
 img {
 	width: 50%;
 	height: auto;
-    margin: 3em auto;
+    margin: auto auto 3em auto;
     text-align: center;
     display: block;
 }
