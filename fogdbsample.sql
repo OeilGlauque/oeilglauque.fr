@@ -7,21 +7,13 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Current Database: `fogdb`
---
-
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `fogdb` /*!40100 DEFAULT CHARACTER SET latin1 */;
-
-USE `fogdb`;
 
 --
 -- Table structure for table `app_users`
@@ -36,6 +28,7 @@ CREATE TABLE `app_users` (
   `first_name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `pseudo` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reset_token` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(254) COLLATE utf8mb4_unicode_ci NOT NULL,
   `avatar` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date_created` datetime NOT NULL DEFAULT current_timestamp(),
@@ -53,7 +46,7 @@ CREATE TABLE `app_users` (
 
 LOCK TABLES `app_users` WRITE;
 /*!40000 ALTER TABLE `app_users` DISABLE KEYS */;
-INSERT INTO `app_users` VALUES (1,'groot','iam','root','$2y$13$YM3LkaWk2wNM19sDJmBCpunu0z9X8OZCcQXd90.75B9vAcK3IL08G','testfog@yopmail.com',NULL,'2019-12-16 11:05:53',1,'ROLE_USER;ROLE_ADMIN'),(2,'Jhonson','Cave','TheBoss','$2y$13$tdR8BAOzZ8CwwAWAOD/K5e1EXl9CUgNMTIGfc9.3HzaddtYJ/bmai','testfog2@yopmail.com',NULL,'2019-12-16 12:30:06',1,'ROLE_USER'),(3,'Sombrage','Ulfric','Ours de markarth','$2y$13$8ZnFUujWC8Yek8zlX9xnRup12.Mi3P9SOYexFKA3BmIMtKIBttU9C','testfog3@yopmail.com',NULL,'2019-12-16 12:38:47',1,'ROLE_USER');
+INSERT INTO `app_users` VALUES (1,'root','iam','groot','$2y$13$lLcoql3xcjCWAs0xaTRieOThIQccCoWQ9hPnTQGZQ.vFmmES.AYvm',NULL,'testfog@yopmail.com',NULL,'2020-08-16 17:12:21',1,'ROLE_USER;ROLE_ADMIN'),(2,'Jhonson','Cave','TheBoss','$2y$13$iysBW2G7k.cMPhGTwZcQReaZLlS1eBaB7ZCt9kjUF9QoeqhUQdwGS',NULL,'testfog2@yopmail.com',NULL,'2020-08-16 17:18:34',1,'ROLE_USER'),(3,'Sombrage','Ulfric','Ours de markarth','$2y$13$f7efcjY4AHqhg4yIDOdsrenKApL96gRU7Ep7hWgwBZq8/76ifToiS',NULL,'testfog3@yopmail.com',NULL,'2020-08-16 17:19:15',1,'ROLE_USER');
 /*!40000 ALTER TABLE `app_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -164,7 +157,7 @@ CREATE TABLE `edition` (
 
 LOCK TABLES `edition` WRITE;
 /*!40000 ALTER TABLE `edition` DISABLE KEYS */;
-INSERT INTO `edition` VALUES (1,2020,'Du 22 au 24 brumaire');
+INSERT INTO `edition` VALUES (1,2021,'Du 18 au 20 octobre');
 /*!40000 ALTER TABLE `edition` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -190,7 +183,7 @@ CREATE TABLE `game` (
   KEY `IDX_232B318CCC276EB3` (`game_slot_id`),
   CONSTRAINT `FK_232B318CCC276EB3` FOREIGN KEY (`game_slot_id`) REFERENCES `game_slot` (`id`),
   CONSTRAINT `FK_232B318CF675F31B` FOREIGN KEY (`author_id`) REFERENCES `app_users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -199,7 +192,6 @@ CREATE TABLE `game` (
 
 LOCK TABLES `game` WRITE;
 /*!40000 ALTER TABLE `game` DISABLE KEYS */;
-INSERT INTO `game` VALUES (1,3,6,'TES V : civil war','Nik l\'empire',NULL,4,0,1);
 /*!40000 ALTER TABLE `game` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -218,7 +210,7 @@ CREATE TABLE `game_slot` (
   PRIMARY KEY (`id`),
   KEY `IDX_471B4C4B74281A5E` (`edition_id`),
   CONSTRAINT `FK_471B4C4B74281A5E` FOREIGN KEY (`edition_id`) REFERENCES `edition` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -227,7 +219,7 @@ CREATE TABLE `game_slot` (
 
 LOCK TABLES `game_slot` WRITE;
 /*!40000 ALTER TABLE `game_slot` DISABLE KEYS */;
-INSERT INTO `game_slot` VALUES (1,1,'Vendredi 20h',9),(2,1,'Vendredi minuit',9),(3,1,'Samedi midi',9),(4,1,'Samedi 16h',9),(5,1,'Samedi 20h',9),(6,1,'Samedi minuit',9),(7,1,'Dimanche midi',9),(8,1,'Dimanche 16h',9);
+INSERT INTO `game_slot` VALUES (1,1,'Vendredi 20h',9),(2,1,'Vendredi minuit',9),(3,1,'Samedi midi',9),(4,1,'Samedi 16h',9),(5,1,'Samedi 20h',9);
 /*!40000 ALTER TABLE `game_slot` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -255,7 +247,6 @@ CREATE TABLE `game_user` (
 
 LOCK TABLES `game_user` WRITE;
 /*!40000 ALTER TABLE `game_user` DISABLE KEYS */;
-INSERT INTO `game_user` VALUES (1,2);
 /*!40000 ALTER TABLE `game_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -277,7 +268,7 @@ CREATE TABLE `local_reservation` (
   PRIMARY KEY (`id`),
   KEY `IDX_29C13BFBF675F31B` (`author_id`),
   CONSTRAINT `FK_29C13BFBF675F31B` FOREIGN KEY (`author_id`) REFERENCES `app_users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -286,6 +277,7 @@ CREATE TABLE `local_reservation` (
 
 LOCK TABLES `local_reservation` WRITE;
 /*!40000 ALTER TABLE `local_reservation` DISABLE KEYS */;
+INSERT INTO `local_reservation` VALUES (1,1,30,0,'Faire la fête','20:30:00','2020-08-29');
 /*!40000 ALTER TABLE `local_reservation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -309,7 +301,7 @@ CREATE TABLE `migration_versions` (
 
 LOCK TABLES `migration_versions` WRITE;
 /*!40000 ALTER TABLE `migration_versions` DISABLE KEYS */;
-INSERT INTO `migration_versions` VALUES ('20191216105958','2019-12-16 11:00:15');
+INSERT INTO `migration_versions` VALUES ('20200531144844','2020-08-16 17:09:13');
 /*!40000 ALTER TABLE `migration_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -339,7 +331,7 @@ CREATE TABLE `news` (
 
 LOCK TABLES `news` WRITE;
 /*!40000 ALTER TABLE `news` DISABLE KEYS */;
-INSERT INTO `news` VALUES (1,1,'Le saucisson c\'est bon','oui','saucisson','2019-12-16'),(2,1,'Tu continues Ôö£├í danser...','...sur des hit-sales','hit-sales','2019-12-16');
+INSERT INTO `news` VALUES (1,1,'Le saucisson c\'est bon','oui','saucisson','2020-08-16'),(2,1,'Tu continues à danser...','sur des hits sales','taxi','2020-08-16');
 /*!40000 ALTER TABLE `news` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -352,4 +344,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-21 18:52:07
+-- Dump completed on 2020-08-16 19:39:05
