@@ -25,7 +25,7 @@ body {
 }
 
 .container {
-    padding: 0.5em 2em 2em 2em;
+    padding: 0.5em 5.125em 2em 5.125em;
     background-color: #fbecd8;
 }
 
@@ -42,7 +42,6 @@ h1 {
 h2 {
     color: #973504;
     font-family: 'OldNewspaperTypes', serif;
-    margin-left: 50px;
 }
 
 h1.titre {
@@ -71,15 +70,11 @@ p {
     text-justify: auto;
     font-family: 'Andada';
     color: #3d1921;
-    margin-left: 50px;
-    margin-right: 50px;
 }
 
 li {
     font-family: 'Andada';
     color: #3d1921;
-    margin-left: 50px;
-    margin-right: 50px;
 }
 
 a {
