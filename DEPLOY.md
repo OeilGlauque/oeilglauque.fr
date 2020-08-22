@@ -69,13 +69,13 @@ services:
         depends_on:
              - php
 
-	certbot: 
-		image: certbot/certbot 
-		restart: always
-		volumes: 
-		  - './docker/certbot/conf:/etc/letsencrypt' 
-		  - './docker/certbot/www:/var/www/certbot' 
-		entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    certbot: 
+        image: certbot/certbot 
+        restart: always
+        volumes: 
+          - './docker/certbot/conf:/etc/letsencrypt' 
+          - './docker/certbot/www:/var/www/certbot' 
+        entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
     php:
         build:
@@ -104,7 +104,7 @@ server {
 
 server {
 	listen 443 ssl; 
-	server_name oeilglauque.fr,www;
+	server_name oeilglauque.fr, www.oeilglauque.fr;
 	ssl_certificate /etc/letsencrypt/live/oeilglauque.fr/fullchain.pem; 
 	ssl_certificate_key /etc/letsencrypt/live/oeilglauque.fr/privkey.pem; 
 	include /etc/letsencrypt/options-ssl-nginx.conf; 
