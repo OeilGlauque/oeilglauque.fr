@@ -1,0 +1,117 @@
+/* This file contains the style for the navigation menu */
+
+/* The menu is invisible by default, and is made visible by changing its class */
+nav.menu {
+	width: 0;
+	transition: width 0.50s ease-in;
+}
+
+nav.menu.visible {
+	width: 100%;
+	transition: width 0.65s ease-out;
+}
+
+nav.menu.visible ~ *{
+	/* When the menu is visible, we hide the other elements of the page*/
+	display: none;
+}
+
+/* Style for the visible menu */
+nav.menu {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 50; /* To make sure it stays above everything else */
+	/*width: 100%;*/ /* Already set when making the menu appear */
+	height: 100%;
+	overflow: scroll;
+
+	background-color: #fef1d6;
+	text-align: center;
+	padding: 2.3em 0;
+}
+
+/* This pseudo-element contains the background image, since it is not possible to apply opacity to a background image, but it is possible to do so to an element */
+nav.menu::before{
+	content: ""; /* Needed to make the pseudo-element appear in the document */
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: url("/img/dragon.png") no-repeat center;
+	background-size: 700px auto;
+	opacity: 0.2; /* By making the element semi-transparent, we make the image semi-transparent as well */
+	z-index: -1; /* This element should appear under the menu, otherwise the links won't be clickable */
+}
+
+@media (max-width: 800px) {
+	nav.menu::before {
+		background-size: 90% auto;
+	}
+}
+
+/* Style for the contents of the menu */
+
+nav.menu section {
+	margin-bottom: 1em;
+}
+
+nav.menu h1, nav.menu h1 a {
+	color: #3d1921;
+}
+
+nav.menu h1 {
+	font-family: 'OldNewspaperTypes', serif;
+	font-size: 3em;
+	margin: 0 0 0.5em 0;
+}
+
+nav.menu h1#festival::after {
+	content: "";
+	display: block;
+	background: url("/img/deco_bas.png") no-repeat center;
+	background-size: auto 100%;
+	width: 100%;
+	height: 0.5em;
+	margin-top: 0.2em;
+}
+
+nav.menu ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+nav.menu li a {
+	font-family: serif;
+	font-size: 1.4em;
+	color: #973504;
+}
+
+/* Button to close the menu */
+nav.menu .menu-toggle {
+	font-size: 3em;
+	position: absolute;
+	right: 25%;
+	top: 5%;
+	color: #3d1921;
+}
+
+nav.menu .menu-toggle:hover {
+	cursor: pointer;
+	opacity: 0.8;
+}
+
+@media (min-width: 700px) and (max-width: 1000px) {
+	nav.menu .menu-toggle {
+		right: 15%;
+	}
+}
+
+@media (max-width: 700px) {
+	nav.menu .menu-toggle {
+		right: 0.3em;
+		top: 0.1em;
+	}
+}

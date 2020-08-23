@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="/css/common.css" />
         <link rel="stylesheet" href="/css/header.css" />
         <link rel="stylesheet" href="/css/footer.css" />
+        <link rel="stylesheet" href="/css/menu.css" />
         {% block customcss %}{% endblock %}
 
         <title>Oeil Glauque</title>
@@ -27,8 +28,28 @@
     </head>
     <body>
 
+        <nav class="menu">
+            <div class="menu-toggle" onclick="document.querySelector('nav.menu').classList.toggle('visible')">&times;</div>
+            <section class="menu-category">
+                <h1 id="festival">Festival</h1>
+                <ul>
+                    <li><a href="/informationsFestival">Informations</a></li>
+                    <li><a href="/parties">Liste des parties</a></li>
+                    <li><a href="/nouvellePartie">Proposer une partie</a></li>
+                    <li><a href="/photos">Photos</a></li>
+                    <li><a href="/partenaires">Partenaires</a></li>
+                </ul>
+            </section>
+            <section class="menu-category">
+                <h1><a href=" /reservations/boardGame">Réservations</a></h1>
+            </section>
+            <section class="menu-category">
+                <h1><a href="/contact">Contact</a></h1>
+            </section>
+        </nav>
+
         <header>
-            <div id="menu"></div>
+            <div id="menu-toggle" onclick="document.querySelector('nav.menu').classList.toggle('visible')"></div>
             <h1><a href="/">Festival de l'Oeil Glauque</a></h1>
             <div id="date">Du 18 au 20 octobre</div>
             <div id="login"><a href="/register">Inscription</a>|<a href="/login">Connexion</a></div>
