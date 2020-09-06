@@ -11,7 +11,7 @@ use App\Service\GlauqueMarkdownParser;
 class NewsPageController extends CustomController {
     
     /**
-     * @Route("/news", name="newsIndex")
+     * ("/news", name="newsIndex")
      */
     public function index() {
         $news = $this->getDoctrine()->getRepository(News::class)->findAll();
@@ -28,7 +28,7 @@ class NewsPageController extends CustomController {
     }
 
     /**
-     * @Route("/news/{slug}")
+     * ("/news/{slug}")
      */
     public function showNews($slug) {
         $news = $this->getDoctrine()->getRepository(News::class)->findOneBy(['slug' => $slug]);

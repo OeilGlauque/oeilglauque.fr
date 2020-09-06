@@ -29,14 +29,14 @@ class StaticPagesController extends CustomController {
         ));
     }
 
-    /**
-     * @Route("/planning", name="planning")
-     */
+    /*
+     * ("/planning", name="planning")
     public function planning() {
         return $this->render('oeilglauque/planning.html.twig', array(
             'dates' => $this->getCurrentEdition()->getDates(), 
         ));
     }
+    */
 
     /**
      * @Route("/contact", name="contact")
@@ -47,15 +47,14 @@ class StaticPagesController extends CustomController {
         ));
     }
 
-    /**
-     * @Route("/partenaires", name="partenaires")
-     */
+    /*
+     * ("/partenaires", name="partenaires")
     public function partenaires() {
         return $this->render('oeilglauque/partenaires.html.twig', array(
             'dates' => $this->getCurrentEdition()->getDates(), 
         ));
     }
-    
+    */
 
     /**
      * @Route("/photos", name="photos")
