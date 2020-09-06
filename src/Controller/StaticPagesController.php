@@ -29,14 +29,14 @@ class StaticPagesController extends CustomController {
         ));
     }
 
-    /*
-     * ("/planning", name="planning")
+    /**
+     * @Route("/planning", name="planning")
+     */
     public function planning() {
         return $this->render('oeilglauque/planning.html.twig', array(
             'dates' => $this->getCurrentEdition()->getDates(), 
         ));
     }
-    */
 
     /**
      * @Route("/contact", name="contact")
