@@ -9,18 +9,8 @@
     <h1 class="titre small">{% if edit %}Mettre à jour{% else %}Proposer{% endif %} une partie</h1>
     <p>
         Vous pouvez utiliser les tags suivants dans la description :
-        <ul>
-            <li>
-                <pre>*italique*</pre>: <span class="italic">italique</span></li>
-            <li>
-                <pre>**gras**</pre>: <span class="bold">gras</span></li>
-            <li>
-                <pre>__souligné__</pre>: <span class="underline">souligné</span></li>
-            <li>
-                <pre>#Titre</pre>: <span class="title">Titre</span>
-            </li>
-        </ul>
     </p>
+    {% include('oeilglauque/shards/formatting-help.html.twig') %}
 
     <div id="game-form">
         {{ form(form) }}

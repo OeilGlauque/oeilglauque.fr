@@ -116,6 +116,30 @@ hr {
     margin: 2em;
 }
 
+/* Style for shards/formatting-help.html.twig */
+.formatting-help pre {
+    display: inline;
+    font-family: monospace;
+    margin-right: 0.5em;
+    margin-bottom: 1.5em;
+}
+
+.formatting-help .italic {
+    font-style: italic;
+}
+
+.formatting-help .bold {
+    font-weight: bold;
+}
+
+.formatting-help .underline {
+    text-decoration: underline;
+}
+
+.formatting-help .title {
+    font-size: 2em;
+}
+
 form {
     margin: 0.2em auto 0 auto;
     text-align: center;
