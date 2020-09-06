@@ -3,7 +3,7 @@ header {
 	background-image: url(/img/header_bg.jpg);
 	background-size: 100% 100%;
 	background-color: #3d1921;
-	padding: 2em 0 3em;
+	padding: 2em 0 3em 0;
 	position: relative; /* Needed in order to absolutely position child elements */
 }
 
@@ -79,9 +79,34 @@ header #menu-toggle {
 }
 
 @media screen and (max-width: 850px) {
+	header {
+		padding-top: 1em;
+	}
+
+	header #date {
+		font-size: 0.8em;
+	}
+
+	header #login {
+		margin-top: 0.3em;
+	}
+
+	header #login a {
+		font-size: 0.8em;
+	}
+
 	header #menu-toggle {
-		position: static;
-		margin-left: 2em;
+		top: 45%;
+		left: 4%;
+	}
+
+	header h1 {
+		margin: 5px 0;
+		line-height: 30px;
+	}
+
+	header h1 a {
+		font-size: 0.6em;
 	}
 }
 
