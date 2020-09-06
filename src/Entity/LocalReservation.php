@@ -28,7 +28,6 @@ class LocalReservation
     /**
      * @ORM\Column(type="integer")
      * @Assert\GreaterThan(0)
-     * @Assert\DivisibleBy(15)
      */
     private $duration;
 
@@ -43,12 +42,7 @@ class LocalReservation
     private $motif;
 
     /**
-     * @ORM\Column(type="time")
-     */
-    private $time;
-
-    /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      * @Assert\GreaterThanOrEqual("today")
      * @Assert\LessThan("1 year")
      */
@@ -110,18 +104,6 @@ class LocalReservation
     public function setValidated(bool $validated): self
     {
         $this->validated = $validated;
-
-        return $this;
-    }
-
-    public function getTime(): ?\DateTimeInterface
-    {
-        return $this->time;
-    }
-
-    public function setTime(\DateTimeInterface $time): self
-    {
-        $this->time = $time;
 
         return $this;
     }
