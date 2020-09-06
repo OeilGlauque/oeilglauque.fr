@@ -3,17 +3,17 @@
 	width: auto;
 }
 
-#contacts p {
-	text-align: center;
+#contacts .email{
+	white-space: nowrap;
 }
 
 #contacts ul {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
 	display: flex;
-	justify-content: center;
 	height: 70px;
+	margin: 1.5em 0 0;
+	padding: 0;
+	list-style-type: none;
+	justify-content: center;
 }
 
 #contacts li {
