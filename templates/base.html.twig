@@ -41,7 +41,10 @@
                 </ul>
             </section>
             <section class="menu-category">
-                <h1><a href=" /reservations/boardGame">Réservations</a></h1>
+                <h1><a href=" /reservations/boardGame">Réservations de jeux</a></h1>
+            </section>
+            <section class="menu-category">
+                <h1><a href=" /reservations/local">Réservations du local</a></h1>
             </section>
             <section class="menu-category">
                 <h1><a href="/contact">Contact</a></h1>
@@ -52,7 +55,18 @@
             <div id="menu-toggle" onclick="document.querySelector('nav.menu').classList.toggle('visible')"></div>
             <h1><a href="/">Festival de l'Oeil Glauque</a></h1>
             <div id="date">Du 18 au 20 octobre</div>
-            <div id="login"><a href="/register">Inscription</a>|<a href="/login">Connexion</a></div>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {# Link to user control panel : {{ app.user.username }} #}
+            <div id="login">
+                <a href="{{ path('ucp') }}" class="ucp">{{ app.user.username }}</a> |
+                <a href="/logout">Déconnexion</a>
+            </div>
+            {% else %}
+            <div id="login">
+                <a href="/register">Inscription</a>|
+                <a href="/login">Connexion</a>
+            </div>
+            {% endif %}
         </header>
 
         <main role="main" class="container">
@@ -72,9 +86,8 @@
         <footer>
             <p class="copyright">Copyright &copy; Oeil Glauque 2020 - Festival de l'&OElig;il Glauque de l'Amicale des &Eacute;lèves de l'INSA Rennes</p>
             <p>
-                Développé avec amour par l'équipe web.<br/>
-                Artworks : Phyzalys, Pao, Carrion, Lheïra, Catnip et <a href="https://fr.freepik.com/">Freepik</a> <br/>
-                Template original Joomla : Aceltis
+                Développé avec amour par l'équipe web : Aypristyle, Bobby, Elnath, Jeanne, Lugrim, Sighy et Termina<br/>
+                Artworks : Catnip et <a href="https://fr.freepik.com/">Freepik</a> <br/>
             </p>
         </footer>
 
