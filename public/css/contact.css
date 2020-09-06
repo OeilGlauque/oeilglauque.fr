@@ -6,3 +6,25 @@
 #contacts p {
 	text-align: center;
 }
+
+#contacts ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	height: 70px;
+}
+
+#contacts li {
+	margin: 0 10px;
+}
+
+#contacts img {
+	width: 60px;
+	transition: 100ms 0ms ease-in-out;
+}
+
+#contacts img:hover {
+	width: 66px;
+}
