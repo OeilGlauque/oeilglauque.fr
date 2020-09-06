@@ -1,8 +1,12 @@
 {% extends 'base.html.twig' %}
 
+{% block customcss %}
+    <link rel="stylesheet" href="/css/admin.css"/>
+{% endblock %}
+
 {% block body %}
 
-        <h1>Administration</h1>
+        <h1 class="titre">Administration</h1>
         <div class="row">
             <div class="col-md-4">
                 <a href="{{ path('admin_editions') }}" class="btn btn-danger btn-lg btn-block btn-admin">Gestion des éditions</a>
@@ -11,7 +15,7 @@
                 <a href="{{ path('adminGamesList') }}" class="btn btn-danger btn-lg btn-block btn-admin">Gestion des parties</a>
             </div>
             <div class="col-md-4">
-                <a href="{{ path('unvalidatedGamesList') }}" class="btn btn-danger btn-lg btn-block btn-admin">Validation des parties en attente</a>
+                <a href="{{ path('unvalidatedGamesList') }}" class="btn btn-danger btn-lg btn-block btn-admin">Validation parties</a>
             </div>
         </div>
     <div class="row">
