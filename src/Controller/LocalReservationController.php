@@ -21,8 +21,15 @@ class LocalReservationController extends CustomController
         $form = $this->createForm(LocalReservationType::class, $reservation, array());
 
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->getUser();
+            $overlap = $this->getDoctrine()
+                ->getRepository(LocalReservation::class)
+                ->findLocalReservationOverlap($reservation);
+
+            if ($overlap == 0) {
+
+                $user = $this->getUser();
             $reservation->setAuthor($user);
 
             // Sauvegarde en base
@@ -35,6 +42,10 @@ class LocalReservationController extends CustomController
             $this->addFlash('info', "Votre réservation a bien été enregistrée, vous recevrez une confirmation par e-mail dès qu'elle sera acceptée.");
 
             return $this->redirectToRoute('index');
+            } else {
+                $this->addFlash('warning',
+                    "Votre réservation entre en conflit avec " . $overlap . " réservation(s) déjà effectuée(s) :(");
+            }
         }
 
         return $this->render('oeilglauque/localReservation.html.twig', array(

@@ -26,12 +26,6 @@ class LocalReservation
     private $author;
 
     /**
-     * @ORM\Column(type="integer")
-     * @Assert\GreaterThan(0)
-     */
-    private $duration;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $validated;
@@ -48,6 +42,12 @@ class LocalReservation
      */
     private $date;
 
+    /**
+     * @ORM\Column(type="datetime")
+     * @Assert\GreaterThanOrEqual("today")
+     * @Assert\LessThan("1 year")
+     */
+    private $endDate;
 
     public function __construct()
     {
@@ -86,12 +86,16 @@ class LocalReservation
 
     public function getDuration(): ?int
     {
-        return $this->duration;
+        try {
+            return $this->getDate()->diff($this->endDate)->m;
+        } catch(\Exception $e) {
+            return 0;
+        }
     }
 
     public function setDuration(float $duration): self
     {
-        $this->duration = $duration;
+        $this->endDate = \DateTimeImmutable::createFromMutable($this->getDate())->add(new \DateInterval("PT".$duration."M"));
 
         return $this;
     }
@@ -108,15 +112,21 @@ class LocalReservation
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?\DateTime
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(\DateTime $date): self
     {
         $this->date = $date;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->author->getName() . ', ' . $this->getDate()->format("j M Y - H:i")
+            . '-' . $this->getDuration();
     }
 }
