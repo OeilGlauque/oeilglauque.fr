@@ -6,13 +6,13 @@ footer {
 }
 
 footer p {
-	font-family: 'BookAntiqua';
+	font-family: 'BookAntiqua', serif;
 	text-align: center;
 	color: #fbecd8;
 }
 
 footer p.copyright {
-	font-family: 'OldNewspaperTypes';
+	font-family: 'OldNewspaperTypes', serif;
 	color: #682828;
 }
 

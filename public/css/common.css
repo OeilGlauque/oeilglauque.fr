@@ -71,12 +71,12 @@ h1.titre.small {
 p {
     text-align: justify;
     text-justify: auto;
-    font-family: 'Andada';
+    font-family: 'Andada', sans-serif;
     color: #3d1921;
 }
 
 li {
-    font-family: 'Andada';
+    font-family: 'Andada', sans-serif;
     color: #3d1921;
 }
 
