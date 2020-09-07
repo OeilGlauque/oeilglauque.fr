@@ -1,0 +1,14 @@
+#partenaires p {
+	text-align: center;
+	margin-bottom: 2em;
+}
+
+#partenaires h1 img {
+	height: 200px;
+	width: auto;
+}
+
+#partenaires > img:last-of-type {
+	height: 500px;
+	width: auto;
+}

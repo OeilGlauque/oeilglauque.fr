@@ -2,16 +2,12 @@
 
 {% block body %}
 
-        <h1>{% if edit %}Éditer{% else %}Publier{% endif %} une news</h1>
-        <p>
-            Vous pouvez utiliser les tags suivants dans le contenu : 
-            <ul>
-                <li><pre>*italique*</pre> : <em>italique</em></li>
-                <li><pre>**gras**</pre> : <b>gras</b></li>
-                <li><pre>__souligné__</pre> : <u>souligné</u></li>
-                <li><pre>#Titre</pre> : <h3 class="inline">Titre</h3></li>
-            </ul>
-        </p><br />
-        {{ form(form) }}
+    <h1 class="titre small">{% if edit %}Éditer{% else %}Publier{% endif %} une news</h1>
+    <p>
+        Vous pouvez utiliser les tags suivants dans la description :
+    </p>
+    {% include('oeilglauque/shards/formatting-help.html.twig') %}
+
+    {{ form(form) }}
 
 {% endblock %}

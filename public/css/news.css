@@ -1,0 +1,47 @@
+.news {
+	margin-top: 3em;
+	display: flex;
+	flex-flow: row wrap;
+}
+
+.news-item {
+	width: 45%;
+	min-width: 400px;
+	margin: 0.5em 2.5%;
+	border: solid #682828 1px;
+	border-radius: 5px;
+	padding: 0.5em 1em;
+
+	max-height: 30em;
+	overflow-y: auto;
+}
+
+@media screen and (max-width: 1200px) {
+	.news {
+		justify-content: center;
+	}
+
+	.news-item {
+		width: 100%;
+		min-width: 0;
+	}
+}
+
+.news-item .admin-button svg {
+	width: 0.8em;
+	height: auto;
+}
+
+.news-item .admin-button.edit {
+	margin-left: 0.2em;
+}
+
+
+.news-item .admin-button:hover {
+	text-decoration: none;
+
+}
+
+.news .no-news {
+	margin: auto;
+}

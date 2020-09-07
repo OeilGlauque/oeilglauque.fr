@@ -1,29 +1,35 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <h1 class="titre">
+        Connexion
+    </h1>
 
-        {% if error %}
-            <div class="text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
-        <div class="row">
-            <form action="{{ path('login') }}" method="post" class="well col-lg-8">
-                <div class="row">
-                    <label class="col-lg-4" for="username">Pseudo :</label>
-                    <input class="col-lg-8" type="text" id="username" name="_username" value="{{ last_username }}" />
-                </div>
-                <div class="row">
-                    <label class="col-lg-4" for="password">Mot de passe :</label>
-                    <input class="col-lg-8" type="password" id="password" name="_password" />
-                </div>
-                    {#
-                    If you want to control the URL the user
-                    is redirected to on success (more details below)
-                    <input type="hidden" name="_target_path" value="/account" />
-                #}
-                    <button type="submit">login</button>
-                <p><a href="{{ path('register') }}">Créer un compte</a></p>
-                <p><a href="{{ path('forgotPwd') }}">Mot de passe oublié ?</a></p>
-            </form>
+    {% if error %}
+        <div class="alert alert-danger alert-dismissible fade show">
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
+    {% endif %}
+
+    <div class="row">
+        <form action="{{ path('login') }}" method="post" class="well col-lg-8">
+            <div class="row">
+                <input class="col-lg-7" type="text" id="username" name="_username" value="{{ last_username }}"
+                       placeholder="Pseudo"/>
+            </div>
+            <div class="row">
+                <input class="col-lg-7" type="password" id="password" name="_password" placeholder="Mot de passe"/>
+            </div>
+            {#
+            If you want to control the URL the user
+            is redirected to on success (more details below)
+            <input type="hidden" name="_target_path" value="/account" />
+        #}
+            <button type="submit">Connexion</button>
+        </form>
+    </div>
 
 {% endblock %}

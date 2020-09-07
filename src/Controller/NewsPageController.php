@@ -28,7 +28,7 @@ class NewsPageController extends CustomController {
     }
 
     /**
-     * @Route("/news/{slug}")
+     * ("/news/{slug}")
      */
     public function showNews($slug) {
         $news = $this->getDoctrine()->getRepository(News::class)->findOneBy(['slug' => $slug]);

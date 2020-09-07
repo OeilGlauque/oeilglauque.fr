@@ -1,10 +1,34 @@
 {% extends 'base.html.twig' %}
 
+{% block customcss %}
+	<link rel="stylesheet" href="/css/contact.css"/>
+{% endblock %}
+
 {% block body %}
 
-        <h1>Nous contacter</h1>
-        Pour toute question en lien avec notre activité ou avec le festival, n'hésitez pas à rejoindre <a href="https://discord.gg/4cAVxqc">notre serveur Discord</a> où vous pourrez retrouver toute l'équipe. 
-        Si vous avez des questions plus importantes où si vous êtes timides, vous pouvez également nous contacter sur notre adresse mail : <pre>oeilglauque [at] gmail.com</pre>
+	<div class="row center" id="contacts">
+		<h1 class="titre small">
+			Nous contacter
+		</h1>
+
+		<p>
+			Pour toute question en lien avec notre activité ou avec le festival, n'hésitez pas à rejoindre <a href="https://discord.gg/4cAVxqc">notre serveur Discord</a> où vous pourrez retrouver toute l'équipe.
+		</p>
+
+		<p>
+			Si vous avez des questions plus importantes ou si vous êtes timides, vous pouvez également nous contacter sur notre adresse mail&nbsp;: <span class="email">oeilglauque [at] gmail.com</span>
+		</p>
+
+		<p>Et Retrouvez-nous sur les réseaux sociaux !</p>
+
+		<ul>
+			<li><a href="https://www.facebook.com/festival.oeil.glauque/"><img src="img/contact/facebook.png" alt="facebook" /></a></li>
+			<li><a href="https://twitter.com/oeilglauque"><img src="img/contact/twitter.png" alt="twitter" /></a></li>
+			<li><a href="https://www.instagram.com/festival_oeil_glauque/"><img src="img/contact/instagram.png" alt="instagram" /></a></li>
+		</ul>
+	</div>
+
+        
 
 
 {% endblock %}

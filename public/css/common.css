@@ -1,0 +1,197 @@
+@import url('https://fonts.googleapis.com/css?family=Andada');
+@font-face {
+	font-family: "Mirkwood_Chronicle";
+	src: url('Mirkwood_Chronicle.ttf');
+}
+
+@font-face {
+    font-family: "OldNewspaperTypes";
+    src: url('OldNewspaperTypes.ttf');
+}
+@font-face {
+    font-family: "BookAntiqua";
+    src: url('book_ant.ttf');
+}
+
+
+/*
+    The rules in this file are common to all pages, so take care when modifying them!
+    Rules should be specified as much as possible in per-page stylesheets, so that the rules of one
+    page do not impact other pages.
+ */
+
+body {
+    background-color: #f5dcc0;
+}
+
+.container {
+    padding: 0.5em 5.125em 2em 5.125em;
+    background-color: #fbecd8;
+}
+
+h1,h2 {
+    margin-top: 0.5em;
+    margin-bottom: 1em;	
+}
+
+h1 {
+    color: #3d1921;
+    font-family: 'Mirkwood_Chronicle', serif;
+}
+
+h2 {
+    color: #973504;
+    font-family: 'OldNewspaperTypes', serif;
+}
+
+h1.titre {
+    font-family: 'Mirkwood_Chronicle', serif;
+    color: #3d1921;
+    font-size: 2em;
+    text-transform: uppercase;
+    text-align: center;
+
+    background-image: url("/img/title_bg.png");
+    background-size: 100% 100%;
+    padding: 75px 0;
+    display: block;
+    margin: 1em auto;
+
+    max-width: 800px;
+}
+
+h1.titre.small {
+    font-size: 1.7em;
+}
+
+.well {
+    padding: 2em;
+}
+
+p {
+    text-align: justify;
+    text-justify: auto;
+    font-family: 'Andada', sans-serif;
+    color: #3d1921;
+}
+
+li {
+    font-family: 'Andada', sans-serif;
+    color: #3d1921;
+}
+
+a {
+    color: #961e2c;
+}
+
+a:hover{
+	color:#a4817b;
+}
+
+.center {
+    margin: auto;
+    text-align: center;
+    display: block;
+}
+
+/* .btn-primary and .btn are bootstrap classes, but we want to have our own style instead */
+/* We need to put the .btn:hover as well, to properly override bootstrap style */
+button:not(.close), .btn-primary, .btn, .btn:hover{
+    background-color: #dda97e;
+    border: solid #fbecd8 3px;
+    outline: solid 3px #dda97e;
+
+    color: white;
+    cursor: pointer;
+    padding: 0.7em 2em;
+}
+
+button:not(.close):hover, .btn:hover {
+    background-color: #ffca9d;
+}
+
+hr {
+    background-color: #eee;
+    width: 90%;
+    margin: 2em;
+}
+
+/* Style for shards/formatting-help.html.twig */
+.formatting-help pre {
+    display: inline;
+    font-family: monospace;
+    margin-right: 0.5em;
+    margin-bottom: 1.5em;
+}
+
+.formatting-help .italic {
+    font-style: italic;
+}
+
+.formatting-help .bold {
+    font-weight: bold;
+}
+
+.formatting-help .underline {
+    text-decoration: underline;
+}
+
+.formatting-help .title {
+    font-size: 2em;
+}
+
+form {
+    margin: 0.2em auto 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form > div {
+    width: 75%;
+}
+
+form .row {
+    margin-bottom: 1em;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#username {
+	margin-left:auto;
+	margin-right:auto;
+}
+#password {
+	margin-left:auto;
+	margin-right:auto;
+}
+
+input {
+    color: black;
+    background-color: #EEEEEE;
+    border-radius: 5px;
+}
+
+select option {
+    color: black;
+    background-color: #EEEEEE;
+}
+
+.my-selectable {
+    -webkit-user-select: all;  /* Chrome all / Safari all */
+    -moz-user-select: all;     /* Firefox all */
+    -ms-user-select: all;      /* IE 10+ */
+    user-select: all;          /* Likely future */ 
+}
+
+@media only screen and (max-width: 767px) {
+    h1.titre {
+        font-size: 1.3em;
+    }
+
+    h1.titre.small {
+        font-size: 0.9em;
+    }
+}

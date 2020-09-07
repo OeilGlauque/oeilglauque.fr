@@ -1,0 +1,30 @@
+#contacts h1 img{
+	height: 200px;
+	width: auto;
+}
+
+#contacts .email{
+	white-space: nowrap;
+}
+
+#contacts ul {
+	display: flex;
+	height: 70px;
+	margin: 1.5em 0 0;
+	padding: 0;
+	list-style-type: none;
+	justify-content: center;
+}
+
+#contacts li {
+	margin: 0 10px;
+}
+
+#contacts img {
+	width: 60px;
+	transition: 100ms 0ms ease-in-out;
+}
+
+#contacts img:hover {
+	width: 66px;
+}
