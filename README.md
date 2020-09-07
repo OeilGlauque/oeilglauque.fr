@@ -62,10 +62,11 @@ DATABASE_URL=mysql://user:password@127.0.0.1:3306/databaseName?serverVersion=5.7
  # Remplacer user et password par ce que vous avez rempli lors de l'installation de MariaDB
  # Remplacer databaseName par le nom que vous voulez donner à la base de donnée
  # Remplacer x.x.x par le numéro de version de mariadb obtenu plus haut
-MAILER_URL=gmail://fogfogtest@gmail.com:of@5991.diia2D@localhost
 MAILER_ADDRESS=fogfogtest@gmail.com
  # Cette adresse gmail sert de test pour le système de mail
 ```
+
+Pour paramètrer correctement les mails, il faut mettre `password: testGmail159` dans le fichier `config/packages/swiftmail.yaml`.
 
 Il ne reste plus qu'à installer les dépendances, effectuer une migration de la base de données et lancer le serveur de développement : 
 

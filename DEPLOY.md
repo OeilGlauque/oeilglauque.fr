@@ -65,6 +65,7 @@ services:
         ports:
           - '80:80'
           - '443:443'
+          - '465:465'
         command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
         depends_on:
              - php
@@ -81,12 +82,14 @@ services:
         build:
           context: .
           dockerfile: docker/php/Dockerfile
+        volumes:
+          - './apps/oeilglauque.fr:/usr/src/app'
         restart: always
         user: 1000:1000
 ```
 
 La version du fichier dépends de la version de docker mais ubuntu peut être un peu capricieux. La version stable la plus récente fera l'affaire. Pour mariadb, on choisira l'image stable la plus récente, idem pour nginx en version alpine. Adminer n'est là que pour pouvoir monitorer facilement la bdd et n'est pas absolument nécessaire.  Certbot permet d'obtenir des certificats let'sencrypt automatiquement.
-On précise les options dont on a envie pour mysql, avec de meilleurs mots de passe bien sûr. Si nécessaire, on stop tout les autres services écoutant sur les port 80 et 443.
+On précise les options dont on a envie pour mysql, avec de meilleurs mots de passe bien sûr. Si nécessaire, on stop tout les autres services utilisant les port 80 et 443.
 
 Le fichier de configuration nginx est le suivant :
 ```nginx
@@ -138,7 +141,7 @@ On peut, dans un premier temps, tester en enlevant les références à php/https
 On écrit le Dockerfile :
 ```docker
 # ./docker/php/Dockerfile
-FROM php:7.4-fpm
+FROM php:7.4.10-fpm
 
 RUN docker-php-ext-install pdo_mysql
 
@@ -165,14 +168,17 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 
 WORKDIR /usr/src/app
 
-RUN PATH=$PATH:/usr/src/apps/vendor/bin:bin
+VOLUME /usr/src/app
+
+RUN PATH=$PATH:/usr/src/apps/oeilglauque.fr/vendor/bin:bin
 ```
 On utilise la version de php-fpm stable la plus récente.
 Il faut absolument préparer le `.env.local` correctement dans le projet. Notamment :
  - `APP_ENV=prod`
  - `DATABASE_URL=mysql://fog:fogpwd@mysql:3306/fogdb?serverVersion=mariadb-10.5.3` (La version mariadb dépend de l'install)
- - `MAILER_URL=gmail://emailfog:password@localhost`
  - `MAILER_ADDRESS=emailfog`
+
+De plus, il faut paramètrer le fichier `config/packages/swiftmail.yaml` avec la bonne adresse mail et mot de passe.
 
 Ensuite, il faut build le Dockerfile: `sudo docker-compose build` et relancer les containers `sudo docker-compose up -d` en s'assurant que la définition du container php soit bien présent dans le docker-compose.yml.
 
