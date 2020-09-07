@@ -63,12 +63,14 @@
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             {# Link to user control panel : {{ app.user.username }} #}
             <div id="login">
-                <a href="{{ path('ucp') }}" class="ucp">{{ app.user.username }}</a> |
+                <a href="{{ path('ucp') }}" class="ucp">{{ app.user.username }}</a>
+                <span class="separator"></span>
                 <a href="/logout">Déconnexion</a>
             </div>
             {% else %}
             <div id="login">
-                <a href="/register">Inscription</a>|
+                <a href="/register">Inscription</a>
+                <span class="separator"></span>
                 <a href="/login">Connexion</a>
             </div>
             {% endif %}
