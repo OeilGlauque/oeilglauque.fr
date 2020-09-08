@@ -1,0 +1,16 @@
+{% set titre = 'Réservation du local du FOG' %}
+{% set salutation %}
+    Bonjour, {{ reservation.getAuthor().getPseudo() }} veut une réservation du local.
+{% endset %}
+{% set first_paragraph %}
+    La demande de réservation du local du FOG est pour le {{ reservation.getDate().format("D j M Y à H:i") }} pendant {{ reservation.getDuration() }} minutes.
+{%  endset %}
+{%  set second_paragraph %}
+    Le motif de la réservation est le suivant : {{ reservation.getMotif() }}.
+{% endset %}
+{% set third_paragraph %}
+Il vous faut donc maintenant confirmer que le local est  empruntable en utilisant le lien suivant:
+<a href="{{ url('localReservationList') }}">Liste des demandes de réservation du local</a>
+Une fois cela fait, la personne ayant reservé sera prévenu par mail.
+{% endset %}
+{% include 'oeilglauque/emails/reservationEmailBase.html.twig' %}

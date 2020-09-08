@@ -1,0 +1,11 @@
+{% set titre = 'Réservation de jeu au FOG' %}
+{% set salutation %}
+    Bonjour,
+{% endset %}
+{% set first_paragraph %}
+    Le réservation de {{ reservation.getAuthor().getPseudo() }} a bien été refusée.
+{% endset %}
+{% set second_paragraph = '' %}
+{% set third_paragraph = '' %}
+
+{% include 'oeilglauque/emails/reservationEmailBase.html.twig' %}

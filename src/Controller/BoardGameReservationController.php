@@ -17,7 +17,7 @@ class BoardGameReservationController extends CustomController
      */
     public function boardGameReservation(Request $request)
     {
-        // $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $reservation = new BoardGameReservation();
         $form = $this->createForm(BoardGameReservationType::class, $reservation, array());
@@ -27,20 +27,32 @@ class BoardGameReservationController extends CustomController
 
         $form->handleRequest($request);
 
+        $overlap = $this->getDoctrine()
+            ->getRepository(BoardGameReservation::class)
+            ->findBoardGameReservationOverlap($reservation);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->getUser();
-            $reservation->setAuthor($user);
+            if (count($overlap) == 0) {
 
-            // Sauvegarde en base
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($reservation);
-            $entityManager->flush();
+                $user = $this->getUser();
+                $reservation->setAuthor($user);
 
-            $this->sendmail($reservation, $this->get('swiftmailer.mailer.default'));
+                // Sauvegarde en base
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($reservation);
+                $entityManager->flush();
 
-            $this->addFlash('info', "Votre réservation a bien été enregistrée, vous recevrez une confirmation par e-mail dès qu'elle sera acceptée.");
+                $this->sendmail($reservation, $this->get('swiftmailer.mailer.default'));
 
-            return $this->redirectToRoute('index');
+                $this->addFlash('info', "Votre réservation a bien été enregistrée, vous recevrez une confirmation par e-mail dès qu'elle sera acceptée.");
+
+                return $this->redirectToRoute('index');
+            } else {
+                $this->addFlash('warning',
+                    "Votre réservation entre en conflit avec une réservation déjà effectuée sur le(s) jeu(x) suivant(s) : "
+                    . implode(', ', $overlap));
+            }
+
         }
 
         return $this->render('oeilglauque/boardGameReservation.html.twig', array(
@@ -68,13 +80,12 @@ class BoardGameReservationController extends CustomController
             );
         $mailer->send($message);
 
-        // TODO find a way to avoid this ugly code or to make BCC to self working
         $message = (new \Swift_Message('Nouvelle demande de réservation de jeu au FOG'))
             ->setFrom([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
             ->setTo([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
             ->setBody(
                 $this->renderView(
-                    'oeilglauque/emails/boardGameReservation/nouvelleReservation.html.twig',
+                    'oeilglauque/emails/boardGameReservation/admin/nouvelleReservation.html.twig',
                     ['reservation' => $reservation]
                 ),
                 'text/html'

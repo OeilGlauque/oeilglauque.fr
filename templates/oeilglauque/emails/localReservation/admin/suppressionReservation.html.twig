@@ -1,0 +1,13 @@
+{% set titre = 'Réservation du local du FOG' %}
+{% set salutation %}
+    Bonjour, la demande de {{ reservation.getAuthor().getPseudo() }} a bien été réfusée
+{% endset %}
+{% set first_paragraph %}
+    La demande de réservation du local du FOG était le {{ reservation.getDate().format("D j M Y à H:i") }} pendant {{ reservation.getDuration() }} minutes.
+{%  endset %}
+{%  set second_paragraph %}
+    Pour rappel, le motif de la réservation était le suivant : {{ reservation.getMotif() }}
+{% endset %}
+{% set third_paragraph = '' %}
+
+{% include 'oeilglauque/emails/reservationEmailBase.html.twig' %}
