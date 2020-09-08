@@ -1,8 +1,12 @@
 {% extends 'base.html.twig' %}
 
+{% block customcss %}
+    <link rel="stylesheet" href="/css/pwd.css"/>
+{% endblock %}
+
 {% block body %}
 
-        <h1>Mot de passe oublié</h1>
+        <h1 class="titre">Mot de passe oublié</h1>
         <form method="post">
                 <label for="inputEmail" class="sr-only">Email</label>
                 <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>

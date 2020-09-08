@@ -194,12 +194,10 @@ class SecurityController extends CustomController
                 );
                 $mailer->send($message);
 
-                $this->addFlash('notice', 'Mail envoyé');
+                $this->addFlash('success', 'Mail envoyé, vérifiez votre boite mail.');
                 return $this->redirectToRoute('index');
             }
         }
-
-        $token = $tokenGenerator->generateToken();
 
         return $this->render(
             'oeilglauque/forgotPwd.html.twig',
@@ -228,7 +226,7 @@ class SecurityController extends CustomController
             $user->setPassword($password);
             $entityManager->flush();
 
-            $this->addFlash('notice', 'Mot de passe mis à jour, vous pouvez vous connecter !');
+            $this->addFlash('success', 'Mot de passe mis à jour, vous pouvez vous connecter !');
 
             return $this->redirectToRoute('index');
         }
