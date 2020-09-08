@@ -182,7 +182,7 @@ De plus, il faut paramètrer le fichier `config/packages/swiftmail.yaml` avec la
 
 Ensuite, il faut build le Dockerfile: `sudo docker-compose build` et relancer les containers `sudo docker-compose up -d` en s'assurant que la définition du container php soit bien présent dans le docker-compose.yml.
 
-En principe avec la commande exec de docker on peut lancer l'install de composer mais ce n'est pas toujours possible. On peut directement entrer dans le bash du container: `sudo docker-compose exec -u 0 php /bin/bash`(ou directement via lazydocker)
+En principe avec la commande exec de docker on peut lancer l'install de composer mais ce n'est pas toujours possible. On peut directement entrer dans le bash du container: `sudo docker-compose exec -u 0 php /bin/bash` ou `sudo docker exec -u 0 nom_du_container /bin/bash` (selon si docker fait un caprice ou non, ça arrive 🤷‍♂️)
 
 On peut finir l'installation :
 ```bash

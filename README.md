@@ -55,10 +55,10 @@ Certains installateurs modifient Path par eux-même. Néanmoins, il reste néces
 
 ### Suite de l'installation
 
-Une fois le git cloné, il faut faire une copie de `.env` en `.env.local`. Ensuite, on peut configurer localement le connecteur MariaDB dans le fichier `.env` selon votre installation. On en profite aussi pour paramétrer le système de mail :
+Une fois le git cloné, il faut faire une copie de `.env` en `.env.local`. Ensuite, on peut configurer localement le connecteur MariaDB dans le fichier `.env.local` selon votre installation. On en profite aussi pour paramétrer le système de mail :
 
 ```bash
-DATABASE_URL=mysql://user:password@127.0.0.1:3306/databaseName?serverVersion=5.7
+DATABASE_URL=mysql://user:password@127.0.0.1:3306/databaseName?serverVersion=mariadb-x.x.x
  # Remplacer user et password par ce que vous avez rempli lors de l'installation de MariaDB
  # Remplacer databaseName par le nom que vous voulez donner à la base de donnée
  # Remplacer x.x.x par le numéro de version de mariadb obtenu plus haut
@@ -97,7 +97,7 @@ Voir [DEPLOY.md](DEPLOY.md)
 git pull origin master
 git fetch --tags
 git checkout <version tag name>
-composer install
+composer install --no-dev --optimize-autoloader
 php bin/console doctrine:migrations:diff
 php bin/console doctrine:migrations:migrate
 php bin/console cache:clear --env=prod --no-debug && chmod -R 777 var/cache
