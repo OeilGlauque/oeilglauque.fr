@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="/css/menu.css" />
         {% block customcss %}{% endblock %}
 
-        <title>Oeil Glauque</title>
+        <title>Œil Glauque</title>
 
         <!-- Favicon -->
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -55,7 +55,7 @@
 
         <header>
             <div id="menu-toggle" onclick="document.querySelector('nav.menu').classList.toggle('visible')"></div>
-            <h1><a href="/">Festival de l'Oeil Glauque</a></h1>
+            <h1><a href="/">Festival de l'&OElig;il Glauque</a></h1>
             {#
                 Rest in Covid :(
             <div id="date">Du 18 au 20 octobre</div>
@@ -63,12 +63,14 @@
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             {# Link to user control panel : {{ app.user.username }} #}
             <div id="login">
-                <a href="{{ path('ucp') }}" class="ucp">{{ app.user.username }}</a> |
+                <a href="{{ path('ucp') }}" class="ucp">{{ app.user.username }}</a>
+                <span class="separator"></span>
                 <a href="/logout">Déconnexion</a>
             </div>
             {% else %}
             <div id="login">
-                <a href="/register">Inscription</a>|
+                <a href="/register">Inscription</a>
+                <span class="separator"></span>
                 <a href="/login">Connexion</a>
             </div>
             {% endif %}
@@ -89,7 +91,7 @@
         </main>
 
         <footer>
-            <p class="copyright">Copyright &copy; Oeil Glauque 2020 - Festival de l'&OElig;il Glauque de l'Amicale des &Eacute;lèves de l'INSA Rennes</p>
+            <p class="copyright">Copyright &copy; &OElig;il Glauque 2020 - Festival de l'&OElig;il Glauque de l'Amicale des &Eacute;lèves de l'INSA Rennes</p>
             <p>
                 Développé avec amour par l'équipe web : Aypristyle, Bobby, Elnath, Jeanne, Lugrim, Sighy et Termina<br/>
                 Artworks : Catnip et <a href="https://fr.freepik.com/">Freepik</a> <br/>

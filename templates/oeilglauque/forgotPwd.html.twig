@@ -1,12 +1,16 @@
 {% extends 'base.html.twig' %}
 
+{% block customcss %}
+    <link rel="stylesheet" href="/css/pwd.css"/>
+{% endblock %}
+
 {% block body %}
 
-        <h1>Mot de passe oublié</h1>
+        <h1 class="titre small">Mot de passe oublié</h1>
         <form method="post">
                 <label for="inputEmail" class="sr-only">Email</label>
                 <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
-                <p>Un lien pour réinitialiser votre mot de passe sera envoyé sur l'adresse mail que vous avez renseigné lors de l'inscription.</p>
+                <p class="pwd">Un lien pour réinitialiser votre mot de passe sera envoyé sur l'adresse mail que vous avez renseigné lors de l'inscription.</p>
                 <button class="btn btn-lg btn-primary" type="submit">Réinitialiser mon mot de passe</button>
         </form>
 

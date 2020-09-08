@@ -49,6 +49,10 @@ header #date {
 	margin: 0 0.2em;
 }
 
+#login .separator::after {
+	content: "|";
+}
+
 header a {
 	color: white;
 }
@@ -61,24 +65,26 @@ header a:hover {
 /* Bouton Menu */
 
 header #menu-toggle {
-	background-image: url(/img/circle.png);
-	width: 60px;
-	height: 60px;
+	background-image: url(/img/menu.png);
+	background-size: 100% 100%;
+	width: 40px;
+	height: 35px;
 	cursor: pointer;
 
 	position: absolute;
-	top: 25%;
-	left: 17%;
+	top: 33%;
+	left: 10%;
 }
 
-@media screen and (max-width: 1100px) and (min-width: 850px) {
+@media screen and (max-width: 1100px) and (min-width: 750px) {
 	header #menu-toggle {
-		left: 10%;
-		top: 2.5em;
+		width: 30px;
+		height: 25px;
+		left: 5%;
 	}
 }
 
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 750px) {
 	header {
 		padding-top: 1em;
 	}
@@ -96,8 +102,10 @@ header #menu-toggle {
 	}
 
 	header #menu-toggle {
-		top: 45%;
-		left: 4%;
+		width: 20px;
+		height: 15px;
+		top: 70%;
+		left: 2%;
 	}
 
 	header h1 {

@@ -8,10 +8,10 @@
     font-family: "OldNewspaperTypes";
     src: url('OldNewspaperTypes.ttf');
 }
-@font-face {
-    font-family: "BookAntiqua";
-    src: url('book_ant.ttf');
-}
+/*@font-face {*/
+/*    font-family: "BookAntiqua";*/
+/*    src: url('book_ant.ttf');*/
+/*}*/
 
 
 /*
@@ -20,8 +20,19 @@
     page do not impact other pages.
  */
 
+html {
+    height: 100%;
+}
+
 body {
     background-color: #f5dcc0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 1 auto;
 }
 
 .container {
