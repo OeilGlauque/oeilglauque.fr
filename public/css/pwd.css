@@ -6,3 +6,8 @@ a.pwd {
   font-size: 0.9em;
   margin: auto;
 }
+
+div.pwd {
+  display: flex;
+  flex-direction: column;
+}
