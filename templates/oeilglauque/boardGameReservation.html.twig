@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block customcss %}
+    <link rel="stylesheet" href="/css/reservation.css"/>
+{% endblock %}
+
 {% block scripts %}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 
@@ -23,7 +27,7 @@
     {{ form(form) }}
 
     <h2>Liste des jeux</h2>
-    <table>
+    <table class="reservation">
         <tr>
             <!--<th scope="col">id</th>-->
             <th scope="col">Nom</th>

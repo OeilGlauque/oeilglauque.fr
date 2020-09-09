@@ -32,27 +32,30 @@ class BoardGameReservationController extends CustomController
             ->findBoardGameReservationOverlap($reservation);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if (count($overlap) == 0) {
-
-                $user = $this->getUser();
-                $reservation->setAuthor($user);
-
-                // Sauvegarde en base
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($reservation);
-                $entityManager->flush();
-
-                $this->sendmail($reservation, $this->get('swiftmailer.mailer.default'));
-
-                $this->addFlash('info', "Votre réservation a bien été enregistrée, vous recevrez une confirmation par e-mail dès qu'elle sera acceptée.");
-
-                return $this->redirectToRoute('index');
+            if ($reservation->getDateBeg() < $reservation->getDateEnd()) {
+                if (count($overlap) == 0) {
+    
+                    $user = $this->getUser();
+                    $reservation->setAuthor($user);
+    
+                    // Sauvegarde en base
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($reservation);
+                    $entityManager->flush();
+    
+                    $this->sendmail($reservation, $this->get('swiftmailer.mailer.default'));
+    
+                    $this->addFlash('info', "Votre réservation a bien été enregistrée, vous recevrez une confirmation par e-mail dès qu'elle sera acceptée.");
+    
+                    return $this->redirectToRoute('index');
+                } else {
+                    $this->addFlash('warning',
+                        "Votre réservation entre en conflit avec une réservation déjà effectuée sur le(s) jeu(x) suivant(s) : "
+                        . implode(', ', $overlap));
+                }
             } else {
-                $this->addFlash('warning',
-                    "Votre réservation entre en conflit avec une réservation déjà effectuée sur le(s) jeu(x) suivant(s) : "
-                    . implode(', ', $overlap));
+                $this->addFlash('warning', "La date de début doit être antérieur à la date de fin.");
             }
-
         }
 
         return $this->render('oeilglauque/boardGameReservation.html.twig', array(
