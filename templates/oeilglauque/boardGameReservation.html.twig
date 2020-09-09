@@ -15,7 +15,7 @@
 
         <h1 class="titre small">Réservations de jeux</h1>
         <p>
-        Bienvenue sur cette page intrépide aventurier ! Vous pouvez réserver le Local du FOG pour une soirée entre amis ici.
+        Bienvenue sur cette page intrépide aventurier ! Ici nous vous proposons de venir emprunter des jeux dans notre Ludothèque.
         <br />
         La réponse vous sera envoyée via l'adresse e-mail renseignée sur votre compte.
         </p>
@@ -27,8 +27,10 @@
         <tr>
             <!--<th scope="col">id</th>-->
             <th scope="col">Nom</th>
+            <!--
             <th scope="col">Année</th>
             <th scope="col">Prix</th>
+            -->
             <th scope="col">Manquant</th>
             <th scope="col">Surplus</th>
             <th scope="col">Note</th>
@@ -37,8 +39,10 @@
             <tr>
                 <!--<td>{{ g.getId() }}</td>-->
                 <td>{{ g.getName() }}</td>
+                <!--
                 <td>{{ g.getYear() }}</td>
                 <td>{% if g.getPrice() != null %}{{ g.getPrice() | number_format(2, ',', ' ') }} € {% endif %}</td>
+                -->
                 <td>{{ g.getMissing() }}</td>
                 <td>{{ g.getExcess() }}</td>
                 <td>{{ g.getNote() }}</td>
