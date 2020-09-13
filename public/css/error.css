@@ -1,0 +1,14 @@
+main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+main p {
+    font-size: 1.75em;
+}
+
+main img {
+    width: 450px;
+    margin: 10px 0;
+}
