@@ -90,6 +90,7 @@ services:
 
 La version du fichier dépends de la version de docker mais ubuntu peut être un peu capricieux. La version stable la plus récente fera l'affaire. Pour mariadb, on choisira l'image stable la plus récente, idem pour nginx en version alpine. Adminer n'est là que pour pouvoir monitorer facilement la bdd et n'est pas absolument nécessaire.  Certbot permet d'obtenir des certificats let'sencrypt automatiquement.
 On précise les options dont on a envie pour mysql, avec de meilleurs mots de passe bien sûr. Si nécessaire, on stop tout les autres services utilisant les port 80 et 443.
+Il faut également s'assurer que docker ait les droits pour écrire les volumes sur la partie host.
 
 Le fichier de configuration nginx est le suivant :
 ```nginx
@@ -206,3 +207,24 @@ chmod +x init-letsencrypt.sh
 sudo ./init-letsencrypt.sh
 ```
 Si tout se passe bien, certbot nous félicite, on peut accéder au site en https et le http redirige vers le https. On peut alors le faire définitivement avec staging à 0. Cette opération n'est à faire qu'une fois pour initialiser les certificats. Ces derniers sont normalement renouvelés tous les ~90 jours.
+
+## Quelques commandes MySQL utiles
+
+- Faire une backup de la base de donnée
+```bash
+mysqldump -u root -p fogdb > fogbackup.sql
+```
+
+- Charger une backup de la base de donnée
+```sql
+use fogdb;
+source fogbackup.sql
+```
+
+- Charger une table avec un csv
+```sql
+use fogdb
+load data local infile 'tableData.csv' into table tableName fields terminated by ';' lines terminated by '\n';
+```
+
+Utiliser `docker cp` au besoin pour transporter les fichiers entre host et container.
