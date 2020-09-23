@@ -1,6 +1,6 @@
 {% set titre = 'Réservation du local du FOG' %}
 {% set salutation %}
-    Bonjour, la demande de {{ reservation.getAuthor().getPseudo() }} a bien été accepté
+    Bonjour, la demande de {{ reservation.getAuthor().getPseudo() }} ({{ reservation.getAuthor().getName() }} {{ reservation.getAuthor().getFirstName() }}) a bien été accepté
 {% endset %}
 {% set first_paragraph %}
     La demande de réservation du local du FOG est le {{ reservation.getDate().format("D j M Y à H:i") }} pendant {{ reservation.getDuration() }} minutes.

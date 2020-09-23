@@ -3,7 +3,7 @@
 	Bonjour {{ reservation.getAuthor().getPseudo() }}
 {% endset %}
 {% set first_paragraph %}
-	Malheureusement, nous ne pouvons satisfaire votre demande de jeux au FOG du {{ reservation.getDateBeg().format("D j M Y") }} au {{ reservation.getDateEnd().format("D j M Y") }}.
+	Malheureusement, nous ne pouvons satisfaire votre demande de jeux au FOG du {{ reservation.getDateBeg().format("d/m/Y") }} au {{ reservation.getDateEnd().format("d/m/Y") }}.
 {%  endset %}
 {%  set second_paragraph %}
 	<p style="font-size: 14px; line-height: 1.5; text-align: center; font-family: lucida sans unicode, lucida grande, sans-serif; word-break: break-word; mso-line-height-alt: 21px; margin: 0;">Vous souhaitiez emprunter :</p>

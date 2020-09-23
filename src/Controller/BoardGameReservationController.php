@@ -24,6 +24,9 @@ class BoardGameReservationController extends CustomController
         $repository = $this->getDoctrine()
             ->getRepository('App:BoardGame');
         $boardGames = $repository->findAll();
+        usort($boardGames, function($a, $b) {
+            return strcmp($a->getName(), $b->getName());
+        });
 
         $form->handleRequest($request);
 

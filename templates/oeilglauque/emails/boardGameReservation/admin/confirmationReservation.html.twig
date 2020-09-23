@@ -3,7 +3,7 @@
     Bonjour,
 {% endset %}
 {% set first_paragraph %}
-    Le réservation de {{ reservation.getAuthor().getPseudo() }} a bien été acceptée.
+    Le réservation de {{ reservation.getAuthor().getPseudo() }} ({{ reservation.getAuthor().getName() }} {{ reservation.getAuthor().getFirstName() }}) a bien été acceptée.
 {% endset %}
 {% set second_paragraph = '' %}
 {% set third_paragraph = '' %}
