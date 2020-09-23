@@ -7,8 +7,8 @@
     {% for r in reservations %}
         <div class="well">
             <p>Demande par {{ r.getAuthor().getPseudo() }} ({{ r.getAuthor().getFirstName() }} {{ r.getAuthor().getName() }}, {{ r.getAuthor().getEmail() }})</p>
-            <p>Début : {{ r.getDateBeg().format("D j M Y") }}</p>
-            <p>Fin : {{ r.getDateEnd().format("D j M Y") }}</p>
+            <p>Début : {{ r.getDateBeg().format("d/m/Y") }}</p>
+            <p>Fin : {{ r.getDateEnd().format("d/m/Y") }}</p>
             <p> Jeux :</p>
             <ul>
                 {% for g in r.getBoardGames() %}

@@ -3,7 +3,7 @@
 	Bonjour {{ reservation.getAuthor().getPseudo() }}
 {% endset %}
 {% set first_paragraph %}
-	Nous vous confirmons votre réservation de jeux au du FOG du {{ reservation.getDateBeg().format("D j M Y") }} au {{ reservation.getDateEnd().format("D j M Y") }}  ! Pour rappel, vous aviez réservé les jeux suivants :
+	Nous vous confirmons votre réservation de jeux au du FOG du {{ reservation.getDateBeg().format("d/m/Y") }} au {{ reservation.getDateEnd().format("d/m/Y") }}  ! Pour rappel, vous aviez réservé les jeux suivants :
 {%  endset %}
 {%  set second_paragraph %}
 	<ul>

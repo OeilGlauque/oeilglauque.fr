@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            $('.select2multiple').select2();
+            $('#board_game_reservation_boardGames').select2({ width: 'resolve' });
         });
     </script>
 {% endblock %}
@@ -21,7 +21,7 @@
         <p>
         Bienvenue sur cette page intrépide aventurier ! Ici nous vous proposons de venir emprunter des jeux dans notre Ludothèque.
         <br />
-        La réponse vous sera envoyée via l'adresse e-mail renseignée sur votre compte.
+        La réponse vous sera envoyée via l'adresse e-mail renseignée sur votre compte. Il faudra fournir des chèques de caution lors du retrait des jeux.
         </p>
 
     {{ form(form) }}
