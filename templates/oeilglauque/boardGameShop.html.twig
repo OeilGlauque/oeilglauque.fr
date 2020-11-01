@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block scripts %}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#board_game_order_boardGames').select2({ width: 'resolve' });
+        });
+    </script>
+{% endblock %}
+
+{% block body %}
+
+        <h1 class="titre small">Achat de jeux</h1>
+
+    {{ form(form) }}
+
+    <h2>Liste des jeux</h2>
+    <table class="reservation">
+        <tr>
+            <!--<th scope="col">id</th>-->
+            <th scope="col">Nom</th>
+            <th scope="col">Prix</th>
+        </tr>
+        {% for g in boardGames %}
+            <tr>
+                <!--<td>{{ g.getId() }}</td>-->
+                <td>{{ g.getName() }}</td>
+                <td>{% if g.getPrice() != null %}{{ g.getPrice() | number_format(2, ',', ' ') }} € {% endif %}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <p>N'hésitez pas à <a href="{{ path('contact') }}">nous contacter</a> en cas de doute !</p>
+
+
+{% endblock %}

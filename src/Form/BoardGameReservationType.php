@@ -42,8 +42,8 @@ class BoardGameReservationType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => BoardGameReservation::class));
+        // $resolver->setDefaults(array(
+        //     'data_class' => BoardGameReservation::class));
     }
 }
 ?>
