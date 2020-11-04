@@ -1,0 +1,57 @@
+table.reservation {
+	width: 100%;
+}
+
+span.select2-container {
+	width: 100% !important;
+}
+
+table tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+ul.game {
+    list-style-type: none;
+    padding: 0;
+    width: 60%;
+}
+
+li.gameForm {
+    width: 100%;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #80808069;
+}
+
+li.gameForm div {
+    display: flex;
+    width: 100%;
+}
+
+li.gameForm > div > div:first-child div {
+    flex: 0 0 59%;
+}
+
+li.gameForm > div > div:first-child label {
+    max-width: initial;
+}
+
+form > div:last-of-type div:first-child {
+    display: none;
+}
+
+form > div:last-of-type div:last-child {
+    margin-top: 30px;
+    flex: 0 0 100%;
+    max-width: initial;
+}
+
+@media screen and (max-width: 750px) {
+	tr td:nth-child(2), tr td:nth-child(3), tr td:nth-child(4) {
+		display: none;
+	}
+	
+	th:nth-child(2), th:nth-child(3), th:nth-child(4) {
+		display: none;
+	}
+}

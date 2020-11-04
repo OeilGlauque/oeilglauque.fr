@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block customcss %}
+    <link rel="stylesheet" href="/css/shop.css"/>
+{% endblock %}
+
 {% block scripts %}
     <script type="text/javascript">
         var $collectionHolder;
@@ -51,7 +55,7 @@
             $collectionHolder.data('index', index + 1);
 
             // Display the form in the page in an li, before the "Add a tag" link li
-            var $newFormLi = $('<li></li>').append(newForm);
+            var $newFormLi = $('<li class="gameForm"></li>').append(newForm);
             $newLinkLi.before($newFormLi);
 
             // add a delete link to the new form
