@@ -49,6 +49,11 @@
                     <li><a href="/reservations/local">Réservations du local</a></li>
                 </ul>
             </section>
+            {% if allow_shop %}
+                <section class="menu-category">
+                    <h1><a href="/shop">Vente de Noël 🎄</a></h1>
+                </section>
+            {% endif %}
             <section class="menu-category">
                 <h1><a href="/contact">Contact</a></h1>
             </section>

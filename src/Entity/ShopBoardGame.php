@@ -103,6 +103,6 @@ class ShopBoardGame
 
     public function __toString()
     {
-        return $this->getName() . "(" . $this->getPrice() . "€)";
+        return $this->getName() . " (" . number_format($this->getPrice(), 2, ",", "") . "€)";
     }
 }

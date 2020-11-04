@@ -6,3 +6,5 @@ twig:
     form_themes:
         - 'oeilglauque/form/fields.html.twig'
         - 'bootstrap_4_horizontal_layout.html.twig'
+    globals:
+        allow_shop: '%allow_shop%'

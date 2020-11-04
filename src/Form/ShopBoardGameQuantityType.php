@@ -13,12 +13,17 @@ class ShopBoardGameQuantityType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('quantity', IntegerType::class, array('label' => 'Quantité'))
+            ->add('quantity', IntegerType::class, array(
+                'label' => 'Quantité',
+                'attr' => ['min' => '1', 'value' => '1'],
+                ))
 
             ->add('boardGames', EntityType::class, array(
                 'class' => ShopBoardGame::class,
                 'label' => 'Jeux',
-                'choice_label' => 'name',
+                'choice_label' => function($boardGames) {
+                    return $boardGames->__toString();
+                },
                 'choice_value' => 'id' 
             ));
     }

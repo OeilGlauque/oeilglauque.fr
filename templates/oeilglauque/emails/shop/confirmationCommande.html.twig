@@ -1,0 +1,28 @@
+{% set titre = 'Achat de jeu au FOG' %}
+{% set salutation %}
+	Bonjour {{ order.getSurname() }} {{ order.getName() }}
+{% endset %}
+{% set first_paragraph %}
+	Nous vous confirmons votre achat de jeux au FOG ! Pour rappel, vous avez acheté les jeux suivants :
+{%  endset %}
+{%  set second_paragraph %}
+	<ul>
+		{% for bgq in order.getBoardGamesQuantity() %}
+			<li>
+				{{ bgq.getQuantity() }} {{ bgq.getBoardGame() }}
+			</li>
+		{% endfor %}
+	</ul>
+	<p>
+		Pour un total de {{ (total)|number_format(2, ',', '') }}€
+	</p>
+{% endset %}
+{% set third_paragraph %}
+	<p>
+		Nous vous contacterons à nouveau lorsque les ventes seront finies pour que vous puissiez récupérer vos jeux.
+		<br />
+		Si vous avez la moindre demande vis-à-vis de votre commande, n'hésitez à nous contacter à l'adresse oeilglauque@gmail.com
+	</p>
+{% endset %}
+
+{% include 'oeilglauque/emails/reservationEmailBase.html.twig' %}

@@ -14,63 +14,85 @@ use Psr\Log\LoggerInterface;
 class BoardGameOrderController extends CustomController
 {
     /**
-     * @Route("/shop/boardGame", name="shopBoardGame")
+     * @Route("/shop", name="shopBoardGame")
      */
     public function shopBoardGame(Request $request, LoggerInterface $logger)
     {
-        $form = $this->createForm(BoardGameOrderType::class);
-
-        $repository = $this->getDoctrine()
-            ->getRepository('App:ShopBoardGame');
-        $boardGames = $repository->findAll();
-        usort($boardGames, function($a, $b) {
-            return strcmp($a->getName(), $b->getName());
-        });
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            //TODO checks
-            $data = $request->request->get('board_game_order');
-            $entityManager = $this->getDoctrine()->getManager();
-
-            $order = new BoardGameOrder();
-            $order->setName($data['name']);
-            $order->setSurname($data['surname']);
-            $order->setMail($data['mail']);
-            $entityManager->persist($order);
-            
-            foreach($data['boardGamesQuantity'] as $bgq) {
-                $gameQuantity = new ShopBoardGameQuantity();
-                $gameQuantity->setQuantity((int)$bgq['quantity']);
-                $gameQuantity->setBoardGame($boardGames[(int)$bgq['boardGames']]);
-                $gameQuantity->setBoardGameOrder($order);
-                $entityManager->persist($gameQuantity);
+        $shopEnabled = $this->getParameter('allow_shop');
+        if ($shopEnabled) {
+            $form = $this->createForm(BoardGameOrderType::class);
+    
+            $repository = $this->getDoctrine()
+                ->getRepository('App:ShopBoardGame');
+            $boardGames = $repository->findAll();
+            usort($boardGames, function($a, $b) {
+                return strcmp($a->getName(), $b->getName());
+            });
+    
+            $form->handleRequest($request);
+    
+            if ($form->isSubmitted() && $form->isValid()) {
+                //TODO checks
+                $data = $request->request->get('board_game_order');
+                $entityManager = $this->getDoctrine()->getManager();
+                $total = 0.0;
+    
+                $order = new BoardGameOrder();
+                $order->setName($data['name']);
+                $order->setSurname($data['surname']);
+                $order->setMail($data['mail']);
+                
+                foreach($data['boardGamesQuantity'] as $bgq) {
+                    $gameQuantity = new ShopBoardGameQuantity();
+                    $gameQuantity->setQuantity((int)$bgq['quantity']);
+    
+                    // $logger->info((int)$bgq['boardGames']);
+                    // $logger->info($boardGames[(int)$bgq['boardGames']]);
+                    // $logger->info($boardGames[(int)$bgq['boardGames']]->getId());
+                    // $logger->info(implode(", ", $boardGames));
+                    
+                    $gameId = (int)$bgq['boardGames'];
+                    $currentGame;
+                    foreach($boardGames as $game) {
+                        if ($game->getId() == $gameId) {
+                            $currentGame = $game;
+                            break;
+                        }
+                    }
+                    $gameQuantity->setBoardGame($currentGame);
+                    $gameQuantity->setBoardGameOrder($order);
+                    $entityManager->persist($gameQuantity);
+                    $order->addBoardGameQuantity($gameQuantity);
+                    $total += $gameQuantity->getQuantity() * $gameQuantity->getBoardGame()->getPrice();
+                }
+                $entityManager->persist($order);
+                
+                // $logger->info(json_encode($data));
+                // $logger->info($data['name']);
+                // $logger->info(implode(" ", $order->getBoardGamesQuantity()->toArray()));
+                // $logger->info(count($order->getBoardGamesQuantity()->toArray()));
+                
+                // Sauvegarde en base
+                $entityManager->flush();
+    
+                $this->sendmail($order, $total, $this->get('swiftmailer.mailer.default'));
+    
+                $this->addFlash('info', "Votre commande a bien été enregistrée, une confirmation par e-mail a été envoyée.");
+    
+                return $this->redirectToRoute('index');
             }
-            
-            // $logger->info(json_encode($data));
-            // $logger->info($data['name']);
-            // $logger->info($data['surname']);
-            // $logger->info($data['mail']);
-            
-            // Sauvegarde en base
-            $entityManager->flush();
-
-            // $this->sendmail($order, $this->get('swiftmailer.mailer.default'));
-
-            $this->addFlash('info', "Votre commande a bien été enregistrée, une confirmation par e-mail a été envoyée.");
-
+    
+            return $this->render('oeilglauque/boardGameShop.html.twig', array(
+                'dates' => $this->getCurrentEdition()->getDates(),
+                'form' => $form->createView(),
+                'boardGames' => $boardGames
+            ));
+        } else {
             return $this->redirectToRoute('index');
         }
-
-        return $this->render('oeilglauque/boardGameShop.html.twig', array(
-            'dates' => $this->getCurrentEdition()->getDates(),
-            'form' => $form->createView(),
-            'boardGames' => $boardGames
-        ));
     }
 
-    private function sendmail(BoardGameOrder $order, \Swift_Mailer $mailer) {
+    private function sendmail(BoardGameOrder $order, float $total, \Swift_Mailer $mailer) {
         $dotenv = new Dotenv();
         $dotenv->load(__DIR__.'/../../.env');
 
@@ -81,8 +103,8 @@ class BoardGameOrderController extends CustomController
             ->setTo([$order->getMail() => $order->getSurname() . $order->getName()])
             ->setBody(
                 $this->renderView(
-                    'oeilglauque/emails/boardGameReservation/nouvelleReservation.html.twig',
-                    ['order' => $order]
+                    'oeilglauque/emails/shop/confirmationCommande.html.twig',
+                    ['order' => $order, 'total' => $total]
                 ),
                 'text/html'
             );
@@ -93,8 +115,8 @@ class BoardGameOrderController extends CustomController
             ->setTo([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
             ->setBody(
                 $this->renderView(
-                    'oeilglauque/emails/boardGameReservation/admin/nouvelleReservation.html.twig',
-                    ['order' => $order]
+                    'oeilglauque/emails/shop/admin/confirmationCommande.html.twig',
+                    ['order' => $order, 'total' => $total]
                 ),
                 'text/html'
             );

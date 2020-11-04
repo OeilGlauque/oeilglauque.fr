@@ -3,6 +3,7 @@
 parameters:
     current_edition: 2020
     allow_registration: true
+    allow_shop: true
 
 services:
     # default configuration for services in *this* file

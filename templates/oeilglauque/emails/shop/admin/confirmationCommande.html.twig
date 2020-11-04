@@ -1,0 +1,28 @@
+{% set titre = 'Achat de jeu au FOG' %}
+{% set salutation %}
+	Bonjour {{ order.getSurname() }} {{ order.getName() }}
+{% endset %}
+
+
+{% set titre = 'Achat de jeu au FOG' %}
+{% set salutation %}
+    Bonjour,
+{% endset %}
+{% set first_paragraph %}
+    La commande de {{ order.getSurname() }} {{ order.getName() }} ({{ order.getMail() }}) a bien été enregistrée.
+{% endset %}
+{% set second_paragraph %}
+	<ul>
+		{% for bgq in order.getBoardGamesQuantity() %}
+			<li>
+				{{ bgq.getQuantity() }} {{ bgq.getBoardGame() }}
+			</li>
+		{% endfor %}
+	</ul>
+	<p>
+		Pour un total de {{ (total)|number_format(2, ',', '') }}€
+	</p>
+{% endset %}
+{% set third_paragraph = '' %}
+
+{% include 'oeilglauque/emails/reservationEmailBase.html.twig' %}
