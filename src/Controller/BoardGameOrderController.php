@@ -9,14 +9,13 @@ use App\Entity\ShopBoardGameQuantity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Dotenv\Dotenv;
-use Psr\Log\LoggerInterface;
 
 class BoardGameOrderController extends CustomController
 {
     /**
      * @Route("/shop", name="shopBoardGame")
      */
-    public function shopBoardGame(Request $request, LoggerInterface $logger)
+    public function shopBoardGame(Request $request)
     {
         $shopEnabled = $this->getParameter('allow_shop');
         if ($shopEnabled) {
@@ -34,52 +33,48 @@ class BoardGameOrderController extends CustomController
             if ($form->isSubmitted() && $form->isValid()) {
                 //TODO checks
                 $data = $request->request->get('board_game_order');
-                $entityManager = $this->getDoctrine()->getManager();
-                $total = 0.0;
-    
-                $order = new BoardGameOrder();
-                $order->setName($data['name']);
-                $order->setSurname($data['surname']);
-                $order->setMail($data['mail']);
-                
-                foreach($data['boardGamesQuantity'] as $bgq) {
-                    $gameQuantity = new ShopBoardGameQuantity();
-                    $gameQuantity->setQuantity((int)$bgq['quantity']);
-    
-                    // $logger->info((int)$bgq['boardGames']);
-                    // $logger->info($boardGames[(int)$bgq['boardGames']]);
-                    // $logger->info($boardGames[(int)$bgq['boardGames']]->getId());
-                    // $logger->info(implode(", ", $boardGames));
+                if (!array_key_exists('boardGamesQuantity', $data)) {
+                    $this->addFlash('warning',
+                        "Vous devez ajouter au moins un jeu à votre commande.");
+                } else {
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $total = 0.0;
+        
+                    $order = new BoardGameOrder();
+                    $order->setName($data['name']);
+                    $order->setSurname($data['surname']);
+                    $order->setMail($data['mail']);
                     
-                    $gameId = (int)$bgq['boardGames'];
-                    $currentGame;
-                    foreach($boardGames as $game) {
-                        if ($game->getId() == $gameId) {
-                            $currentGame = $game;
-                            break;
+                    $dedupGame = $this->gameDeduplicate($data['boardGamesQuantity']);
+
+                    foreach($dedupGame as $bgqId=>$bgqQ) {
+                        $gameQuantity = new ShopBoardGameQuantity();
+                        $gameQuantity->setQuantity($bgqQ);
+                        
+                        $currentGame;
+                        foreach($boardGames as $game) {
+                            if ($game->getId() == $bgqId) {
+                                $currentGame = $game;
+                                break;
+                            }
                         }
+                        $gameQuantity->setBoardGame($currentGame);
+                        $gameQuantity->setBoardGameOrder($order);
+                        $entityManager->persist($gameQuantity);
+                        $order->addBoardGameQuantity($gameQuantity);
+                        $total += $gameQuantity->getQuantity() * $gameQuantity->getBoardGame()->getPrice();
                     }
-                    $gameQuantity->setBoardGame($currentGame);
-                    $gameQuantity->setBoardGameOrder($order);
-                    $entityManager->persist($gameQuantity);
-                    $order->addBoardGameQuantity($gameQuantity);
-                    $total += $gameQuantity->getQuantity() * $gameQuantity->getBoardGame()->getPrice();
+                    $entityManager->persist($order);
+                    
+                    // Sauvegarde en base
+                    $entityManager->flush();
+        
+                    $this->sendmail($order, $total, $this->get('swiftmailer.mailer.default'));
+        
+                    $this->addFlash('info', "Votre commande a bien été enregistrée, une confirmation par e-mail a été envoyée.");
+        
+                    return $this->redirectToRoute('index');
                 }
-                $entityManager->persist($order);
-                
-                // $logger->info(json_encode($data));
-                // $logger->info($data['name']);
-                // $logger->info(implode(" ", $order->getBoardGamesQuantity()->toArray()));
-                // $logger->info(count($order->getBoardGamesQuantity()->toArray()));
-                
-                // Sauvegarde en base
-                $entityManager->flush();
-    
-                $this->sendmail($order, $total, $this->get('swiftmailer.mailer.default'));
-    
-                $this->addFlash('info', "Votre commande a bien été enregistrée, une confirmation par e-mail a été envoyée.");
-    
-                return $this->redirectToRoute('index');
             }
     
             return $this->render('oeilglauque/boardGameShop.html.twig', array(
@@ -90,6 +85,20 @@ class BoardGameOrderController extends CustomController
         } else {
             return $this->redirectToRoute('index');
         }
+    }
+
+    private function gameDeduplicate(array $games) {
+        $dedupGame = [];
+        foreach($games as $bgq) {
+            $id = $bgq['boardGames'];
+            $q = (int)$bgq['quantity'];
+            if (array_key_exists($id, $dedupGame)) {
+                $dedupGame[$id] += $q;
+            } else {
+                $dedupGame[$id] = $q;
+            }
+        }
+        return $dedupGame;
     }
 
     private function sendmail(BoardGameOrder $order, float $total, \Swift_Mailer $mailer) {

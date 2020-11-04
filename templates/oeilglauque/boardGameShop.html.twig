@@ -12,6 +12,11 @@
             // Get the ul that holds the collection of tags
             $collectionHolder = $('ul.game');
 
+            // add a delete link to all of the existing tag form li elements
+            $collectionHolder.find('li').each(function() {
+                addQuantityFormDeleteLink($(this));
+            });
+
             // add the "add a tag" anchor and li to the tags ul
             $collectionHolder.append($newLinkLi);
 
@@ -48,6 +53,19 @@
             // Display the form in the page in an li, before the "Add a tag" link li
             var $newFormLi = $('<li></li>').append(newForm);
             $newLinkLi.before($newFormLi);
+
+            // add a delete link to the new form
+            addQuantityFormDeleteLink($newFormLi);
+        }
+
+        function addQuantityFormDeleteLink($quantityFormLi) {
+            var $removeFormButton = $('<button type="button">Supprimer ce jeu</button>');
+            $quantityFormLi.append($removeFormButton);
+
+            $removeFormButton.on('click', function(e) {
+                // remove the li for the tag form
+                $quantityFormLi.remove();
+            });
         }
     </script>
 {% endblock %}
@@ -61,7 +79,6 @@
         {{ form_row(form.surname) }}
         {{ form_row(form.mail) }}
 
-        <h3>Jeux</h3>
         <ul class="game" data-prototype="{{ form_widget(form.boardGamesQuantity.vars.prototype)|e('html_attr') }}" >
             {% for game in form.boardGamesQuantity %}
                 <li>{{ form_row(game.name) }}</li>

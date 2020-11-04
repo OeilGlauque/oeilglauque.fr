@@ -18,4 +18,14 @@ class BoardGameOrderRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, BoardGameOrder::class);
     }
+
+    public function getFullTotal()
+    {
+        $orders = $this->findAll();
+        $fullTotal = 0.0;
+        foreach($orders as $order) {
+            $fullTotal += $order->getTotal();
+        }
+        return $fullTotal;
+    }
 }

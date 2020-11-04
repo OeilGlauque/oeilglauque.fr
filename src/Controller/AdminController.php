@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\BoardGameReservation;
-use App\Entity\LocalReservation;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +11,9 @@ use App\Entity\Edition;
 use App\Entity\GameSlot;
 use App\Entity\Game;
 use App\Entity\News;
+use App\Entity\BoardGameReservation;
+use App\Entity\LocalReservation;
+use App\Entity\BoardGameOrder;
 use App\Form\NewsType;
 use Symfony\Component\Validator\Constraints\Date;
 
@@ -455,6 +456,48 @@ class AdminController extends CustomController {
             'reservations' => $reservations,
             'archive' => true
         ));
+    }
+
+    /************************************
+     *         Gestion du shop          *
+     ************************************/
+
+    /**
+     * @Route("/admin/shop", name="adminShop")
+     */
+    public function adminShop()
+    {
+        $orders = $this->getDoctrine()->getRepository(BoardGameOrder::class)->findAll();
+        $fullTotal = $this->getDoctrine()->getRepository(BoardGameOrder::class)->getFullTotal();
+        return $this->render('oeilglauque/admin/shopAdmin.html.twig', array(
+            'status' => $this->getParameter('allow_shop'),
+            'orders' => $orders,
+            'fullTotal' => $fullTotal,
+        ));
+    }
+
+    /**
+     * @Route("/admin/shop/removeOrder/{id}", name="adminShopRemoveOrder")
+     */
+    public function adminShopRemoveOrder($id) {
+        $order = $this->getDoctrine()->getRepository(BoardGameOrder::class)->find($id);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($order);
+        $entityManager->flush();
+        return $this->redirectToRoute('adminShop');
+    }
+
+    /**
+     * @Route("/admin/shop/enable/{status}", name="adminShopEnabling")
+     */
+    public function adminShopEnabling($status) {
+        $this->container->setParameter('allow_shop_env', $status);
+        if ($status) {
+            $this->addFlash('success', "Le shop a bien été activé.");
+        } else {
+            $this->addFlash('success', "Le shop a bien été désactivé.");
+        }
+        return $this->redirectToRoute('adminShop');
     }
 }
 

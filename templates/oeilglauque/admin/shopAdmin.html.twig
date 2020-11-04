@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>Gestion du shop</h1>
+
+    {% set inversedStatus = status ? '0' : '1' %}
+    <p>Grand total : <b>{{ fullTotal|number_format(2, ',', '') }}€</b></p>
+
+    {% for o in orders %}
+        <div class="well">
+            <p>Commande par {{ o.getSurname() }} {{ o.getName() }} ({{ o.getMail() }})</p>
+            <ul>
+                {% for bgq in o.getBoardGamesQuantity() %}
+                    <li>{{ bgq.getQuantity() }} {{ bgq.getBoardGame() }}</li>
+                {% endfor %}
+            </ul>
+            <p>Total : {{ (o.getTotal())|number_format(2, ',', '') }}€</p>
+            <a href="{{ path('adminShopRemoveOrder', {'id': o.getId()}) }}" onclick="return confirm('Voulez-vous vraiment supprimer cette commande ?\nLe remboursement devra être effectué manuellement.')" class="btn btn-danger">Supprimer cette commande</a>
+        </div><br />
+    {% else %}
+        <div class="row">
+            <p>Aucune commande de jeux. </p>
+        </div>
+    {% endfor %}
+
+
+    <!--
+    <a 
+        href="{{ path('adminShopEnabling', {'status': inversedStatus}) }}"
+        onclick="{{ status ? 'return confirm(\'Voulez-vous vraiment désactiver le shop ?\')' : 'return confirm(\'Voulez-vous vraiment activer le shop ?\')' }}"
+        class="btn btn-danger"
+    >
+        {{ status ? 'Désactiver' : 'Activer' }} le shop
+    </a>
+    -->
+
+    <br /><p><a href="{{ path('admin') }}">Retour à l'interface d'administration</a></p>
+
+{% endblock %}

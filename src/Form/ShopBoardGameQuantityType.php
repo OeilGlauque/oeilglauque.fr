@@ -15,7 +15,7 @@ class ShopBoardGameQuantityType extends AbstractType
         $builder
             ->add('quantity', IntegerType::class, array(
                 'label' => 'Quantité',
-                'attr' => ['min' => '1', 'value' => '1'],
+                'attr' => ['min' => '1', 'max' => '99', 'value' => '1'],
                 ))
 
             ->add('boardGames', EntityType::class, array(

@@ -3,7 +3,7 @@ swiftmailer:
     host: smtp.gmail.com
     transport: gmail
     username: fogfogtest@gmail.com
-    password: testGmail159
+    password: mailPwd
     port: 465
     encryption: ssl
     auth_mode: login

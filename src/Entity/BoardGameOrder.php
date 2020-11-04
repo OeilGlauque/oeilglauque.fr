@@ -34,7 +34,7 @@ class BoardGameOrder
     private $mail;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ShopBoardGameQuantity", mappedBy="order")
+     * @ORM\OneToMany(targetEntity="App\Entity\ShopBoardGameQuantity", mappedBy="order", cascade={"persist", "remove"})
      */
     private $boardGamesQuantity;
 
@@ -121,5 +121,14 @@ class BoardGameOrder
     {
         return $this->getName() . $this->getSurname() 
         . ' (' . implode(", ", $this->boardGamesQuantity->toArray()) . ')';
+    }
+
+    public function getTotal()
+    {
+        $total = 0.0;
+        foreach($this->getBoardGamesQuantity() as $bgq) {
+            $total += $bgq->getQuantity() * $bgq->getBoardGame()->getPrice();
+        }
+        return $total;
     }
 }
