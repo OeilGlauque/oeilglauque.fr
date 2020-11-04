@@ -1,13 +1,54 @@
 {% extends 'base.html.twig' %}
 
 {% block scripts %}
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
-
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
-            $('#board_game_order_boardGames').select2({ width: 'resolve' });
+        var $collectionHolder;
+
+        // setup an "add a tag" link
+        var $addGameButton = $('<button type="button" class="add_game_link">Ajouter un jeu</button>');
+        var $newLinkLi = $('<li></li>').append($addGameButton);
+
+        jQuery(document).ready(function() {
+            // Get the ul that holds the collection of tags
+            $collectionHolder = $('ul.game');
+
+            // add the "add a tag" anchor and li to the tags ul
+            $collectionHolder.append($newLinkLi);
+
+            // count the current form inputs we have (e.g. 2), use that as the new
+            // index when inserting a new item (e.g. 2)
+            $collectionHolder.data('index', $collectionHolder.find('input').length);
+
+            $addGameButton.on('click', function(e) {
+                // add a new tag form (see next code block)
+                addGameForm($collectionHolder, $newLinkLi);
+            });
         });
+
+        function addGameForm($collectionHolder, $newLinkLi) {
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolder.data('prototype');
+
+            // get the new index
+            var index = $collectionHolder.data('index');
+
+            var newForm = prototype;
+            // You need this only if you didn't set 'label' => false in your tags field in TaskType
+            // Replace '__name__label__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            // newForm = newForm.replace(/__name__label__/g, index);
+
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            newForm = newForm.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            // Display the form in the page in an li, before the "Add a tag" link li
+            var $newFormLi = $('<li></li>').append(newForm);
+            $newLinkLi.before($newFormLi);
+        }
     </script>
 {% endblock %}
 
@@ -15,7 +56,19 @@
 
         <h1 class="titre small">Achat de jeux</h1>
 
-    {{ form(form) }}
+    {{ form_start(form) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.surname) }}
+        {{ form_row(form.mail) }}
+
+        <h3>Jeux</h3>
+        <ul class="game" data-prototype="{{ form_widget(form.boardGamesQuantity.vars.prototype)|e('html_attr') }}" >
+            {% for game in form.boardGamesQuantity %}
+                <li>{{ form_row(game.name) }}</li>
+            {% endfor %}
+        </ul>
+        {% do form.boardGamesQuantity.setRendered() %} <!-- Hide field rendering -->
+    {{ form_end(form) }}
 
     <h2>Liste des jeux</h2>
     <table class="reservation">

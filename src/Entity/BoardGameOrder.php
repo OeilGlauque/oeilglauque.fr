@@ -34,7 +34,7 @@ class BoardGameOrder
     private $mail;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ShopBoardGameQuantity", mappedBy="orders")
+     * @ORM\OneToMany(targetEntity="App\Entity\ShopBoardGameQuantity", mappedBy="order")
      */
     private $boardGamesQuantity;
 
@@ -101,7 +101,7 @@ class BoardGameOrder
 
     public function addBoardGameQuantity(ShopBoardGameQuantity $boardGamesQuantity): self
     {
-        if ($this->boardGamesQuantity->contains($boardGamesQuantity)) {
+        if (!$this->boardGamesQuantity->contains($boardGamesQuantity)) {
             $this->boardGamesQuantity[] = $boardGamesQuantity;
         }
 

@@ -29,7 +29,7 @@ class ShopBoardGame
     private $price;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ShopBoardGameQuantity", mappedBy="boardGames")
+     * @ORM\OneToMany(targetEntity="App\Entity\ShopBoardGameQuantity", mappedBy="boardGame")
      */
     private $boardGamesQuantity;
 
@@ -103,6 +103,6 @@ class ShopBoardGame
 
     public function __toString()
     {
-        return $this->getName();
+        return $this->getName() . "(" . $this->getPrice() . "€)";
     }
 }

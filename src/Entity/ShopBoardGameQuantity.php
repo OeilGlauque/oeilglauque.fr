@@ -26,12 +26,12 @@ class ShopBoardGameQuantity
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\BoardGameOrder", inversedBy="boardGamesQuantity")
      */
-    private $orders;
+    private $order;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ShopBoardGame", inversedBy="boardGamesQuantity")
      */
-    private $boardGames;
+    private $boardGame;
 
     public function getId(): ?int
     {
@@ -50,67 +50,45 @@ class ShopBoardGameQuantity
         return $this->quantity;
     }
     
-    public function setQuantity(int $quant): self
+    public function setQuantity(int $quantity): self
     {
-        $this->quantity = $quant;
+        $this->quantity = $quantity;
         
         return $this;
     }
 
     /**
-     * @return Collection|BoardGameOrder[]
+     * @return BoardGameOrder
      */
-    public function getBoardGamesOrder(): Collection
+    public function getBoardGamesOrder(): BoardGameOrder
     {
-        return $this->orders;
+        return $this->order;
     }
 
-    public function addBoardGameOrder(BoardGameOrder $boardGameOrder): self
+    public function setBoardGameOrder(BoardGameOrder $boardGameOrder): self
     {
-        if (!$this->orders->contains($boardGameOrder)) {
-            $this->orders[] = $boardGameOrder;
-        }
-
-        return $this;
-    }
-
-    public function removeBoardGameOrder(BoardGameOrder $boardGameOrder): self
-    {
-        if ($this->orders->contains($boardGameOrder)) {
-            $this->orders->removeElement($boardGameOrder);
-        }
+        $this->order = $boardGameOrder;
 
         return $this;
     }
 
     /**
-     * @return Collection|ShopBoardGame[]
+     * @return ShopBoardGame
      */
-    public function getBoardGames(): Collection
+    public function getBoardGame(): ShopBoardGame
     {
-        return $this->boardGames;
+        return $this->boardGame;
     }
 
-    public function addBoardGame(ShopBoardGame $boardGame): self
+    public function setBoardGame(ShopBoardGame $boardGame): self
     {
-        if (!$this->boardGames->contains($boardGame)) {
-            $this->boardGames[] = $boardGame;
-        }
-
-        return $this;
-    }
-
-    public function removeBoardGame(ShopBoardGame $boardGame): self
-    {
-        if ($this->boardGames->contains($boardGame)) {
-            $this->boardGames->removeElement($boardGame);
-        }
+        $this->boardGame = $boardGame;
 
         return $this;
     }
 
     public function __toString()
     {
-        return $this->getId();
+        return $this->getBoardGame()->getName() . " x" . $this->getQuantity();
     }
 }

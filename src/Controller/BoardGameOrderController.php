@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\BoardGameOrder;
 use App\Form\BoardGameOrderType;
 use App\Entity\ShopBoardGame;
+use App\Entity\ShopBoardGameQuantity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Dotenv\Dotenv;
@@ -17,7 +18,6 @@ class BoardGameOrderController extends CustomController
      */
     public function shopBoardGame(Request $request, LoggerInterface $logger)
     {
-        $order = new BoardGameOrder();
         $form = $this->createForm(BoardGameOrderType::class);
 
         $repository = $this->getDoctrine()
@@ -30,23 +30,37 @@ class BoardGameOrderController extends CustomController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
+            //TODO checks
+            $data = $request->request->get('board_game_order');
+            $entityManager = $this->getDoctrine()->getManager();
 
-            $logger->info(json_encode($data));
-            $logger->info(json_encode(
-                $data['boardGames']->current()->getName()
-            ));
+            $order = new BoardGameOrder();
+            $order->setName($data['name']);
+            $order->setSurname($data['surname']);
+            $order->setMail($data['mail']);
+            $entityManager->persist($order);
+            
+            foreach($data['boardGamesQuantity'] as $bgq) {
+                $gameQuantity = new ShopBoardGameQuantity();
+                $gameQuantity->setQuantity((int)$bgq['quantity']);
+                $gameQuantity->setBoardGame($boardGames[(int)$bgq['boardGames']]);
+                $gameQuantity->setBoardGameOrder($order);
+                $entityManager->persist($gameQuantity);
+            }
+            
+            // $logger->info(json_encode($data));
+            // $logger->info($data['name']);
+            // $logger->info($data['surname']);
+            // $logger->info($data['mail']);
             
             // Sauvegarde en base
-            // $entityManager = $this->getDoctrine()->getManager();
-            // $entityManager->persist($reservation);
-            // $entityManager->flush();
+            $entityManager->flush();
 
-            // $this->sendmail($reservation, $this->get('swiftmailer.mailer.default'));
+            // $this->sendmail($order, $this->get('swiftmailer.mailer.default'));
 
-            $this->addFlash('info', "Votre réservation a bien été enregistrée, vous recevrez une confirmation par e-mail dès qu'elle sera acceptée.");
+            $this->addFlash('info', "Votre commande a bien été enregistrée, une confirmation par e-mail a été envoyée.");
 
-            // return $this->redirectToRoute('index');
+            return $this->redirectToRoute('index');
         }
 
         return $this->render('oeilglauque/boardGameShop.html.twig', array(
@@ -56,31 +70,31 @@ class BoardGameOrderController extends CustomController
         ));
     }
 
-    private function sendmail(BoardGameReservation $reservation, \Swift_Mailer $mailer) {
+    private function sendmail(BoardGameOrder $order, \Swift_Mailer $mailer) {
         $dotenv = new Dotenv();
         $dotenv->load(__DIR__.'/../../.env');
 
 
-        $message = (new \Swift_Message('Nouvelle demande de réservation de jeu au FOG'))
+        $message = (new \Swift_Message('Confirmation d\'achat de jeu au FOG'))
             ->setFrom([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
             ->setBcc($_ENV['MAILER_ADDRESS'])
-            ->setTo([$reservation->getAuthor()->getEmail() => $reservation->getAuthor()->getPseudo()])
+            ->setTo([$order->getMail() => $order->getSurname() . $order->getName()])
             ->setBody(
                 $this->renderView(
                     'oeilglauque/emails/boardGameReservation/nouvelleReservation.html.twig',
-                    ['reservation' => $reservation]
+                    ['order' => $order]
                 ),
                 'text/html'
             );
         $mailer->send($message);
 
-        $message = (new \Swift_Message('Nouvelle demande de réservation de jeu au FOG'))
+        $message = (new \Swift_Message('Confirmation d\'achat de jeu au FOG'))
             ->setFrom([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
             ->setTo([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
             ->setBody(
                 $this->renderView(
                     'oeilglauque/emails/boardGameReservation/admin/nouvelleReservation.html.twig',
-                    ['reservation' => $reservation]
+                    ['order' => $order]
                 ),
                 'text/html'
             );
