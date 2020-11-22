@@ -22,6 +22,12 @@ class BoardGameOrderType extends AbstractType
 
             ->add('mail', EmailType::class, array('label'=>'Adresse mail'))
 
+            ->add('address', TextType::class, array('label' => 'Adresse'))
+
+            ->add('city', TextType::class, array('label' => 'Ville'))
+
+            ->add('postalCode', TextType::class, array('label' => 'Code postal'))
+
             ->add('boardGamesQuantity', CollectionType::class, array(
                 'entry_type' => ShopBoardGameQuantityType::class,
                 'entry_options' => ['label' => false],

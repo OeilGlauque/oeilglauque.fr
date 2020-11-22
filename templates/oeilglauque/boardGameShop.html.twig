@@ -82,6 +82,9 @@
         {{ form_row(form.name) }}
         {{ form_row(form.surname) }}
         {{ form_row(form.mail) }}
+        {{ form_row(form.address) }}
+        {{ form_row(form.city) }}
+        {{ form_row(form.postalCode) }}
 
         <ul class="game" data-prototype="{{ form_widget(form.boardGamesQuantity.vars.prototype)|e('html_attr') }}" >
             {% for game in form.boardGamesQuantity %}

@@ -9,7 +9,11 @@
 
     {% for o in orders %}
         <div class="well">
-            <p>Commande par {{ o.getSurname() }} {{ o.getName() }} ({{ o.getMail() }})</p>
+            <p>
+                Commande par {{ o.getSurname() }} {{ o.getName() }} ({{ o.getMail() }})
+                <br/>
+                <small>{{ o.getFullAddress() }}</small>
+            </p>
             <ul>
                 {% for bgq in o.getBoardGamesQuantity() %}
                     <li>{{ bgq.getQuantity() }} {{ bgq.getBoardGame() }}</li>

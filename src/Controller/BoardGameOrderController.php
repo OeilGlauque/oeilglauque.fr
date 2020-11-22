@@ -44,6 +44,9 @@ class BoardGameOrderController extends CustomController
                     $order->setName($data['name']);
                     $order->setSurname($data['surname']);
                     $order->setMail($data['mail']);
+                    $order->setAddress($data['address']);
+                    $order->setCity($data['city']);
+                    $order->setPostalCode($data['postalCode']);
                     
                     $dedupGame = $this->gameDeduplicate($data['boardGamesQuantity']);
 
