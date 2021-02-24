@@ -24,3 +24,9 @@ img {
 .lead strong {
 	color: #973504;
 }
+
+main.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
