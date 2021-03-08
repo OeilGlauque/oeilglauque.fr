@@ -34,10 +34,10 @@
             <!--
             <th scope="col">Année</th>
             <th scope="col">Prix</th>
-            -->
             <th scope="col">Manquant</th>
             <th scope="col">Surplus</th>
             <th scope="col">Note</th>
+            -->
         </tr>
         {% for g in boardGames %}
             <tr>
@@ -46,10 +46,10 @@
                 <!--
                 <td>{{ g.getYear() }}</td>
                 <td>{% if g.getPrice() != null %}{{ g.getPrice() | number_format(2, ',', ' ') }} € {% endif %}</td>
-                -->
                 <td>{{ g.getMissing() }}</td>
                 <td>{{ g.getExcess() }}</td>
                 <td>{{ g.getNote() }}</td>
+                -->
             </tr>
         {% endfor %}
     </table>
