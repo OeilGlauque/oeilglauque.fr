@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\BoardGameReservation;
 use App\Entity\LocalReservation;
+use App\Entity\Feature;
 use App\Form\BoardGameReservationType;
 use App\Form\LocalReservationType;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +19,13 @@ class BoardGameReservationController extends CustomController
     public function boardGameReservation(Request $request)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        if (!$this->getDoctrine()->getRepository(Feature::class)->find(3)->getState()) {
+            return $this->render('oeilglauque/boardGameReservation.html.twig', array(
+                'dates' => $this->getCurrentEdition()->getDates(),
+                'state' => false
+            ));
+        }
 
         $reservation = new BoardGameReservation();
         $form = $this->createForm(BoardGameReservationType::class, $reservation, array());
@@ -64,7 +72,8 @@ class BoardGameReservationController extends CustomController
         return $this->render('oeilglauque/boardGameReservation.html.twig', array(
             'dates' => $this->getCurrentEdition()->getDates(),
             'form' => $form->createView(),
-            'boardGames' => $boardGames
+            'boardGames' => $boardGames,
+            'state' => true
         ));
     }
 

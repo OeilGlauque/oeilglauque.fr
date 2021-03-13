@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\LocalReservation;
+use App\Entity\Feature;
 use App\Form\LocalReservationType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,6 +17,13 @@ class LocalReservationController extends CustomController
     public function localReservation(Request $request)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        if (!$this->getDoctrine()->getRepository(Feature::class)->find(2)->getState()) {
+            return $this->render('oeilglauque/localReservation.html.twig', array(
+                'dates' => $this->getCurrentEdition()->getDates(),
+                'state' => false
+            ));
+        }
 
         $reservation = new LocalReservation();
         $form = $this->createForm(LocalReservationType::class, $reservation, array());
@@ -50,7 +58,8 @@ class LocalReservationController extends CustomController
 
         return $this->render('oeilglauque/localReservation.html.twig', array(
             'dates' => $this->getCurrentEdition()->getDates(),
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'state' => true
         ));
     }
 
