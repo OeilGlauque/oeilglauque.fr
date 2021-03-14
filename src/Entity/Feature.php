@@ -55,7 +55,7 @@ class Feature
         return $this->state;
     }
 
-    public function setState(?bool $state): bool
+    public function setState(?bool $state): self
     {
         $this->state = $state;
 
