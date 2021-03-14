@@ -8,13 +8,24 @@
 
         <img src="img/index.png" alt="Le Festival de l'Oeil Glauque"/>
 
-        <p class="lead">
-                <strong>Oyez Voyageurs ! Bienvenue sur le site du Festival de l’&OElig;il Glauque !</strong>
-                <br/>
-                Comment cela&nbsp;? Vous ne savez point qui nous sommes&nbsp;??? Nous sommes l'association de jeux de rôle et de jeux de plateau de l’INSA Rennes pardi&nbsp;!
-                Et nous organisons chaque année un festival de jeux où nos bénévoles seront ravis de t’accueillir pour te guider dans cette aventure de 48h.
-                Alors rendez-vous à notre prochaine édition&nbsp;!
-        </p>
+        {% if state %}
+                <p class="lead">
+                        <strong>Oyez Voyageurs ! Bienvenue sur le site du Festival de l’&OElig;il Glauque !</strong>
+                        <br/>
+                        Jeux de rôle et jeux de plateau vous attendent à la X<sup>ème</sup> édition du Festival de l'Oeil Glauque !
+                        Pendant 48h vous pourrez profiter de séances de jeux de rôle, découvrir notre ludothèque de plus de 150 jeux de plateau ou assister à un concert de métal avec le groupe (nom du groupe).
+                        Au cours du week-end n’hésitez pas à prendre part à une murder-party, un escape game, ainsi qu'à des tournois de Magic ou Warhammer. 
+                        Vous pourrez aussi tout simplement venir profiter de l'ambiance et de nos sandwichs, pizzas, burgers et autres friandises et boissons, notamment nos crêpes et nos fameux 3D6 !
+                </p>
+        {% else %}
+                <p class="lead">
+                        <strong>Oyez Voyageurs ! Bienvenue sur le site du Festival de l’&OElig;il Glauque !</strong>
+                        <br/>
+                        Comment cela&nbsp;? Vous ne savez point qui nous sommes&nbsp;??? Nous sommes l'association de jeux de rôle et de jeux de plateau de l’INSA Rennes pardi&nbsp;!
+                        Et nous organisons chaque année un festival de jeux où nos bénévoles seront ravis de t’accueillir pour te guider dans cette aventure de 48h.
+                        Alors rendez-vous à notre prochaine édition&nbsp;!
+                </p>
+        {% endif %}
                 
         <div class="videoWrapper">
                 <iframe src="https://www.youtube-nocookie.com/embed/Qb0fA_ii_cg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

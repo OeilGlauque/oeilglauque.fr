@@ -107,7 +107,7 @@ a:hover{
 
 /* .btn-primary and .btn are bootstrap classes, but we want to have our own style instead */
 /* We need to put the .btn:hover as well, to properly override bootstrap style */
-button:not(.close), .btn-primary, .btn, .btn:hover{
+button:not(.btn-close), .btn-primary, .btn, .btn:hover{
     background-color: #dda97e;
     border: solid #fbecd8 3px;
     outline: solid 3px #dda97e;
@@ -117,7 +117,7 @@ button:not(.close), .btn-primary, .btn, .btn:hover{
     padding: 0.7em 2em;
 }
 
-button:not(.close):hover, .btn:hover {
+button:not(.btn-close):hover, .btn:hover {
     background-color: #ffca9d;
 }
 

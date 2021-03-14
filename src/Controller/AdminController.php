@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\BoardGameReservation;
 use App\Entity\LocalReservation;
+use App\Entity\Feature;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -455,6 +456,34 @@ class AdminController extends CustomController {
             'reservations' => $reservations,
             'archive' => true
         ));
+    }
+
+    /*****************
+     *    feature    *
+     *****************/
+    /**
+     * @Route("/admin/feature", name="adminFeature")
+     */
+    public function adminFeature() {
+        $features =$this->getDoctrine()->getRepository(Feature::class)->findAll();
+        return $this->render('oeilglauque/admin/feature.html.twig', array(
+            'features' => $features
+        ));
+    }
+
+    /**
+     * @Route("/admin/feature/update/{id}/{state}", name="updateFeatureState")
+     */
+    public function updateFeatureState($id, $state) {
+        $feature = $this->getDoctrine()->getRepository(Feature::class)->find($id);
+        if($feature) {
+            $feature->setState($state != 0);
+            $this->getDoctrine()->getManager()->persist($feature);
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', $feature->getName() . " est désormais " . ($feature->getState() ? "activée" : "désactivée"));
+        }
+        return $this->redirectToRoute('adminFeature');
     }
 }
 

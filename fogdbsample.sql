@@ -162,6 +162,31 @@ INSERT INTO `edition` VALUES (1,2021,'Du 18 au 20 octobre');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `feature`
+--
+
+DROP TABLE IF EXISTS `feature`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `feature` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `state` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `feature`
+--
+
+LOCK TABLES `feature` WRITE;
+/*!40000 ALTER TABLE `feature` DISABLE KEYS */;
+INSERT INTO `feature` VALUES (1,'Shop de no├½l',0),(2,'R├®servations du local',1),(3,'R├®servations de jeux',1),(4,'Mode FOG',0),(5,'Syst├¿me de partie',0);
+/*!40000 ALTER TABLE `feature` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `game`
 --
 

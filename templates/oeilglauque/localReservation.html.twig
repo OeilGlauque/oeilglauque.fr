@@ -2,16 +2,21 @@
 
 {% block body %}
 
-        <h1 class="titre small">Réservations du local</h1>
+    <h1 class="titre small">Réservations du local</h1>
+    
+    {% if state %}
         <p>
         Bienvenue sur cette page intrépide aventurier ! Vous pouvez réserver le local du FOG pour une soirée entre amis ici.
         <br />
         La réponse vous sera envoyée via l'adresse e-mail renseignée sur votre compte.
         </p>
 
-    {{ form(form) }}
+        {{ form(form) }}
 
-    <p>N'hésitez pas à <a href="{{ path('contact') }}">nous contacter</a> en cas de doute !</p>
+        <p>N'hésitez pas à <a href="{{ path('contact') }}">nous contacter</a> en cas de doute !</p>
+    {% else %}
+        <p>Les réservations du local sont temporairement désactivées 😕</p>
+    {% endif %}
 
 
 {% endblock %}
