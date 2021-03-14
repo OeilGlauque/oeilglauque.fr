@@ -3,12 +3,20 @@
 {% block body %}
 
         <h1>Nouvelle édition</h1>
-        <p>Attention ! Pour des raisons de performances (et de sécurité) la dernière édition n'est pas chargée directement en base de données. 
-        Pour passer le site vers une nouvelle édition, il faut d'abord la créer en base sur cette page puis l'activer en modifiant le paramètre <pre>current_edition</pre>
-        du fichier <span><pre>config/services.yaml</pre></span>. En cas de doute, contactez le Webmaster. </p><br />
+
+        <div class="alert alert-warning" role="alert">
+            <p>
+                Attention ! Pour des raisons de performances (et de sécurité) la dernière édition n'est pas chargée directement en base de données. 
+                Pour passer le site vers une nouvelle édition, il faut d'abord la créer en base sur cette page puis l'activer en modifiant le paramètre <code>current_edition</code>
+                du fichier <span><code>config/services.yaml</code></span> et redéployer le site. En cas de doute, contactez le Webmaster. 
+            </p>
+            <br />
+            <p>
+                En créant une nouvelle édition, les parties acuellement présentes sur le site seront archivées et ne seront plus accessibles par les utilisateurs. 
+                Les parties créées ensuite seront ratachées à cette nouvelle édition. Êtes vous sûrs de vouloir faire ça ? Si c'est le cas, entrez l'année et les dates de cette nouvelle édition : 
+            </p>
+        </div>
         
-        <p>En créant une nouvelle édition, les parties acuellement présentes sur le site seront archivées et ne seront plus accessibles par les utilisateurs. 
-        Les parties créées ensuite seront ratachées à cette nouvelle édition. Êtes vous sûrs de vouloir faire ça ? Si c'est le cas, entrez l'année et les dates de cette nouvelle édition : </p><br />
         
         <form method="GET" action="{{ path('createEdition') }}">
             <div class="row">
@@ -24,7 +32,10 @@
                 <div class="col-md-4"></div>
             </div>
             <input type="submit" class="btn btn-danger" value="Valider" />
-        </form><br />
-        <p><a href="{{ path('admin') }}">Retour à l'interface d'administration</a></p>
+        </form>
+        <br />
+        <p>
+            <a href="{{ path('admin') }}">Retour à l'interface d'administration</a>
+        </p>
 
 {% endblock %}

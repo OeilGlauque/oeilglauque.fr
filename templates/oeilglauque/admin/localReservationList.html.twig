@@ -27,11 +27,20 @@
     {% endfor %}
 
     {% if archive %}
-        <br /><p><a href="{{ path('localReservationList') }}">Retour aux réservations actuelles</a></p>
+        <br />
+        <p>
+            <a href="{{ path('localReservationList') }}">Retour aux réservations actuelles</a>
+        </p>
     {% else %}
-        <br /><p><a href="{{ path('localReservationArchive') }}">Archives (réservations passées)</a></p>
+        <br />
+        <p>
+            <a href="{{ path('localReservationArchive') }}">Archives (réservations passées)</a>
+        </p>
     {% endif %}
-    <br /><p><a href="{{ path('admin') }}">Retour à l'interface d'administration</a></p>
+        <br />
+        <p>
+            <a href="{{ path('admin') }}">Retour à l'interface d'administration</a>
+        </p>
 
 
 {% endblock %}
