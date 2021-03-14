@@ -182,7 +182,7 @@ CREATE TABLE `feature` (
 
 LOCK TABLES `feature` WRITE;
 /*!40000 ALTER TABLE `feature` DISABLE KEYS */;
-INSERT INTO `feature` VALUES (1,'Shop de no├½l',0),(2,'R├®servation du local',1),(3,'R├®servation de jeu',1),(4,'Mode FOG',0),(5,'Syst├¿me de partie',0);
+INSERT INTO `feature` VALUES (1,'Shop de no├½l',0),(2,'R├®servations du local',1),(3,'R├®servations de jeux',1),(4,'Mode FOG',0),(5,'Syst├¿me de partie',0);
 /*!40000 ALTER TABLE `feature` ENABLE KEYS */;
 UNLOCK TABLES;
 
