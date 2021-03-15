@@ -17,7 +17,7 @@ use App\Entity\News;
 use App\Form\NewsType;
 use Symfony\Component\Validator\Constraints\Date;
 
-class AdminController extends CustomController {
+class AdminController extends FOGController {
 
     /****************************************
      *      Interface d'administration      *
@@ -27,9 +27,7 @@ class AdminController extends CustomController {
      * @Route("/admin", name="admin")
      */
     public function admin() {
-        return $this->render('oeilglauque/admin.html.twig', array(
-            'dates' => $this->getCurrentEdition()->getDates(), 
-        ));
+        return $this->render('oeilglauque/admin.html.twig');
     }
 
 
@@ -44,7 +42,6 @@ class AdminController extends CustomController {
     public function editionsAdmin() {
         $editions = $this->getDoctrine()->getRepository(Edition::class)->findAll();
         return $this->render('oeilglauque/admin/editions.html.twig', array(
-            'dates' => $this->getCurrentEdition()->getDates(), 
             'editions' => $editions
         ));
     }
@@ -134,9 +131,8 @@ class AdminController extends CustomController {
         }
 
         return $this->render('oeilglauque/admin/writeNews.html.twig', array(
-            'dates' => $this->getCurrentEdition()->getDates(), 
             'form' => $form->createView(), 
-            'edit' => false, 
+            'edit' => false
         ));
     }
 
@@ -165,9 +161,8 @@ class AdminController extends CustomController {
         }
 
         return $this->render('oeilglauque/admin/writeNews.html.twig', array(
-            'dates' => $this->getCurrentEdition()->getDates(), 
             'form' => $form->createView(), 
-            'edit' => true, 
+            'edit' => true
         ));
     }
 
@@ -198,9 +193,7 @@ class AdminController extends CustomController {
     * @Route("/admin/editions/nouvelle", name="newEdition")
     */
     public function newEdition() {
-        return $this->render('oeilglauque/admin/newEdition.html.twig', array(
-            'dates' => $this->getCurrentEdition()->getDates(), 
-        ));
+        return $this->render('oeilglauque/admin/newEdition.html.twig');
     }
 
     /**
@@ -227,8 +220,7 @@ class AdminController extends CustomController {
      */
     public function unvalidatedGamesList() {
         $games = $this->getDoctrine()->getRepository(Game::class)->getOrderedGameList($this->getCurrentEdition(), false);
-        return $this->render('oeilglauque/admin/unvalidatedGamesList.html.twig', array(
-            'dates' => $this->getCurrentEdition()->getDates(), 
+        return $this->render('oeilglauque/admin/unvalidatedGamesList.html.twig', array(  
             'games' => $games
         ));
     }
@@ -239,7 +231,6 @@ class AdminController extends CustomController {
     public function adminGamesList() {
         $games = $this->getDoctrine()->getRepository(Game::class)->getOrderedGameList($this->getCurrentEdition(), true);
         return $this->render('oeilglauque/admin/gamesList.html.twig', array(
-            'dates' => $this->getCurrentEdition()->getDates(), 
             'games' => $games, 
         ));
     }

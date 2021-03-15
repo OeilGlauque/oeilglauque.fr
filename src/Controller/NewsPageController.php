@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\News;
 use App\Service\GlauqueMarkdownParser;
 
-class NewsPageController extends CustomController {
+class NewsPageController extends FOGController {
     
     /**
      * @Route("/news", name="newsIndex")
@@ -21,9 +21,7 @@ class NewsPageController extends CustomController {
         }
         
         return $this->render('oeilglauque/news.html.twig', array(
-            'dates' => $this->getCurrentEdition()->getDates(), 
-            'news' => $news, 
-            //'admin' => array_contains($this->getUser()->getRoles(), 'ROLE_ADMIN'), 
+            'news' => $news
         ));
     }
 
@@ -35,7 +33,6 @@ class NewsPageController extends CustomController {
         if($news) {
             $news->setText(GlauqueMarkdownParser::parse($news->getText()));
             return $this->render('oeilglauque/showNews.html.twig', array(
-                'dates' => $this->getCurrentEdition()->getDates(), 
                 'news' => $news
             ));
         }else{

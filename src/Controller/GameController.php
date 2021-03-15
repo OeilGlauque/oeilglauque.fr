@@ -12,7 +12,7 @@ use App\Form\GameType;
 use App\Form\GameEditType;
 use App\Service\GlauqueMarkdownParser;
 
-class GameController extends CustomController {
+class GameController extends FOGController {
     
     /**
      * @Route("/nouvellePartie", name="nouvellePartie")
@@ -68,7 +68,6 @@ class GameController extends CustomController {
         }
 
         return $this->render('oeilglauque/newGame.html.twig', array(
-            'dates' => $this->getCurrentEdition()->getDates(), 
             'form' => $form->createView(), 
             'edit' => false
         ));
@@ -107,7 +106,6 @@ class GameController extends CustomController {
         }
 
         return $this->render('oeilglauque/gamesList.html.twig', array(
-            'dates' => $this->getCurrentEdition()->getDates(), 
             'games' => $games, 
             'userGames' => $userGames, 
             'hasRegistered' => count($userGames) > 0, 
@@ -172,7 +170,6 @@ class GameController extends CustomController {
         }
 
         return $this->render('oeilglauque/newGame.html.twig', array(
-            'dates' => $this->getCurrentEdition()->getDates(), 
             'form' => $form->createView(), 
             'edit' => true
         ));
@@ -194,7 +191,6 @@ class GameController extends CustomController {
             $game->setDescription(GlauqueMarkdownParser::parse($game->getDescription()));
 
             return $this->render('oeilglauque/showGame.html.twig', array(
-                'dates' => $this->getCurrentEdition()->getDates(), 
                 'game' => $game, 
                 'registered' => $game->getPlayers()->contains($this->getUser()), 
             ));
