@@ -31,6 +31,15 @@ body {
     flex-direction: column;
 }
 
+a {
+    text-decoration: none;
+    background-color: transparent;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 main {
     flex: 1 1 auto;
 }

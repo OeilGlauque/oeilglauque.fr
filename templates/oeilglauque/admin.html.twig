@@ -6,39 +6,41 @@
 
 {% block body %}
 
-        <h1 class="titre">Administration</h1>
-        <div class="row">
-            <div class="col-md-4">
-                <a href="{{ path('admin_editions') }}" class="btn btn-danger btn-lg btn-block btn-admin">Gestion des éditions</a>
-            </div>
-            <div class="col-md-4">
-                <a href="{{ path('adminGamesList') }}" class="btn btn-danger btn-lg btn-block btn-admin">Gestion des parties</a>
-            </div>
-            <div class="col-md-4">
-                <a href="{{ path('unvalidatedGamesList') }}" class="btn btn-danger btn-lg btn-block btn-admin">Validation parties</a>
-            </div>
+    <h1 class="titre">Administration</h1>
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-4 d-flex justify-content-center">
+            <a href="{{ path('admin_editions') }}" class="btn btn-danger btn-lg btn-block btn-admin">Gestion des éditions</a>
         </div>
-    <div class="row">
-        <div class="col-md-4">
-            <a href="{{ path('localReservationList') }}" class="btn btn-danger btn-lg btn-block btn-admin">Réservations du local</a>
+        <div class="col-md-4 d-flex justify-content-center">
+            <a href="{{ path('newEdition') }}" class="btn btn-danger btn-lg btn-block btn-admin">Nouvelle édition</a>
         </div>
-        <div class="col-md-4">
-            <a href="{{ path('boardGameReservationList') }}" class="btn btn-danger btn-lg btn-block btn-admin">Réservations de jeux</a>
-        </div>
-        <div class="col-md-4">
+        <div class="col-md-4 d-flex justify-content-center">
             <a href="{{ path('adminFeature') }}" class="btn btn-danger btn-lg btn-block btn-admin">Fonctionnalités du site</a>
         </div>
     </div>
-    <div class="row">
-            <div class="col-md-4">
-                <a href="{{ path('writeNews') }}" class="btn btn-danger btn-lg btn-block btn-admin">Publier une news</a>
-            </div>
-            <div class="col-md-4">
-                <a href="{{ path('newsIndex') }}" class="btn btn-danger btn-lg btn-block btn-admin">Éditer une news</a>
-            </div>
-            <div class="col-md-4">
-                <a href="{{ path('newEdition') }}" class="btn btn-danger btn-lg btn-block btn-admin">Nouvelle édition</a>
-            </div>
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-4 d-flex justify-content-center">
+            <a href="{{ path('adminGamesList') }}" class="btn btn-danger btn-lg btn-block btn-admin">Gestion des parties</a>
         </div>
+        <div class="col-md-4 d-flex justify-content-center">
+            <a href="{{ path('unvalidatedGamesList') }}" class="btn btn-danger btn-lg btn-block btn-admin">Validation parties</a>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-4 d-flex justify-content-center">
+            <a href="{{ path('localReservationList') }}" class="btn btn-danger btn-lg btn-block btn-admin">Réservations du local</a>
+        </div>
+        <div class="col-md-4 d-flex justify-content-center">
+            <a href="{{ path('boardGameReservationList') }}" class="btn btn-danger btn-lg btn-block btn-admin">Réservations de jeux</a>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-4 d-flex justify-content-center">
+            <a href="{{ path('writeNews') }}" class="btn btn-danger btn-lg btn-block btn-admin">Publier une news</a>
+        </div>
+        <div class="col-md-4 d-flex justify-content-center">
+            <a href="{{ path('newsIndex') }}" class="btn btn-danger btn-lg btn-block btn-admin">Éditer une news</a>
+        </div>
+    </div>
 
 {% endblock %}

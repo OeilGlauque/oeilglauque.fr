@@ -9,3 +9,29 @@ ul {
 .form-check-input {
 	cursor: pointer;
 }
+
+#editEdition div {
+	margin: 10px 0;
+}
+
+#editEdition div p {
+	margin: 0 10px 0 0;
+}
+
+#editEdition div input {
+	width: 300px;
+}
+
+#editEdition div textarea {
+	width: 600px;
+	min-height: 100px;
+}
+
+#editEdition input[type="submit"], #editSlot input[type="submit"] {
+	width: 160px;
+}
+
+#editSlot * {
+	margin: 5px 0;
+	width: 360px;
+}
