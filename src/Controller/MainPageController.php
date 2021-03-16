@@ -2,27 +2,24 @@
 
 namespace App\Controller;
 
+use App\Entity\Edition;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\Feature;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class MainPageController extends CustomController {
+class MainPageController extends FOGController {
     
     /**
      * @Route("/", name="index")
      */
     public function index() {
-        if ($this->getDoctrine()->getRepository(Feature::class)->find(4)->getState()) {
-            return $this->render('oeilglauque/index.html.twig', array(
-                'dates' => $this->getCurrentEdition()->getDates(),
-                'state' => true
-            ));
+        $edition = $this->getDoctrine()->getRepository(Edition::class)->findOneBy(['annee' => $this->getParameter('current_edition')]);
+        $homeText = '';
+        if ($edition != null) {
+            $homeText = $edition->getHomeText();
         }
-
         return $this->render('oeilglauque/index.html.twig', array(
-            'dates' => $this->getCurrentEdition()->getDates(), 
-            'state' => false
+            'homeText' => $homeText
         ));
     }
 }

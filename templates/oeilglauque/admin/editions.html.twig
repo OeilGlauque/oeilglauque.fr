@@ -1,19 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
+{% block customcss %}
+    <link rel="stylesheet" href="/css/admin.css"/>
+{% endblock %}
 
+{% block body %}
         
         <h1>Gestion des éditions</h1>
         {% for e in editions %}
             <div class="well">
                 <h3>Édition {{e.getAnnee()}}</h3>
-                <form class="form-inline" method="GET" action="{{ path('updateDates', {'edition': e.getId()}) }}">
-                    <p class="mr-3 mt-3">Dates : </p>
-                    <input type="text" name="dates" value="{{ e.getDates() }}" class="form-control form-control-sm mr-sm-2" />
+                <form class="form-inline" id="editEdition" method="GET" action="{{ path('updateEdition', {'edition': e.getId()}) }}">
+                    <div class="d-flex justify-content-center">
+                        <p class="mr-3 mt-3">Dates : </p>
+                        <input type="text" name="dates" value="{{ e.getDates() }}" class="form-control form-control-sm mr-sm-2" />
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <p class="mr-3 mt-3">Texte d'accueil : </p>
+                        <textarea name="homeText" class="form-control form-control-sm mr-sm-2">{{ e.getHomeText() }}</textarea>
+                    </div>
                     <input type="submit" class="form-control mr-sm-2 btn btn-danger btn-sm" value="Mettre à jour" /> 
                 </form><br />
+                {% if e.getGameSlots() is not empty %}
+                    <p>Slots : </p>
+                {% endif %}
                 {% for slot in e.getGameSlots() %}
-                    <form class="form-inline" method="GET" action="{{ path('updateSlot', {'slot': slot.getId() }) }}">
+                    <form class="form-inline" id="editSlot" method="GET" action="{{ path('updateSlot', {'slot': slot.getId() }) }}">
                         <input type="text" name="text" value="{{ slot.getText() }}" class="form-control mr-sm-2" />
                         <input type="number" name="maxGames" value="{{ slot.getMaxGames() }}" min="1" max="20" class="form-control mr-sm-2" />
                         <input type="submit" class="form-control mr-sm-2 btn btn-danger" value="Mettre à jour" /> 
@@ -22,7 +34,7 @@
                 {% else %}
                     <p>Pas de slot pour cette édition...</p>
                 {% endfor %}
-                <form class="form-inline" method="GET" action="{{ path('addSlot', {'edition': e.getId() }) }}">
+                <form class="form-inline" id="editSlot" method="GET" action="{{ path('addSlot', {'edition': e.getId() }) }}">
                     <input type="text" name="text" placeholder="Nouveau slot" class="form-control mr-sm-2" />
                     <input type="number" name="maxGames" placeholder="Parties max" min="1" max="20" value="9" class="form-control mr-sm-2" />
                     <input type="submit" class="form-control mr-sm-2 btn btn-danger" value="Ajouter" /> 

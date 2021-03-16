@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Dotenv\Dotenv;
 
-class BoardGameReservationController extends CustomController
+class BoardGameReservationController extends FOGController
 {
     /**
      * @Route("/reservations/boardGame", name="boardGameReservation")
@@ -22,7 +22,6 @@ class BoardGameReservationController extends CustomController
 
         if (!$this->getDoctrine()->getRepository(Feature::class)->find(3)->getState()) {
             return $this->render('oeilglauque/boardGameReservation.html.twig', array(
-                'dates' => $this->getCurrentEdition()->getDates(),
                 'state' => false
             ));
         }
@@ -70,7 +69,6 @@ class BoardGameReservationController extends CustomController
         }
 
         return $this->render('oeilglauque/boardGameReservation.html.twig', array(
-            'dates' => $this->getCurrentEdition()->getDates(),
             'form' => $form->createView(),
             'boardGames' => $boardGames,
             'state' => true

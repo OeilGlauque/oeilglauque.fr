@@ -147,6 +147,7 @@ CREATE TABLE `edition` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `annee` int(11) NOT NULL,
   `dates` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `home_text` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -157,7 +158,7 @@ CREATE TABLE `edition` (
 
 LOCK TABLES `edition` WRITE;
 /*!40000 ALTER TABLE `edition` DISABLE KEYS */;
-INSERT INTO `edition` VALUES (1,2021,'Du 18 au 20 octobre');
+INSERT INTO `edition` VALUES (1,2021,'Du 18 au 20 octobre', 'Vive les jeux !');
 /*!40000 ALTER TABLE `edition` ENABLE KEYS */;
 UNLOCK TABLES;
 

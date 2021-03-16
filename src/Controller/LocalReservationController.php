@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Dotenv\Dotenv;
 
-class LocalReservationController extends CustomController
+class LocalReservationController extends FOGController
 {
     /**
      * @Route("/reservations/local", name="localReservation")
@@ -20,7 +20,6 @@ class LocalReservationController extends CustomController
 
         if (!$this->getDoctrine()->getRepository(Feature::class)->find(2)->getState()) {
             return $this->render('oeilglauque/localReservation.html.twig', array(
-                'dates' => $this->getCurrentEdition()->getDates(),
                 'state' => false
             ));
         }
@@ -57,7 +56,6 @@ class LocalReservationController extends CustomController
         }
 
         return $this->render('oeilglauque/localReservation.html.twig', array(
-            'dates' => $this->getCurrentEdition()->getDates(),
             'form' => $form->createView(),
             'state' => true
         ));

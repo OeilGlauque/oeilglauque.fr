@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block customcss %}
+    <link rel="stylesheet" href="/css/admin.css"/>
+{% endblock %}
+
 {% block body %}
 
         <h1>Nouvelle édition</h1>
@@ -17,8 +21,7 @@
             </p>
         </div>
         
-        
-        <form method="GET" action="{{ path('createEdition') }}">
+        <form method="GET" id="newEdition" action="{{ path('createEdition') }}">
             <div class="row">
                 <div class="col-md-2"></div>
                 <label for="annee" class="col-md-2">Année :</label>
@@ -29,6 +32,17 @@
                 <div class="col-md-2"></div>
                 <label for="dates" class="col-md-2">Dates :</label>
                 <input name="dates" id="dates" class="col-md-4" />
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <label for="dates" class="col-md-2">Texte d'accueil :</label>
+                <textarea name="homeText" id="homeText" class="col-md-4">
+Jeux de rôle et jeux de plateau vous attendent à la Xème édition du Festival de l'Œil Glauque !
+Pendant 48h vous pourrez profiter de séances de jeux de rôle, découvrir notre ludothèque de plus de 150 jeux de plateau ou assister à un concert de métal par le groupe XXXXX.
+Au cours du week-end n’hésitez pas à prendre part à une murder-party, un escape game, ainsi qu'à des tournois de Magic ou Warhammer. 
+Vous pourrez aussi tout simplement venir profiter de l'ambiance et de nos sandwichs, pizzas, burgers et autres friandises et boissons, notamment nos crêpes et nos fameux 3D6 !
+                </textarea>
                 <div class="col-md-4"></div>
             </div>
             <input type="submit" class="btn btn-danger" value="Valider" />

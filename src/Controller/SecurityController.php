@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class SecurityController extends CustomController
+class SecurityController extends FOGController
 {
     /**
      * @Route("/login", name="login")
@@ -36,8 +36,7 @@ class SecurityController extends CustomController
         $lastUsername = $authenticationUtils->getLastUsername();
         return $this->render('oeilglauque/login.html.twig', array(
             'last_username' => $lastUsername,
-            'error'         => $error,
-            'dates' => $this->getCurrentEdition()->getDates(), 
+            'error'         => $error
         ));
     }
 
@@ -83,8 +82,7 @@ class SecurityController extends CustomController
         return $this->render(
             'oeilglauque/register.html.twig',
             array(
-                'form' => $form->createView(), 
-                'dates' => $this->getCurrentEdition()->getDates(), 
+                'form' => $form->createView(),
                 'allow_registration' => $this->getParameter('allow_registration'), 
             )
         );
@@ -156,8 +154,7 @@ class SecurityController extends CustomController
             'oeilglauque/ucp.html.twig',
             array(
                 'form' => $form->createView(), 
-                'pseudo' => $user->getPseudo(), 
-                'dates' => $this->getCurrentEdition()->getDates(), 
+                'pseudo' => $user->getPseudo()
             )
         );
     }
@@ -199,12 +196,7 @@ class SecurityController extends CustomController
             }
         }
 
-        return $this->render(
-            'oeilglauque/forgotPwd.html.twig',
-            array(
-                'dates' => $this->getCurrentEdition()->getDates(), 
-            )
-        );
+        return $this->render('oeilglauque/forgotPwd.html.twig');
     }
     
     /**
@@ -234,8 +226,7 @@ class SecurityController extends CustomController
         return $this->render(
             'oeilglauque/resetPwd.html.twig',
             array(
-                'token' => $token,
-                'dates' => $this->getCurrentEdition()->getDates(), 
+                'token' => $token
             )
         );
     }
