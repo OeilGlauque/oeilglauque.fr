@@ -10,6 +10,10 @@ ul {
 	cursor: pointer;
 }
 
+#newEdition textarea {
+    height: 370px;
+}
+
 #editEdition div {
 	margin: 10px 0;
 }

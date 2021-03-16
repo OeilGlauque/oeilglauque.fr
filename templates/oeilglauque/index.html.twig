@@ -12,10 +12,14 @@
                 <p class="lead">
                         <strong>Oyez Voyageurs ! Bienvenue sur le site du Festival de l’&OElig;il Glauque !</strong>
                         <br/>
-                        Jeux de rôle et jeux de plateau vous attendent à la X<sup>ème</sup> édition du Festival de l'Oeil Glauque !
-                        Pendant 48h vous pourrez profiter de séances de jeux de rôle, découvrir notre ludothèque de plus de 150 jeux de plateau ou assister à un concert de métal avec le groupe (nom du groupe).
-                        Au cours du week-end n’hésitez pas à prendre part à une murder-party, un escape game, ainsi qu'à des tournois de Magic ou Warhammer. 
-                        Vous pourrez aussi tout simplement venir profiter de l'ambiance et de nos sandwichs, pizzas, burgers et autres friandises et boissons, notamment nos crêpes et nos fameux 3D6 !
+                        {% if homeText %}
+                                {{ homeText }}
+                        {% else %}
+                                Jeux de rôle et jeux de plateau vous attendent à la prochaine édition du Festival de l'Oeil Glauque !
+                                Pendant 48h vous pourrez profiter de séances de jeux de rôle, découvrir notre ludothèque de plus de 150 jeux de plateau ou assister à un concert de métal.
+                                Au cours du week-end n’hésitez pas à prendre part à une murder-party, un escape game, ainsi qu'à des tournois de Magic ou Warhammer. 
+                                Vous pourrez aussi tout simplement venir profiter de l'ambiance et de nos sandwichs, pizzas, burgers et autres friandises et boissons, notamment nos crêpes et nos fameux 3D6 !
+                        {% endif %}
                 </p>
         {% else %}
                 <p class="lead">

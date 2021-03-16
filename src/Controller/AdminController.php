@@ -47,9 +47,9 @@ class AdminController extends FOGController {
     }
 
     /**
-     * @Route("/admin/editions/updateDates/{edition}", name="updateDates")
+     * @Route("/admin/editions/updateEdition/{edition}", name="updateEdition")
      */
-    public function updateDates(Request $request, $edition) {
+    public function updateEdition(Request $request, $edition) {
         $editionval = $this->getDoctrine()->getRepository(Edition::class)->find($edition);
         if(!$editionval) {
             throw $this->createNotFoundException(
@@ -58,8 +58,9 @@ class AdminController extends FOGController {
         }
         if($request->query->get('dates') != "") {
             $editionval->setDates($request->query->get('dates'));
+            $editionval->setHomeText($request->query->get('homeText'));
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('success', "Les dates ont bien été mises à jour. ");
+            $this->addFlash('success', "L'édition " . $editionval->getAnnee() . " a bien été mise à jour.");
         }
         return $this->redirectToRoute('admin_editions');
     }
@@ -204,6 +205,7 @@ class AdminController extends FOGController {
             $edition = new Edition();
             $edition->setAnnee($request->query->get('annee'));
             $edition->setDates($request->query->get('dates'));
+            $edition->setHomeText($request->query->get('homeText'));
             $this->getDoctrine()->getManager()->persist($edition);
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', "La nouvelle édition a bien été ajoutée");

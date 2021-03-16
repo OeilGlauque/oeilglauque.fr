@@ -24,6 +24,11 @@ class Edition
     private $annee;
 
     /**
+     * @ORM\Column(type="text")
+     */
+    private $homeText;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\GameSlot", mappedBy="edition")
      */
     private $gameSlots;
@@ -51,6 +56,18 @@ class Edition
     public function setAnnee(int $annee): self
     {
         $this->annee = $annee;
+
+        return $this;
+    }
+
+    public function getHomeText(): ?string
+    {
+        return $this->homeText;
+    }
+
+    public function setHomeText(string $homeText): self
+    {
+        $this->homeText = $homeText;
 
         return $this;
     }
