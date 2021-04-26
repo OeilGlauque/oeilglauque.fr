@@ -16,6 +16,10 @@
 	overflow-y: auto;
 }
 
+h2 a {
+	font-size: 1.8rem;
+}
+
 @media screen and (max-width: 1200px) {
 	.news {
 		justify-content: center;

@@ -34,13 +34,15 @@
             <a href="{{ path('boardGameReservationList') }}" class="btn btn-danger btn-lg btn-block btn-admin">Réservations de jeux</a>
         </div>
     </div>
-    <div class="row d-flex justify-content-center">
-        <div class="col-md-4 d-flex justify-content-center">
-            <a href="{{ path('writeNews') }}" class="btn btn-danger btn-lg btn-block btn-admin">Publier une news</a>
+    {% if newsState %}
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-4 d-flex justify-content-center">
+                <a href="{{ path('writeNews') }}" class="btn btn-danger btn-lg btn-block btn-admin">Publier une news</a>
+            </div>
+            <div class="col-md-4 d-flex justify-content-center">
+                <a href="{{ path('newsIndex') }}" class="btn btn-danger btn-lg btn-block btn-admin">Éditer une news</a>
+            </div>
         </div>
-        <div class="col-md-4 d-flex justify-content-center">
-            <a href="{{ path('newsIndex') }}" class="btn btn-danger btn-lg btn-block btn-admin">Éditer une news</a>
-        </div>
-    </div>
+    {% endif %}
 
 {% endblock %}
