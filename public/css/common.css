@@ -2,11 +2,13 @@
 @font-face {
 	font-family: "Mirkwood_Chronicle";
 	src: url('Mirkwood_Chronicle.ttf');
+    font-display: swap;
 }
 
 @font-face {
     font-family: "OldNewspaperTypes";
     src: url('OldNewspaperTypes.ttf');
+    font-display: swap;
 }
 /*@font-face {*/
 /*    font-family: "BookAntiqua";*/
