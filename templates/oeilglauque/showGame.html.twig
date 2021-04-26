@@ -2,6 +2,20 @@
 
 {% block body %}
 
+<!--
+<meta property="og:title" content="Partie JDR : %name%">
+<meta property="og:site_name" content="Oeil Glauque">
+<meta property="og:url" content="https://oeilglauque.fr/partie/yolo">
+<meta property="og:description" content="%description%">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://oeilglauque.fr/img/logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@oeilglauque">
+<meta name="twitter:description" content="%description%">
+<meta name="twitter:title" content="Partie JDR : %name%">
+<meta name="twitter:image" content="https://oeilglauque.fr/img/logo.png">
+-->
+
 {% if game.getFreeSeats() > 1 %}
 {% set accord = 's' %}
 {% else %}
