@@ -107,7 +107,7 @@ server {
 }
 
 server {
-	listen 443 ssl; 
+	listen 443 ssl http2; 
 	server_name oeilglauque.fr, www.oeilglauque.fr;
 	ssl_certificate /etc/letsencrypt/live/oeilglauque.fr/fullchain.pem; 
 	ssl_certificate_key /etc/letsencrypt/live/oeilglauque.fr/privkey.pem; 
