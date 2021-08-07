@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Game;
+use App\Entity\GameSlot;
+use App\Entity\User;
 use App\Entity\Edition;
 use App\Form\GameType;
 use App\Form\GameEditType;
@@ -54,7 +56,7 @@ class GameController extends FOGController {
             //Check if the slot is not full
             $slot = $game->getGameSlot();
             if(count($slot->getGames()) >= $slot->getMaxGames()) {
-                $this->addFlash('danger', "Malheureusement, il n'y a plus de place disponnible sur le créneau ".$slot->getText()."... ");
+                $this->addFlash('danger', "Malheureusement, il n'y a plus de place disponible sur le créneau ".$slot->getText()."... Essayez un autre créneau.");
                 return $this->redirectToRoute('nouvellePartie');
             }
 
@@ -90,6 +92,7 @@ class GameController extends FOGController {
      */
     public function listGames() {
         $games = $this->getDoctrine()->getRepository(Game::class)->getOrderedGameList($this->getCurrentEdition(), true);
+        $gameSlots = $this->getDoctrine()->getRepository(GameSlot::class)->findBy(["edition" => $this->getCurrentEdition()]);
         
         $user = $this->getUser();
         $userGames = ($user != null) ? $this->getUser()->getPartiesJouees()->toArray() : array();
@@ -106,7 +109,8 @@ class GameController extends FOGController {
         }
 
         return $this->render('oeilglauque/gamesList.html.twig', array(
-            'games' => $games, 
+            'games' => $games,
+            'gameSlots' => $gameSlots,
             'userGames' => $userGames, 
             'hasRegistered' => count($userGames) > 0, 
             'userProposedGames' => $userProposedGames, 
@@ -129,7 +133,7 @@ class GameController extends FOGController {
             return $this->redirectToRoute('showGame', ["id" => $id]);
         }
 
-        $form = $this->createForm(GameEditType::class, $game, array('slots' => $this->getCurrentEdition()->getGameSlots()));
+        $form = $this->createForm(GameEditType::class, $game, array('slots' => $this->getCurrentEdition()->getGameSlots(), 'seats' => $game->getBookedSeats()));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -265,6 +269,28 @@ class GameController extends FOGController {
             return $this->redirectToRoute('showGame', ["id" => $id]);
         }else{
             throw $this->createNotFoundException('Impossible de trouver la partie demandée. ');
+        }
+    }
+
+    /**
+     * @Route("/partie/unregister/{idGame}/{idPlayer}", name="unregisterGamePlayer")
+     */
+    public function unregisterGamePlayer(Request $request, $idGame, $idPlayer) {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+        if($user->hasRole('ROLE_ADMIN')) {
+            $game = $this->getDoctrine()->getRepository(Game::class)->find($idGame);
+            $player = $this->getDoctrine()->getRepository(User::class)->find($idPlayer);
+            if ($game && $player) {
+                $game->removePlayer($player); // Handles 'contains' verification
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($game);
+                $entityManager->flush();
+                $this->addFlash('info', "Le joueur ".$player->getPseudo()." a bien été supprimé de la partie ".$game->getTitle());
+                return $this->redirectToRoute('adminGamesList');
+            } else {
+                throw $this->createNotFoundException('Impossible de trouver la partie ou le joueur demandée. ');
+            }
         }
     }
 }

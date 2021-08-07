@@ -13,7 +13,12 @@
                 <p>Slot : {{ g.getGameSlot().getText() }}</p>
                 <p>{{ g.getDescription()|striptags('<br>')|raw }}</p>
                 <hr />
-                <p>{{ g.getSeats() }} places au total, forcer toutes les réservations en ligne : {% if g.getForceOnlineSeats() %}oui{% else %}non{% endif %}</p>
+                <p>{{ g.getSeats() }} places au total <br />
+                   {{ g.getFreeSeats() }} places restantes en ligne <br />
+                   {{ g.getOfflineSeats() }} places restantes sur place <br />
+                    forcer toutes les réservations en ligne : {% if g.getForceOnlineSeats() %}oui{% else %}non{% endif %}
+                </p>
+
 
                 {% if g.getPlayers()|length > 0 %}
 
@@ -24,6 +29,7 @@
                             <th scope="col">Nom</th>
                             <th scope="col">Pseudo</th>
                             <th scope="col">Adresse mail</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,6 +39,9 @@
                             <td>{{ player.getName() }}</td>
                             <td>{{ player.getPseudo() }}</td>
                             <td>{{ player.getEmail() }}</td>
+                            <td class="d-flex justify-content-end">
+                                <a href="{{ path('unregisterGamePlayer', {'idPlayer': player.getId(), 'idGame': g.getId()}) }}" onclick="return confirm('Confirmez la désinscription de {{ player.getPseudo() }} de la partie {{ g.getTitle() }} ?')" class="btn btn-danger">Désinscrire</a>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -43,7 +52,7 @@
                 {% endif %}
 
                 <a href="{{ path('editGame', {'id': g.getId()}) }}" class="btn btn-info">Éditer cette partie</a>&nbsp;
-                <a href="{{ path('deleteGame', {'id': g.getId()}) }}" class="btn btn-danger">Supprimer cette partie</a>
+                <a href="{{ path('deleteGame', {'id': g.getId()}) }}" onclick="return confirm('Confirmez la supression de la partie {{ g.getTitle() }} ?')" class="btn btn-danger">Supprimer cette partie</a>
             </div><br />
         {% else %}
             <div class="row">

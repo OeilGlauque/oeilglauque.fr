@@ -1,25 +1,29 @@
-$.get( "/parties/slots", ( data ) => {
-    data.forEach((i) => {
-        $("#filtre").append('<label class="btn btn-secondary btn-filtre active"><input type="checkbox" checked autocomplete="off">'+i.text+'</label>');
-    });
-
-    $(".btn-filtre").click((e) => {
-        var creneau = $(e.delegateTarget).text();
-        
-
-        if(!$(e.delegateTarget).hasClass("active")) {
-            $(".gameShard").each((i) => {
-                if($($($(".gameShard").get(i)).find(".slot").get(0)).text() == creneau) {
-                    $($(".gameShard").get(i)).show("slow");
-                }
-            });
+Array.from(document.getElementsByClassName('btn-filtre')).forEach(button => {
+    button.querySelector('input').onchange = (e) => {
+        const gid = document.getElementsByClassName('ghid_' + e.target.getAttribute('data'));
+        if (e.target.checked) {
+            button.removeAttribute('inactive');
+            Array.from(gid).forEach(g => $(g).show("slow"));
+        } else {
+            button.setAttribute('inactive', true);
+            Array.from(gid).forEach(g => {console.log(g); $(g).slideUp()});
         }
-        else{
-            $(".gameShard").each((i) => {
-                if($($($(".gameShard").get(i)).find(".slot").get(0)).text() == creneau) {
-                    $($(".gameShard").get(i)).slideUp();
-                }
-            });
-        }
-    });
-}); 
+    }
+});
+
+const toggleAll = document.getElementById('selectAll');
+toggleAll.querySelector('input').onchange= (e) => {
+    if (e.target.checked) {
+        toggleAll.querySelector('span').innerText="Tout désélectionner";
+        Array.from(document.getElementsByClassName('btn-filtre')).forEach(button => {
+            button.querySelector('input').checked = true;
+            button.querySelector('input').dispatchEvent(new Event('change'));
+        });
+    } else {
+        toggleAll.querySelector('span').innerText="Tout selectionner";
+        Array.from(document.getElementsByClassName('btn-filtre')).forEach(button => {
+            button.querySelector('input').checked = false;
+            button.querySelector('input').dispatchEvent(new Event('change'));
+        });
+    }
+};

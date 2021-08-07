@@ -178,6 +178,11 @@ class Game
         return ($this->getForceOnlineSeats() ? 0 : ceil($this->getSeats()/2));
     }
 
+    public function getBookedSeats() :?int
+    {
+        return (count($this->getPlayers()));
+    }
+
     public function getForceOnlineSeats(): ?bool
     {
         return $this->forceOnlineSeats;

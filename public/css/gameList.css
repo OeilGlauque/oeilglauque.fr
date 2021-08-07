@@ -1,0 +1,18 @@
+hr {
+	width: 100%;
+	background-color: black;
+	margin: 0;
+}
+
+.btn {
+	padding: 0.7em 1em;
+}
+
+.btn:hover {
+	padding: 0.7em 1em;
+}
+
+label[inactive] {
+	color: black;
+	background-color: transparent;
+}
