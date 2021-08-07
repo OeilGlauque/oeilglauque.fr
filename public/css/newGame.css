@@ -14,10 +14,16 @@
 
 #game-form label.form-check-label {
 	margin-left: 0.5em;
+	width: 80%;
 }
 
 #game-form label+div {
 	/* Overriding bootstrap style */
 	flex: 0 0 75%;
 	max-width: 75%;
+}
+
+
+#game-form textarea {
+	height: 200px;
 }

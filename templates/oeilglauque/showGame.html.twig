@@ -40,11 +40,9 @@
         <hr />
         <b>Participants : </b>
         {% for player in game.getPlayers() %}
-        <span class="badge badge-pill badge-light">
-            {{ player.getPseudo() }}&nbsp;
-            {% if (game.getAuthor() == app.user) or is_granted('ROLE_ADMIN') %}
-                ({{ player.getEmail() }})
-            {% endif %}
+        <span>
+            {{ player.getPseudo() }}
+            {% if is_granted('ROLE_ADMIN') %}({{ player.getEmail() }}){% endif %}{% if not loop.last %},{% endif %}
         </span>
         {% else %}
         Il n'y a pas encore de joueur inscrit à cette partie. 
@@ -81,7 +79,7 @@
             {% endif %}
         {% endif %}
         {% if game.getAuthor() == app.user or is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('editGame', {'id': game.getId()}) }}" class="btn btn-info">Éditer cette partie</a>
+        <a href="{{ path('editGame', {'id': game.getId()}) }}" class="btn ms-3 btn-info">Éditer cette partie</a>
         {% endif %}
         <br /><br />
         <a href="{{ path('listeParties') }}">Retour à la liste des parties</a>

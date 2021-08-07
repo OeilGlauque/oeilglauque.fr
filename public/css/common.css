@@ -128,6 +128,15 @@ button:not(.btn-close), .btn-primary, .btn, .btn:hover{
     padding: 0.7em 2em;
 }
 
+.btn.btn-danger {
+    background-color: #bb2d3b;
+    outline: solid 3px #bb2d3b;
+}
+
+.btn.btn-danger:hover {
+    background-color: #d46a74;
+}
+
 button:not(.btn-close):hover, .btn:hover {
     background-color: #ffca9d;
 }

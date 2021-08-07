@@ -8,7 +8,7 @@
 
     <h1 class="titre small">{% if edit %}Mettre à jour{% else %}Proposer{% endif %} une partie</h1>
     <p>
-        Vous pouvez utiliser les tags suivants dans la description :
+        Vous pouvez utiliser les tags Markdown suivants dans la description :
     </p>
     {% include('oeilglauque/shards/formatting-help.html.twig') %}
 
@@ -17,7 +17,7 @@
     </div>
 
     <p>
-        Attention : Lorsque vous proposez une nouvelle partie, elle n'apparait pas en ligne immédiatement.
+        <b>Attention !</b> Lorsque vous proposez une nouvelle partie, elle n'apparait pas en ligne immédiatement.
         Elle doit être validée par notre équipe avant d'être publiée, et apparaitra donc prochainement dans la liste des parties disponibles.
         N'hésitez pas à <a href="{{ path('contact') }}">nous contacter</a> en cas de doute !
     </p>

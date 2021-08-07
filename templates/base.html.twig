@@ -39,8 +39,11 @@
                 <ul>
                     <li><a href="/informationsFestival">Informations</a></li>
                     {% if modeFog %}
-                        {#<li><a href="/parties">Liste des parties</a></li>#}
-                        {#<li><a href="/nouvellePartie">Proposer une partie</a></li>#}
+                        <li><a href="/planning">Planning</a></li>
+                    {% endif %}
+                    {% if gameOpen %}
+                        <li><a href="/parties">Liste des parties</a></li>
+                        <li><a href="/nouvellePartie">Proposer une partie</a></li>
                     {% endif %}
                     <li><a href="/photos">Photos</a></li>
                 </ul>
@@ -67,7 +70,6 @@
                 <div id="date">{{ dates }}</div>
             {% endif %}
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            {# Link to user control panel : {{ app.user.username }} #}
             <div id="login">
                 <a href="{{ path('ucp') }}" class="ucp">{{ app.user.username }}</a>
                 <span class="separator"></span>
