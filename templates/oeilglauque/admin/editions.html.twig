@@ -11,12 +11,12 @@
             <div class="well">
                 <h3>Édition {{e.getAnnee()}}</h3>
                 <form class="form-inline" id="editEdition" method="GET" action="{{ path('updateEdition', {'edition': e.getId()}) }}">
-                    <div class="d-flex justify-content-center">
-                        <p class="mr-3 mt-3">Dates : </p>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <p class="mr-3">Dates : </p>
                         <input type="text" name="dates" value="{{ e.getDates() }}" class="form-control form-control-sm mr-sm-2" />
                     </div>
-                    <div class="d-flex justify-content-center">
-                        <p class="mr-3 mt-3">Texte d'accueil : </p>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <p class="mr-3">Texte d'accueil : </p>
                         <textarea name="homeText" class="form-control form-control-sm mr-sm-2">{{ e.getHomeText() }}</textarea>
                     </div>
                     <input type="submit" class="form-control mr-sm-2 btn btn-danger btn-sm" value="Mettre à jour" /> 

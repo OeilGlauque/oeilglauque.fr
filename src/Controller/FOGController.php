@@ -18,12 +18,19 @@ class FOGController extends Controller {
         return $this->getDoctrine()->getRepository(Feature::class)->find(4)->getState();
     }
 
+    public function getGameStatus(): ?bool {
+        return $this->getDoctrine()->getRepository(Feature::class)->find(5)->getState();
+    }
+
     public function render(string $view, array $parameters = [], Response $response = null): Response {
         if (!array_key_exists ('dates', $parameters)) {
             $parameters['dates'] = $this->getCurrentEdition()->getDates();
         }
         if (!array_key_exists ('modeFog', $parameters)) {
             $parameters['modeFog'] = $this->getModeFog();
+        }
+        if (!array_key_exists ('gameOpen', $parameters)) {
+            $parameters['gameOpen'] = $this->getGameStatus();
         }
         return parent::render($view, $parameters);
     }

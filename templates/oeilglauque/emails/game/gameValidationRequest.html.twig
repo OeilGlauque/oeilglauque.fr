@@ -1,0 +1,15 @@
+{% extends 'oeilglauque/emails/emailTemplate.html.twig' %}
+
+{% block title %}Partie de jeu de rôle à valider{% endblock %}
+
+{% block body %}
+	<p>Une nouvelle partie est disponible pour validation <a href="oeilglauque.fr/admin/games/validate">ici</a></p>
+
+    <div style="text-align: left; margin: 0 20% 0 20%;">
+        <p>Résumé de la partie : </p>
+        <p>Nom : {{ game.getTitle() }}</p>
+        <p>MJ : {{ user.getPseudo() }} ({{ user.getName() }} {{ user.getFirstname() }}, {{ user.getEmail() }})</p>
+        <p>Créneau : {{ game.getGameSlot().getText()}}</p>
+        <p>Nombre de places ouvertes : {{ game.getSeats()}}</p>
+    </div>
+{% endblock %}

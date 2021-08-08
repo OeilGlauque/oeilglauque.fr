@@ -1,8 +1,8 @@
--- MySQL dump 10.17  Distrib 10.3.20-MariaDB, for Win64 (AMD64)
+-- MariaDB dump 10.17  Distrib 10.5.5-MariaDB, for Win64 (AMD64)
 --
 -- Host: localhost    Database: fogdb
 -- ------------------------------------------------------
--- Server version	10.3.20-MariaDB
+-- Server version	10.5.5-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -24,9 +24,9 @@ DROP TABLE IF EXISTS `app_users`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `app_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pseudo` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `first_name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `pseudo` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `reset_token` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(254) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE `app_users` (
 
 LOCK TABLES `app_users` WRITE;
 /*!40000 ALTER TABLE `app_users` DISABLE KEYS */;
-INSERT INTO `app_users` VALUES (1,'root','iam','groot','$2y$13$lLcoql3xcjCWAs0xaTRieOThIQccCoWQ9hPnTQGZQ.vFmmES.AYvm',NULL,'testfog@yopmail.com',NULL,'2020-08-16 17:12:21',1,'ROLE_USER;ROLE_ADMIN'),(2,'Jhonson','Cave','TheBoss','$2y$13$iysBW2G7k.cMPhGTwZcQReaZLlS1eBaB7ZCt9kjUF9QoeqhUQdwGS',NULL,'testfog2@yopmail.com',NULL,'2020-08-16 17:18:34',1,'ROLE_USER'),(3,'Sombrage','Ulfric','Ours de markarth','$2y$13$f7efcjY4AHqhg4yIDOdsrenKApL96gRU7Ep7hWgwBZq8/76ifToiS',NULL,'testfog3@yopmail.com',NULL,'2020-08-16 17:19:15',1,'ROLE_USER');
+INSERT INTO `app_users` VALUES (1,'root','iam','groot','$2y$13$lLcoql3xcjCWAs0xaTRieOThIQccCoWQ9hPnTQGZQ.vFmmES.AYvm',NULL,'testfog@yopmail.com',NULL,'2020-08-16 17:12:21',1,'ROLE_USER;ROLE_ADMIN'),(2,'TheBoss','Cave','Jhonson','$2y$13$WvG15/itFHsjjtEhNoNCteS6Gpqf3c70zXDcEJBSKgcF9PlonLy/K','dSjzHqa6C7xA-t_ZaVtLnD-opr2YLt4Xa9i--1V0Z-Q','testfog2@yopmail.com',NULL,'2020-08-16 17:18:34',1,'ROLE_USER'),(3,'Ours de markarth','Ulfric','Sombrage','$2y$13$f7efcjY4AHqhg4yIDOdsrenKApL96gRU7Ep7hWgwBZq8/76ifToiS',NULL,'testfog3@yopmail.com',NULL,'2020-08-16 17:19:15',1,'ROLE_USER');
 /*!40000 ALTER TABLE `app_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -75,7 +75,7 @@ CREATE TABLE `board_game` (
 
 LOCK TABLES `board_game` WRITE;
 /*!40000 ALTER TABLE `board_game` DISABLE KEYS */;
-INSERT INTO `board_game` VALUES (1,'Perudo',2015,15,NULL,NULL,'1 d├® bleu'),(2,'Les aventuriers du rail',2017,30,NULL,NULL,NULL),(3,'Shadow hunter',2010,25,'1 cube orange',NULL,NULL);
+INSERT INTO `board_game` VALUES (1,'Perudo',2015,15,NULL,NULL,'1 dé bleu'),(2,'Les aventuriers du rail',2017,30,NULL,NULL,NULL),(3,'Shadow hunter',2010,25,'1 cube orange',NULL,NULL);
 /*!40000 ALTER TABLE `board_game` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -89,11 +89,10 @@ DROP TABLE IF EXISTS `board_game_reservation`;
 CREATE TABLE `board_game_reservation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `author_id` int(11) NOT NULL,
-  `duration` int(11) NOT NULL,
   `validated` tinyint(1) NOT NULL,
   `note` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `time` time NOT NULL,
-  `date` date NOT NULL,
+  `date_beg` date NOT NULL,
+  `date_end` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_BD5DD2F7F675F31B` (`author_id`),
   CONSTRAINT `FK_BD5DD2F7F675F31B` FOREIGN KEY (`author_id`) REFERENCES `app_users` (`id`)
@@ -137,6 +136,30 @@ LOCK TABLES `board_game_reservation_board_game` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `doctrine_migration_versions`
+--
+
+DROP TABLE IF EXISTS `doctrine_migration_versions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `doctrine_migration_versions` (
+  `version` varchar(1024) COLLATE utf8_unicode_ci NOT NULL,
+  `executed_at` datetime DEFAULT NULL,
+  `execution_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`version`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `doctrine_migration_versions`
+--
+
+LOCK TABLES `doctrine_migration_versions` WRITE;
+/*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `edition`
 --
 
@@ -158,7 +181,7 @@ CREATE TABLE `edition` (
 
 LOCK TABLES `edition` WRITE;
 /*!40000 ALTER TABLE `edition` DISABLE KEYS */;
-INSERT INTO `edition` VALUES (1,2021,'Du 18 au 20 octobre', 'Vive les jeux !');
+INSERT INTO `edition` VALUES (1,2021,'Du 18 au 20 octobre','Vive les jeux !');
 /*!40000 ALTER TABLE `edition` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -174,7 +197,7 @@ CREATE TABLE `feature` (
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `state` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -183,7 +206,7 @@ CREATE TABLE `feature` (
 
 LOCK TABLES `feature` WRITE;
 /*!40000 ALTER TABLE `feature` DISABLE KEYS */;
-INSERT INTO `feature` VALUES (1,'Shop de no├½l',0),(2,'R├®servations du local',1),(3,'R├®servations de jeux',1),(4,'Mode FOG',0),(5,'Syst├¿me de partie',0);
+INSERT INTO `feature` VALUES (1,'Shop de noël',0),(2,'Réservations du local',1),(3,'Réservations de jeux',1),(4,'Mode FOG',1),(5,'Système de partie',1),(6,'Système de news',0);
 /*!40000 ALTER TABLE `feature` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -204,12 +227,13 @@ CREATE TABLE `game` (
   `seats` int(11) NOT NULL,
   `force_online_seats` tinyint(1) NOT NULL,
   `validated` tinyint(1) NOT NULL,
+  `locked` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_232B318CF675F31B` (`author_id`),
   KEY `IDX_232B318CCC276EB3` (`game_slot_id`),
   CONSTRAINT `FK_232B318CCC276EB3` FOREIGN KEY (`game_slot_id`) REFERENCES `game_slot` (`id`),
   CONSTRAINT `FK_232B318CF675F31B` FOREIGN KEY (`author_id`) REFERENCES `app_users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -218,6 +242,7 @@ CREATE TABLE `game` (
 
 LOCK TABLES `game` WRITE;
 /*!40000 ALTER TABLE `game` DISABLE KEYS */;
+INSERT INTO `game` VALUES (1,1,1,'La game','LALALALALA',NULL,5,0,1,0);
 /*!40000 ALTER TABLE `game` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -236,7 +261,7 @@ CREATE TABLE `game_slot` (
   PRIMARY KEY (`id`),
   KEY `IDX_471B4C4B74281A5E` (`edition_id`),
   CONSTRAINT `FK_471B4C4B74281A5E` FOREIGN KEY (`edition_id`) REFERENCES `edition` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -245,7 +270,7 @@ CREATE TABLE `game_slot` (
 
 LOCK TABLES `game_slot` WRITE;
 /*!40000 ALTER TABLE `game_slot` DISABLE KEYS */;
-INSERT INTO `game_slot` VALUES (1,1,'Vendredi 20h',9),(2,1,'Vendredi minuit',9),(3,1,'Samedi midi',9),(4,1,'Samedi 16h',9),(5,1,'Samedi 20h',9);
+INSERT INTO `game_slot` VALUES (1,1,'Vendredi 20h',1),(2,1,'Vendredi minuit',9),(3,1,'Samedi midi',9),(4,1,'Samedi 16h',9),(5,1,'Samedi 20h',9),(6,1,'Samedi minuit',9),(7,1,'Dimanche midi',9),(8,1,'Dimanche 16h',9),(9,1,'Dimanche 20h',9);
 /*!40000 ALTER TABLE `game_slot` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -286,11 +311,10 @@ DROP TABLE IF EXISTS `local_reservation`;
 CREATE TABLE `local_reservation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `author_id` int(11) NOT NULL,
-  `duration` int(11) NOT NULL,
   `validated` tinyint(1) NOT NULL,
   `motif` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `time` time NOT NULL,
-  `date` date NOT NULL,
+  `date` datetime NOT NULL,
+  `end_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_29C13BFBF675F31B` (`author_id`),
   CONSTRAINT `FK_29C13BFBF675F31B` FOREIGN KEY (`author_id`) REFERENCES `app_users` (`id`)
@@ -303,32 +327,8 @@ CREATE TABLE `local_reservation` (
 
 LOCK TABLES `local_reservation` WRITE;
 /*!40000 ALTER TABLE `local_reservation` DISABLE KEYS */;
-INSERT INTO `local_reservation` VALUES (1,1,30,0,'Faire la fête','20:30:00','2020-08-29');
+INSERT INTO `local_reservation` VALUES (1,1,0,'Faire la fête','2020-08-29 00:00:00','0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `local_reservation` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `migration_versions`
---
-
-DROP TABLE IF EXISTS `migration_versions`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `migration_versions` (
-  `version` varchar(14) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `executed_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
-  PRIMARY KEY (`version`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `migration_versions`
---
-
-LOCK TABLES `migration_versions` WRITE;
-/*!40000 ALTER TABLE `migration_versions` DISABLE KEYS */;
-INSERT INTO `migration_versions` VALUES ('20200531144844','2020-08-16 17:09:13');
-/*!40000 ALTER TABLE `migration_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -370,4 +370,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-08-16 19:39:05
+-- Dump completed on 2021-08-08  5:32:05

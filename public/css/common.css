@@ -128,6 +128,15 @@ button:not(.btn-close), .btn-primary, .btn, .btn:hover{
     padding: 0.7em 2em;
 }
 
+.btn.btn-danger {
+    background-color: #bb2d3b;
+    outline: solid 3px #bb2d3b;
+}
+
+.btn.btn-danger:hover {
+    background-color: #d46a74;
+}
+
 button:not(.btn-close):hover, .btn:hover {
     background-color: #ffca9d;
 }
@@ -211,9 +220,14 @@ select option {
 @media only screen and (max-width: 767px) {
     h1.titre {
         font-size: 1.3em;
+        padding: 31px 0;
     }
 
     h1.titre.small {
         font-size: 0.9em;
+    }
+
+    .container {
+        padding: 0.5em 1.125em 2em 1.125em;
     }
 }

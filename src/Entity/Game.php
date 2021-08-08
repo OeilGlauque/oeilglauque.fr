@@ -71,10 +71,16 @@ class Game
      */
     private $validated;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $locked;
+
     public function __construct()
     {
         $this->players = new ArrayCollection();
         $this->validated = false;
+        $this->locked = false;
     }
 
     public function getId()
@@ -178,6 +184,11 @@ class Game
         return ($this->getForceOnlineSeats() ? 0 : ceil($this->getSeats()/2));
     }
 
+    public function getBookedSeats() :?int
+    {
+        return (count($this->getPlayers()));
+    }
+
     public function getForceOnlineSeats(): ?bool
     {
         return $this->forceOnlineSeats;
@@ -210,6 +221,18 @@ class Game
     public function setValidated(bool $validated): self
     {
         $this->validated = $validated;
+
+        return $this;
+    }
+
+    public function getLocked(): ?bool
+    {
+        return $this->locked;
+    }
+
+    public function setLocked(bool $locked): self
+    {
+        $this->locked = $locked;
 
         return $this;
     }

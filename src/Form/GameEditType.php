@@ -27,8 +27,8 @@ class GameEditType extends AbstractType
                 'disabled' => true, 
                 'choices' => $options['slots'], 
             ))
-            ->add('seats', IntegerType::class, array('label' => 'Places disponibles', 'invalid_message' => "Veuillez entrer un nombre"))
-            ->add('forceOnlineSeats', CheckboxType::class, array('label' => 'Permettre de réserver toutes les places en ligne (déconseillé)', 'required' => false))
+            ->add('seats', IntegerType::class, array('label' => 'Places disponibles', 'attr' => array('min' => $options['seats']),'invalid_message' => "Veuillez entrer un nombre"))
+            ->add('forceOnlineSeats', CheckboxType::class, array('label' => 'Permettre de réserver toutes les places en ligne (déconseillé). Par défaut, la moitié des places sont réservable en ligne et l\'autre moitié réservable sur place.', 'required' => false))
             
             ->add('save', SubmitType::class, array('label' => 'Mettre à jour'));
     }
@@ -37,7 +37,8 @@ class GameEditType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => Game::class,
-            'slots' => array()
+            'slots' => array(),
+            'seats' => 1
         ));
     }
 }
