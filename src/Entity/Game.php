@@ -71,10 +71,16 @@ class Game
      */
     private $validated;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $locked;
+
     public function __construct()
     {
         $this->players = new ArrayCollection();
         $this->validated = false;
+        $this->locked = false;
     }
 
     public function getId()
@@ -215,6 +221,18 @@ class Game
     public function setValidated(bool $validated): self
     {
         $this->validated = $validated;
+
+        return $this;
+    }
+
+    public function getLocked(): ?bool
+    {
+        return $this->locked;
+    }
+
+    public function setLocked(bool $locked): self
+    {
+        $this->locked = $locked;
 
         return $this;
     }

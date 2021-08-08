@@ -220,9 +220,14 @@ select option {
 @media only screen and (max-width: 767px) {
     h1.titre {
         font-size: 1.3em;
+        padding: 31px 0;
     }
 
     h1.titre.small {
         font-size: 0.9em;
+    }
+
+    .container {
+        padding: 0.5em 1.125em 2em 1.125em;
     }
 }

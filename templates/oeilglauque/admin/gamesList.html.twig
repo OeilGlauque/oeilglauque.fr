@@ -13,10 +13,9 @@
                 <p>Slot : {{ g.getGameSlot().getText() }}</p>
                 <p>{{ g.getDescription()|striptags('<br>')|raw }}</p>
                 <hr />
-                <p>{{ g.getSeats() }} places au total <br />
-                   {{ g.getFreeSeats() }} places restantes en ligne <br />
-                   {{ g.getOfflineSeats() }} places restantes sur place <br />
-                    forcer toutes les réservations en ligne : {% if g.getForceOnlineSeats() %}oui{% else %}non{% endif %}
+                <p>{{ g.getSeats() }} places au total ({{ g.getFreeSeats() }} places restantes en ligne, {{ g.getOfflineSeats() }} places restantes sur place)<br />
+                    Forcer toutes les réservations en ligne : {% if g.getForceOnlineSeats() %}oui{% else %}non{% endif %}<br />
+                    {% if g.getLocked() %}Bloquée 🔒{% endif %}
                 </p>
 
 
@@ -51,7 +50,8 @@
                     <p>Pas encore de joueur inscrit à cette partie. </p><br />
                 {% endif %}
 
-                <a href="{{ path('editGame', {'id': g.getId()}) }}" class="btn btn-info">Éditer cette partie</a>&nbsp;
+                <a href="{{ path('editGame', {'id': g.getId()}) }}" class="btn me-3">Éditer cette partie</a>&nbsp;
+                <a href="{{ path('lockGame', {'id': g.getId(), 'status': g.getLocked() ? '0' : '1'}) }}" class="btn me-3">{% if g.getLocked() %}Débloquer{% else %}Bloquer{% endif %} cette partie</a>
                 <a href="{{ path('deleteGame', {'id': g.getId()}) }}" onclick="return confirm('Confirmez la supression de la partie {{ g.getTitle() }} ?')" class="btn btn-danger">Supprimer cette partie</a>
             </div><br />
         {% else %}

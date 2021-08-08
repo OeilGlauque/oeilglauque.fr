@@ -1,15 +1,35 @@
+let slots = [];
+Array.from(document.getElementsByClassName('slots')).forEach(inp => {
+    slots[inp.getAttribute('data')] = {status: true, uptodate: false};
+});
+
 Array.from(document.getElementsByClassName('btn-filtre')).forEach(button => {
     button.querySelector('input').onchange = (e) => {
-        const gid = document.getElementsByClassName('ghid_' + e.target.getAttribute('data'));
+        const idx = e.target.getAttribute('data');
+        slots[idx] = { status: slots[idx].status, uptodate: slots[idx].status === e.target.checked };
         if (e.target.checked) {
             button.removeAttribute('inactive');
-            Array.from(gid).forEach(g => $(g).show("slow"));
         } else {
             button.setAttribute('inactive', true);
-            Array.from(gid).forEach(g => {console.log(g); $(g).slideUp()});
         }
+        updateGames();
     }
 });
+
+function updateGames() {
+    for(let i = 1; i < slots.length; i++) {
+        const gid = document.getElementsByClassName('ghid_' + i);
+        if (!slots[i].uptodate) {
+            if (slots[i].status) {
+                Array.from(gid).forEach(g => {$(g).slideUp()});
+            } else {
+                Array.from(gid).forEach(g => $(g).show("slow"));
+            }
+            slots[i].status = !slots[i].status;
+            slots[i].uptodate = true;
+        }
+    }
+}
 
 const toggleAll = document.getElementById('selectAll');
 toggleAll.querySelector('input').onchange= (e) => {
@@ -17,13 +37,16 @@ toggleAll.querySelector('input').onchange= (e) => {
         toggleAll.querySelector('span').innerText="Tout désélectionner";
         Array.from(document.getElementsByClassName('btn-filtre')).forEach(button => {
             button.querySelector('input').checked = true;
-            button.querySelector('input').dispatchEvent(new Event('change'));
+            button.removeAttribute('inactive');
         });
+        slots = slots.map(() => {return {status: false, uptodate: false}});
     } else {
         toggleAll.querySelector('span').innerText="Tout selectionner";
         Array.from(document.getElementsByClassName('btn-filtre')).forEach(button => {
             button.querySelector('input').checked = false;
-            button.querySelector('input').dispatchEvent(new Event('change'));
+            button.setAttribute('inactive', true);
         });
+        slots = slots.map(() => {return {status: true, uptodate: false}});
     }
+    updateGames();
 };

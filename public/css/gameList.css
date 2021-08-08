@@ -4,15 +4,21 @@ hr {
 	margin: 0;
 }
 
-.btn {
-	padding: 0.7em 1em;
-}
-
-.btn:hover {
+.btn, .btn:hover {
 	padding: 0.7em 1em;
 }
 
 label[inactive] {
 	color: black;
 	background-color: transparent;
+}
+
+ul {
+	list-style-type: disclosure-closed;
+}
+
+@media (max-width: 992px) { 
+	.btn, .btn:hover {
+		padding: 0.1em 0.1em;
+	}
 }

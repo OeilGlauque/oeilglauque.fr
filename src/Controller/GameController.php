@@ -8,7 +8,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Game;
 use App\Entity\GameSlot;
-use App\Entity\User;
 use App\Entity\Edition;
 use App\Form\GameType;
 use App\Form\GameEditType;
@@ -224,41 +223,43 @@ class GameController extends FOGController {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $game = $this->getDoctrine()->getRepository(Game::class)->find($id);
         if($game) {
-            // Check if the game is validated
-            if(!$game->getValidated()) {
-                $this->addFlash('danger', "Vous ne pouvez pas vous inscrire à une partie non validée !");
-                return $this->redirectToRoute('showGame', ["id" => $id]);
-            }
-            // Check if the game belongs to the current edition
-            if($game->getGameSlot()->getEdition() != $this->getCurrentEdition()) {
-                $this->addFlash('danger', "Vous ne pouvez vous inscrire qu'aux parties de l'édition actuelle !");
-                return $this->redirectToRoute('showGame', ["id" => $id]);
-            }
-            $user = $this->getUser();
-            // Check if the user has no other game on the same slot
-            $otherGames = $user->getPartiesJouees();
-            foreach ($otherGames as $g) {
-                if($g->getGameSlot() == $game->getGameSlot()) {
-                    $this->addFlash('danger', "Vous avez déjà la partie ".$g->getTitle()." prévue sur cet horaire !");
+            if(!$game.getLocked()) { // Check if game is locked
+                // Check if the game is validated
+                if(!$game->getValidated()) {
+                    $this->addFlash('danger', "Vous ne pouvez pas vous inscrire à une partie non validée !");
                     return $this->redirectToRoute('showGame', ["id" => $id]);
                 }
-            }
-            // Check if the user has not proposed an other game on this spot
-            $proposedGames = $user->getPartiesOrganisees();
-            foreach ($proposedGames as $g) {
-                if($g->getGameSlot() == $game->getGameSlot()) {
-                    $this->addFlash('danger', "Vous êtes déjà Maître du Jeu de la partie ".$g->getTitle()." sur cet horaire !");
+                // Check if the game belongs to the current edition
+                if($game->getGameSlot()->getEdition() != $this->getCurrentEdition()) {
+                    $this->addFlash('danger', "Vous ne pouvez vous inscrire qu'aux parties de l'édition actuelle !");
                     return $this->redirectToRoute('showGame', ["id" => $id]);
                 }
-            }
-            if($game->getFreeSeats() > 0) {
-                $game->addPlayer($user); // Handles 'contains' verification
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($game);
-                $entityManager->flush();
-                $this->addFlash('success', "Vous avez bien été inscrit à la partie ".$game->getTitle());
-            }else {
-                $this->addFlash('danger', "Malheureusement il n'y a plus de place disponible en ligne pour la partie ".$game->getTitle()."... ");
+                $user = $this->getUser();
+                // Check if the user has no other game on the same slot
+                $otherGames = $user->getPartiesJouees();
+                foreach ($otherGames as $g) {
+                    if($g->getGameSlot() == $game->getGameSlot()) {
+                        $this->addFlash('danger', "Vous avez déjà la partie ".$g->getTitle()." prévue sur cet horaire !");
+                        return $this->redirectToRoute('showGame', ["id" => $id]);
+                    }
+                }
+                // Check if the user has not proposed an other game on this spot
+                $proposedGames = $user->getPartiesOrganisees();
+                foreach ($proposedGames as $g) {
+                    if($g->getGameSlot() == $game->getGameSlot()) {
+                        $this->addFlash('danger', "Vous êtes déjà Maître du Jeu de la partie ".$g->getTitle()." sur cet horaire !");
+                        return $this->redirectToRoute('showGame', ["id" => $id]);
+                    }
+                }
+                if($game->getFreeSeats() > 0) {
+                    $game->addPlayer($user); // Handles 'contains' verification
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($game);
+                    $entityManager->flush();
+                    $this->addFlash('success', "Vous avez bien été inscrit à la partie ".$game->getTitle());
+                }else {
+                    $this->addFlash('danger', "Malheureusement il n'y a plus de place disponible en ligne pour la partie ".$game->getTitle()."... ");
+                }
             }
             return $this->redirectToRoute('showGame', ["id" => $id]);
         }else{
@@ -283,28 +284,6 @@ class GameController extends FOGController {
             return $this->redirectToRoute('showGame', ["id" => $id]);
         }else{
             throw $this->createNotFoundException('Impossible de trouver la partie demandée. ');
-        }
-    }
-
-    /**
-     * @Route("/partie/unregister/{idGame}/{idPlayer}", name="unregisterGamePlayer")
-     */
-    public function unregisterGamePlayer(Request $request, $idGame, $idPlayer) {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $user = $this->getUser();
-        if($user->hasRole('ROLE_ADMIN')) {
-            $game = $this->getDoctrine()->getRepository(Game::class)->find($idGame);
-            $player = $this->getDoctrine()->getRepository(User::class)->find($idPlayer);
-            if ($game && $player) {
-                $game->removePlayer($player); // Handles 'contains' verification
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($game);
-                $entityManager->flush();
-                $this->addFlash('info', "Le joueur ".$player->getPseudo()." a bien été supprimé de la partie ".$game->getTitle());
-                return $this->redirectToRoute('adminGamesList');
-            } else {
-                throw $this->createNotFoundException('Impossible de trouver la partie ou le joueur demandée. ');
-            }
         }
     }
 }

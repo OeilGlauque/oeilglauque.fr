@@ -14,6 +14,7 @@ use App\Entity\Edition;
 use App\Entity\GameSlot;
 use App\Entity\Game;
 use App\Entity\News;
+use App\Entity\User;
 use App\Form\NewsType;
 use Symfony\Component\Validator\Constraints\Date;
 
@@ -280,6 +281,41 @@ class AdminController extends FOGController {
             $this->addFlash('success', "La partie a bien été supprimée.");
         }
         return $this->redirectToRoute('unvalidatedGamesList');
+    }
+
+    /**
+     * @Route("/admin/games/unregister/{idGame}/{idPlayer}", name="unregisterGamePlayer")
+     */
+    public function unregisterGamePlayer(Request $request, $idGame, $idPlayer) {
+        $game = $this->getDoctrine()->getRepository(Game::class)->find($idGame);
+        $player = $this->getDoctrine()->getRepository(User::class)->find($idPlayer);
+        if ($game && $player) {
+            $game->removePlayer($player); // Handles 'contains' verification
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($game);
+            $entityManager->flush();
+            $this->addFlash('info', "Le joueur ".$player->getPseudo()." a bien été supprimé de la partie ".$game->getTitle());
+            return $this->redirectToRoute('adminGamesList');
+        } else {
+            throw $this->createNotFoundException('Impossible de trouver la partie ou le joueur demandée. ');
+        }
+    }
+
+    /**
+     * @Route("/admin/games/lock/{id}/{status}", name="lockGame")
+     */
+    public function lockGame(Request $request, $id, $status) {
+        $game = $this->getDoctrine()->getRepository(Game::class)->find($id);
+        if ($game) {
+            $game->setLocked($status == 1 ? true : false);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($game);
+            $entityManager->flush();
+            $this->addFlash('info', "La partie ".$game->getTitle()." a bien été ".($status ? 'bloquée' : 'débloquée'));
+            return $this->redirectToRoute('adminGamesList');
+        } else {
+            throw $this->createNotFoundException('Impossible de trouver la partie demandée.');
+        }
     }
 
     /************************************

@@ -28,22 +28,22 @@
         {% endif %}
 
         {% if games|length > 0 %}
-            <div class="d-flex ">
-                <div class="mt-10 me-4 col-2 d-flex flex-column" id="filter">
-                    <b>Créneaux sélectionnés :</b><br />
-                    <label class="btn mb-3 d-flex justify-content-center align-items-center" id="selectAll">
-                        <span>Tout désélectionner</span>
-                        <input type="checkbox" hidden checked autocomplete="off" />
+            <div class="d-flex flex-sm-row flex-column">
+                <div class="mt-10 me-4 col-sm-2 d-flex flex-sm-column flex-wrap flex-sm-nowrap" id="filter">
+                    <b class="mb-2">Créneaux sélectionnés :</b><br />
+                    <label class="btn mb-3 me-3 me-sm-0 d-flex justify-content-center align-items-center" id="selectAll">
+                        <span>Tout sélectionner</span>
+                        <input type="checkbox" hidden autocomplete="off" />
                     </label>
                     {% for g in gameSlots %}
-                        <label class="btn btn-filtre mb-3 d-flex justify-content-between align-items-center">
-                            <div></div>
+                        <label inactive class="btn btn-filtre mb-3 me-3 me-sm-0 d-flex justify-content-between align-items-center">
+                            <div class="d-lg-block d-none"></div>
                             <span>{{ g.getText() }}</span>
-                            <input type="checkbox" data="{{ g.getId() }}" checked autocomplete="off" />
+                            <input type="checkbox" class="d-lg-block d-none slots" data="{{ g.getId() }}" autocomplete="off" />
                         </label>
                     {% endfor %}
                 </div>
-                <div class="col-10">
+                <div class="col-md-10 col-8">
                     {% for g in games %}
                         {{ include('oeilglauque/shards/game.html.twig', 
                             {
