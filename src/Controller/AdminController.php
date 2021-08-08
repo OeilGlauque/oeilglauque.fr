@@ -243,12 +243,27 @@ class AdminController extends FOGController {
     /**
      * @Route("/admin/games/validate/{id}", name="validateGame")
      */
-    public function validateGame($id) {
+    public function validateGame($id, \Swift_Mailer $mailer) {
         $game = $this->getDoctrine()->getRepository(Game::class)->find($id);
         if($game) {
             $game->setValidated(true);
             $this->getDoctrine()->getManager()->persist($game);
             $this->getDoctrine()->getManager()->flush();
+
+            $user = $this->getUser();
+            $message = (new \Swift_Message('Votre partie '.$game->getTitle().' a été validée !'))
+            ->setFrom([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
+            ->setTo([$user->getEmail() => $user->getPseudo()])
+            ->setBody(
+                $this->renderView(
+                    'oeilglauque/emails/game/gameValidationNotif.html.twig',
+                    ['user' => $user,
+                    'game' => $game]
+                ),
+                'text/html'
+            );
+        $mailer->send($message);
+
             $this->addFlash('success', "La partie a bien été validée.");
         }
         return $this->redirectToRoute('unvalidatedGamesList');

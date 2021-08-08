@@ -19,7 +19,7 @@ class GameController extends FOGController {
     /**
      * @Route("/nouvellePartie", name="nouvellePartie")
      */
-    public function newGame(Request $request) {
+    public function newGame(Request $request, \Swift_Mailer $mailer) {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $game = new Game();
@@ -64,6 +64,20 @@ class GameController extends FOGController {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($game);
             $entityManager->flush();
+
+            $message = (new \Swift_Message('Demande de validation de partie'))
+                ->setFrom([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
+                ->setTo([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
+                ->setBody(
+                    $this->renderView(
+                        'oeilglauque/emails/game/gameValidationRequest.html.twig',
+                        ['user' => $user,
+                        'game' => $game]
+                    ),
+                    'text/html'
+                );
+            $mailer->send($message);
+
             $this->addFlash('info', "Votre partie a bien été enregistrée ! Elle va être validée par notre équipe avant d'être mise en ligne. Merci pour votre investissement auprès du Festival !");
 
             return $this->redirectToRoute('listeParties');
