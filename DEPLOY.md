@@ -212,7 +212,7 @@ Si tout se passe bien, certbot nous félicite, on peut accéder au site en https
 
 - Faire une backup de la base de donnée
 ```bash
-mysqldump -u root -p fogdb > fogbackup.sql
+mysqldump -u root -p fogdb -r > fogbackup.sql
 ```
 
 - Charger une backup de la base de donnée
