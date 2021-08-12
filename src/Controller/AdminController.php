@@ -44,7 +44,7 @@ class AdminController extends FOGController {
      * @Route("/admin/editions", name="admin_editions")
      */
     public function editionsAdmin() {
-        $editions = $this->getDoctrine()->getRepository(Edition::class)->findAll();
+        $editions = array_reverse($this->getDoctrine()->getRepository(Edition::class)->findAll());
         return $this->render('oeilglauque/admin/editions.html.twig', array(
             'editions' => $editions
         ));
@@ -206,6 +206,11 @@ class AdminController extends FOGController {
     */
     public function createEdition(Request $request) {
         if($request->query->get('annee') != "" && $request->query->get('dates')) {
+            $editionCheck = $this->getDoctrine()->getRepository(Edition::class)->findOndeBy(['annee' => $request->query->get('annee')]);
+            if ($editionCheck) {
+                $this->addFlash('error', "L'édition ".$request->query->get('annee')." existe déjà.");
+                return $this->redirectToRoute('newEdition');
+            }
             $edition = new Edition();
             $edition->setAnnee($request->query->get('annee'));
             $edition->setDates($request->query->get('dates'));
@@ -251,14 +256,14 @@ class AdminController extends FOGController {
             $this->getDoctrine()->getManager()->persist($game);
             $this->getDoctrine()->getManager()->flush();
 
-            $user = $this->getUser();
+            $author = $game->getAuthor();
             $message = (new \Swift_Message('Votre partie '.$game->getTitle().' a été validée !'))
             ->setFrom([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
-            ->setTo([$user->getEmail() => $user->getPseudo()])
+            ->setTo([$author->getEmail() => $author->getPseudo()])
             ->setBody(
                 $this->renderView(
                     'oeilglauque/emails/game/gameValidationNotif.html.twig',
-                    ['user' => $user,
+                    ['author' => $author,
                     'game' => $game]
                 ),
                 'text/html'

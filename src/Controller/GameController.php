@@ -104,31 +104,35 @@ class GameController extends FOGController {
      * @Route("/parties", name="listeParties")
      */
     public function listGames() {
-        $games = $this->getDoctrine()->getRepository(Game::class)->getOrderedGameList($this->getCurrentEdition(), true);
-        $gameSlots = $this->getDoctrine()->getRepository(GameSlot::class)->findBy(["edition" => $this->getCurrentEdition()]);
-        
-        $user = $this->getUser();
-        $userGames = ($user != null) ? $this->getUser()->getPartiesJouees()->toArray() : array();
-        $userGames = array_filter($userGames, function($element) {
-            return $element->getGameSlot()->getEdition() == $this->getCurrentEdition();
-        });
-        $userProposedGames = ($user != null) ? $this->getUser()->getPartiesOrganisees()->toArray() : array();
-        $userProposedGames = array_filter($userProposedGames, function($element) {
-            return $element->getGameSlot()->getEdition() == $this->getCurrentEdition();
-        });
-
-        foreach ($games as $g) {
-            $g->setDescription(GlauqueMarkdownParser::parse($g->getDescription()));
+        if ($this->getCurrentEdition()) {
+            $games = $this->getDoctrine()->getRepository(Game::class)->getOrderedGameList($this->getCurrentEdition(), true);
+            $gameSlots = $this->getDoctrine()->getRepository(GameSlot::class)->findBy(["edition" => $this->getCurrentEdition()]);
+            
+            $user = $this->getUser();
+            $userGames = ($user != null) ? $this->getUser()->getPartiesJouees()->toArray() : array();
+            $userGames = array_filter($userGames, function($element) {
+                return $element->getGameSlot()->getEdition() == $this->getCurrentEdition();
+            });
+            $userProposedGames = ($user != null) ? $this->getUser()->getPartiesOrganisees()->toArray() : array();
+            $userProposedGames = array_filter($userProposedGames, function($element) {
+                return $element->getGameSlot()->getEdition() == $this->getCurrentEdition();
+            });
+    
+            foreach ($games as $g) {
+                $g->setDescription(GlauqueMarkdownParser::parse($g->getDescription()));
+            }
+    
+            return $this->render('oeilglauque/gamesList.html.twig', array(
+                'games' => $games,
+                'gameSlots' => $gameSlots,
+                'userGames' => $userGames, 
+                'hasRegistered' => count($userGames) > 0, 
+                'userProposedGames' => $userProposedGames, 
+                'isMJ' => count($userProposedGames) > 0, 
+            ));
         }
-
-        return $this->render('oeilglauque/gamesList.html.twig', array(
-            'games' => $games,
-            'gameSlots' => $gameSlots,
-            'userGames' => $userGames, 
-            'hasRegistered' => count($userGames) > 0, 
-            'userProposedGames' => $userProposedGames, 
-            'isMJ' => count($userProposedGames) > 0, 
-        ));
+        $this->addFlash('error', "Il n'y pas d'édition du FOG prévu pour le moment.");
+        return $this->redirectToRoute('index');
     }
 
     /**

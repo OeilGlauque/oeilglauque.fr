@@ -22,6 +22,10 @@
     page do not impact other pages.
  */
 
+* {
+    font-variant-ligatures: none;
+}
+
 html {
     height: 100%;
 }
