@@ -206,9 +206,9 @@ class AdminController extends FOGController {
     */
     public function createEdition(Request $request) {
         if($request->query->get('annee') != "" && $request->query->get('dates')) {
-            $editionCheck = $this->getDoctrine()->getRepository(Edition::class)->findOndeBy(['annee' => $request->query->get('annee')]);
+            $editionCheck = $this->getDoctrine()->getRepository(Edition::class)->findOneBy(['annee' => $request->query->get('annee')]);
             if ($editionCheck) {
-                $this->addFlash('error', "L'édition ".$request->query->get('annee')." existe déjà.");
+                $this->addFlash('danger', "L'édition ".$request->query->get('annee')." existe déjà.");
                 return $this->redirectToRoute('newEdition');
             }
             $edition = new Edition();

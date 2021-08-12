@@ -71,16 +71,16 @@
             {% endif %}
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <div id="login">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="/admin">👁</a>
+                    <span class="separator"></span>
+                {% endif %}
                 <a href="{{ path('ucp') }}" class="ucp">{{ app.user.username }}</a>
                 <span class="separator"></span>
                 <a href="/logout">Déconnexion</a>
             </div>
             {% else %}
             <div id="login">
-                {% if is_granted('ROLE_ADMIN') %}
-                <a href="/admin">👁</a>
-                <span class="separator"></span>
-                {% endif %}
                 <a href="/register">Inscription</a>
                 <span class="separator"></span>
                 <a href="/login">Connexion</a>

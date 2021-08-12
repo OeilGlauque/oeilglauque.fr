@@ -104,7 +104,7 @@ class GameController extends FOGController {
      * @Route("/parties", name="listeParties")
      */
     public function listGames() {
-        if ($this->getCurrentEdition()) {
+        if ($this->getCurrentEdition()->getId() != null) {
             $games = $this->getDoctrine()->getRepository(Game::class)->getOrderedGameList($this->getCurrentEdition(), true);
             $gameSlots = $this->getDoctrine()->getRepository(GameSlot::class)->findBy(["edition" => $this->getCurrentEdition()]);
             
@@ -131,7 +131,7 @@ class GameController extends FOGController {
                 'isMJ' => count($userProposedGames) > 0, 
             ));
         }
-        $this->addFlash('error', "Il n'y pas d'édition du FOG prévu pour le moment.");
+        $this->addFlash('danger', "Il n'y a pas d'édition du FOG prévu pour le moment.");
         return $this->redirectToRoute('index');
     }
 

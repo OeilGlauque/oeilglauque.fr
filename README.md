@@ -93,6 +93,8 @@ Voir [DEPLOY.md](DEPLOY.md)
 
 ### Mise à jour vers une nouvelle version
 
+/!\ Toujours backup avant /!\
+
 ```bash
 git pull origin master
 git fetch --tags

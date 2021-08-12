@@ -183,7 +183,7 @@ De plus, il faut paramètrer le fichier `config/packages/swiftmail.yaml` avec la
 
 Ensuite, il faut build le Dockerfile: `sudo docker-compose build` et relancer les containers `sudo docker-compose up -d` en s'assurant que la définition du container php soit bien présent dans le docker-compose.yml.
 
-En principe avec la commande exec de docker on peut lancer l'install de composer mais ce n'est pas toujours possible. On peut directement entrer dans le bash du container: `sudo docker-compose exec -u 0 php /bin/bash` ou `sudo docker exec -u 0 nom_du_container /bin/bash` (selon si docker fait un caprice ou non, ça arrive 🤷‍♂️)
+En principe avec la commande exec de docker on peut lancer l'install de composer mais ce n'est pas toujours possible. On peut directement entrer dans le bash du container: `sudo docker-compose exec -u 0 php /bin/bash` ou `sudo docker exec -it -u 0 nom_du_container /bin/bash` (selon si docker fait un caprice ou non, ça arrive 🤷‍♂️)
 
 On peut finir l'installation :
 ```bash
@@ -212,8 +212,9 @@ Si tout se passe bien, certbot nous félicite, on peut accéder au site en https
 
 - Faire une backup de la base de donnée
 ```bash
-mysqldump -u root -p fogdb -r > fogbackup.sql
+mysqldump -u root -p fogdb > fogbackup.sql
 ```
+Ajouter `-r` sur Windows.
 
 - Charger une backup de la base de donnée
 ```sql
@@ -225,6 +226,11 @@ source fogbackup.sql
 ```sql
 use fogdb
 load data local infile 'tableData.csv' into table tableName fields terminated by ';' lines terminated by '\n';
+```
+
+- Copier un fichier depuis un container
+```bash
+docker cp nom_du_container:/path/vers/le/fichier /path/vers/la/destination
 ```
 
 Utiliser `docker cp` au besoin pour transporter les fichiers entre host et container.
