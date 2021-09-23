@@ -18,3 +18,19 @@ iframe {
     width: 87%;
     height: 400px;
 } 
+
+#sponsorWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#sponsorWrapper img {
+    width: auto;
+    height: auto;
+    margin: 20px 30px;
+    display: block;
+    max-width: 170px;
+    max-height: 100px;
+}
