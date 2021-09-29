@@ -25,6 +25,11 @@ img {
 	color: #973504;
 }
 
+.afficheWrapper {
+    width: 70%;
+    margin: auto;
+}
+
 .videoWrapper {
     overflow: hidden;
     position: relative;
