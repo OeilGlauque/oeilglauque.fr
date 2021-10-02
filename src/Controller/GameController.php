@@ -227,7 +227,7 @@ class GameController extends FOGController {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $game = $this->getDoctrine()->getRepository(Game::class)->find($id);
         if($game) {
-            if(!$game.getLocked()) { // Check if game is locked
+            if(!$game->getLocked()) { // Check if game is locked
                 // Check if the game is validated
                 if(!$game->getValidated()) {
                     $this->addFlash('danger', "Vous ne pouvez pas vous inscrire à une partie non validée !");
