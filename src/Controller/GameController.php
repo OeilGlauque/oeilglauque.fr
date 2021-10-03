@@ -119,7 +119,11 @@ class GameController extends FOGController {
             });
     
             foreach ($games as $g) {
-                $g->setDescription(GlauqueMarkdownParser::parse($g->getDescription()));
+                $g->setDescription(
+                    GlauqueMarkdownParser::safeTruncateHtml(
+                        GlauqueMarkdownParser::parse($g->getDescription()), 500
+                    )
+                );
             }
     
             return $this->render('oeilglauque/gamesList.html.twig', array(

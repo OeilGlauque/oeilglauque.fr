@@ -11,7 +11,7 @@
             <a href="{{ path('showGame', {'id':game.getId()}) }}"><h2 class="redandblack">{{ game.getTitle() }}</h2></a>
             <p class="small">Proposé par {{ game.getAuthor().getPseudo() }}<br />
             Créneau : <span class="slot">{{ game.getGameSlot().getText() }}</span></p>
-            <p>{{ game.getDescription()|truncate(500, true, "...")|striptags('<br>,<em>,<b>,<u>,<h3>')|raw }}
+            <p>{{ game.getDescription()|striptags('<br>,<em>,<b>,<u>,<h3>,<a>')|raw }}
                 {% if game.getDescription() | length > 500 %}
                 <a href="{{ path('showGame', {'id':game.getId()}) }}">Voir la suite</a>
                 {% endif %}
