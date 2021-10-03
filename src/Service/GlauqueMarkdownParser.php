@@ -27,23 +27,69 @@ class GlauqueMarkdownParser
     
     public static function restoreTags($html)
     {
-        preg_match_all('#<([a-z]+)(?: .*)?(?<![/|/ ])>#iU', $html, $result);
-        $openedtags = $result[1];
-        preg_match_all('#</([a-z]+)>#iU', $html, $result);
-        $closedtags = $result[1];
-        $len_opened = count($openedtags);
-        if (count($closedtags) == $len_opened) {
-            return $html;
-        }
-        $openedtags = array_reverse($openedtags);
-        for ($i=0; $i < $len_opened; $i++) {
-            if (!in_array($openedtags[$i], $closedtags)) {
-                $html .= '</'.$openedtags[$i].'>';
-            } else {
-                unset($closedtags[array_search($openedtags[$i], $closedtags)]);
+        // Check the length of the string
+        $strlen = strlen($html);
+        // Initialize the variables
+        $add_tag = false;
+        $rm_tag = false;
+        $add_tmp = '';
+        $rm_tmp = '';
+        $tag_arr[] = '';
+        $closing_text = '';
+
+        // Loop through all the characters using the string length
+        for ($i = 0; $i <= $strlen; $i++) {
+            // Get the character at the current pointer location
+            $char = substr($html, $i, 1);
+
+            // Check if it's a open tag <>
+            if ($char === '<') {
+                $add_tag = true;
+                $add_tmp = '';
+            }
+            // Check if it's a closing tag </>
+            else if ($char === '/') {
+                $add_tag = false;
+                $rm_tag = true;
+            }
+            // Check if end of the tag or a space in the tag (tag attributes are not needed)
+            // If the end of an open tag, add it to the array
+            // If the end of a closing tag, find the open tag in the array and remove it
+            else if ($char === ' ' || $char === '>') {
+                if ($add_tag) {
+                    $add_tag = false;
+                    $tag_arr[] = $add_tmp;
+                }
+                else if ($rm_tag) {
+                    $rm_tag = false;
+                    array_splice($tag_arr, array_search($rm_tmp, $tag_arr));
+                }
+            }
+            // If tags haven't ended, keep appending the character to create the tag
+            else if ($add_tag) {
+                $add_tmp.= $char;
+            }
+            else if ($rm_tag) {
+                $rm_tmp.= $char;
             }
         }
-        return $html;
+
+        // Count how many open tags there are
+        $arr_size = count($tag_arr);
+
+        // If there are open tags, reverse the array and output them
+        // Otherwise, return the original string
+        if ($arr_size > 0) {
+            $reversed = array_reverse($tag_arr);
+            for ($j = 0; $j < $arr_size; $j++) {
+                $closing_text.= "</" . $reversed[$j] . ">";
+            }
+
+            return $html . $closing_text;
+        }
+        else {
+            return $html;
+        }
     }
 }
 
