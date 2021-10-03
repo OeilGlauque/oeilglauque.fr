@@ -12,7 +12,7 @@
             <p class="small">Proposé par {{ game.getAuthor().getPseudo() }}<br />
             Créneau : <span class="slot">{{ game.getGameSlot().getText() }}</span></p>
             <p>{{ game.getDescription()|striptags('<br>,<em>,<b>,<u>,<h3>,<a>')|raw }}
-                {% if game.getDescription() | length > 500 %}
+                {% if game.getDescription() ends with '...' %}
                 <a href="{{ path('showGame', {'id':game.getId()}) }}">Voir la suite</a>
                 {% endif %}
             </p>
