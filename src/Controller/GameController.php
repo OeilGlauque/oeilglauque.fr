@@ -59,6 +59,9 @@ class GameController extends FOGController {
                 return $this->redirectToRoute('nouvellePartie');
             }
 
+            //Remove any undesired html tags
+            $game->setDescription(strip_tags($game->getDescription()));
+
             // Sauvegarde en base
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($game);

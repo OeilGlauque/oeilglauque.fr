@@ -5,6 +5,7 @@ class GlauqueMarkdownParser
 {
     public static function parse($text)
     {
+        $text = preg_replace('/\[(.+)\]\((https?:\/\/.+)\)/', "<a href=\"$2\">$1</a>", $text);
         $text = preg_replace('/\*\*(.*?)\*\*/', "<b>$1</b>", $text);
         $text = preg_replace('/\*(.*?)\*/', "<em>$1</em>", $text);
         $text = preg_replace('/__(.*?)__/', "<u>$1</u>", $text);
