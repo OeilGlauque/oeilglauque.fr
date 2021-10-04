@@ -95,6 +95,8 @@ Voir [DEPLOY.md](DEPLOY.md)
 
 /!\ Toujours backup avant /!\
 
+Vérifier la config mail dans `config/packages/swiftmailer.yaml`
+
 ```bash
 git pull origin master
 git fetch --tags

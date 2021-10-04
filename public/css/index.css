@@ -26,8 +26,13 @@ img {
 }
 
 .afficheWrapper {
-    width: 70%;
     margin: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.afficheWrapper img {
+    width: 48%;
 }
 
 .videoWrapper {
