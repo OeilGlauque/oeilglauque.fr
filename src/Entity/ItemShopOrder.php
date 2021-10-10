@@ -18,11 +18,13 @@ class ItemShopOrder
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ItemShop", inversedBy="orders")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $item;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ItemShopSlot", inversedBy="orders")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $slot;
 

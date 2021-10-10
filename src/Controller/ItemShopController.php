@@ -165,7 +165,7 @@ class ItemShopController extends FOGController
         if ($item) {
             $this->getDoctrine()->getManager()->remove($item);
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('success', "Le créneau a bien été supprimé.");
+            $this->addFlash('success', "Le produit a bien été supprimé.");
         }
 
         return $this->redirectToRoute('orderIndex');
@@ -261,7 +261,7 @@ class ItemShopController extends FOGController
         $this->addFlash('success', "La commande de " . $order->getPseudo() . " a bien été ajouté. ");
 
         $orders = $this->getDoctrine()->getRepository(ItemShopOrder::class)->findBy(["slot" => $slotval]);
-        if (count($orders) >= $slotval->getMaxOrder()) {
+        if ($slotval->getMaxOrder() != null && count($orders) >= $slotval->getMaxOrder()) {
             $this->addFlash('danger', "Le nombre maximal de commande pour ce créneau a été atteint.");
         }
 
