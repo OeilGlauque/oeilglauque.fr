@@ -46,7 +46,7 @@ CREATE TABLE `app_users` (
 
 LOCK TABLES `app_users` WRITE;
 /*!40000 ALTER TABLE `app_users` DISABLE KEYS */;
-INSERT INTO `app_users` VALUES (1,'root','iam','groot','$2y$13$lLcoql3xcjCWAs0xaTRieOThIQccCoWQ9hPnTQGZQ.vFmmES.AYvm',NULL,'testfog@yopmail.com',NULL,'2020-08-16 17:12:21',1,'ROLE_USER;ROLE_ADMIN'),(2,'TheBoss','Cave','Jhonson','$2y$13$WvG15/itFHsjjtEhNoNCteS6Gpqf3c70zXDcEJBSKgcF9PlonLy/K','dSjzHqa6C7xA-t_ZaVtLnD-opr2YLt4Xa9i--1V0Z-Q','testfog2@yopmail.com',NULL,'2020-08-16 17:18:34',1,'ROLE_USER'),(3,'Ours de markarth','Ulfric','Sombrage','$2y$13$f7efcjY4AHqhg4yIDOdsrenKApL96gRU7Ep7hWgwBZq8/76ifToiS',NULL,'testfog3@yopmail.com',NULL,'2020-08-16 17:19:15',1,'ROLE_USER');
+INSERT INTO `app_users` VALUES (1,'root','iam','groot','$2y$13$lLcoql3xcjCWAs0xaTRieOThIQccCoWQ9hPnTQGZQ.vFmmES.AYvm',NULL,'testfog@yopmail.com',NULL,'2020-08-16 17:12:21',1,'ROLE_USER;ROLE_ADMIN'),(2,'TheBoss','Cave','Jhonson','$2y$13$WvG15/itFHsjjtEhNoNCteS6Gpqf3c70zXDcEJBSKgcF9PlonLy/K','dSjzHqa6C7xA-t_ZaVtLnD-opr2YLt4Xa9i--1V0Z-Q','testfog2@yopmail.com',NULL,'2020-08-16 17:18:34',1,'ROLE_USER;ROLE_SHOP'),(3,'Ours de markarth','Ulfric','Sombrage','$2y$13$f7efcjY4AHqhg4yIDOdsrenKApL96gRU7Ep7hWgwBZq8/76ifToiS',NULL,'testfog3@yopmail.com',NULL,'2020-08-16 17:19:15',1,'ROLE_USER');
 /*!40000 ALTER TABLE `app_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,7 +172,7 @@ CREATE TABLE `edition` (
   `dates` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `home_text` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,7 +181,7 @@ CREATE TABLE `edition` (
 
 LOCK TABLES `edition` WRITE;
 /*!40000 ALTER TABLE `edition` DISABLE KEYS */;
-INSERT INTO `edition` VALUES (1,2021,'Du 18 au 20 octobre','Vive les jeux !');
+INSERT INTO `edition` VALUES (1,2021,'Du 18 au 20 octobre','Vive les jeux !'),(2,2020,'Du 20 au 22 octobrecb','Jeux de rôle et jeux de plateau vous attendent à la Xème édition du Festival de lŒil Glauque !\r\nPendant 48h vous pourrez profiter de séances de jeux de rôle, découvrir notre ludothèque de plus de 150 jeux de plateau ou assister à un concert de métal par le groupe XXXXX.\r\nAu cours du week-end n’hésitez pas à prendre part à une murder-party, un escape game, ainsi quà des tournois de Magic ou Warhammer. \r\nVous pourrez aussi tout simplement venir profiter de lambiance et de nos sandwichs, pizzas, burgers et autres friandises et boissons, notamment nos crêpes et nos fameux 3D6 !\r\n                '),(3,2022,'Du 20 au 22 octobre','Jeux de rôle et jeux de plateau vous attendent à la Xème édition du Festival de lŒil Glauque !\r\nPendant 48h vous pourrez profiter de séances de jeux de rôle, découvrir notre ludothèque de plus de 150 jeux de plateau ou assister à un concert de métal par le groupe XXXXX.\r\nAu cours du week-end n’hésitez pas à prendre part à une murder-party, un escape game, ainsi quà des tournois de Magic ou Warhammer. \r\nVous pourrez aussi tout simplement venir profiter de lambiance et de nos sandwichs, pizzas, burgers et autres friandises et boissons, notamment nos crêpes et nos fameux 3D6 !\r\n                ');
 /*!40000 ALTER TABLE `edition` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -233,7 +233,7 @@ CREATE TABLE `game` (
   KEY `IDX_232B318CCC276EB3` (`game_slot_id`),
   CONSTRAINT `FK_232B318CCC276EB3` FOREIGN KEY (`game_slot_id`) REFERENCES `game_slot` (`id`),
   CONSTRAINT `FK_232B318CF675F31B` FOREIGN KEY (`author_id`) REFERENCES `app_users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -242,7 +242,7 @@ CREATE TABLE `game` (
 
 LOCK TABLES `game` WRITE;
 /*!40000 ALTER TABLE `game` DISABLE KEYS */;
-INSERT INTO `game` VALUES (1,1,1,'La game','LALALALALA',NULL,5,0,1,0);
+INSERT INTO `game` VALUES (14,1,1,'fgdsfgsdf','Vous venez de découvrir votre ascendance divine. [sqdfqsf](https://sdfqsdqf)\r\nVous êtes __des__ demi-dieux ! Vous avez des capacités surhumaines et des supers pouvoirs.\r\nPlus tard on vous donnera des missions extraordinaires, de \r\nMais là ! Cest le Festival de lOeil Glaude à Rennes et vous partez de Brest. Tante Mé a accepté de vous prêtez sa voiture si vous la ramener intact !\r\n*Une vraie 205 rouge des années 85, je suis allé voir la destruction du mur de berlin avec ! Cest dire si elle est costaude !*\r\n735mille km au conteur, suspension dun autre temps et pas de direction assistée, le coffre est un peu enfoncé... Lauteur de laccident na jamais été revu...\r\n\r\nOh ! Vous ai-je dit quêtre un demi-dieu attire autant les emmerdes, quune voiture rouge... les taureaux énervés ?\r\nBon courage !',NULL,5,0,1,0),(15,1,4,'fgsdfgdf','hfghfghdgfh',NULL,5,0,0,0),(16,2,5,'fgdfsg','dfgsdfgfsdgpez',NULL,5,0,1,0),(17,1,6,'dfsqqsdf','Arsia Mons est un volcan bouclier situé sur la planète Mars par 8,4° S et 238,9° E&nbsp;[archive] dans le quadrangle de Phoenicis Lacus. Large de 460&nbsp;km, il  possède une caldeira',NULL,4,0,1,0);
 /*!40000 ALTER TABLE `game` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -298,7 +298,129 @@ CREATE TABLE `game_user` (
 
 LOCK TABLES `game_user` WRITE;
 /*!40000 ALTER TABLE `game_user` DISABLE KEYS */;
+INSERT INTO `game_user` VALUES (14,2);
 /*!40000 ALTER TABLE `game_user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `item_shop`
+--
+
+DROP TABLE IF EXISTS `item_shop`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `item_shop` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `edition_id` int(11) NOT NULL,
+  `type_id` int(11) DEFAULT NULL,
+  `name` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `price` double NOT NULL,
+  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_645A085974281A5E` (`edition_id`),
+  KEY `IDX_645A0859C54C8C93` (`type_id`),
+  CONSTRAINT `FK_645A085974281A5E` FOREIGN KEY (`edition_id`) REFERENCES `edition` (`id`),
+  CONSTRAINT `FK_645A0859C54C8C93` FOREIGN KEY (`type_id`) REFERENCES `item_shop_type` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `item_shop`
+--
+
+LOCK TABLES `item_shop` WRITE;
+/*!40000 ALTER TABLE `item_shop` DISABLE KEYS */;
+INSERT INTO `item_shop` VALUES (7,1,9,'Jambon beurre',3.5,'Du jambon et du beurre'),(8,1,9,'Rosette',4,'Cest chouette rosette'),(9,1,8,'Napolitaine',9,'Je taime à litalienne, à la sauce Napolitaine'),(10,1,8,'4 fromage',9,'Classique 20/20');
+/*!40000 ALTER TABLE `item_shop` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `item_shop_order`
+--
+
+DROP TABLE IF EXISTS `item_shop_order`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `item_shop_order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `item_id` int(11) DEFAULT NULL,
+  `slot_id` int(11) DEFAULT NULL,
+  `pseudo` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `time` datetime NOT NULL,
+  `collected` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_8F8EE1C0126F525E` (`item_id`),
+  KEY `IDX_8F8EE1C059E5119C` (`slot_id`),
+  CONSTRAINT `FK_8F8EE1C0126F525E` FOREIGN KEY (`item_id`) REFERENCES `item_shop` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_8F8EE1C059E5119C` FOREIGN KEY (`slot_id`) REFERENCES `item_shop_slot` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `item_shop_order`
+--
+
+LOCK TABLES `item_shop_order` WRITE;
+/*!40000 ALTER TABLE `item_shop_order` DISABLE KEYS */;
+INSERT INTO `item_shop_order` VALUES (17,9,10,'Zerator','2021-10-10 23:50:10',0),(18,10,10,'JdG','2021-10-10 17:50:10',0),(19,9,10,'Antoine Daniel','2021-10-10 23:50:28',0),(21,8,11,'Seb la frite','2021-10-10 23:55:40',1);
+/*!40000 ALTER TABLE `item_shop_order` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `item_shop_slot`
+--
+
+DROP TABLE IF EXISTS `item_shop_slot`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `item_shop_slot` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `edition_id` int(11) NOT NULL,
+  `type_id` int(11) DEFAULT NULL,
+  `delivery_time` datetime NOT NULL,
+  `order_time` datetime NOT NULL,
+  `pre_order_time` datetime DEFAULT NULL,
+  `max_order` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_6126D0EC74281A5E` (`edition_id`),
+  KEY `IDX_6126D0ECC54C8C93` (`type_id`),
+  CONSTRAINT `FK_6126D0EC74281A5E` FOREIGN KEY (`edition_id`) REFERENCES `edition` (`id`),
+  CONSTRAINT `FK_6126D0ECC54C8C93` FOREIGN KEY (`type_id`) REFERENCES `item_shop_type` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `item_shop_slot`
+--
+
+LOCK TABLES `item_shop_slot` WRITE;
+/*!40000 ALTER TABLE `item_shop_slot` DISABLE KEYS */;
+INSERT INTO `item_shop_slot` VALUES (10,1,8,'2021-10-10 20:00:00','2021-10-10 19:00:00','2021-10-10 18:30:00',5),(11,1,9,'2021-10-10 12:00:00','2021-10-10 11:30:00',NULL,NULL),(12,1,9,'2021-10-10 14:00:00','2021-10-10 13:30:00',NULL,NULL);
+/*!40000 ALTER TABLE `item_shop_slot` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `item_shop_type`
+--
+
+DROP TABLE IF EXISTS `item_shop_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `item_shop_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `item_shop_type`
+--
+
+LOCK TABLES `item_shop_type` WRITE;
+/*!40000 ALTER TABLE `item_shop_type` DISABLE KEYS */;
+INSERT INTO `item_shop_type` VALUES (8,'Pizza'),(9,'Sandwich');
+/*!40000 ALTER TABLE `item_shop_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -357,7 +479,7 @@ CREATE TABLE `news` (
 
 LOCK TABLES `news` WRITE;
 /*!40000 ALTER TABLE `news` DISABLE KEYS */;
-INSERT INTO `news` VALUES (1,1,'Le saucisson c\'est bon','oui','saucisson','2020-08-16'),(2,1,'Tu continues à danser...','sur des hits sales','taxi','2020-08-16');
+INSERT INTO `news` VALUES (1,1,'Le saucisson cest bon','oui','saucisson','2020-08-16'),(2,1,'Tu continues à danser...','sur des hits sales','taxi','2020-08-16');
 /*!40000 ALTER TABLE `news` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -370,4 +492,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-08  5:32:05
+-- Dump completed on 2021-10-11  0:13:45

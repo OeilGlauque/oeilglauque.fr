@@ -44,5 +44,6 @@ security:
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY } # Avoid login loops #pascommeçazinedine
         - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: '^/order', roles: [ROLE_SHOP, ROLE_ADMIN] }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }

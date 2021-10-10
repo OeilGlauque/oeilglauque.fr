@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+
+{% block customcss %}
+    <link rel="stylesheet" href="/css/itemShop.css"/>
+{% endblock %}
+
+
+{% block body %}
+
+    <h1 class="titre">
+        Commandes FOG {{ edition.getAnnee() }}
+    </h1>
+    <div>
+        <h2>{{ currentSlot.getType().getType() }} {{ currentSlot.getDeliveryTime().format("d/m H:i")}}</h2>
+        <span>
+            {% if currentSlot.getPreOrderTime() is not null %}
+                Première moitié : {{ currentSlot.getPreOrderTime().format("d/m H:i") }} | 
+            {% endif %}
+            Fin commande : {{ currentSlot.getOrderTime().format("d/m H:i")}}
+        </span>
+        <div class="d-flex justify-content-between">
+            <form class="form-inline addItem" id="addOrder" method="GET" action="{{ path('addOrder', {'slot': currentSlot.getId() }) }}">
+                <input type="text" placeholder="Pseudo" required name="pseudo" />
+                <select name="item" required>
+                    {% for item in items %}
+                        <option value="{{ item.getId() }}">{{ item.getName() }} ({{ item.getPrice }} €)</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" class="form-control mr-sm-2 btn btn-danger" value="Valider" /> 
+            </form>
+            <div>
+                <h3>Sélectionner un autre créneau</h3>
+                <div class="d-flex flex-wrap">
+                    {% for type in types %}
+                        {% if slots|filter(slot => slot.getType().getId() == type.getId())|length > 0 %}
+                            <ul class="list-unstyled">
+                                <h4> {{ type.getType() }}</h4>
+                                {% for slot in slots
+                                    |filter(slot => slot.getType().getId() == type.getId())
+                                    |sort((a, b) => a.getDeliveryTime() <=> b.getDeliveryTime()) %}
+                                    <li>
+                                        <a href="{{ path('orderList', {'slot': slot.getId()}) }}">
+                                            <strong>
+                                                {% if slot.getId() == currentSlot.getId() %}
+                                                > 
+                                                {% endif %}
+                                                {{ slot.getDeliveryTime().format("d/m H:i") }}
+                                            </strong>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <table class="orderList w-100">
+            {% if orders|length > 0 %}
+                <thead>
+                    <tr>
+                        <th><strong class="time">Heure</strong></th>
+                        <th><strong>Pseudo</strong></th>
+                        <th><strong>{{ currentSlot.getType().getType() }}</strong></th>
+                        <th><strong>État</strong></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders|sort((a,b) => (a.getPseudo() ~ a.getTime().getTimestamp()) <=> (b.getPseudo() ~ b.getTime().getTimestamp())) %}
+                        <tr id="order{{ order.getId() }}">
+                            <td>{{ order.getTime().format("d/m H:i") }}</td>
+                            <td><strong>{{ order.getPseudo() }}</strong></td>
+                            <td>{{ order.getItem().getName() }} ({{ order.getItem().getPrice() }} €)</td>                            
+                            {% if order.getCollected() %}
+                                <td class="state ok">Livré 👍</td>
+                            {% else %}
+                                <td class="state ko">En attente de livraison 👎</td>
+                            {% endif %}
+                            <td class="orderAction">
+                                <div class="d-flex justify-content-between">
+                                    <a onclick="collectOrder({{ order.getId() }}, {{ order.getCollected() ? '1' : '0' }})" class="btn collect">
+                                        {% if order.getCollected() %}
+                                            Annuler livraison
+                                        {% else %}
+                                            Livrer
+                                        {% endif %}
+                                    </a>
+                                    <a href="{{ path('deleteOrder', {'id': order.getId()}) }}" onclick="return confirm('Voulez-vous vraiment supprimer cette commande ?')" class="btn btn-danger">Supprimer</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            {% else %}
+                <p>Ce créneau n'a aucune commande actuellement</p>
+            {% endif %}
+            </table>
+            <div class="total">
+                {% if orders|length > 0 %}
+                    {% if currentSlot.getPreOrderTime() is not null %}
+                        <span>Première partie (Total : {{ groupedOrders1|length }})</span>
+                        <ul class="list-unstyled">
+                            {% for order in groupedOrders1 %}
+                            <li>{{ order.item }} : {{ order.itemcount }}</li>
+                            {% endfor %}
+                        </ul>
+                        <span>Deuxième partie  (Total : {{ groupedOrders2|length }})</span>
+                        <ul class="list-unstyled">
+                            {% for order in groupedOrders2 %}
+                            <li>{{ order.item }} : {{ order.itemcount }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <span>Total : {{ groupedOrders1|length }}</span>
+                        <ul class="list-unstyled">
+                            {% for order in groupedOrders1 %}
+                            <li>{{ order.item }} : {{ order.itemcount }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endif %}
+            </div>
+        <a href={{ path('orderIndex') }}>Retour à l'interface de commande</a>
+    </div>
+    <script>
+        function collectOrder(id, state) {
+            $.ajax({  
+               url: '/order/collectOrder/' + id + '/' + state,  
+               type: 'POST',   
+               dataType: 'json',  
+               async: true,  
+               
+               success: function(data, status) {  
+                  const order = document.getElementById('order' + id);
+                  order.querySelector('.state').innerText = data ? 'Livré 👍' : 'En attente de livraison 👎';
+                  order.querySelector('.state').className = 'state ' + (data ? 'ok' : 'ko');
+                  order.querySelector('.orderAction .collect').innerText = data ? 'Annuler livraison' : 'Livrer';
+                  order.querySelector('.orderAction .collect').setAttribute('onclick', 'collectOrder(' + id + ', ' + (data ? '1' : '0') + ')');
+               },  
+               error : function(xhr, textStatus, errorThrown) {  
+                  alert('Ajax request failed.');  
+               }  
+            });
+        }
+    </script>
+
+{% endblock %}

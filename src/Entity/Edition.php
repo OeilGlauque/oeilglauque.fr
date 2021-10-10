@@ -34,6 +34,16 @@ class Edition
     private $gameSlots;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ItemShop", mappedBy="edition")
+     */
+    private $items;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ItemShopSlot", mappedBy="edition")
+     */
+    private $itemShopType;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $dates;

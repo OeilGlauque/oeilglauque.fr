@@ -74,6 +74,11 @@
                 {% if is_granted('ROLE_ADMIN') %}
                     <a href="/admin">👁</a>
                     <span class="separator"></span>
+                    <a href="/order">🍕</a>
+                    <span class="separator"></span>
+                {% elseif is_granted('ROLE_SHOP') %}
+                    <a href="/order">🍕</a>
+                    <span class="separator"></span>
                 {% endif %}
                 <a href="{{ path('ucp') }}" class="ucp">{{ app.user.username }}</a>
                 <span class="separator"></span>
