@@ -1,0 +1,121 @@
+{% extends 'base.html.twig' %}
+
+{% block customcss %}
+    <link rel="stylesheet" href="/css/itemShop.css"/>
+{% endblock %}
+
+
+{% block body %}
+
+    <h1 class="titre">
+        Commandes FOG {{ edition.getAnnee() }}
+    </h1>
+    <div>
+        <h2>Liste des créneaux</h2>
+        <div class="shopSection">
+            <div class="listSection">
+                {% for type in types %}
+                    <ul>
+                        <h3> {{ type.getType() }}</h3>
+                        {% for slot in slots
+                            |filter(slot => slot.getType().getId() == type.getId())
+                            |sort((a, b) => a.getDeliveryTime() <=> b.getDeliveryTime()) %}
+                            <li>
+                                <span><strong>- </strong>Livraison : <strong>{{ slot.getDeliveryTime().format("d/m H:i") }}</strong></span>
+                                <span>Fin des commandes : {{ slot.getOrderTime().format("d/m H:i") }}</span>
+                                {% if slot.getPreOrderTime() is not null %}
+                                <span>Première partie de la commande : {{ slot.getPreOrderTime().format("d/m H:i") }}</span>
+                                {% endif %}
+                                {% if slot.getMaxOrder() is not null %}
+                                    ({{ slot.getMaxOrder() }} max)
+                                {% endif %}
+                                <div class="itemAction">
+                                    <a href="{{ path('deleteSlot', {'id': slot.getId()}) }}" onclick="return confirm('Voulez-vous vraiment supprimer ce créneau ?')">Supprimer</a>
+                                </div>
+                            </li>
+                        {% else %}
+                            <p>Pas de slot pour cette édition</p>
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            </div>
+            <form class="form-inline" id="addSlot" method="GET" action="{{ path('addSlot', {'edition': edition.getId() }) }}">
+                <label for="type">Type de produit</label>
+                <select name="type" id="type">
+                    {% for type in types %}
+                        <option value="{{ type.getId() }}">{{ type.getType() }}</option>
+                    {% endfor %}
+                </select>
+                <label for="deliveryTime">Horaire de livraison</label>
+                <input type="datetime-local" required name="deliveryTime" />
+                <label for="orderTime">Horaire de fin de commande</label>
+                <input type="datetime-local" required name="orderTime" />
+                <label for="preOrderTime">Horaire de première commande<br />(si la commande se fait en deux temps)</label>
+                <input type="datetime-local" name="preOrderTime" />
+                <label for="maxOrder">Maximum de commande (facultatif)</label>
+                <input type="number" name="maxOrder" />
+                <input type="submit" class="form-control mr-sm-2 btn btn-danger" value="Ajouter un créneau" /> 
+            </form>
+        </div>
+        <div>
+            <h2>Carte</h2>
+            <div class="shopSection">
+                <div class="listSection">
+                    {% for type in types %}
+                        <ul>
+                            <h3> {{ type.getType() }}</h3>
+                            {% for item in items|filter(item => item.getType().getId() == type.getId()) %}
+                                <li>
+                                    <strong>{{ item.getName() }} ({{ item.getPrice() }}€)</strong>
+                                    {% if item.getDescription is not null %}
+                                        <p>{{ item.getDescription() }}</p>
+                                    {% endif %}
+                                    <div class="itemAction">
+                                        <a href="{{ path('deleteItem', {'id': item.getId()}) }}" onclick="return confirm('Voulez-vous vraiment supprimer ce produit de la carte ?')">Supprimer</a>
+                                    </div>
+                                </li>
+                            {% else %}
+                                <p>Pas de {{ type.getType() }} pour cette édition</p>
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
+                </div>
+                <form class="form-inline" id="addItem" method="GET" action="{{ path('addItem', {'edition': edition.getId() }) }}">
+                    <label for="type">Type de produit</label>
+                    <select name="type" id="type">
+                        {% for type in types %}
+                            <option value="{{ type.getId() }}">{{ type.getType() }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="name">Nom</label>
+                    <input type="text" required name="name" />
+                    <label for="description">Description</label>
+                    <textarea cols="50" rows="5" name="description"></textarea>
+                    <label for="price">Prix (€)</label>
+                    <input type="number" placeholder="0.00" required name="price" min="0.00" max="10000.00" step="0.01" />
+                    <input type="submit" class="form-control mr-sm-2 btn btn-danger" value="Ajouter un produit" /> 
+                </form>
+            </div>
+        </div>
+        <div>
+            <h2>Liste des types de produits</h2>
+            <div class="shopSection">
+                <div class="listSection">
+                    <ul>
+                        {% for type in types %}
+                            <li><strong>{{ type.getType() }}</strong></li>
+                        {% else %}
+                            <p>Pas de type de produit disponible</p>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <form class="form-inline" id="addType" method="GET" action="{{ path('addType') }}">
+                    <input type="text" required name="name" placeholder="Nouveau type de produit" />
+                    <input type="submit" class="form-control mr-sm-2 btn btn-danger" value="Ajouter" /> 
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

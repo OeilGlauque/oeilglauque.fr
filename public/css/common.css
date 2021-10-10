@@ -209,6 +209,12 @@ input {
     border-radius: 5px;
 }
 
+select {
+    border-radius: 5px;
+    color: black;
+    background-color: #EEEEEE;
+}
+
 select option {
     color: black;
     background-color: #EEEEEE;
