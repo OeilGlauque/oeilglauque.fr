@@ -10,9 +10,9 @@
     <h1 class="titre">
         Commandes FOG {{ edition.getAnnee() }}
     </h1>
-    <div>
+    <div id="orderIndex">
         <h2>Liste des créneaux</h2>
-        <div class="shopSection">
+        <div class="d-flex">
             <div class="listSection">
                 {% for type in types %}
                     <ul>
@@ -30,7 +30,8 @@
                                     ({{ slot.getMaxOrder() }} max)
                                 {% endif %}
                                 <div class="itemAction">
-                                    <a href="{{ path('deleteSlot', {'id': slot.getId()}) }}" onclick="return confirm('Voulez-vous vraiment supprimer ce créneau ?')">Supprimer</a>
+                                    <a href="{{ path('orderList', {'slot': slot.getId()}) }}" class="btn">Accéder</a>
+                                    <a href="{{ path('deleteSlot', {'id': slot.getId()}) }}" onclick="return confirm('Voulez-vous vraiment supprimer ce créneau ?')" class="btn btn-danger">Supprimer</a>
                                 </div>
                             </li>
                         {% else %}
@@ -59,7 +60,7 @@
         </div>
         <div>
             <h2>Carte</h2>
-            <div class="shopSection">
+            <div class="d-flex">
                 <div class="listSection">
                     {% for type in types %}
                         <ul>
@@ -71,7 +72,7 @@
                                         <p>{{ item.getDescription() }}</p>
                                     {% endif %}
                                     <div class="itemAction">
-                                        <a href="{{ path('deleteItem', {'id': item.getId()}) }}" onclick="return confirm('Voulez-vous vraiment supprimer ce produit de la carte ?')">Supprimer</a>
+                                        <a href="{{ path('deleteItem', {'id': item.getId()}) }}" onclick="return confirm('Voulez-vous vraiment supprimer ce produit de la carte ?')" class="btn btn-danger">Supprimer</a>
                                     </div>
                                 </li>
                             {% else %}
@@ -82,7 +83,7 @@
                 </div>
                 <form class="form-inline" id="addItem" method="GET" action="{{ path('addItem', {'edition': edition.getId() }) }}">
                     <label for="type">Type de produit</label>
-                    <select name="type" id="type">
+                    <select name="type" required id="type">
                         {% for type in types %}
                             <option value="{{ type.getId() }}">{{ type.getType() }}</option>
                         {% endfor %}
@@ -99,7 +100,7 @@
         </div>
         <div>
             <h2>Liste des types de produits</h2>
-            <div class="shopSection">
+            <div class="d-flex">
                 <div class="listSection">
                     <ul>
                         {% for type in types %}

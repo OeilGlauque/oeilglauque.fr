@@ -1,7 +1,3 @@
-.shopSection {
-    display: flex;
-}
-
 .listSection {
     display: flex;
     flex: 1;
@@ -23,7 +19,7 @@ textarea {
     background-color: #EEEEEE;
 }
 
-ul li, ul p {
+#orderIndex ul li, #orderIndex ul p {
     display: flex;
     flex-direction: column;
     margin: 5px 0 5px 20px;
@@ -32,4 +28,54 @@ ul li, ul p {
 ul {
     padding: 0;
     margin-right: 30px;
+}
+
+.itemAction {
+    margin: 10px
+}
+
+.itemAction a:first-of-type {
+    margin-right: 10px;
+}
+
+.itemAction a.btn, .orderAction a.btn {
+    padding: 0.3em;
+}
+
+.orderAction {
+    width: 350px;
+}
+
+.orderAction div a {
+    margin: 0 30px;
+}
+
+.addItem {
+    flex-direction: row;
+}
+
+.addItem input {
+    flex-direction: row;
+    margin: 0 15px;
+}
+
+.orderList tr {
+    height: 50px;
+    background: #f5dcc0;
+}
+
+.orderList tr:nth-child(odd) { 
+    background: #cda694; 
+}
+
+.ok, .ko {
+    font-weight: bold;
+}
+
+.ok {
+    color: green;
+}
+
+.ko {
+    color: #bb2d3b;
 }

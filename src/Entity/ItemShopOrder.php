@@ -31,74 +31,82 @@ class ItemShopOrder
      */
     private $pseudo;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $time;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $collected;
+
+    public function __construct()
+    {
+        $this->collected = false;
+    }
+
     public function getId()
     {
         return $this->id;
     }
 
-    public function getEdition(): ?Edition
+    public function getItem(): ?ItemShop
     {
-        return $this->edition;
+        return $this->item;
     }
 
-    public function setEdition(?Edition $edition): self
+    public function setItem(?ItemShop $item): self
     {
-        $this->edition = $edition;
+        $this->item = $item;
 
         return $this;
     }
 
-    /**
-     * @return Collection|Game[]
-     */
-    public function getGames(): Collection
+    public function getSlot(): ?ItemShopSlot
     {
-        return $this->games;
+        return $this->slot;
     }
 
-    public function addGame(Game $game): self
+    public function setSlot(?ItemShopSlot $slot): self
     {
-        if (!$this->games->contains($game)) {
-            $this->games[] = $game;
-            $game->setGameSlot($this);
-        }
+        $this->slot = $slot;
 
         return $this;
     }
 
-    public function removeGame(Game $game): self
+    public function getPseudo(): ?string
     {
-        if ($this->games->contains($game)) {
-            $this->games->removeElement($game);
-            // set the owning side to null (unless already changed)
-            if ($game->getGameSlot() === $this) {
-                $game->setGameSlot(null);
-            }
-        }
+        return $this->pseudo;
+    }
+
+    public function setPseudo(?string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
 
         return $this;
     }
 
-    public function getText(): ?string
+    public function getTime(): ?\Datetime
     {
-        return $this->text;
+        return $this->time;
     }
 
-    public function setText(string $text): self
+    public function setTime(?\Datetime $time): self
     {
-        $this->text = $text;
+        $this->time = $time;
 
         return $this;
     }
 
-    public function getMaxGames(): ?int
+    public function getCollected(): ?bool
     {
-        return $this->maxGames;
+        return $this->collected;
     }
 
-    public function setMaxGames(int $maxGames): self
+    public function setCollected(?bool $collected): self
     {
-        $this->maxGames = $maxGames;
+        $this->collected = $collected;
 
         return $this;
     }
