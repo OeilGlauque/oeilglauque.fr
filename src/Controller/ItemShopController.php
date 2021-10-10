@@ -10,6 +10,7 @@ use App\Entity\ItemShopSlot;
 use App\Entity\ItemShopType;
 use App\Entity\Edition;
 use App\Entity\Feature;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Dotenv\Dotenv;
@@ -278,9 +279,13 @@ class ItemShopController extends FOGController
         $order->setCollected(!$state);
         $this->getDoctrine()->getManager()->persist($order);
         $this->getDoctrine()->getManager()->flush();
-        $this->addFlash('success', "La commande de " . $order->getPseudo() . " a bien été livré. ");
 
-        return $this->redirectToRoute('orderList', ["slot" => $order->getSlot()->getId()]);
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(!$state); 
+        } else {
+            $this->addFlash('success', "La commande de " . $order->getPseudo() . " a bien été livré. ");
+            return $this->redirectToRoute('orderList', ["slot" => $order->getSlot()->getId()]);
+        }
     }
 
     /**

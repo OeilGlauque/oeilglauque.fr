@@ -11,7 +11,7 @@
         Commandes FOG {{ edition.getAnnee() }}
     </h1>
     <div id="orderIndex">
-        <h2>Liste des créneaux</h2>
+        <h2>Liste des créneaux {{ edition.getAnnee() }}</h2>
         <div class="d-flex">
             <div class="listSection">
                 {% for type in types %}
@@ -59,7 +59,7 @@
             </form>
         </div>
         <div>
-            <h2>Carte</h2>
+            <h2>Carte {{ edition.getAnnee() }}</h2>
             <div class="d-flex">
                 <div class="listSection">
                     {% for type in types %}
@@ -111,8 +111,8 @@
                     </ul>
                 </div>
                 <form class="form-inline" id="addType" method="GET" action="{{ path('addType') }}">
-                    <input type="text" required name="name" placeholder="Nouveau type de produit" />
-                    <input type="submit" class="form-control mr-sm-2 btn btn-danger" value="Ajouter" /> 
+                    <input type="text" required name="name" placeholder="Type de produit" />
+                    <input type="submit" class="form-control mr-sm-2 btn btn-danger" value="Ajouter un type de produit" /> 
                 </form>
             </div>
         </div>

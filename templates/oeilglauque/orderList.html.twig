@@ -68,18 +68,18 @@
                 </thead>
                 <tbody>
                     {% for order in orders|sort((a,b) => (a.getPseudo() ~ a.getTime().getTimestamp()) <=> (b.getPseudo() ~ b.getTime().getTimestamp())) %}
-                        <tr>
+                        <tr id="order{{ order.getId() }}">
                             <td>{{ order.getTime().format("d/m H:i") }}</td>
                             <td><strong>{{ order.getPseudo() }}</strong></td>
                             <td>{{ order.getItem().getName() }} ({{ order.getItem().getPrice() }} €)</td>                            
                             {% if order.getCollected() %}
-                                <td class="ok">Livré 👍</td>
+                                <td class="state ok">Livré 👍</td>
                             {% else %}
-                                <td class="ko">En attente de livraison 👎</td>
+                                <td class="state ko">En attente de livraison 👎</td>
                             {% endif %}
                             <td class="orderAction">
                                 <div class="d-flex justify-content-between">
-                                    <a href="{{ path('collectOrder', {'id': order.getId(), 'state': order.getCollected() ? '1' : '0'}) }}" class="btn">
+                                    <a onclick="collectOrder({{ order.getId() }}, {{ order.getCollected() ? '1' : '0' }})" class="btn collect">
                                         {% if order.getCollected() %}
                                             Annuler livraison
                                         {% else %}
@@ -96,36 +96,53 @@
                 <p>Ce créneau n'a aucune commande actuellement</p>
             {% endif %}
             </table>
-            <div>
+            <div class="total">
                 {% if orders|length > 0 %}
                     {% if currentSlot.getPreOrderTime() is not null %}
-                        <span>Première partie</span>
-                        <ul>
+                        <span>Première partie (Total : {{ groupedOrders1|length }})</span>
+                        <ul class="list-unstyled">
                             {% for order in groupedOrders1 %}
                             <li>{{ order.item }} : {{ order.itemcount }}</li>
                             {% endfor %}
                         </ul>
-                        <span>Deuxième partie</span>
-                        <ul>
+                        <span>Deuxième partie  (Total : {{ groupedOrders2|length }})</span>
+                        <ul class="list-unstyled">
                             {% for order in groupedOrders2 %}
                             <li>{{ order.item }} : {{ order.itemcount }}</li>
                             {% endfor %}
                         </ul>
                     {% else %}
-                        <ul>
+                        <span>Total : {{ groupedOrders1|length }}</span>
+                        <ul class="list-unstyled">
                             {% for order in groupedOrders1 %}
                             <li>{{ order.item }} : {{ order.itemcount }}</li>
                             {% endfor %}
                         </ul>
                     {% endif %}
-
-
-
-                    
                 {% endif %}
             </div>
         <a href={{ path('orderIndex') }}>Retour à l'interface de commande</a>
     </div>
-
+    <script>
+        function collectOrder(id, state) {
+            $.ajax({  
+               url: '/order/collectOrder/' + id + '/' + state,  
+               type: 'POST',   
+               dataType: 'json',  
+               async: true,  
+               
+               success: function(data, status) {  
+                  const order = document.getElementById('order' + id);
+                  order.querySelector('.state').innerText = data ? 'Livré 👍' : 'En attente de livraison 👎';
+                  order.querySelector('.state').className = 'state ' + (data ? 'ok' : 'ko');
+                  order.querySelector('.orderAction .collect').innerText = data ? 'Annuler livraison' : 'Livrer';
+                  order.querySelector('.orderAction .collect').setAttribute('onclick', 'collectOrder(' + id + ', ' + (data ? '1' : '0') + ')');
+               },  
+               error : function(xhr, textStatus, errorThrown) {  
+                  alert('Ajax request failed.');  
+               }  
+            });
+        }
+    </script>
 
 {% endblock %}

@@ -79,3 +79,11 @@ ul {
 .ko {
     color: #bb2d3b;
 }
+
+.total {
+    margin-top: 20px;
+}
+
+li {
+    font-family: system-ui;
+}
