@@ -99,20 +99,21 @@
             <div class="total">
                 {% if orders|length > 0 %}
                     {% if currentSlot.getPreOrderTime() is not null %}
-                        <span>Première partie (Total : {{ groupedOrders1|length }})</span>
+                        <span>Total : {{ orders|length }}</span><br /><br />
+                        <span>Première partie (Sous-total : {{ groupedOrders1|reduce((acc,c) => acc + c.itemcount) }})</span>
                         <ul class="list-unstyled">
                             {% for order in groupedOrders1 %}
                             <li>{{ order.item }} : {{ order.itemcount }}</li>
                             {% endfor %}
                         </ul>
-                        <span>Deuxième partie  (Total : {{ groupedOrders2|length }})</span>
+                        <span>Deuxième partie  (Sous-total : {{ groupedOrders2|reduce((acc,c) => acc + c.itemcount) }})</span>
                         <ul class="list-unstyled">
                             {% for order in groupedOrders2 %}
                             <li>{{ order.item }} : {{ order.itemcount }}</li>
                             {% endfor %}
                         </ul>
                     {% else %}
-                        <span>Total : {{ groupedOrders1|length }}</span>
+                        <span>Total : {{ groupedOrders1|reduce((acc,c) => acc + c.itemcount) }}</span>
                         <ul class="list-unstyled">
                             {% for order in groupedOrders1 %}
                             <li>{{ order.item }} : {{ order.itemcount }}</li>
