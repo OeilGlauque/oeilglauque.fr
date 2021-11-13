@@ -21,7 +21,7 @@ class BoardGameReservationController extends FOGController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         if (!$this->getDoctrine()->getRepository(Feature::class)->find(3)->getState()) {
-            return $this->render('oeilglauque/boardGameReservation.html.twig', array(
+            return $this->renderPage('oeilglauque/boardGameReservation.html.twig', array(
                 'state' => false
             ));
         }
@@ -68,7 +68,7 @@ class BoardGameReservationController extends FOGController
             }
         }
 
-        return $this->render('oeilglauque/boardGameReservation.html.twig', array(
+        return $this->renderPage('oeilglauque/boardGameReservation.html.twig', array(
             'form' => $form->createView(),
             'boardGames' => $boardGames,
             'state' => true

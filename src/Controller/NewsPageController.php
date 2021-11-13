@@ -25,7 +25,7 @@ class NewsPageController extends FOGController {
             $n->setText(GlauqueMarkdownParser::parse($n->getText()));
         }
         
-        return $this->render('oeilglauque/news.html.twig', array(
+        return $this->renderPage('oeilglauque/news.html.twig', array(
             'news' => $news
         ));
     }
@@ -41,7 +41,7 @@ class NewsPageController extends FOGController {
         $news = $this->getDoctrine()->getRepository(News::class)->findOneBy(['slug' => $slug]);
         if($news) {
             $news->setText(GlauqueMarkdownParser::parse($news->getText()));
-            return $this->render('oeilglauque/showNews.html.twig', array(
+            return $this->renderPage('oeilglauque/showNews.html.twig', array(
                 'news' => $news
             ));
         }else{

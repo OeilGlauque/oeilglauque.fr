@@ -8,12 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * @ORM\Table(name="app_users")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User implements UserInterface, \Serializable
+class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serializable
 {
     /**
      * @ORM\Id()
@@ -39,8 +40,7 @@ class User implements UserInterface, \Serializable
     private $pseudo;
 
     /**
-     * length=64 : for bcrypt
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      */
     private $password;
@@ -199,6 +199,11 @@ class User implements UserInterface, \Serializable
     public function setResetToken(?string $resetToken)
     {
         $this->resetToken = $resetToken;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->getPseudo();
     }
 
     public function getEmail(): ?string

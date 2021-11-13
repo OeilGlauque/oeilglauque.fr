@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use App\Form\UserType;
 use App\Form\UserEditType;
 use App\Entity\User;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -34,7 +34,7 @@ class SecurityController extends FOGController
 
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
-        return $this->render('oeilglauque/login.html.twig', array(
+        return $this->renderPage('oeilglauque/login.html.twig', array(
             'last_username' => $lastUsername,
             'error'         => $error
         ));
@@ -43,7 +43,7 @@ class SecurityController extends FOGController
     /**
      * @Route("/register", name="register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder) {
+    public function register(Request $request, UserPasswordHasherInterface $passwordHasher) {
         // 1 : Construction du formulaire
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -63,7 +63,7 @@ class SecurityController extends FOGController
             }
 
             // 4) Encodage du mot de passe
-            $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
+            $password = $passwordHasher->hashPassword($user, $user->getPlainPassword());
             $user->setPassword($password);
 
             // 5) Sauvegarde en base
@@ -79,7 +79,7 @@ class SecurityController extends FOGController
             return $this->redirectToRoute('index');
         }
         
-        return $this->render(
+        return $this->renderPage(
             'oeilglauque/register.html.twig',
             array(
                 'form' => $form->createView(),
@@ -91,7 +91,7 @@ class SecurityController extends FOGController
     /**
      * @Route("/user", name="ucp")
      */
-    public function ucp(Request $request, UserPasswordEncoderInterface $passwordEncoder) {
+    public function ucp(Request $request, UserPasswordHasherInterface $passwordHasher) {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         // 1 : Construction du formulaire
@@ -134,7 +134,7 @@ class SecurityController extends FOGController
             // 4) Encodage du mot de passe
             $password = $user->getPassword();
             if($data['newPassword'] != "") {
-                $password = $passwordEncoder->encodePassword($user, $data['newPassword']);
+                $password = $passwordHasher->hashPassword($user, $data['newPassword']);
             }
 
             // 5) Sauvegarde en base
@@ -150,7 +150,7 @@ class SecurityController extends FOGController
             }
         }
         
-        return $this->render(
+        return $this->renderPage(
             'oeilglauque/ucp.html.twig',
             array(
                 'form' => $form->createView(), 
@@ -196,13 +196,13 @@ class SecurityController extends FOGController
             }
         }
 
-        return $this->render('oeilglauque/forgotPwd.html.twig');
+        return $this->renderPage('oeilglauque/forgotPwd.html.twig');
     }
     
     /**
      * @Route("/resetpwd/{token}", name="resetPwd")
      */
-    public function resetPwd(Request $request, string $token, UserPasswordEncoderInterface $passwordEncoder) {
+    public function resetPwd(Request $request, string $token, UserPasswordHasherInterface $passwordHasher) {
 
         if ($request->isMethod('POST')) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -214,7 +214,7 @@ class SecurityController extends FOGController
             }
 
             $user->setResetToken(null);
-            $password = $passwordEncoder->encodePassword($user, $request->request->get('password'));
+            $password = $passwordHasher->hashPassword($user, $request->request->get('password'));
             $user->setPassword($password);
             $entityManager->flush();
 
@@ -223,7 +223,7 @@ class SecurityController extends FOGController
             return $this->redirectToRoute('index');
         }
 
-        return $this->render(
+        return $this->renderPage(
             'oeilglauque/resetPwd.html.twig',
             array(
                 'token' => $token

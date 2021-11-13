@@ -29,7 +29,7 @@ class AdminController extends FOGController {
      */
     public function admin() {
         $newsState = $this->getDoctrine()->getRepository(Feature::class)->find(6)->getState();
-        return $this->render('oeilglauque/admin.html.twig', array(
+        return $this->renderPage('oeilglauque/admin.html.twig', array(
             'newsState' => $newsState
         ));
     }
@@ -45,7 +45,7 @@ class AdminController extends FOGController {
      */
     public function editionsAdmin() {
         $editions = array_reverse($this->getDoctrine()->getRepository(Edition::class)->findAll());
-        return $this->render('oeilglauque/admin/editions.html.twig', array(
+        return $this->renderPage('oeilglauque/admin/editions.html.twig', array(
             'editions' => $editions
         ));
     }
@@ -135,7 +135,7 @@ class AdminController extends FOGController {
             return $this->redirectToRoute('newsIndex');
         }
 
-        return $this->render('oeilglauque/admin/writeNews.html.twig', array(
+        return $this->renderPage('oeilglauque/admin/writeNews.html.twig', array(
             'form' => $form->createView(), 
             'edit' => false
         ));
@@ -165,7 +165,7 @@ class AdminController extends FOGController {
             return $this->redirectToRoute('newsIndex');
         }
 
-        return $this->render('oeilglauque/admin/writeNews.html.twig', array(
+        return $this->renderPage('oeilglauque/admin/writeNews.html.twig', array(
             'form' => $form->createView(), 
             'edit' => true
         ));
@@ -198,7 +198,7 @@ class AdminController extends FOGController {
     * @Route("/admin/editions/nouvelle", name="newEdition")
     */
     public function newEdition() {
-        return $this->render('oeilglauque/admin/newEdition.html.twig');
+        return $this->renderPage('oeilglauque/admin/newEdition.html.twig');
     }
 
     /**
@@ -231,7 +231,7 @@ class AdminController extends FOGController {
      */
     public function unvalidatedGamesList() {
         $games = $this->getDoctrine()->getRepository(Game::class)->getOrderedGameList($this->getCurrentEdition(), false);
-        return $this->render('oeilglauque/admin/unvalidatedGamesList.html.twig', array(  
+        return $this->renderPage('oeilglauque/admin/unvalidatedGamesList.html.twig', array(  
             'games' => $games
         ));
     }
@@ -241,7 +241,7 @@ class AdminController extends FOGController {
      */
     public function adminGamesList() {
         $games = $this->getDoctrine()->getRepository(Game::class)->getOrderedGameList($this->getCurrentEdition(), true);
-        return $this->render('oeilglauque/admin/gamesList.html.twig', array(
+        return $this->renderPage('oeilglauque/admin/gamesList.html.twig', array(
             'games' => $games, 
         ));
     }
@@ -336,7 +336,7 @@ class AdminController extends FOGController {
      */
     public function localReservationList() {
         $reservations =$this->getDoctrine()->getRepository(LocalReservation::class)->getLocalReservationList();
-        return $this->render('oeilglauque/admin/localReservationList.html.twig', array(
+        return $this->renderPage('oeilglauque/admin/localReservationList.html.twig', array(
             'reservations' => $reservations,
             'archive' => false
         ));
@@ -402,7 +402,7 @@ class AdminController extends FOGController {
      */
     public function localReservationArchive() {
         $reservations = $this->getDoctrine()->getRepository(LocalReservation::class)->getLocalReservationArchive();
-        return $this->render('oeilglauque/admin/localReservationList.html.twig', array(
+        return $this->renderPage('oeilglauque/admin/localReservationList.html.twig', array(
             'reservations' => $reservations,
             'archive' => true
         ));
@@ -435,7 +435,7 @@ class AdminController extends FOGController {
      */
     public function boardGameReservationList() {
         $reservations =$this->getDoctrine()->getRepository(BoardGameReservation::class)->getBoardGameReservationList();
-        return $this->render('oeilglauque/admin/boardGameReservationList.html.twig', array(
+        return $this->renderPage('oeilglauque/admin/boardGameReservationList.html.twig', array(
             'reservations' => $reservations,
             'archive' => false
         ));
@@ -504,7 +504,7 @@ class AdminController extends FOGController {
     public function boardGameReservationArchive()
     {
         $reservations = $this->getDoctrine()->getRepository(BoardGameReservation::class)->getBoardGameReservationArchive();
-        return $this->render('oeilglauque/admin/boardGameReservationList.html.twig', array(
+        return $this->renderPage('oeilglauque/admin/boardGameReservationList.html.twig', array(
             'reservations' => $reservations,
             'archive' => true
         ));
@@ -518,7 +518,7 @@ class AdminController extends FOGController {
      */
     public function adminFeature() {
         $features =$this->getDoctrine()->getRepository(Feature::class)->findAll();
-        return $this->render('oeilglauque/admin/feature.html.twig', array(
+        return $this->renderPage('oeilglauque/admin/feature.html.twig', array(
             'features' => $features
         ));
     }

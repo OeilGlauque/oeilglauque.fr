@@ -18,7 +18,7 @@ class MainPageController extends FOGController {
         if ($edition != null) {
             $homeText = $edition->getHomeText();
         }
-        return $this->render('oeilglauque/index.html.twig', array(
+        return $this->renderPage('oeilglauque/index.html.twig', array(
             'homeText' => $homeText
         ));
     }

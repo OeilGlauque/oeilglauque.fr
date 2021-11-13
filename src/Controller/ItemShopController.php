@@ -31,7 +31,7 @@ class ItemShopController extends FOGController
         $slots = $this->getDoctrine()->getRepository(ItemShopSlot::class)->findAll();
         $items = $this->getDoctrine()->getRepository(ItemShop::class)->findAll();
 
-        return $this->render('oeilglauque/orderIndex.html.twig', array(
+        return $this->renderPage('oeilglauque/orderIndex.html.twig', array(
             'edition' => $edition,
             'types' => $types,
             'slots' => $slots,
@@ -219,7 +219,7 @@ class ItemShopController extends FOGController
                 ->getResult();
         }
 
-        return $this->render('oeilglauque/orderList.html.twig', array(
+        return $this->renderPage('oeilglauque/orderList.html.twig', array(
             'edition' => $edition,
             'slots' => $slots,
             'orders' => $orders,

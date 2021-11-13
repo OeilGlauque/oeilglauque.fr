@@ -85,7 +85,7 @@ class GameController extends FOGController {
             return $this->redirectToRoute('listeParties');
         }
 
-        return $this->render('oeilglauque/newGame.html.twig', array(
+        return $this->renderPage('oeilglauque/newGame.html.twig', array(
             'form' => $form->createView(), 
             'edit' => false
         ));
@@ -129,7 +129,7 @@ class GameController extends FOGController {
                 );
             }
     
-            return $this->render('oeilglauque/gamesList.html.twig', array(
+            return $this->renderPage('oeilglauque/gamesList.html.twig', array(
                 'games' => $games,
                 'gameSlots' => $gameSlots,
                 'userGames' => $userGames, 
@@ -197,7 +197,7 @@ class GameController extends FOGController {
             return $this->redirectToRoute('showGame', ["id" => $id]);
         }
 
-        return $this->render('oeilglauque/newGame.html.twig', array(
+        return $this->renderPage('oeilglauque/newGame.html.twig', array(
             'form' => $form->createView(), 
             'edit' => true
         ));
@@ -218,7 +218,7 @@ class GameController extends FOGController {
 
             $game->setDescription(GlauqueMarkdownParser::parse($game->getDescription()));
 
-            return $this->render('oeilglauque/showGame.html.twig', array(
+            return $this->renderPage('oeilglauque/showGame.html.twig', array(
                 'game' => $game, 
                 'registered' => $game->getPlayers()->contains($this->getUser()), 
             ));

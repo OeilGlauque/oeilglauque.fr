@@ -7,7 +7,7 @@ Site web du Festival de l’Œil Glauque
 
 Pour installer le site localement, il faut au préalable avoir installé PHP7.3, Composer et MariaDB. L'installation varie selon la distribution mais est normalement relativement simple. 
 
- ### Exemple d'installation pour Fedora 28 : 
+ ### Exemple d'installation pour Fedora 28 /!\ Pas à jour : 
 
 ```bash
 sudo dnf install php-cli php-common php-pdo_mysql php-gmp composer mariadb-server
@@ -16,7 +16,7 @@ mysql --user root --execute "select version()" # Vérifier l'installation de Mar
 mysql_secure_installation # Pour finaliser et sécuriser
 ```
 
- ### Cas particulier d'Ubuntu (18.04)
+ ### Cas particulier d'Ubuntu (18.04) /!\ Pas à jour
 
 ```bash
 sudo apt-get install composer
@@ -38,7 +38,7 @@ select version();
 * Télécharger et dézipper dans le dossier de votre choix la dernière version de php pour windows sur [windows.php.net](windows.php.net)
 * Ajouter le dossier de php à la variable d'environnement PATH (voir [PATH](#Mettre-à-jour-PATH))
 * Depuis un terminal, `php -v"` pour vérifier l'installation. La version de php doit s'afficher.
-* Dans le fichier `php.ini`, décommenter les lignes `extension=gmp` et `extension=pdo_mysql`
+* Dans le fichier `php.ini`, décommenter les lignes `extension=gmp`, `extension=pdo_mysql` et `extension=sodium`.
 * Télécharger et installer Composer avec l'exécutable disponible sur [getcomposer.org](getcomposer.org). Redémarrer explorer.exe pour PATH.
 * Depuis un terminal, `composer --version` pour vérifier l'installation.
 * Télécharger et installer Symfony avec l'exécutable disponible sur [symfony.com](symfony.com). Redémarrer explorer.exe pour PATH.
@@ -75,7 +75,7 @@ composer install
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:diff
 php bin/console doctrine:migrations:migrate
-php bin/console server:run
+symfony server:start
 # Ajouter --no-interaction à une commande si cette dernière plante en posant une question
 ```
 

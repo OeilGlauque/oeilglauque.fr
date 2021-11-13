@@ -1,10 +1,14 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
 
-    encoders:
-        # Symfony\Component\Security\Core\User\User: plaintext # for in-memory provider
+    enable_authenticator_manager: true
+
+    password_hashers:
         App\Entity\User:
-            algorithm: bcrypt
+            # the new hasher, along with its options
+            algorithm: sodium
+            migrate_from:
+                - bcrypt # uses the "bcrypt" hasher with the default options
     
     providers:
         #in_memory: 
@@ -24,7 +28,6 @@ security:
             security: false
         main:
             pattern: ^/
-            anonymous: ~
             form-login: 
                 login_path: login
                 check_path: login

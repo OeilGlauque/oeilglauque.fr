@@ -19,7 +19,7 @@ class LocalReservationController extends FOGController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         if (!$this->getDoctrine()->getRepository(Feature::class)->find(2)->getState()) {
-            return $this->render('oeilglauque/localReservation.html.twig', array(
+            return $this->renderPage('oeilglauque/localReservation.html.twig', array(
                 'state' => false
             ));
         }
@@ -55,7 +55,7 @@ class LocalReservationController extends FOGController
             }
         }
 
-        return $this->render('oeilglauque/localReservation.html.twig', array(
+        return $this->renderPage('oeilglauque/localReservation.html.twig', array(
             'form' => $form->createView(),
             'state' => true
         ));
