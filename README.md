@@ -19,16 +19,14 @@ mysql_secure_installation # Pour finaliser et sécuriser
  ### Cas particulier d'Ubuntu (18.04)
 
 ```bash
-sudo apt-get install composer
- # Installation de la dernière version de php et MariaDB, les dépots Debian sont rarement à jour
-sudo add-apt-repository ppa:ondrej/php
-sudo apt-get install php7.3-common php7.3-cli php7.3-mysql php7.3-gmp php7.3-mbstring php7.3-xml
+ # Installation de la dernière version de php
+sudo apt install php php-cli php-common php-mysql php-mbstring php-xml
+ # Installation de composer v2
+sudo curl -s https://getcomposer.org/installer | php
+sudo mv composer.phar /usr/local/bin/composer
  # MariaDB à présent
-sudo apt-get install software-properties-common
-sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
-sudo add-apt-repository 'deb [arch=amd64,arm64,ppc64el] http://mariadb.mirror.liquidtelecom.com/repo/10.4/ubuntu bionic main'
-sudo apt update
-sudo apt -y install mariadb-server mariadb-client
+sudo apt-get install mariadb-server
+sudo mysql_secure_installation
 # Vérifier l'installation de MariaDB
 mysql -u root -p
 select version();
@@ -72,6 +70,7 @@ Il ne reste plus qu'à installer les dépendances, effectuer une migration de la
 
 ```bash
 composer install
+composer require symfony/flex # En cas d'erreur
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:diff
 php bin/console doctrine:migrations:migrate
