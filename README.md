@@ -35,7 +35,7 @@ select version();
 
 * Télécharger et dézipper dans le dossier de votre choix la dernière version de php pour windows sur [windows.php.net](windows.php.net)
 * Ajouter le dossier de php à la variable d'environnement PATH (voir [PATH](#Mettre-à-jour-PATH))
-* Depuis un terminal, `php -v"` pour vérifier l'installation. La version de php doit s'afficher.
+* Depuis un terminal, `php -v` pour vérifier l'installation. La version de php doit s'afficher.
 * Dans le fichier `php.ini`, décommenter les lignes `extension=gmp` et `extension=pdo_mysql`
 * Télécharger et installer Composer avec l'exécutable disponible sur [getcomposer.org](getcomposer.org). Redémarrer explorer.exe pour PATH.
 * Depuis un terminal, `composer --version` pour vérifier l'installation.
