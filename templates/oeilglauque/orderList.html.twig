@@ -22,7 +22,8 @@
             <form class="form-inline addItem" id="addOrder" method="GET" action="{{ path('addOrder', {'slot': currentSlot.getId() }) }}">
                 <input type="text" placeholder="Pseudo" required name="pseudo" />
                 <select name="item" required>
-                    {% for item in items %}
+                    {% for item in items
+						|filter(item => item.getEdition().getId() == edition.getId()) %}
                         <option value="{{ item.getId() }}">{{ item.getName() }} ({{ item.getPrice }} €)</option>
                     {% endfor %}
                 </select>

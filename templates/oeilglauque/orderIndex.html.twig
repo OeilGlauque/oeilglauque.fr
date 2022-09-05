@@ -19,6 +19,7 @@
                         <h3> {{ type.getType() }}</h3>
                         {% for slot in slots
                             |filter(slot => slot.getType().getId() == type.getId())
+                            |filter(slot => slot.getEdition().getId() == edition.getId())
                             |sort((a, b) => a.getDeliveryTime() <=> b.getDeliveryTime()) %}
                             <li>
                                 <span><strong>- </strong>Livraison : <strong>{{ slot.getDeliveryTime().format("d/m H:i") }}</strong></span>
@@ -65,7 +66,9 @@
                     {% for type in types %}
                         <ul>
                             <h3> {{ type.getType() }}</h3>
-                            {% for item in items|filter(item => item.getType().getId() == type.getId()) %}
+                            {% for item in items
+								|filter(item => item.getType().getId() == type.getId()) 
+								|filter(item => item.getEdition().getId() == edition.getId()) %}
                                 <li>
                                     <strong>{{ item.getName() }} ({{ item.getPrice() }}€)</strong>
                                     {% if item.getDescription is not null %}
