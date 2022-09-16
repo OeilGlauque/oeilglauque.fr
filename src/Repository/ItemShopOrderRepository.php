@@ -3,14 +3,15 @@
 namespace App\Repository;
 
 use App\Entity\ItemShopOrder;
+use App\Entity\Edition;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Edition|null find($id, $lockMode = null, $lockVersion = null)
- * @method Edition|null findOneBy(array $criteria, array $orderBy = null)
- * @method Edition[]    findAll()
- * @method Edition[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ItemShopOrder|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ItemShopOrder|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ItemShopOrder[]    findAll()
+ * @method ItemShopOrder[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class ItemShopOrderRepository extends ServiceEntityRepository
 {

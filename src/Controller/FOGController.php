@@ -22,6 +22,10 @@ class FOGController extends Controller {
         return $this->getDoctrine()->getRepository(Feature::class)->find(5)->getState();
     }
 
+    public function getPlanningStatus(): ?bool {
+        return $this->getDoctrine()->getRepository(Feature::class)->find(7)->getState();
+    }
+
     public function render(string $view, array $parameters = [], Response $response = null): Response {
         if (!array_key_exists ('dates', $parameters)) {
             $parameters['dates'] = $this->getCurrentEdition()->getDates();
@@ -31,6 +35,9 @@ class FOGController extends Controller {
         }
         if (!array_key_exists ('gameOpen', $parameters)) {
             $parameters['gameOpen'] = $this->getGameStatus();
+        }
+        if (!array_key_exists ('planning', $parameters)) {
+            $parameters['planning'] = $this->getPlanningStatus();
         }
         return parent::render($view, $parameters);
     }

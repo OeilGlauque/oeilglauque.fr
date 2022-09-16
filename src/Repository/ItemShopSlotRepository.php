@@ -7,10 +7,10 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Edition|null find($id, $lockMode = null, $lockVersion = null)
- * @method Edition|null findOneBy(array $criteria, array $orderBy = null)
- * @method Edition[]    findAll()
- * @method Edition[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ItemShopSlot|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ItemShopSlot|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ItemShopSlot[]    findAll()
+ * @method ItemShopSlot[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class ItemShopSlotRepository extends ServiceEntityRepository
 {
