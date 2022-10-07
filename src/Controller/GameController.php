@@ -29,6 +29,12 @@ class GameController extends FOGController {
             $user = $this->getUser();
             $game->setAuthor($user);
 
+            // Check if there is a slot
+            if(! $game->getGameSlot()) {
+                $this->addFlash('danger', "Vous devez sélectionner un horaire pour votre partie !");
+                return $this->redirectToRoute('nouvellePartie');
+            }
+
             // Check if the slot belongs to the current edition
             if($game->getGameSlot()->getEdition() != $this->getCurrentEdition()) {
                 $this->addFlash('danger', "Vous ne pouvez proposer une partie que pour l'édition actuelle !");
