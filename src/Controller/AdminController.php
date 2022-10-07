@@ -70,9 +70,9 @@ class AdminController extends FOGController {
     }
 
     /**
-     * @Route("/admin/editions/updateSlot/{slot}", name="updateSlot")
+     * @Route("/admin/editions/updateGameSlot/{slot}", name="updateGameSlot")
      */
-    public function updateSlot(Request $request, $slot) {
+    public function updateGameSlot(Request $request, $slot) {
         $slotval = $this->getDoctrine()->getRepository(GameSlot::class)->find($slot);
         if (!$slotval) {
             throw $this->createNotFoundException(
@@ -89,9 +89,9 @@ class AdminController extends FOGController {
     }
 
     /**
-     * @Route("/admin/editions/addSlot/{edition}", name="addSlot")
+     * @Route("/admin/editions/addGameSlot/{edition}", name="addGameSlot")
      */
-    public function addSlot(Request $request, $edition) {
+    public function addGameSlot(Request $request, $edition) {
         if($request->query->get('text') != "") {
             $slot = new GameSlot();
             $slot->setText($request->query->get('text'));

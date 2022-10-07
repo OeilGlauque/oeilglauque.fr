@@ -25,7 +25,7 @@
                     <p>Slots : </p>
                 {% endif %}
                 {% for slot in e.getGameSlots() %}
-                    <form class="form-inline" id="editSlot" method="GET" action="{{ path('updateSlot', {'slot': slot.getId() }) }}">
+                    <form class="form-inline" id="editSlot" method="GET" action="{{ path('updateGameSlot', {'slot': slot.getId() }) }}">
                         <input type="text" name="text" value="{{ slot.getText() }}" class="form-control mr-sm-2" />
                         <input type="number" name="maxGames" value="{{ slot.getMaxGames() }}" min="1" max="20" class="form-control mr-sm-2" />
                         <input type="submit" class="form-control mr-sm-2 btn btn-danger" value="Mettre à jour" /> 
@@ -34,7 +34,7 @@
                 {% else %}
                     <p>Pas de slot pour cette édition...</p>
                 {% endfor %}
-                <form class="form-inline" id="editSlot" method="GET" action="{{ path('addSlot', {'edition': e.getId() }) }}">
+                <form class="form-inline" id="editSlot" method="GET" action="{{ path('addGameSlot', {'edition': e.getId() }) }}">
                     <input type="text" name="text" placeholder="Nouveau slot" class="form-control mr-sm-2" />
                     <input type="number" name="maxGames" placeholder="Parties max" min="1" max="20" value="9" class="form-control mr-sm-2" />
                     <input type="submit" class="form-control mr-sm-2 btn btn-danger" value="Ajouter" /> 
