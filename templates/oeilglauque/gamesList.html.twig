@@ -42,6 +42,11 @@
                             <input type="checkbox" class="d-lg-block d-none slots" data="{{ g.getId() }}" autocomplete="off" />
                         </label>
                     {% endfor %}
+                    <b class="mb-2">Tags sélectionnés :</b><br />
+                    <label class="btn mb-3 me-3 me-sm-0 d-flex justify-content-center align-items-center" id="selectAllTags" onmouseup="selectAllTags(this)">
+                        <span>Tout sélectionner</span>
+                        <input type="checkbox" hidden autocomplete="off" />
+                    </label>
                 </div>
                 <div class="col-md-10 col-8">
                     {% for g in games %}
@@ -64,5 +69,6 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="/js/selectTags.js"></script>
 <script src="/js/selectGames.js"></script>
 {% endblock %}

@@ -25,8 +25,10 @@ class GameType extends AbstractType
                 'choice_label' => 'text', 
                 'label' => 'Créneau',
                 'choices' => $options['slots'], 
+                'required' => true,
             ))
             ->add('seats', IntegerType::class, array('label' => 'Places disponibles', 'invalid_message' => "Veuillez entrer un nombre"))
+            ->add('tags', TextType::class, array('label' => 'Tags', 'required' => false))
             ->add('forceOnlineSeats', CheckboxType::class, array('label' => 'Permettre de réserver toutes les places en ligne (déconseillé). Par défaut, la moitié des places sont réservable en ligne et l\'autre moitié réservable sur place.', 'required' => false))
             
             ->add('save', SubmitType::class, array('label' => 'Valider'));

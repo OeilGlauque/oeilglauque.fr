@@ -1,34 +1,48 @@
-let slots = [];
-Array.from(document.getElementsByClassName('slots')).forEach(inp => {
-    slots[inp.getAttribute('data')] = {id: parseInt(inp.getAttribute('data'), 10), status: true, uptodate: false};
+let games = []
+Array.from(document.getElementsByClassName('gameShard')).forEach(inp => {
+    data = inp.getAttribute('data').split(',')
+    games.push({id: parseInt(inp.getAttribute('data'), 10), slot_id:parseInt(data[0]),  slot_active: true, slot_uptodate: false, 
+                                                            tags_values:data[1],        tags_active: true, tags_uptodate: false, element: inp});
 });
+console.log(games)
 
 Array.from(document.getElementsByClassName('btn-filtre')).forEach(button => {
     button.querySelector('input').onchange = (e) => {
         const idx = parseInt(e.target.getAttribute('data'));
-        slots[idx] = { id: idx, status: slots[idx].status, uptodate: slots[idx].status === e.target.checked };
         if (e.target.checked) {
             button.removeAttribute('inactive');
         } else {
             button.setAttribute('inactive', true);
         }
-        updateGames();
+        updateGames(idx, e.target.checked);
     }
 });
 
-function updateGames() {
-    for(slotid in slots) {
-        const gid = document.getElementsByClassName('ghid_' + slotid);
-        if (!slots[slotid].uptodate) {
-            if (slots[slotid].status) {
-                Array.from(gid).forEach(g => {$(g).slideUp()});
-            } else {
-                Array.from(gid).forEach(g => $(g).show("slow"));
-            }
-            slots[slotid].status = !slots[slotid].status;
-            slots[slotid].uptodate = true;
+function updateGames(slot_id, checked) {
+    games.forEach(game => {
+        if(slot_id == game.slot_id) {
+            game.slot_uptodate = (game.slot_active === checked);
         }
-    }
+        if(!game.slot_uptodate) {
+            game.slot_active = !game.slot_active;
+            game.slot_uptodate = true;
+            if (game.slot_active && game.tags_active) {
+                $(game.element).show("slow");
+            } else {
+                $(game.element).slideUp()
+            }
+        }
+    });
+}
+function clearGames(checked) {
+    games.forEach(game => {
+        game.slot_active = checked
+        if (game.slot_active && game.tags_active) {
+            $(game.element).show("slow");
+        } else {
+            $(game.element).slideUp()
+        }
+    });
 }
 
 const toggleAll = document.getElementById('selectAll');
@@ -39,14 +53,13 @@ toggleAll.querySelector('input').onchange= (e) => {
             button.querySelector('input').checked = true;
             button.removeAttribute('inactive');
         });
-        slots = slots.map(slot => {return {id: slot.id, status: false, uptodate: false}});
+        clearGames(true);
     } else {
-        toggleAll.querySelector('span').innerText="Tout selectionner";
+        toggleAll.querySelector('span').innerText="Tout sélectionner";
         Array.from(document.getElementsByClassName('btn-filtre')).forEach(button => {
             button.querySelector('input').checked = false;
             button.setAttribute('inactive', true);
         });
-        slots = slots.map(slot => {return {id: slot.id, status: true, uptodate: false}});
+        clearGames(false);
     }
-    updateGames();
 };

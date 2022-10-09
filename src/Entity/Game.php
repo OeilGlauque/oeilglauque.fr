@@ -56,6 +56,11 @@ class Game
     private $players;
 
     /**
+     * @ORM\Column(type="string", length=1024, nullable=true)
+     */
+    private $tags;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $forceOnlineSeats;
@@ -200,6 +205,30 @@ class Game
 
         return $this;
     }
+
+
+    public function getTags(): ?string
+    {
+        return $this->tags;
+    }
+
+    public function hasTag(string $tag): ?bool
+    {
+        return in_array($tag, explode(';', $this->tags));
+    }
+
+    public function listTags(): ?string
+    {
+        return implode(', ', explode(';', $this->tags));
+    }
+
+    public function setTags(string $tags): self
+    {
+        $this->tags = $tags;
+
+        return $this;
+    }
+
 
     public function getGameSlot(): ?GameSlot
     {

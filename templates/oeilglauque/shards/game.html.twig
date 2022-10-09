@@ -1,4 +1,4 @@
-<div class="row gameShard ghid_{{ game.getGameSlot().getId() }}" >
+<div class="row gameShard ghid_{{ game.getGameSlot().getId() }}" data="{{ game.getGameSlot().getId() }},{{ game.getTags() }}">
     <div class="col-lg-12">
         <div>
 
@@ -10,7 +10,8 @@
 
             <a href="{{ path('showGame', {'id':game.getId()}) }}"><h2 class="redandblack">{{ game.getTitle() }}</h2></a>
             <p class="small">Proposé par {{ game.getAuthor().getPseudo() }}<br />
-            Créneau : <span class="slot">{{ game.getGameSlot().getText() }}</span></p>
+            Créneau : <span class="slot">{{ game.getGameSlot().getText() }}</span><br />
+            Tags : <span  class="tags">{{ game.listTags() }}</span></p>
             <p>{{ game.getDescription()|striptags('<br>,<em>,<b>,<u>,<h3>,<a>')|raw }}
                 {% if game.getDescription() ends with '...' %}
                 <a href="{{ path('showGame', {'id':game.getId()}) }}">Voir la suite</a>
