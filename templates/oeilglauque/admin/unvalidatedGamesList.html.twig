@@ -8,6 +8,7 @@
                 <h3>{{ g.getTitle() }}</h3>
                 <p>Proposé par {{ g.getAuthor().getPseudo() }} ({{ g.getAuthor().getFirstName() }} {{ g.getAuthor().getName() }}, {{ g.getAuthor().getEmail() }})</p>
                 <p>Slot : {{ g.getGameSlot().getText() }}</p>
+                <p>Tags : {{ g.listTags() }}</p>
                 <p>{{ g.getDescription()|striptags('<br>')|raw }}</p>
                 <hr />
                 <p>{{ g.getSeats() }} places, forcer toutes les réservations en ligne : {% if g.getForceOnlineSeats() %}oui{% else %}non{% endif %}</p>

@@ -1,7 +1,8 @@
 let tagList = {}
+let tagKeys = []
 
 Array.from(document.getElementsByClassName('tags')).forEach(inp => {
-    inp.innerHTML.split(', ').forEach(tag => tagList[tag] = true);
+    inp.innerHTML.split(', ').forEach(tag => {tagList[tag] = true; tagKeys.push(tag)});
 });
 
 console.log(tagList)
@@ -28,9 +29,11 @@ function updateTags(el, tag) {
     } else {
         el.setAttribute('inactive', true);
     }
+    tagList[tag] = checked;
     games.forEach(game => {
         if(game.tags_values.split(";").includes(tag)) {
-            game.tags_uptodate = (game.tags_active === checked);
+            let active = game.tags_values.split(";").reduce((all, element) => all || tagList[element], false)
+            game.tags_uptodate = (game.tags_active === active);
         }
         if(!game.tags_uptodate) {
             game.tags_active = !game.tags_active;
@@ -45,6 +48,7 @@ function updateTags(el, tag) {
 }
 
 function clearTags(checked) {
+    tagKeys.forEach((tag) => tagList[tag] = checked);
     games.forEach(game => {
         game.tags_active = checked
         game.tags_uptodate = true

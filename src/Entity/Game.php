@@ -209,17 +209,17 @@ class Game
 
     public function getTags(): ?string
     {
-        return $this->tags;
+        return implode(';', preg_split('/(, *|;)/', $this->tags));
     }
 
     public function hasTag(string $tag): ?bool
     {
-        return in_array($tag, explode(';', $this->tags));
+        return in_array($tag, preg_split('/(, *|;)/', $this->tags));
     }
 
     public function listTags(): ?string
     {
-        return implode(', ', explode(';', $this->tags));
+        return implode(', ', preg_split('/(, *|;)/', $this->tags));
     }
 
     public function setTags(string $tags): self
