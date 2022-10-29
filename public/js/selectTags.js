@@ -2,16 +2,10 @@ let tagList = {}
 let tagKeys = []
 
 Array.from(document.getElementsByClassName('tags')).forEach(inp => {
-    inp.innerHTML.split(', ').forEach(tag => {tagList[tag] = true; tagKeys.push(tag)});
+    inp.innerHTML.split(', ').forEach(tag => {tagList[tag] = false; tagKeys.push(tag)});
 });
 
-console.log(tagList)
-
 for(tag in tagList){
-
-    
-    //$('table').children[0].appendChild($('table').children[0].childNodes[1].cloneNode(true))
-    console.log(document.getElementById("filter"))
     f = document.getElementById("filter")    
     f.innerHTML += "<label inactive class=\"btn btn-tag mb-3 me-3 me-sm-0 d-flex justify-content-between align-items-center\" onmouseup=\"updateTags(this,'" +tag+"')\">" +
                      "<div class=\"d-lg-block d-none\"></div>" +

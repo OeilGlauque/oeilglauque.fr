@@ -4,7 +4,6 @@ Array.from(document.getElementsByClassName('gameShard')).forEach(inp => {
     games.push({id: parseInt(inp.getAttribute('data'), 10), slot_id:parseInt(data[0]),  slot_active: true, slot_uptodate: false, 
                                                             tags_values:data[1],        tags_active: true, tags_uptodate: false, element: inp});
 });
-console.log(games)
 
 Array.from(document.getElementsByClassName('btn-filtre')).forEach(button => {
     button.querySelector('input').onchange = (e) => {
