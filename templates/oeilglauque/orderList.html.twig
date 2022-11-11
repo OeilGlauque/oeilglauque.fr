@@ -38,6 +38,7 @@
                                 <h4> {{ type.getType() }}</h4>
                                 {% for slot in slots
                                     |filter(slot => slot.getType().getId() == type.getId())
+                                    |filter(slot => slot.getEdition().getId() == edition.getId())
                                     |sort((a, b) => a.getDeliveryTime() <=> b.getDeliveryTime()) %}
                                     <li>
                                         <a href="{{ path('orderList', {'slot': slot.getId()}) }}">
