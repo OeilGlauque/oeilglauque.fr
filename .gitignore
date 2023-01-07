@@ -28,3 +28,9 @@ yarn-error.log
 
 # NPM generated file
 /package-lock.json
+
+# Config perso (arthur)
+.envrc
+shell.nix
+query.sql
+log
