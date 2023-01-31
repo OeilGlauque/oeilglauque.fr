@@ -4,6 +4,7 @@
     "require": {
         "php": "8.1.*",
         "ext-iconv": "*",
+        "doctrine/annotations": "*",
         "doctrine/doctrine-bundle": "^2.8",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.14",
