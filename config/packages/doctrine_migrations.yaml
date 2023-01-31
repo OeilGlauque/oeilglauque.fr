@@ -1,7 +1,7 @@
 doctrine_migrations:
     # List of namespace/path pairs to search for migrations, at least one required
     migrations_paths:
-        'App\Migrations': 'src/Migrations'
+        'DoctrineMigrations': 'src/Migrations'
 
     # Connection to use for the migrations
     connection: default
@@ -23,3 +23,5 @@ doctrine_migrations:
 
     # Adds an extra check in the generated migrations to ensure that is executed on the same database type.
     check_database_platform: true
+
+    # enable_profiler: false
