@@ -18,7 +18,7 @@ class ItemShopSlot
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Edition", inversedBy="itemShopSlots")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Edition", inversedBy="itemShopType")
      * @ORM\JoinColumn(nullable=false)
      */
     private $edition;
