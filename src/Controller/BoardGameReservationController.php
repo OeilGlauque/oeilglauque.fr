@@ -13,9 +13,7 @@ use Symfony\Component\Dotenv\Dotenv;
 
 class BoardGameReservationController extends FOGController
 {
-    /**
-     * @Route("/reservations/boardGame", name="boardGameReservation")
-     */
+    #[Route("/reservations/boardGame", name: "boardGameReservation")]
     public function boardGameReservation(Request $request)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');

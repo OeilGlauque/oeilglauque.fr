@@ -11,9 +11,7 @@ use App\Service\GlauqueMarkdownParser;
 
 class NewsPageController extends FOGController {
     
-    /**
-     * @Route("/news", name="newsIndex")
-     */
+    #[Route("/news", name: "newsIndex")]
     public function index() {
         if (!$this->getDoctrine()->getRepository(Feature::class)->find(6)->getState()) {
             return $this->redirectToRoute('index');
@@ -30,9 +28,7 @@ class NewsPageController extends FOGController {
         ));
     }
 
-    /**
-     * @Route("/news/{slug}")
-     */
+    #[Route("/news/{slug}")]
     public function showNews($slug) {
         if (!$this->getDoctrine()->getRepository(Feature::class)->find(6)->getState()) {
             return $this->redirectToRoute('index');

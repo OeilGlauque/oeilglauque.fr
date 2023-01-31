@@ -11,30 +11,22 @@ use App\Form\GameType;
 
 class StaticPagesController extends FOGController {
     
-    /**
-     * @Route("/informationsFestival", name="infosFest")
-     */
+    #[Route("/informationsFestival", name: "infosFest")]
     public function infosFest(Request $request) {
         return $this->render('oeilglauque/infosFest.html.twig');
     }
 
-    /**
-     * @Route("/informationsClub", name="infosClub")
-     */
+    #[Route("/informationsClub", name: "infosClub")]
     public function infosClub() {
         return $this->render('oeilglauque/infosClub.html.twig');
     }
 
-    /**
-     * @Route("/planning", name="planning")
-     */
+    #[Route("/planning", name: "planning")]
     public function planning() {
         return $this->render('oeilglauque/planning.html.twig');
     }
 
-    /**
-     * @Route("/contact", name="contact")
-     */
+    #[Route("/contact", name: "contact")]
     public function contact() {
         return $this->render('oeilglauque/contact.html.twig');
     }
@@ -46,9 +38,7 @@ class StaticPagesController extends FOGController {
     }
     */
 
-    /**
-     * @Route("/photos", name="photos")
-     */
+    #[Route("/photos", name: "photos")]
     public function photos() {
         return $this->render('oeilglauque/photos.html.twig');
     }

@@ -9,7 +9,6 @@ use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Edition;
 use App\Entity\GameSlot;
 use App\Entity\Game;
@@ -25,7 +24,7 @@ class AdminController extends FOGController {
      ****************************************/
 
     /**
-     * @Route("/admin", name="admin")
+     #[Route("/admin", name: "admin")]
      */
     public function admin() {
         $newsState = $this->getDoctrine()->getRepository(Feature::class)->find(6)->getState();
@@ -40,9 +39,8 @@ class AdminController extends FOGController {
      **********************************/
 
 
-    /**
-     * @Route("/admin/editions", name="admin_editions")
-     */
+
+    #[Route("/admin/editions", name: "admin_editions")]
     public function editionsAdmin() {
         $editions = array_reverse($this->getDoctrine()->getRepository(Edition::class)->findAll());
         return $this->render('oeilglauque/admin/editions.html.twig', array(
@@ -50,9 +48,7 @@ class AdminController extends FOGController {
         ));
     }
 
-    /**
-     * @Route("/admin/editions/updateEdition/{edition}", name="updateEdition")
-     */
+    #[Route("/admin/editions/updateEdition/{edition}", name: "updateEdition")]
     public function updateEdition(Request $request, $edition) {
         $editionval = $this->getDoctrine()->getRepository(Edition::class)->find($edition);
         if(!$editionval) {
@@ -69,9 +65,7 @@ class AdminController extends FOGController {
         return $this->redirectToRoute('admin_editions');
     }
 
-    /**
-     * @Route("/admin/editions/updateGameSlot/{slot}", name="updateGameSlot")
-     */
+    #[Route("/admin/editions/updateGameSlot/{slot}", name: "updateGameSlot")]
     public function updateGameSlot(Request $request, $slot) {
         $slotval = $this->getDoctrine()->getRepository(GameSlot::class)->find($slot);
         if (!$slotval) {
@@ -88,9 +82,7 @@ class AdminController extends FOGController {
         return $this->redirectToRoute('admin_editions');
     }
 
-    /**
-     * @Route("/admin/editions/addGameSlot/{edition}", name="addGameSlot")
-     */
+    #[Route("/admin/editions/addGameSlot/{edition}", name: "addGameSlot")]
     public function addGameSlot(Request $request, $edition) {
         if($request->query->get('text') != "") {
             $slot = new GameSlot();
@@ -115,9 +107,7 @@ class AdminController extends FOGController {
      *      Gestion des news      *
      ******************************/
 
-    /**
-     * @Route("/admin/news/rediger", name="writeNews")
-     */
+    #[Route("/admin/news/rediger", name: "writeNews")]
     public function writeNews(Request $request) {
         $news = new News();
         $form = $this->createForm(NewsType::class, $news);
@@ -141,9 +131,7 @@ class AdminController extends FOGController {
         ));
     }
 
-    /**
-     * @Route("/admin/news/edit/{slug}", name="editNews")
-     */
+    #[Route("/admin/news/edit/{slug}", name: "editNews")]
     public function editNews(Request $request, $slug) {
         $news = $this->getDoctrine()->getRepository(News::class)->findOneBy(['slug' => $slug]);
         if(!$news) {
@@ -171,9 +159,7 @@ class AdminController extends FOGController {
         ));
     }
 
-    /**
-     * @Route("/admin/news/delete/{slug}", name="deleteNews")
-     */
+    #[Route("/admin/news/delete/{slug}", name: "deleteNews")]
     public function deleteNews(Request $request, $slug) {
         $news = $this->getDoctrine()->getRepository(News::class)->findOneBy(['slug' => $slug]);
         if(!$news) {
@@ -194,16 +180,12 @@ class AdminController extends FOGController {
      *      Nouvelle édition      *
      ******************************/
 
-    /**
-    * @Route("/admin/editions/nouvelle", name="newEdition")
-    */
+    #[Route("/admin/editions/nouvelle", name: "newEdition")]
     public function newEdition() {
         return $this->render('oeilglauque/admin/newEdition.html.twig');
     }
 
-    /**
-    * @Route("/admin/editions/creer", name="createEdition")
-    */
+    #[Route("/admin/editions/creer", name: "createEdition")]
     public function createEdition(Request $request) {
         if($request->query->get('annee') != "" && $request->query->get('dates')) {
             $editionCheck = $this->getDoctrine()->getRepository(Edition::class)->findOneBy(['annee' => $request->query->get('annee')]);
@@ -226,9 +208,7 @@ class AdminController extends FOGController {
      *       Gestion des parties        *
      ************************************/
 
-    /**
-     * @Route("/admin/games/validate", name="unvalidatedGamesList")
-     */
+    #[Route("/admin/games/validate", name: "unvalidatedGamesList")]
     public function unvalidatedGamesList() {
         $games = $this->getDoctrine()->getRepository(Game::class)->getOrderedGameList($this->getCurrentEdition(), false);
         return $this->render('oeilglauque/admin/unvalidatedGamesList.html.twig', array(  
@@ -236,9 +216,7 @@ class AdminController extends FOGController {
         ));
     }
 
-    /**
-     * @Route("/admin/games", name="adminGamesList")
-     */
+    #[Route("/admin/games", name: "adminGamesList")]
     public function adminGamesList() {
         $games = $this->getDoctrine()->getRepository(Game::class)->getOrderedGameList($this->getCurrentEdition(), true);
         return $this->render('oeilglauque/admin/gamesList.html.twig', array(
@@ -246,9 +224,7 @@ class AdminController extends FOGController {
         ));
     }
 
-    /**
-     * @Route("/admin/games/validate/{id}", name="validateGame")
-     */
+    #[Route("/admin/games/validate/{id}", name: "validateGame")]
     public function validateGame($id, \Swift_Mailer $mailer) {
         $game = $this->getDoctrine()->getRepository(Game::class)->find($id);
         if($game) {
@@ -275,9 +251,7 @@ class AdminController extends FOGController {
         return $this->redirectToRoute('unvalidatedGamesList');
     }
 
-    /**
-     * @Route("/admin/games/deleteGame/{id}", name="deleteGame")
-     */
+    #[Route("/admin/games/deleteGame/{id}", name: "deleteGame")]
     public function deleteGame($id) {
         $game = $this->getDoctrine()->getRepository(Game::class)->find($id);
         if ($game) {
@@ -288,9 +262,7 @@ class AdminController extends FOGController {
         return $this->redirectToRoute('unvalidatedGamesList');
     }
 
-    /**
-     * @Route("/admin/games/unregister/{idGame}/{idPlayer}", name="unregisterGamePlayer")
-     */
+    #[Route("/admin/games/unregister/{idGame}/{idPlayer}", name: "unregisterGamePlayer")]
     public function unregisterGamePlayer(Request $request, $idGame, $idPlayer) {
         $game = $this->getDoctrine()->getRepository(Game::class)->find($idGame);
         $player = $this->getDoctrine()->getRepository(User::class)->find($idPlayer);
@@ -306,9 +278,7 @@ class AdminController extends FOGController {
         }
     }
 
-    /**
-     * @Route("/admin/games/lock/{id}/{status}", name="lockGame")
-     */
+    #[Route("/admin/games/lock/{id}/{status}", name: "lockGame")]
     public function lockGame(Request $request, $id, $status) {
         $game = $this->getDoctrine()->getRepository(Game::class)->find($id);
         if ($game) {
@@ -331,9 +301,7 @@ class AdminController extends FOGController {
      *     local     *
      *****************/
 
-    /**
-     * @Route("/admin/reservations/local", name="localReservationList")
-     */
+    #[Route("/admin/reservations/local", name: "localReservationList")]
     public function localReservationList() {
         $reservations =$this->getDoctrine()->getRepository(LocalReservation::class)->getLocalReservationList();
         return $this->render('oeilglauque/admin/localReservationList.html.twig', array(
@@ -341,9 +309,8 @@ class AdminController extends FOGController {
             'archive' => false
         ));
     }
-    /**
-     * @Route("/admin/reservations/local/validate/{id}", name="validateLocalReservation")
-     */
+
+    #[Route("/admin/reservations/local/validate/{id}", name: "validateLocalReservation")]
     public function validateLocalReservation($id) {
         $reservation = $this->getDoctrine()->getRepository(LocalReservation::class)->find($id);
         if($reservation) {
@@ -368,9 +335,7 @@ class AdminController extends FOGController {
         return $this->redirectToRoute('localReservationList');
     }
 
-    /**
-     * @Route("/admin/reservations/local/delete/{id}", name="deleteLocalReservation")
-     */
+    #[Route("/admin/reservations/local/delete/{id}", name: "deleteLocalReservation")]
     public function deleteLocalReservation($id) {
         $archive = false;
 
@@ -397,9 +362,8 @@ class AdminController extends FOGController {
         }
         return $this->redirectToRoute('localReservationList');
     }
-    /**
-     * @Route("/admin/reservations/local/archive", name="localReservationArchive")
-     */
+
+    #[Route("/admin/reservations/local/archive", name: "localReservationArchive")]
     public function localReservationArchive() {
         $reservations = $this->getDoctrine()->getRepository(LocalReservation::class)->getLocalReservationArchive();
         return $this->render('oeilglauque/admin/localReservationList.html.twig', array(
@@ -430,9 +394,8 @@ class AdminController extends FOGController {
     /*****************
      *      jeux     *
      *****************/
-    /**
-     * @Route("/admin/reservations/boardGame", name="boardGameReservationList")
-     */
+
+    #[Route("/admin/reservations/boardGame", name: "boardGameReservationList")]
     public function boardGameReservationList() {
         $reservations =$this->getDoctrine()->getRepository(BoardGameReservation::class)->getBoardGameReservationList();
         return $this->render('oeilglauque/admin/boardGameReservationList.html.twig', array(
@@ -440,9 +403,8 @@ class AdminController extends FOGController {
             'archive' => false
         ));
     }
-    /**
-     * @Route("/admin/reservations/boardGame/validate/{id}", name="validateBoardGameReservation")
-     */
+
+    #[Route("/admin/reservations/boardGame/validate/{id}", name: "validateBoardGameReservation")]
     public function validateBoardGameReservation($id) {
         $reservation = $this->getDoctrine()->getRepository(BoardGameReservation::class)->find($id);
         if($reservation) {
@@ -467,9 +429,7 @@ class AdminController extends FOGController {
         return $this->redirectToRoute('boardGameReservationList');
     }
 
-    /**
-     * @Route("/admin/reservations/boardGame/delete/{id}", name="deleteBoardGameReservation")
-     */
+    #[Route("/admin/reservations/boardGame/delete/{id}", name: "deleteBoardGameReservation")]
     public function deleteBoardGameReservation($id) {
         $archive = false;
 
@@ -498,9 +458,8 @@ class AdminController extends FOGController {
         }
         return $this->redirectToRoute('boardGameReservationList');
     }
-    /**
-     * @Route("/admin/reservations/boardGame/archive", name="boardGameReservationArchive")
-     */
+
+    #[Route("/admin/reservations/boardGame/archive", name: "boardGameReservationArchive")]
     public function boardGameReservationArchive()
     {
         $reservations = $this->getDoctrine()->getRepository(BoardGameReservation::class)->getBoardGameReservationArchive();
@@ -513,9 +472,7 @@ class AdminController extends FOGController {
     /*****************
      *    feature    *
      *****************/
-    /**
-     * @Route("/admin/feature", name="adminFeature")
-     */
+    #[Route("/admin/feature", name: "adminFeature")]
     public function adminFeature() {
         $features =$this->getDoctrine()->getRepository(Feature::class)->findAll();
         return $this->render('oeilglauque/admin/feature.html.twig', array(
@@ -523,9 +480,7 @@ class AdminController extends FOGController {
         ));
     }
 
-    /**
-     * @Route("/admin/feature/update/{id}/{state}", name="updateFeatureState")
-     */
+    #[Route("/admin/feature/update/{id}/{state}", name: "updateFeatureState")]
     public function updateFeatureState($id, $state) {
         $feature = $this->getDoctrine()->getRepository(Feature::class)->find($id);
         if($feature) {

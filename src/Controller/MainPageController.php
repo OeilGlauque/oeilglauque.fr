@@ -9,9 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class MainPageController extends FOGController {
     
-    /**
-     * @Route("/", name="index")
-     */
+    #[Route("/", name: "index")]
     public function index() {
         $edition = $this->getDoctrine()->getRepository(Edition::class)->findOneBy(['annee' => $this->getParameter('current_edition')]);
         $homeText = '';

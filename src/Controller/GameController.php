@@ -15,9 +15,7 @@ use App\Service\GlauqueMarkdownParser;
 
 class GameController extends FOGController {
     
-    /**
-     * @Route("/nouvellePartie", name="nouvellePartie")
-     */
+    #[Route("/nouvellePartie", name: "nouvellePartie")]
     public function newGame(Request $request, \Swift_Mailer $mailer) {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -97,9 +95,7 @@ class GameController extends FOGController {
         ));
     }
 
-    /**
-     * @Route("/parties/slots")
-     */
+    #[Route("/parties/slots")]
     public function listGameSlots() {
         $res = array();
         $slots = $this->getCurrentEdition()->getGameSlots();
@@ -109,9 +105,7 @@ class GameController extends FOGController {
         return $this->json($res);
     }
 
-    /**
-     * @Route("/parties", name="listeParties")
-     */
+    #[Route("/parties", name: "listeParties")]
     public function listGames() {
         if ($this->getCurrentEdition()->getId() != null) {
             $games = $this->getDoctrine()->getRepository(Game::class)->getOrderedGameList($this->getCurrentEdition(), true);
@@ -148,9 +142,7 @@ class GameController extends FOGController {
         return $this->redirectToRoute('index');
     }
 
-    /**
-     * @Route("/partie/edit/{id}", name="editGame")
-     */
+    #[Route("/partie/edit/{id}", name: "editGame")]
     public function editGame(Request $request, $id) {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
@@ -209,9 +201,7 @@ class GameController extends FOGController {
         ));
     }
 
-    /**
-     * @Route("/partie/{id}", name="showGame")
-     */
+    #[Route("/partie/{id}", name: "showGame")]
     public function showGame($id) {
         $game = $this->getDoctrine()->getRepository(Game::class)->find($id);
         if($game) {
@@ -233,9 +223,7 @@ class GameController extends FOGController {
         }
     }
 
-    /**
-     * @Route("/partie/register/{id}", name="registerGame")
-     */
+    #[Route("/partie/register/{id}", name: "registerGame")]
     public function registerGame($id) {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $game = $this->getDoctrine()->getRepository(Game::class)->find($id);
@@ -285,9 +273,7 @@ class GameController extends FOGController {
     }
 
 
-    /**
-     * @Route("/partie/unregister/{id}", name="unregisterGame")
-     */
+    #[Route("/partie/unregister/{id}", name: "unregisterGame")]
     public function unregisterGame($id) {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $game = $this->getDoctrine()->getRepository(Game::class)->find($id);

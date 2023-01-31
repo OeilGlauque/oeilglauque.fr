@@ -19,9 +19,7 @@ use Psr\Log\LoggerInterface;
 
 class ItemShopController extends FOGController
 {
-    /**
-     * @Route("/order", name="orderIndex")
-     */
+    #[Route("/order", name: "orderIndex")]
     public function orderIndex(Request $request)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -43,9 +41,7 @@ class ItemShopController extends FOGController
         return DateTime::createFromFormat("Y-m-d*H:i", $date);
     }
 
-    /**
-     * @Route("/order/addSlot/{edition}", name="addSlot")
-     */
+    #[Route("/order/addSlot/{edition}", name: "addSlot")]
     public function addSlot(Request $request, $edition, LoggerInterface $logger) {
         $slot = new ItemShopSlot();
         $slot->setDeliveryTime($this->parseDate($request->query->get('deliveryTime')));
@@ -85,9 +81,7 @@ class ItemShopController extends FOGController
         return $this->redirectToRoute('orderIndex');
     }
 
-    /**
-     * @Route("/order/addItem/{edition}", name="addItem")
-     */
+    #[Route("/order/addItem/{edition}", name: "addItem")]
     public function addItem(Request $request, $edition)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -119,9 +113,7 @@ class ItemShopController extends FOGController
         return $this->redirectToRoute('orderIndex');
     }
 
-    /**
-     * @Route("/order/addType", name="addType")
-     */
+    #[Route("/order/addType", name: "addType")]
     public function addType(Request $request)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -137,9 +129,7 @@ class ItemShopController extends FOGController
         return $this->redirectToRoute('orderIndex');
     }
 
-    /**
-     * @Route("/order/deleteSlot/{id}", name="deleteSlot")
-     */
+    #[Route("/order/deleteSlot/{id}", name: "deleteSlot")]
     public function deleteSlot(Request $request, $id)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -154,9 +144,7 @@ class ItemShopController extends FOGController
         return $this->redirectToRoute('orderIndex');
     }
 
-    /**
-     * @Route("/order/deleteItem/{id}", name="deleteItem")
-     */
+    #[Route("/order/deleteItem/{id}", name: "deleteItem")]
     public function deleteItem(Request $request, $id)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -171,9 +159,7 @@ class ItemShopController extends FOGController
         return $this->redirectToRoute('orderIndex');
     }
 
-    /**
-     * @Route("/order/{slot}", name="orderList")
-     */
+    #[Route("/order/{slot}", name: "orderList")]
     public function orderList(Request $request, $slot)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -231,9 +217,7 @@ class ItemShopController extends FOGController
         ));
     }
 
-    /**
-     * @Route("/order/addOrder/{slot}", name="addOrder")
-     */
+    #[Route("/order/addOrder/{slot}", name: "addOrder")]
     public function addOrder(Request $request, $slot)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -268,9 +252,7 @@ class ItemShopController extends FOGController
         return $this->redirectToRoute('orderList', ["slot" => $slot]);
     }
 
-    /**
-     * @Route("/order/collectOrder/{id}/{state}", name="collectOrder")
-     */
+    #[Route("/order/collectOrder/{id}/{state}", name: "collectOrder")]
     public function collectOrder(Request $request, $id, $state)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -288,9 +270,7 @@ class ItemShopController extends FOGController
         }
     }
 
-    /**
-     * @Route("/order/deleteOrder/{id}", name="deleteOrder")
-     */
+    #[Route("/order/deleteOrder/{id}", name: "deleteOrder")]
     public function deleteOrder(Request $request, $id)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');

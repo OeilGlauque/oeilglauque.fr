@@ -11,9 +11,7 @@ use Symfony\Component\Dotenv\Dotenv;
 
 class LocalReservationController extends FOGController
 {
-    /**
-     * @Route("/reservations/local", name="localReservation")
-     */
+    #[Route("/reservations/local", name: "localReservation")]
     public function localReservation(Request $request)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');

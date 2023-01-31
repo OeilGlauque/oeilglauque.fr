@@ -21,9 +21,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SecurityController extends FOGController
 {
-    /**
-     * @Route("/login", name="login")
-     */
+    #[Route("/login", name: "login")]
     public function login(Request $request, AuthenticationUtils $authenticationUtils, AuthorizationCheckerInterface $authChecker) { 
         if ($authChecker->isGranted('ROLE_USER')) {
             return $this->redirectToRoute("index");
@@ -40,9 +38,7 @@ class SecurityController extends FOGController
         ));
     }
 
-    /**
-     * @Route("/register", name="register")
-     */
+    #[Route("/register", name: "register")]
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder) {
         // 1 : Construction du formulaire
         $user = new User();
@@ -88,9 +84,7 @@ class SecurityController extends FOGController
         );
     }
 
-    /**
-     * @Route("/user", name="ucp")
-     */
+    #[Route("/user", name: "ucp")]
     public function ucp(Request $request, UserPasswordEncoderInterface $passwordEncoder) {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -159,9 +153,7 @@ class SecurityController extends FOGController
         );
     }
 
-    /**
-     * @Route("/forgotpwd", name="forgotPwd")
-     */
+    #[Route("/forgotpwd", name: "forgotPwd")]
     public function forgotPwd(Request $request, \Swift_Mailer $mailer, TokenGeneratorInterface $tokenGenerator) {
         if ($request->isMethod('POST')) {
             $email = $request->request->get('email');
@@ -199,9 +191,7 @@ class SecurityController extends FOGController
         return $this->render('oeilglauque/forgotPwd.html.twig');
     }
     
-    /**
-     * @Route("/resetpwd/{token}", name="resetPwd")
-     */
+    #[Route("/resetpwd/{token}", name: "resetPwd")]
     public function resetPwd(Request $request, string $token, UserPasswordEncoderInterface $passwordEncoder) {
 
         if ($request->isMethod('POST')) {
