@@ -20,6 +20,7 @@
         "symfony/process": "5.4.*",
         "symfony/property-access": "5.4.*",
         "symfony/property-info": "5.4.*",
+        "symfony/runtime": "5.4.*",
         "symfony/security-bundle": "5.4.*",
         "symfony/serializer": "5.4.*",
         "symfony/twig-bundle": "5.4.*",
@@ -45,7 +46,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "ocramius/package-versions": true,
-            "symfony/flex": true
+            "symfony/flex": true,
+            "symfony/runtime": true
         }
     },
     "autoload": {
