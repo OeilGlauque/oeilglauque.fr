@@ -26,7 +26,7 @@ class AdminController extends FOGController {
     /**
      #[Route("/admin", name: "admin")]
      */
-    public function admin() {
+    public function admin() : Response{
         $newsState = $this->getDoctrine()->getRepository(Feature::class)->find(6)->getState();
         return $this->render('oeilglauque/admin.html.twig', array(
             'newsState' => $newsState
