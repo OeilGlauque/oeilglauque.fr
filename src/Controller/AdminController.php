@@ -37,7 +37,6 @@ class AdminController extends FOGController {
      **********************************/
 
 
-
     #[Route("/admin/editions", name: "admin_editions")]
     public function editionsAdmin() {
         $editions = array_reverse($this->getDoctrine()->getRepository(Edition::class)->findAll());
@@ -307,7 +306,6 @@ class AdminController extends FOGController {
             'archive' => false
         ));
     }
-
     #[Route("/admin/reservations/local/validate/{id}", name: "validateLocalReservation")]
     public function validateLocalReservation($id) {
         $reservation = $this->getDoctrine()->getRepository(LocalReservation::class)->find($id);
@@ -360,7 +358,6 @@ class AdminController extends FOGController {
         }
         return $this->redirectToRoute('localReservationList');
     }
-
     #[Route("/admin/reservations/local/archive", name: "localReservationArchive")]
     public function localReservationArchive() {
         $reservations = $this->getDoctrine()->getRepository(LocalReservation::class)->getLocalReservationArchive();
@@ -392,7 +389,6 @@ class AdminController extends FOGController {
     /*****************
      *      jeux     *
      *****************/
-
     #[Route("/admin/reservations/boardGame", name: "boardGameReservationList")]
     public function boardGameReservationList() {
         $reservations =$this->getDoctrine()->getRepository(BoardGameReservation::class)->getBoardGameReservationList();
@@ -401,7 +397,6 @@ class AdminController extends FOGController {
             'archive' => false
         ));
     }
-
     #[Route("/admin/reservations/boardGame/validate/{id}", name: "validateBoardGameReservation")]
     public function validateBoardGameReservation($id) {
         $reservation = $this->getDoctrine()->getRepository(BoardGameReservation::class)->find($id);
@@ -456,7 +451,6 @@ class AdminController extends FOGController {
         }
         return $this->redirectToRoute('boardGameReservationList');
     }
-
     #[Route("/admin/reservations/boardGame/archive", name: "boardGameReservationArchive")]
     public function boardGameReservationArchive()
     {
