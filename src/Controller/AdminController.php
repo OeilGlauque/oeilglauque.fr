@@ -15,6 +15,8 @@ use App\Entity\Game;
 use App\Entity\News;
 use App\Entity\User;
 use App\Form\NewsType;
+use App\Repository\EditionRepository;
+use App\Repository\FeatureRepository;
 use Symfony\Component\Validator\Constraints\Date;
 
 class AdminController extends FOGController {
@@ -24,8 +26,8 @@ class AdminController extends FOGController {
      ****************************************/
 
     #[Route("/admin", name: "admin")]
-    public function admin() : Response{
-        $newsState = $this->getDoctrine()->getRepository(Feature::class)->find(6)->getState();
+    public function admin(FeatureRepository $featureRepository) : Response{
+        $newsState = $featureRepository->find(6)->getState();
         return $this->render('oeilglauque/admin.html.twig', array(
             'newsState' => $newsState
         ));
@@ -38,8 +40,8 @@ class AdminController extends FOGController {
 
 
     #[Route("/admin/editions", name: "admin_editions")]
-    public function editionsAdmin() {
-        $editions = array_reverse($this->getDoctrine()->getRepository(Edition::class)->findAll());
+    public function editionsAdmin(EditionRepository $editionRepository) {
+        $editions = array_reverse($editionRepository->findAll());
         return $this->render('oeilglauque/admin/editions.html.twig', array(
             'editions' => $editions
         ));
@@ -85,13 +87,13 @@ class AdminController extends FOGController {
             $slot = new GameSlot();
             $slot->setText($request->query->get('text'));
             $slot->setMaxGames($request->query->get('maxGames'));
-            $editionval = $this->getDoctrine()->getRepository(Edition::class)->find($edition);
-            if (!$editionval) {
+            $edition = $this->getDoctrine()->getRepository(Edition::class)->find($edition);
+            if (!$edition) {
                 throw $this->createNotFoundException(
                     'Aucune édition n\'a pour id '.$edition
                 );
             }
-            $slot->setEdition($editionval);
+            $slot->setEdition($edition);
             $this->getDoctrine()->getManager()->persist($slot);
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', "Le slot a bien été ajouté. ");
