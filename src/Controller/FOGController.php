@@ -2,44 +2,30 @@
 
 namespace App\Controller;
 
-use App\Entity\Edition;
-use App\Entity\Feature;
-use App\Repository\EditionRepository;
-use App\Repository\FeatureRepository;
+use App\Service\FOGParametersService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 class FOGController extends AbstractController {
 
-    public function getCurrentEdition(EditionRepository $editionRepository): ?Edition {
-        $edition = $editionRepository->findOneBy(['annee' => $this->getParameter('current_edition')]);
-        return $edition ? $edition : new Edition();
-    }
+    private $FogParams;
 
-    public function getModeFog(FeatureRepository $featureRepository): ?bool {
-        return $featureRepository->find(4)->getState();
-    }
-
-    public function getGameStatus(FeatureRepository $featureRepository): ?bool {
-        return $featureRepository->find(5)->getState();
-    }
-
-    public function getPlanningStatus(FeatureRepository $featureRepository): ?bool {
-        return $featureRepository->find(7)->getState();
+    public function __construct(FOGParametersService $FogParams) {
+        $this->FogParams = $FogParams;
     }
 
     public function render(string $view, array $parameters = [], Response $response = null): Response {
         if (!array_key_exists('dates', $parameters)) {
-            $parameters['dates'] = $this->getCurrentEdition()->getDates();
+            $parameters['dates'] = $this->FogParams->getCurrentEdition()->getDates();
         }
         if (!array_key_exists('modeFog', $parameters)) {
-            $parameters['modeFog'] = $this->getModeFog();
+            $parameters['modeFog'] = $this->FogParams->getModeFog();
         }
         if (!array_key_exists('gameOpen', $parameters)) {
-            $parameters['gameOpen'] = $this->getGameStatus();
+            $parameters['gameOpen'] = $this->FogParams->getGameStatus();
         }
         if (!array_key_exists('planning', $parameters)) {
-            $parameters['planning'] = $this->getPlanningStatus();
+            $parameters['planning'] = $this->FogParams->getPlanningStatus();
         }
         return parent::render($view, $parameters);
     }
