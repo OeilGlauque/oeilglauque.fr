@@ -19,6 +19,10 @@ use App\Repository\EditionRepository;
 use App\Repository\FeatureRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use PharIo\Manifest\Manifest;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Validator\Constraints\Date;
 
 class AdminController extends FOGController {
@@ -226,7 +230,7 @@ class AdminController extends FOGController {
     }
 
     #[Route("/admin/games/validate/{id}", name: "validateGame")]
-    public function validateGame($id, \Swift_Mailer $mailer, ManagerRegistry $doctrine) {
+    public function validateGame($id, MailerInterface $mailer, ManagerRegistry $doctrine) {
         $game = $doctrine->getRepository(Game::class)->find($id);
         if($game) {
             $game->setValidated(true);
@@ -234,7 +238,13 @@ class AdminController extends FOGController {
             $doctrine->getManager()->flush();
 
             $author = $game->getAuthor();
-            $message = (new \Swift_Message('Votre partie '.$game->getTitle().' a été validée !'))
+            $message = (new TemplatedEmail())
+                ->to(new Address($author->getEmail(),$author->getPseudo()))
+                ->subject('Votre partie '.$game->getTitle().' a été validée !')
+                ->htmlTemplate('emails/game/gameValidationNotif.html.twig')
+                ->context(['author' => $author, 'game' => $game]); 
+            
+            /*(new \Swift_Message('Votre partie '.$game->getTitle().' a été validée !'))
             ->setFrom([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
             ->setTo([$author->getEmail() => $author->getPseudo()])
             ->setBody(
@@ -244,7 +254,8 @@ class AdminController extends FOGController {
                     'game' => $game]
                 ),
                 'text/html'
-            );
+            );*/
+
         $mailer->send($message);
 
             $this->addFlash('success', "La partie a bien été validée.");
