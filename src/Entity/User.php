@@ -2,6 +2,7 @@
 
 Namespace App\Entity;
 
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,33 +10,29 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-/**
- * @ORM\Table(name="app_users")
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- */
-class User implements UserInterface, \Serializable
+#[ORM\Table(name: "app_users")]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity("email")]
+class User implements UserInterface //, \Serializable
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=64)
-     */
+    #[ORM\Column(type: "string", length: 64)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 1, max: 64)]
     private $name;
 
-    /**
-     * @ORM\Column(type="string", length=64)
-     */
+    #[ORM\Column(type: "string", length: 64)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 1, max: 64)]
     private $firstName;
 
-    /**
-     * @ORM\Column(type="string", length=64, unique=true)
-     * @Assert\NotBlank()
-     */
+    #[ORM\Column(type: "string", length: 64, unique: true)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 1, max: 64)]
     private $pseudo;
 
     /**

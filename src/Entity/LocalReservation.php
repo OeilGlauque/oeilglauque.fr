@@ -2,52 +2,43 @@
 
 namespace App\Entity;
 
+use App\Repository\LocalReservationRepository;
+use App\Entity\User;
 use DateTime;
-use FG\ASN1\Universal\Integer;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\LocalReservationRepository")
- */
+#[ORM\Entity(repositoryClass: LocalReservationRepository::class)]
 class LocalReservation
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private int $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="localReservations")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $author;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "localReservations")]
+    #[ORM\JoinColumn(nullable: false)]
+    private User $author;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $validated;
+    #[ORM\Column(type: "boolean")]
+    private bool $validated;
 
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $motif;
+    #[ORM\Column(type: "text")]
+    private ?string $motif;
 
-    /**
-     * @ORM\Column(type="datetime")
-     * @Assert\GreaterThanOrEqual("today")
-     * @Assert\LessThan("1 year")
-     */
-    private $date;
 
-    /**
-     * @ORM\Column(type="datetime")
-     * @Assert\GreaterThanOrEqual("today")
-     * @Assert\LessThan("1 year")
-     */
-    private $endDate;
+    #[ORM\Column(type: "datetime")]
+    #[Assert\GreaterThanOrEqual("today")]
+    #[Assert\LessThan("1 year")]
+    #[Assert\NotBlank()]
+    private \DateTime $date;
+
+
+    #[ORM\Column(type: "datetime")]
+    #[Assert\GreaterThanOrEqual("today")]
+    #[Assert\LessThan("1 year")]
+    #[Assert\NotBlank()]
+    private \DateTime $endDate;
 
     public function __construct()
     {
@@ -55,7 +46,7 @@ class LocalReservation
         $this->date = new DateTime();
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -72,7 +63,7 @@ class LocalReservation
         return $this;
     }
 
-    public function getAuthor(): ?User
+    public function getAuthor(): User
     {
         return $this->author;
     }

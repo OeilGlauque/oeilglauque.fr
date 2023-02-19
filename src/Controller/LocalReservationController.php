@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\LocalReservation;
 use App\Entity\Feature;
 use App\Form\LocalReservationType;
+use App\Repository\FeatureRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Dotenv\Dotenv;
@@ -12,11 +13,11 @@ use Symfony\Component\Dotenv\Dotenv;
 class LocalReservationController extends FOGController
 {
     #[Route("/reservations/local", name: "localReservation")]
-    public function localReservation(Request $request)
+    public function localReservation(Request $request, FeatureRepository $featureRepository)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        if (!$this->getDoctrine()->getRepository(Feature::class)->find(2)->getState()) {
+        if (!$featureRepository->find(2)->getState()) {
             return $this->render('oeilglauque/localReservation.html.twig', array(
                 'state' => false
             ));
@@ -35,18 +36,18 @@ class LocalReservationController extends FOGController
             if ($overlap == 0) {
 
                 $user = $this->getUser();
-            $reservation->setAuthor($user);
+                $reservation->setAuthor($user);
 
-            // Sauvegarde en base
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($reservation);
-            $entityManager->flush();
+                // Sauvegarde en base
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($reservation);
+                $entityManager->flush();
 
-            $this->sendmail($reservation, $this->get('swiftmailer.mailer.default'));
+                $this->sendmail($reservation, $this->get('swiftmailer.mailer.default'));
 
-            $this->addFlash('info', "Votre réservation a bien été enregistrée, vous recevrez une confirmation par e-mail dès qu'elle sera acceptée.");
+                $this->addFlash('info', "Votre réservation a bien été enregistrée, vous recevrez une confirmation par e-mail dès qu'elle sera acceptée.");
 
-            return $this->redirectToRoute('index');
+                return $this->redirectToRoute('index');
             } else {
                 $this->addFlash('warning',
                     "Votre réservation entre en conflit avec " . $overlap . " réservation(s) déjà effectuée(s) :(");
@@ -59,7 +60,7 @@ class LocalReservationController extends FOGController
         ));
     }
 
-    private function sendmail(LocalReservation $reservation, \Swift_Mailer $mailer) {
+    /*private function sendmail(LocalReservation $reservation, \Swift_Mailer $mailer) {
         $dotenv = new Dotenv();
         $dotenv->load(__DIR__.'/../../.env');
 
@@ -89,6 +90,5 @@ class LocalReservationController extends FOGController
             );
         $mailer->send($message);
 
-    }
+    }*/
 }
-?>

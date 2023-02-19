@@ -5,18 +5,19 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\News;
-use App\Entity\Feature;
+use App\Repository\FeatureRepository;
+use App\Repository\NewsRepository;
 use App\Service\GlauqueMarkdownParser;
 
 class NewsPageController extends FOGController {
     
-    #[Route("/news", name: "newsIndex")]
-    public function index() {
-        if (!$this->getDoctrine()->getRepository(Feature::class)->find(6)->getState()) {
+    #[Route("/news", name: "newsIndex", methods: ['GET'])]
+    public function index(FeatureRepository $featureRepository, NewsRepository $newsRepository) : Response {
+        if (!$featureRepository->find(6)->getState()) {
             return $this->redirectToRoute('index');
         }
 
-        $news = $this->getDoctrine()->getRepository(News::class)->findAll();
+        $news = $newsRepository->findAll();
         
         foreach ($news as $n) {
             $n->setText(GlauqueMarkdownParser::parse($n->getText()));
@@ -27,13 +28,13 @@ class NewsPageController extends FOGController {
         ));
     }
 
-    #[Route("/news/{slug}")]
-    public function showNews($slug) {
-        if (!$this->getDoctrine()->getRepository(Feature::class)->find(6)->getState()) {
+    #[Route("/news/{slug}", name: "showNews", methods: ['GET'])]
+    public function showNews(FeatureRepository $featureRepository, News $news) : Response {
+        if (!$featureRepository->find(6)->getState()) {
             return $this->redirectToRoute('index');
         }
 
-        $news = $this->getDoctrine()->getRepository(News::class)->findOneBy(['slug' => $slug]);
+        //$news = $this->getDoctrine()->getRepository(News::class)->findOneBy(['slug' => $slug]);
         if($news) {
             $news->setText(GlauqueMarkdownParser::parse($news->getText()));
             return $this->render('oeilglauque/showNews.html.twig', array(
@@ -44,5 +45,3 @@ class NewsPageController extends FOGController {
         }
     }
 }
-
-?>

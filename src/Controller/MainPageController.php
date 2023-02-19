@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MainPageController extends FOGController {
     
-    #[Route("/", name: "index")]
+    #[Route("/", name: "index", methods: ['GET'])]
     public function index(EditionRepository $editionRepository) : Response{
         $edition = $editionRepository->findOneBy(['annee' => $this->getParameter('current_edition')]);
         $homeText = '';
