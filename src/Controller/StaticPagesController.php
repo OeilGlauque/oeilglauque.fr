@@ -2,32 +2,28 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Entity\Game;
-use App\Form\GameType;
 
 class StaticPagesController extends FOGController {
     
-    #[Route("/informationsFestival", name: "infosFest")]
-    public function infosFest(Request $request) {
+    #[Route("/informationsFestival", name: "infosFest", methods: ['GET'])]
+    public function infosFest() : Response {
         return $this->render('oeilglauque/infosFest.html.twig');
     }
 
-    #[Route("/informationsClub", name: "infosClub")]
-    public function infosClub() {
+    #[Route("/informationsClub", name: "infosClub", methods: ['GET'])]
+    public function infosClub() : Response {
         return $this->render('oeilglauque/infosClub.html.twig');
     }
 
-    #[Route("/planning", name: "planning")]
-    public function planning() {
+    #[Route("/planning", name: "planning", methods: ['GET'])]
+    public function planning() : Response {
         return $this->render('oeilglauque/planning.html.twig');
     }
 
-    #[Route("/contact", name: "contact")]
-    public function contact() {
+    #[Route("/contact", name: "contact", methods: ['GET'])]
+    public function contact() : Response {
         return $this->render('oeilglauque/contact.html.twig');
     }
 
@@ -38,10 +34,8 @@ class StaticPagesController extends FOGController {
     }
     */
 
-    #[Route("/photos", name: "photos")]
-    public function photos() {
+    #[Route("/photos", name: "photos", methods: ['GET'])]
+    public function photos() : Response {
         return $this->render('oeilglauque/photos.html.twig');
     }
 }
-
-?>

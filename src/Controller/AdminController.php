@@ -46,7 +46,7 @@ class AdminController extends FOGController {
 
 
     #[Route("/admin/editions", name: "admin_editions")]
-    public function editionsAdmin(EditionRepository $editionRepository) {
+    public function editionsAdmin(EditionRepository $editionRepository) : Response {
         $editions = array_reverse($editionRepository->findAll());
         return $this->render('oeilglauque/admin/editions.html.twig', array(
             'editions' => $editions
@@ -54,7 +54,7 @@ class AdminController extends FOGController {
     }
 
     #[Route("/admin/editions/updateEdition/{edition}", name: "updateEdition")]
-    public function updateEdition(Request $request, $edition, ManagerRegistry $doctrine) {
+    public function updateEdition(Request $request, $edition, ManagerRegistry $doctrine) : Response {
         $editionval = $doctrine->getRepository(Edition::class)->find($edition);
         if(!$editionval) {
             throw $this->createNotFoundException(
@@ -71,7 +71,7 @@ class AdminController extends FOGController {
     }
 
     #[Route("/admin/editions/updateGameSlot/{slot}", name: "updateGameSlot")]
-    public function updateGameSlot(Request $request, $slot, ManagerRegistry $doctrine) {
+    public function updateGameSlot(Request $request, $slot, ManagerRegistry $doctrine) : Response {
         $slotval = $doctrine->getRepository(GameSlot::class)->find($slot);
         if (!$slotval) {
             throw $this->createNotFoundException(
@@ -88,7 +88,7 @@ class AdminController extends FOGController {
     }
 
     #[Route("/admin/editions/addGameSlot/{edition}", name: "addGameSlot")]
-    public function addGameSlot(Request $request, $edition, ManagerRegistry $doctrine) {
+    public function addGameSlot(Request $request, $edition, ManagerRegistry $doctrine) : Response{
         if($request->query->get('text') != "") {
             $slot = new GameSlot();
             $slot->setText($request->query->get('text'));
@@ -113,7 +113,7 @@ class AdminController extends FOGController {
      ******************************/
 
     #[Route("/admin/news/rediger", name: "writeNews")]
-    public function writeNews(Request $request, ManagerRegistry $doctrine) {
+    public function writeNews(Request $request, ManagerRegistry $doctrine) : Response {
         $news = new News();
         $form = $this->createForm(NewsType::class, $news);
 
@@ -137,7 +137,7 @@ class AdminController extends FOGController {
     }
 
     #[Route("/admin/news/edit/{slug}", name: "editNews")]
-    public function editNews(Request $request, $slug, ManagerRegistry $doctrine) {
+    public function editNews(Request $request, $slug, ManagerRegistry $doctrine) : Response {
         $news = $doctrine->getRepository(News::class)->findOneBy(['slug' => $slug]);
         if(!$news) {
             throw $this->createNotFoundException(
@@ -165,7 +165,7 @@ class AdminController extends FOGController {
     }
 
     #[Route("/admin/news/delete/{slug}", name: "deleteNews")]
-    public function deleteNews(Request $request, $slug, ManagerRegistry $doctrine) {
+    public function deleteNews(Request $request, $slug, ManagerRegistry $doctrine) : Response {
         $news = $doctrine->getRepository(News::class)->findOneBy(['slug' => $slug]);
         if(!$news) {
             throw $this->createNotFoundException(
@@ -186,12 +186,12 @@ class AdminController extends FOGController {
      ******************************/
 
     #[Route("/admin/editions/nouvelle", name: "newEdition")]
-    public function newEdition() {
+    public function newEdition() : Response {
         return $this->render('oeilglauque/admin/newEdition.html.twig');
     }
 
     #[Route("/admin/editions/creer", name: "createEdition")]
-    public function createEdition(Request $request, ManagerRegistry $doctrine) {
+    public function createEdition(Request $request, ManagerRegistry $doctrine) : Response {
         if($request->query->get('annee') != "" && $request->query->get('dates')) {
             $editionCheck = $doctrine->getRepository(Edition::class)->findOneBy(['annee' => $request->query->get('annee')]);
             if ($editionCheck) {
@@ -214,7 +214,7 @@ class AdminController extends FOGController {
      ************************************/
 
     #[Route("/admin/games/validate", name: "unvalidatedGamesList")]
-    public function unvalidatedGamesList(ManagerRegistry $doctrine) {
+    public function unvalidatedGamesList(ManagerRegistry $doctrine) : Response {
         $games = $doctrine->getRepository(Game::class)->getOrderedGameList($this->getCurrentEdition(), false);
         return $this->render('oeilglauque/admin/unvalidatedGamesList.html.twig', array(  
             'games' => $games
@@ -222,7 +222,7 @@ class AdminController extends FOGController {
     }
 
     #[Route("/admin/games", name: "adminGamesList")]
-    public function adminGamesList(ManagerRegistry $doctrine) {
+    public function adminGamesList(ManagerRegistry $doctrine) : Response {
         $games = $doctrine->getRepository(Game::class)->getOrderedGameList($this->getCurrentEdition(), true);
         return $this->render('oeilglauque/admin/gamesList.html.twig', array(
             'games' => $games, 
@@ -230,7 +230,7 @@ class AdminController extends FOGController {
     }
 
     #[Route("/admin/games/validate/{id}", name: "validateGame")]
-    public function validateGame($id, MailerInterface $mailer, ManagerRegistry $doctrine) {
+    public function validateGame($id, MailerInterface $mailer, ManagerRegistry $doctrine) : Response {
         $game = $doctrine->getRepository(Game::class)->find($id);
         if($game) {
             $game->setValidated(true);
@@ -264,7 +264,7 @@ class AdminController extends FOGController {
     }
 
     #[Route("/admin/games/deleteGame/{id}", name: "deleteGame")]
-    public function deleteGame($id, ManagerRegistry $doctrine) {
+    public function deleteGame($id, ManagerRegistry $doctrine) : Response {
         $game = $doctrine->getRepository(Game::class)->find($id);
         if ($game) {
             $doctrine->getManager()->remove($game);
@@ -275,7 +275,7 @@ class AdminController extends FOGController {
     }
 
     #[Route("/admin/games/unregister/{idGame}/{idPlayer}", name: "unregisterGamePlayer")]
-    public function unregisterGamePlayer(Request $request, $idGame, $idPlayer, ManagerRegistry $doctrine) {
+    public function unregisterGamePlayer(Request $request, $idGame, $idPlayer, ManagerRegistry $doctrine) : Response {
         $game = $doctrine->getRepository(Game::class)->find($idGame);
         $player = $doctrine->getRepository(User::class)->find($idPlayer);
         if ($game && $player) {
@@ -291,7 +291,7 @@ class AdminController extends FOGController {
     }
 
     #[Route("/admin/games/lock/{id}/{status}", name: "lockGame")]
-    public function lockGame(Request $request, $id, $status, ManagerRegistry $doctrine) {
+    public function lockGame(Request $request, $id, $status, ManagerRegistry $doctrine) : Response {
         $game = $doctrine->getRepository(Game::class)->find($id);
         if ($game) {
             $game->setLocked($status == 1 ? true : false);
@@ -314,7 +314,7 @@ class AdminController extends FOGController {
      *****************/
 
     #[Route("/admin/reservations/local", name: "localReservationList")]
-    public function localReservationList(ManagerRegistry $doctrine) {
+    public function localReservationList(ManagerRegistry $doctrine) : Response {
         $reservations =$doctrine->getRepository(LocalReservation::class)->getLocalReservationList();
         return $this->render('oeilglauque/admin/localReservationList.html.twig', array(
             'reservations' => $reservations,
@@ -322,7 +322,7 @@ class AdminController extends FOGController {
         ));
     }
     #[Route("/admin/reservations/local/validate/{id}", name: "validateLocalReservation")]
-    public function validateLocalReservation($id, ManagerRegistry $doctrine) {
+    public function validateLocalReservation($id, ManagerRegistry $doctrine) : Response {
         $reservation = $doctrine->getRepository(LocalReservation::class)->find($id);
         if($reservation) {
             $reservation->setValidated(true);
@@ -347,7 +347,7 @@ class AdminController extends FOGController {
     }
 
     #[Route("/admin/reservations/local/delete/{id}", name: "deleteLocalReservation")]
-    public function deleteLocalReservation($id, ManagerRegistry $doctrine) {
+    public function deleteLocalReservation($id, ManagerRegistry $doctrine) : Response {
         $archive = false;
 
         $reservation = $doctrine->getRepository(LocalReservation::class)->find($id);
@@ -374,7 +374,7 @@ class AdminController extends FOGController {
         return $this->redirectToRoute('localReservationList');
     }
     #[Route("/admin/reservations/local/archive", name: "localReservationArchive")]
-    public function localReservationArchive(ManagerRegistry $doctrine) {
+    public function localReservationArchive(ManagerRegistry $doctrine) : Response {
         $reservations = $doctrine->getRepository(LocalReservation::class)->getLocalReservationArchive();
         return $this->render('oeilglauque/admin/localReservationList.html.twig', array(
             'reservations' => $reservations,
@@ -405,7 +405,7 @@ class AdminController extends FOGController {
      *      jeux     *
      *****************/
     #[Route("/admin/reservations/boardGame", name: "boardGameReservationList")]
-    public function boardGameReservationList(ManagerRegistry $doctrine) {
+    public function boardGameReservationList(ManagerRegistry $doctrine) : Response {
         $reservations =$doctrine->getRepository(BoardGameReservation::class)->getBoardGameReservationList();
         return $this->render('oeilglauque/admin/boardGameReservationList.html.twig', array(
             'reservations' => $reservations,
@@ -413,7 +413,7 @@ class AdminController extends FOGController {
         ));
     }
     #[Route("/admin/reservations/boardGame/validate/{id}", name: "validateBoardGameReservation")]
-    public function validateBoardGameReservation($id, ManagerRegistry $doctrine) {
+    public function validateBoardGameReservation($id, ManagerRegistry $doctrine) : Response {
         $reservation = $doctrine->getRepository(BoardGameReservation::class)->find($id);
         if($reservation) {
             $reservation->setValidated(true);
@@ -438,7 +438,7 @@ class AdminController extends FOGController {
     }
 
     #[Route("/admin/reservations/boardGame/delete/{id}", name: "deleteBoardGameReservation")]
-    public function deleteBoardGameReservation($id, ManagerRegistry $doctrine) {
+    public function deleteBoardGameReservation($id, ManagerRegistry $doctrine) : Response {
         $archive = false;
 
         $reservation = $doctrine->getRepository(BoardGameReservation::class)->find($id);
@@ -467,8 +467,7 @@ class AdminController extends FOGController {
         return $this->redirectToRoute('boardGameReservationList');
     }
     #[Route("/admin/reservations/boardGame/archive", name: "boardGameReservationArchive")]
-    public function boardGameReservationArchive(ManagerRegistry $doctrine)
-    {
+    public function boardGameReservationArchive(ManagerRegistry $doctrine) : Response {
         $reservations = $doctrine->getRepository(BoardGameReservation::class)->getBoardGameReservationArchive();
         return $this->render('oeilglauque/admin/boardGameReservationList.html.twig', array(
             'reservations' => $reservations,
@@ -480,7 +479,7 @@ class AdminController extends FOGController {
      *    feature    *
      *****************/
     #[Route("/admin/feature", name: "adminFeature")]
-    public function adminFeature(ManagerRegistry $doctrine) {
+    public function adminFeature(ManagerRegistry $doctrine) : Response {
         $features =$doctrine->getRepository(Feature::class)->findAll();
         return $this->render('oeilglauque/admin/feature.html.twig', array(
             'features' => $features
@@ -488,7 +487,7 @@ class AdminController extends FOGController {
     }
 
     #[Route("/admin/feature/update/{id}/{state}", name: "updateFeatureState")]
-    public function updateFeatureState($id, $state, ManagerRegistry $doctrine) {
+    public function updateFeatureState($id, $state, ManagerRegistry $doctrine) : Response {
         $feature = $doctrine->getRepository(Feature::class)->find($id);
         if($feature) {
             $feature->setState($state != 0);

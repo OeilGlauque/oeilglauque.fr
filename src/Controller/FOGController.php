@@ -8,13 +8,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FOGController extends AbstractController {
 
-    private $FogParams;
+    private FOGParametersService $FogParams;
 
     public function __construct(FOGParametersService $FogParams) {
         $this->FogParams = $FogParams;
     }
 
-    public function render(string $view, array $parameters = [], Response $response = null): Response {
+    public function render(string $view, array $parameters = [], Response $response = null) : Response {
         if (!array_key_exists('dates', $parameters)) {
             $parameters['dates'] = $this->FogParams->getCurrentEdition()->getDates();
         }
@@ -30,5 +30,3 @@ class FOGController extends AbstractController {
         return parent::render($view, $parameters);
     }
 }
-
-?>

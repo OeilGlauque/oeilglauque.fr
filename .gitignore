@@ -34,3 +34,4 @@ shell.nix
 query.sql
 log
 *.py
+.idea

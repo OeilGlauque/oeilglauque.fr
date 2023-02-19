@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Edition;
 use App\Repository\EditionRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,5 +20,3 @@ class MainPageController extends FOGController {
         ));
     }
 }
-
-?>
