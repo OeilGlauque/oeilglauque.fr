@@ -10,23 +10,32 @@ class FOGMailerService
 {
 
     private MailerInterface $mailer;
+    private Address $mailFOG;
 
     public function __construct(MailerInterface $mailer)
     {
         $this->mailer = $mailer;
+        $this->mailFOG = new Address("fogfogtest@gmail.com", "L'équipe du FOG");
     }
 
-    public function sendMail(Address $to, String $subject, String $template, array $context) : bool
+    public function sendMail(Address $to, String $subject, String $template, array $context, array $cc = [], array $bcc = []) : bool
     {
         $email = (new TemplatedEmail())
-            ->from(new Address("fogfogtest@gmail.com","L'équipe du FOG"))
+            ->from($this->mailFOG)
             ->to($to)
             ->subject($subject)
             ->htmlTemplate($template)
-            ->context($context);
+            ->context($context)
+            ->cc(...$cc)
+            ->bcc(...$bcc);
 
         $this->mailer->send($email);
 
         return true;
+    }
+
+    public function getMailFOG(): Address 
+    {
+        return $this->mailFOG;
     }
 }

@@ -1,41 +1,42 @@
 <?php
-
 namespace App\Controller;
 
 use App\Entity\BoardGameReservation;
 use App\Entity\LocalReservation;
 use App\Entity\Feature;
+use App\Entity\BoardGame;
 use App\Form\BoardGameReservationType;
 use App\Form\LocalReservationType;
+use App\Service\FOGMailerService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\Mime\Address;
 
 class BoardGameReservationController extends FOGController
 {
     #[Route("/reservations/boardGame", name: "boardGameReservation")]
-    public function boardGameReservation(Request $request)
+    public function boardGameReservation(Request $request, EntityManagerInterface $manager, FOGMailerService $mailer)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        if (!$this->getDoctrine()->getRepository(Feature::class)->find(3)->getState()) {
-            return $this->render('oeilglauque/boardGameReservation.html.twig', array(
+        if (!$manager->getRepository(Feature::class)->find(3)->getState()) {
+            return $this->render('oeilglauque/boardGameReservation.html.twig', [
                 'state' => false
-            ));
+            ]);
         }
 
         $reservation = new BoardGameReservation();
-        $form = $this->createForm(BoardGameReservationType::class, $reservation, array());
-        $repository = $this->getDoctrine()
-            ->getRepository('App:BoardGame');
-        $boardGames = $repository->findAll();
+        $form = $this->createForm(BoardGameReservationType::class, $reservation, []);
+        $boardGames = $manager->getRepository(BoardGame::class)->findAll();
         usort($boardGames, function($a, $b) {
             return strcmp($a->getName(), $b->getName());
         });
 
         $form->handleRequest($request);
 
-        $overlap = $this->getDoctrine()
+        $overlap = $manager
             ->getRepository(BoardGameReservation::class)
             ->findBoardGameReservationOverlap($reservation);
 
@@ -47,11 +48,17 @@ class BoardGameReservationController extends FOGController
                     $reservation->setAuthor($user);
     
                     // Sauvegarde en base
-                    $entityManager = $this->getDoctrine()->getManager();
-                    $entityManager->persist($reservation);
-                    $entityManager->flush();
-    
-                    $this->sendmail($reservation, $this->get('swiftmailer.mailer.default'));
+                    $manager->persist($reservation);
+                    $manager->flush();
+
+                    $mailer->sendMail(
+                        new Address($reservation->getAuthor()->getEmail(), $reservation->getAuthor()->getPseudo()),
+                        'Nouvelle demande de réservation de jeu au FOG',
+                        'oeilglauque/emails/boardGameReservation/nouvelleReservation.html.twig',
+                        ['reservation' => $reservation],
+                        [],
+                        [$mailer->getMailFOG()]
+                    );
     
                     $this->addFlash('info', "Votre réservation a bien été enregistrée, vous recevrez une confirmation par e-mail dès qu'elle sera acceptée.");
     
@@ -72,36 +79,4 @@ class BoardGameReservationController extends FOGController
             'state' => true
         ));
     }
-
-    private function sendmail(BoardGameReservation $reservation, \Swift_Mailer $mailer) {
-        $dotenv = new Dotenv();
-        $dotenv->load(__DIR__.'/../../.env');
-
-
-        $message = (new \Swift_Message('Nouvelle demande de réservation de jeu au FOG'))
-            ->setFrom([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
-            ->setBcc($_ENV['MAILER_ADDRESS'])
-            ->setTo([$reservation->getAuthor()->getEmail() => $reservation->getAuthor()->getPseudo()])
-            ->setBody(
-                $this->renderView(
-                    'oeilglauque/emails/boardGameReservation/nouvelleReservation.html.twig',
-                    ['reservation' => $reservation]
-                ),
-                'text/html'
-            );
-        $mailer->send($message);
-
-        $message = (new \Swift_Message('Nouvelle demande de réservation de jeu au FOG'))
-            ->setFrom([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
-            ->setTo([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
-            ->setBody(
-                $this->renderView(
-                    'oeilglauque/emails/boardGameReservation/admin/nouvelleReservation.html.twig',
-                    ['reservation' => $reservation]
-                ),
-                'text/html'
-            );
-        $mailer->send($message);
-    }
 }
-?>
