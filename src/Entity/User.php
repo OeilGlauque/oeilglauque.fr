@@ -105,8 +105,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface //, \Ser
     public function __construct()
     {
         $this->newsRedacted = new ArrayCollection();
-        $this->roles = "ROLE_USER";
-        $this->password = "_";
+        $this->roles[] = "ROLE_USER";
+        //$this->password = "_";
         $this->dateCreated = new \DateTimeImmutable();
         $this->isActive = true;
         $this->partiesOrganisees = new ArrayCollection();

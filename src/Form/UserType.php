@@ -16,25 +16,24 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', EmailType::class, array('label' => 'Adresse mail', 'invalid_message' => 'Veuillez fournir une adresse mail valide',))
-            ->add('pseudo', TextType::class, array('label' => 'Pseudo'))
-            ->add('name', TextType::class, array('label' => 'Nom'))
-            ->add('firstname', TextType::class, array('label' => 'Prénom'))
-            ->add('plainPassword', RepeatedType::class, array(
+            ->add('email', EmailType::class, ['label' => 'Adresse mail', 'invalid_message' => 'Veuillez fournir une adresse mail valide'])
+            ->add('pseudo', TextType::class, ['label' => 'Pseudo'])
+            ->add('name', TextType::class, ['label' => 'Nom'])
+            ->add('firstname', TextType::class, ['label' => 'Prénom'])
+            ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les mots de passe doivent être identiques',
-                'first_options'  => array('label' => 'Mot de passe'),
-                'second_options' => array('label' => 'Mot de passe (confirmation)'),
-                'options' => array("attr" => array("maxlength" => 64))
-            ))
-            ->add('save', SubmitType::class, array('label' => 'Inscription'));
+                'first_options'  => ['label' => 'Mot de passe'],
+                'second_options' => ['label' => 'Mot de passe (confirmation)'],
+                'options' => ["attr" => ["maxlength" => 64]]
+            ])
+            ->add('save', SubmitType::class, ['label' => 'Inscription']);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => User::class,
-        ));
+        ]);
     }
 }
-?>
