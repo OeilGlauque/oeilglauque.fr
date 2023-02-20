@@ -19,27 +19,27 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 #[ORM\Table(name: "app_users")]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity("pseudo")]
-class User implements UserInterface, PasswordAuthenticatedUserInterface //, \Serializable
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: "integer")]
-    private $id;
+    private ?int $id;
 
     #[ORM\Column(type: "string", length: 64)]
     #[Assert\NotBlank()]
     #[Assert\Length(min: 1, max: 64)]
-    private $name;
+    private string $name;
 
     #[ORM\Column(type: "string", length: 64)]
     #[Assert\NotBlank()]
     #[Assert\Length(min: 1, max: 64)]
-    private $firstName;
+    private string $firstName;
 
     #[ORM\Column(type: "string", length: 64, unique: true)]
     #[Assert\NotBlank()]
     #[Assert\Length(min: 1, max: 64)]
-    private $pseudo;
+    private string $pseudo;
 
     #[ORM\Column(type: "string", length: 64)]
     #[Assert\NotBlank()]
@@ -49,20 +49,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface //, \Ser
         minMessage: "Votre mot de passe doit contenir au moins {{ limit }} caractères",
         maxMessage: "Votre mot de passe ne peut pas contenir plus de {{ limit }} caractères")]
     private $password;
-    
-    // This will not be mapped in database, but needs to be accessible during registration
-    // Limit of 64 in database; this must also be set in Forms/UserType.php !!!
-    // This limit of 64 is due to a bug causing too long passwords encoded with more than one byte per char to break registration (bcrypt hashing)
-    /**
-     * length=64
-     * @Assert\NotBlank()
-     * @Assert\Length(
-     *      min=2, 
-     *      max=64, 
-     *      minMessage="Votre mot de passe doit contenir au moins {{ limit }} caractères", 
-     *      maxMessage="Votre mot de passe ne peut pas contenir plus de {{ limit }} caractères")
-     */
-    #private $plainPassword;
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
@@ -87,8 +73,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface //, \Ser
     #[ORM\Column(name: "is_active", type: "boolean")]
     private bool $isActive;
 
-    #[ORM\Column(type: "json")]
-    private array $roles = [];
+    #[ORM\Column(type: "text")]
+    private ?string $roles;
 
     #[ORM\OneToMany(targetEntity: Game::class, mappedBy: "author")]
     private Collection $partiesOrganisees;
@@ -105,10 +91,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface //, \Ser
     public function __construct()
     {
         $this->newsRedacted = new ArrayCollection();
-        $this->roles[] = "ROLE_USER";
-        //$this->password = "_";
+        $this->roles = "ROLE_USER";
         $this->dateCreated = new \DateTimeImmutable();
         $this->isActive = true;
+        $this->resetToken = null;
         $this->partiesOrganisees = new ArrayCollection();
         $this->partiesJouees = new ArrayCollection();
         $this->boardGameReservations = new ArrayCollection();
@@ -277,20 +263,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface //, \Ser
     }*/
 
     // To assure implementation of UserInterface
-    public function getUsername(): ?string
+    public function getUsername(): string
     {
         return $this->getPseudo();
     }
 
-    public function getUserIdentifier(): ?string
+    public function getUserIdentifier(): string
     {
         return $this->getPseudo();
     }
 
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        $roles[] = 'ROLE_USER';
+        $roles = preg_split("/;/",$this->roles);
 
         return array_unique($roles);
     }

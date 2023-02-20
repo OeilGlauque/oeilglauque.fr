@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class UserType extends AbstractType
 {
@@ -25,7 +26,12 @@ class UserType extends AbstractType
                 'invalid_message' => 'Les mots de passe doivent être identiques',
                 'first_options'  => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Mot de passe (confirmation)'],
-                'options' => ["attr" => ["maxlength" => 64]]
+                'constraints' =>[new Assert\Length(
+                    min: 5,
+                    max: 64,
+                    minMessage: 'Votre mot de passe doit contenir au moins {{ limit }} caractères',
+                    maxMessage: 'Votre mot de passe ne peut pas contenir plus de {{ limit }} caractères'
+                )]
             ])
             ->add('save', SubmitType::class, ['label' => 'Inscription']);
     }

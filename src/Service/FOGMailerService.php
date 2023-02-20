@@ -19,7 +19,7 @@ class FOGMailerService
     public function sendMail(Address $to, String $subject, String $template, array $context) : bool
     {
         $email = (new TemplatedEmail())
-            ->from(new Address("fogfogtest@gmail.com","L\'équipe du FOG"))
+            ->from(new Address("fogfogtest@gmail.com","L'équipe du FOG"))
             ->to($to)
             ->subject($subject)
             ->htmlTemplate($template)

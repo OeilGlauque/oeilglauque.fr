@@ -18,28 +18,27 @@ class GameType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class, array('label' => 'Titre'))
-            ->add('description', TextareaType::class, array('label' => 'Description'))
-            ->add('gameSlot', EntityType::class, array(
+            ->add('title', TextType::class, ['label' => 'Titre'])
+            ->add('description', TextareaType::class, ['label' => 'Description'])
+            ->add('gameSlot', EntityType::class, [
                 'class' => GameSlot::class, 
                 'choice_label' => 'text', 
                 'label' => 'Créneau',
                 'choices' => $options['slots'], 
                 'required' => true,
-            ))
-            ->add('seats', IntegerType::class, array('label' => 'Places disponibles', 'invalid_message' => "Veuillez entrer un nombre"))
-            ->add('tags', TextType::class, array('label' => 'Tags', 'required' => false))
-            ->add('forceOnlineSeats', CheckboxType::class, array('label' => 'Permettre de réserver toutes les places en ligne (déconseillé). Par défaut, la moitié des places sont réservable en ligne et l\'autre moitié réservable sur place.', 'required' => false))
+            ])
+            ->add('seats', IntegerType::class, ['label' => 'Places disponibles', 'invalid_message' => "Veuillez entrer un nombre"])
+            ->add('tags', TextType::class, ['label' => 'Tags', 'required' => false])
+            ->add('forceOnlineSeats', CheckboxType::class, ['label' => 'Permettre de réserver toutes les places en ligne (déconseillé). Par défaut, la moitié des places sont réservable en ligne et l\'autre moitié réservable sur place.', 'required' => false])
             
-            ->add('save', SubmitType::class, array('label' => 'Valider'));
+            ->add('save', SubmitType::class, ['label' => 'Valider']);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => Game::class,
-            'slots' => array()
-        ));
+            'slots' => []
+        ]);
     }
 }
-?>

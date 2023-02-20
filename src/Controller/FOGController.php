@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FOGController extends AbstractController {
 
-    private FOGParametersService $FogParams;
+    protected FOGParametersService $FogParams;
 
     public function __construct(FOGParametersService $FogParams) {
         $this->FogParams = $FogParams;

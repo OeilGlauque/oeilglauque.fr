@@ -5,25 +5,28 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Game;
 use App\Entity\GameSlot;
-use App\Entity\Edition;
 use App\Form\GameType;
 use App\Form\GameEditType;
+use App\Service\FOGMailerService;
 use App\Service\GlauqueMarkdownParser;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Mime\Address;
 
 class GameController extends FOGController {
     
     #[Route("/nouvellePartie", name: "nouvellePartie")]
-    public function newGame(Request $request, \Swift_Mailer $mailer) {
+    public function newGame(Request $request, FOGMailerService $mailer, EntityManagerInterface $entityManager): Response
+    {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $game = new Game();
-        $form = $this->createForm(GameType::class, $game, array('slots' => $this->getCurrentEdition()->getGameSlots()));
+        $form = $this->createForm(GameType::class, $game, ['slots' => $this->FogParams->getCurrentEdition()->getGameSlots()]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var \App\Entity\User */
             $user = $this->getUser();
             $game->setAuthor($user);
 
@@ -34,7 +37,7 @@ class GameController extends FOGController {
             }
 
             // Check if the slot belongs to the current edition
-            if($game->getGameSlot()->getEdition() != $this->getCurrentEdition()) {
+            if($game->getGameSlot()->getEdition() != $this->FogParams->getCurrentEdition()) {
                 $this->addFlash('danger', "Vous ne pouvez proposer une partie que pour l'édition actuelle !");
                 return $this->redirectToRoute('nouvellePartie');
             }
@@ -47,6 +50,7 @@ class GameController extends FOGController {
                     return $this->redirectToRoute('nouvellePartie');
                 }
             }
+
             // Check if the user has not proposed an other game on this slot
             $proposedGames = $user->getPartiesOrganisees();
             foreach ($proposedGames as $g) {
@@ -67,11 +71,11 @@ class GameController extends FOGController {
             $game->setDescription(strip_tags($game->getDescription()));
 
             // Sauvegarde en base
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($game);
             $entityManager->flush();
 
-            $message = (new \Swift_Message('Demande de validation de partie'))
+            $mailer->sendMail(new Address("fogfogtest@gmail.com","L'équipe du FOG"), "Demande de validation de partie", "oeilglauque/emails/game/gameValidationRequest.html.twig", ['user' => $user, 'game' => $game]);
+            /*$message = (new \Swift_Message('Demande de validation de partie'))
                 ->setFrom([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
                 ->setTo([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
                 ->setBody(
@@ -82,43 +86,46 @@ class GameController extends FOGController {
                     ),
                     'text/html'
                 );
-            $mailer->send($message);
+            $mailer->send($message);*/
 
             $this->addFlash('info', "Votre partie a bien été enregistrée ! Elle va être validée par notre équipe avant d'être mise en ligne. Merci pour votre investissement auprès du Festival !");
 
             return $this->redirectToRoute('listeParties');
         }
 
-        return $this->render('oeilglauque/newGame.html.twig', array(
+        return $this->render('oeilglauque/newGame.html.twig', [
             'form' => $form->createView(), 
             'edit' => false
-        ));
+        ]);
     }
 
     #[Route("/parties/slots")]
     public function listGameSlots() {
-        $res = array();
-        $slots = $this->getCurrentEdition()->getGameSlots();
+        $res = [];
+        $slots = $this->FogParams->getCurrentEdition()->getGameSlots();
         foreach ($slots as $s) {
-            array_push($res, array('id' => $s->getId(), 'text' => $s->getText()));
+            array_push($res, ['id' => $s->getId(), 'text' => $s->getText()]);
         }
         return $this->json($res);
     }
 
     #[Route("/parties", name: "listeParties")]
-    public function listGames() {
-        if ($this->getCurrentEdition()->getId() != null) {
-            $games = $this->getDoctrine()->getRepository(Game::class)->getOrderedGameList($this->getCurrentEdition(), true);
-            $gameSlots = $this->getDoctrine()->getRepository(GameSlot::class)->findBy(["edition" => $this->getCurrentEdition()]);
+    public function listGames(EntityManagerInterface $manager): Response
+    {
+        if ($this->FogParams->getCurrentEdition()->getId() != null) {
+            $games = $manager->getRepository(Game::class)->getOrderedGameList($this->FogParams->getCurrentEdition(), true);
+            $gameSlots = $manager->getRepository(GameSlot::class)->findBy(["edition" => $this->FogParams->getCurrentEdition()]);
             
+            /** @var \App\Entity\User */
             $user = $this->getUser();
-            $userGames = ($user != null) ? $this->getUser()->getPartiesJouees()->toArray() : array();
+            $userGames = ($user != null) ? $user->getPartiesJouees()->toArray() : [];
             $userGames = array_filter($userGames, function($element) {
-                return $element->getGameSlot()->getEdition() == $this->getCurrentEdition();
+                return $element->getGameSlot()->getEdition() == $this->FogParams->getCurrentEdition();
             });
-            $userProposedGames = ($user != null) ? $this->getUser()->getPartiesOrganisees()->toArray() : array();
+
+            $userProposedGames = ($user != null) ? $user->getPartiesOrganisees()->toArray() : [];
             $userProposedGames = array_filter($userProposedGames, function($element) {
-                return $element->getGameSlot()->getEdition() == $this->getCurrentEdition();
+                return $element->getGameSlot()->getEdition() == $this->FogParams->getCurrentEdition();
             });
     
             foreach ($games as $g) {
@@ -129,25 +136,27 @@ class GameController extends FOGController {
                 );
             }
     
-            return $this->render('oeilglauque/gamesList.html.twig', array(
+            return $this->render('oeilglauque/gamesList.html.twig', [
                 'games' => $games,
                 'gameSlots' => $gameSlots,
                 'userGames' => $userGames, 
                 'hasRegistered' => count($userGames) > 0, 
                 'userProposedGames' => $userProposedGames, 
                 'isMJ' => count($userProposedGames) > 0, 
-            ));
+            ]);
         }
         $this->addFlash('danger', "Il n'y a pas d'édition du FOG prévu pour le moment.");
         return $this->redirectToRoute('index');
     }
 
     #[Route("/partie/edit/{id}", name: "editGame")]
-    public function editGame(Request $request, $id) {
+    public function editGame(Request $request, Game $game, EntityManagerInterface $manager): Response
+    {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $user = $this->getUser();
 
-        $game = $this->getDoctrine()->getRepository(Game::class)->find($id);
+        /** @var \App\Entity\User */
+        $user = $this->getUser();
+        $id = $game->getId();
 
         // Check we are editing our own game, or we are an admin
         if($game->getAuthor() != $user && ! $user->hasRole('ROLE_ADMIN')) {
@@ -155,7 +164,7 @@ class GameController extends FOGController {
             return $this->redirectToRoute('showGame', ["id" => $id]);
         }
 
-        $form = $this->createForm(GameEditType::class, $game, array('slots' => $this->getCurrentEdition()->getGameSlots(), 'seats' => $game->getBookedSeats()));
+        $form = $this->createForm(GameEditType::class, $game, ['slots' => $this->FogParams->getCurrentEdition()->getGameSlots(), 'seats' => $game->getBookedSeats()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -163,7 +172,7 @@ class GameController extends FOGController {
             if($user == $game->getAuthor()) {   // Let admins edit games no matter what
 
                 // Check if the slot belongs to the current edition
-                if($game->getGameSlot()->getEdition() != $this->getCurrentEdition()) {
+                if($game->getGameSlot()->getEdition() != $this->FogParams->getCurrentEdition()) {
                     $this->addFlash('danger', "Vous ne pouvez proposer une partie que pour l'édition actuelle !");
                     return $this->redirectToRoute('editGame', ["id" => $id]);
                 }
@@ -187,28 +196,26 @@ class GameController extends FOGController {
             }
 
             // Sauvegarde en base
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($game);
-            $entityManager->flush();
+            $manager->flush();
             $this->addFlash('success', "Votre partie a bien été mise à jour !");
 
             return $this->redirectToRoute('showGame', ["id" => $id]);
         }
 
-        return $this->render('oeilglauque/newGame.html.twig', array(
+        return $this->render('oeilglauque/newGame.html.twig', [
             'form' => $form->createView(), 
             'edit' => true
-        ));
+        ]);
     }
 
     #[Route("/partie/{id}", name: "showGame")]
-    public function showGame($id) {
-        $game = $this->getDoctrine()->getRepository(Game::class)->find($id);
+    public function showGame(Game $game): Response
+    {
         if($game) {
             $user = $this->getUser();
             // Only the author can review a game that has not yet been validated
             if(!$game->getValidated() && ($user == null || ($user != null && $game->getAuthor() != $user))) {
-                $this->addFlash('danger', "Cette partie n'a pas encore été validée par notre équipe. ");
+                $this->addFlash('danger', "Cette partie n'a pas encore été validée par notre équipe.");
                 return $this->redirectToRoute('listeParties');
             }
 
@@ -224,10 +231,12 @@ class GameController extends FOGController {
     }
 
     #[Route("/partie/register/{id}", name: "registerGame")]
-    public function registerGame($id) {
+    public function registerGame(Game $game, EntityManagerInterface $manager) {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $game = $this->getDoctrine()->getRepository(Game::class)->find($id);
+
         if($game) {
+            $id = $game->getId();
+
             if(!$game->getLocked()) { // Check if game is locked
                 // Check if the game is validated
                 if(!$game->getValidated()) {
@@ -235,10 +244,12 @@ class GameController extends FOGController {
                     return $this->redirectToRoute('showGame', ["id" => $id]);
                 }
                 // Check if the game belongs to the current edition
-                if($game->getGameSlot()->getEdition() != $this->getCurrentEdition()) {
+                if($game->getGameSlot()->getEdition() != $this->FogParams->getCurrentEdition()) {
                     $this->addFlash('danger', "Vous ne pouvez vous inscrire qu'aux parties de l'édition actuelle !");
                     return $this->redirectToRoute('showGame', ["id" => $id]);
                 }
+
+                /** @var \App\Entity\User */
                 $user = $this->getUser();
                 // Check if the user has no other game on the same slot
                 $otherGames = $user->getPartiesJouees();
@@ -258,9 +269,7 @@ class GameController extends FOGController {
                 }
                 if($game->getFreeSeats() > 0) {
                     $game->addPlayer($user); // Handles 'contains' verification
-                    $entityManager = $this->getDoctrine()->getManager();
-                    $entityManager->persist($game);
-                    $entityManager->flush();
+                    $manager->flush();
                     $this->addFlash('success', "Vous avez bien été inscrit à la partie ".$game->getTitle());
                 }else {
                     $this->addFlash('danger', "Malheureusement il n'y a plus de place disponible en ligne pour la partie ".$game->getTitle()."... ");
@@ -274,21 +283,17 @@ class GameController extends FOGController {
 
 
     #[Route("/partie/unregister/{id}", name: "unregisterGame")]
-    public function unregisterGame($id) {
+    public function unregisterGame(Game $game, EntityManagerInterface $manager) {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $game = $this->getDoctrine()->getRepository(Game::class)->find($id);
+
         if($game) {
             $user = $this->getUser();
             $game->removePlayer($user); // Handles 'contains' verification
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($game);
-            $entityManager->flush();
+            $manager->flush();
             $this->addFlash('info', "Vous avez bien été désinscrit de la partie ".$game->getTitle());
-            return $this->redirectToRoute('showGame', ["id" => $id]);
+            return $this->redirectToRoute('showGame', ["id" => $game->getId()]);
         }else{
             throw $this->createNotFoundException('Impossible de trouver la partie demandée. ');
         }
     }
 }
-
-?>

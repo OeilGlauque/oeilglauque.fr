@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SecurityController extends FOGController
 {
-    #[Route("/login", name: "login")]
+    #[Route("/login", name: "login", methods: ['GET', 'POST'])]
     public function login(AuthenticationUtils $authenticationUtils): Response
     { 
         /*if ($authChecker->isGranted('ROLE_USER')) {
@@ -38,7 +38,7 @@ class SecurityController extends FOGController
         ]);
     }
 
-    #[Route("/register", name: "register")]
+    #[Route("/register", name: "register", methods: ['GET', 'POST'])]
     public function register(Request $request, UserPasswordHasherInterface $passwordHasher, UserRepository $userRepository, EntityManagerInterface $entityManager)
     {
         // 1 : Construction du formulaire
@@ -48,9 +48,6 @@ class SecurityController extends FOGController
         // 2 : Gestion du submit (POST)
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $user = $form->getData();
-
             // 3) Vérification de l'adresse mail et du pseudo
             if(count($userRepository->findBy(["email" => $user->getEmail()])) > 0) {
                 $this->addFlash('danger', "Cette adresse mail est déjà utilisée, veuillez en choisir une autre !"); 
@@ -87,7 +84,7 @@ class SecurityController extends FOGController
         );
     }
 
-    #[Route("/user", name: "ucp")]
+    #[Route("/user", name: "ucp", methods: ['GET', 'POST'])]
     public function ucp(Request $request, UserPasswordHasherInterface $passwordHasher, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -162,7 +159,7 @@ class SecurityController extends FOGController
         );
     }
 
-    #[Route("/forgotpwd", name: "forgotPwd")]
+    #[Route("/forgotpwd", name: "forgotPwd", methods: ['GET', 'POST'])]
     public function forgotPwd(Request $request, FOGMailerService $mailer, EntityManagerInterface $entityManager, TokenGeneratorInterface $tokenGenerator): Response
     {
         $form = $this->createForm(ResetPasswordRequestFormType::class);
@@ -226,7 +223,7 @@ class SecurityController extends FOGController
         ]);
     }
     
-    #[Route("/resetpwd/{token}", name: "resetPwd")]
+    #[Route("/resetpwd/{token}", name: "resetPwd", methods: ['GET', 'POST'])]
     public function resetPwd(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $passwordHasher, ?string $token = null): Response
     {
         $session = $request->getSession();
