@@ -30,7 +30,6 @@
         "symfony/validator": "5.4.*",
         "symfony/web-link": "5.4.*",
         "symfony/yaml": "5.4.*",
-        "symfonycasts/reset-password-bundle": "^1.17",
         "web-token/jwt-framework": "3.1.*"
     },
     "require-dev": {

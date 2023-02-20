@@ -5,19 +5,20 @@ namespace App\Controller;
 use App\Entity\LocalReservation;
 use App\Entity\Feature;
 use App\Form\LocalReservationType;
-use App\Repository\FeatureRepository;
+use App\Service\FOGMailerService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\Mime\Address;
 
 class LocalReservationController extends FOGController
 {
     #[Route("/reservations/local", name: "localReservation")]
-    public function localReservation(Request $request, FeatureRepository $featureRepository)
+    public function localReservation(Request $request, EntityManagerInterface $manager, FOGMailerService $mailer)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        if (!$featureRepository->find(2)->getState()) {
+        if (!$manager->getRepository(Feature::class)->find(2)->getState()) {
             return $this->render('oeilglauque/localReservation.html.twig', array(
                 'state' => false
             ));
@@ -29,21 +30,26 @@ class LocalReservationController extends FOGController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $overlap = $this->getDoctrine()
-                ->getRepository(LocalReservation::class)
-                ->findLocalReservationOverlap($reservation);
+            $overlap = $manager->getRepository(LocalReservation::class)->findLocalReservationOverlap($reservation);
 
             if ($overlap == 0) {
 
+                /** @var \App\Entity\User */
                 $user = $this->getUser();
                 $reservation->setAuthor($user);
 
                 // Sauvegarde en base
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($reservation);
-                $entityManager->flush();
+                $manager->persist($reservation);
+                $manager->flush();
 
-                $this->sendmail($reservation, $this->get('swiftmailer.mailer.default'));
+                $mailer->sendMail(
+                    new Address($reservation->getAuthor()->getEmail(), $reservation->getAuthor()->getPseudo()),
+                    'Nouvelle demande de réservation du local FOG',
+                    'oeilglauque/emails/localReservation/nouvelleReservation.html.twig',
+                    ['reservation' => $reservation],
+                    [],
+                    [$mailer->getMailFOG()]
+                );
 
                 $this->addFlash('info', "Votre réservation a bien été enregistrée, vous recevrez une confirmation par e-mail dès qu'elle sera acceptée.");
 
@@ -59,36 +65,4 @@ class LocalReservationController extends FOGController
             'state' => true
         ));
     }
-
-    /*private function sendmail(LocalReservation $reservation, \Swift_Mailer $mailer) {
-        $dotenv = new Dotenv();
-        $dotenv->load(__DIR__.'/../../.env');
-
-
-        $message = (new \Swift_Message('Nouvelle demande de réservation du local FOG'))
-            ->setFrom([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
-            ->setTo([$reservation->getAuthor()->getEmail() => $reservation->getAuthor()->getPseudo()])
-            ->setBody(
-                $this->renderView(
-                    'oeilglauque/emails/localReservation/nouvelleReservation.html.twig',
-                    ['reservation' => $reservation]
-                ),
-                'text/html'
-            );
-        $mailer->send($message);
-
-
-        $message = (new \Swift_Message('Nouvelle demande de réservation du local FOG'))
-            ->setFrom([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
-            ->setTo([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
-            ->setBody(
-                $this->renderView(
-                    'oeilglauque/emails/localReservation/admin/nouvelleReservation.html.twig',
-                    ['reservation' => $reservation]
-                ),
-                'text/html'
-            );
-        $mailer->send($message);
-
-    }*/
 }

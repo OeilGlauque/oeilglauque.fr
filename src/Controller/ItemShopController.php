@@ -9,25 +9,23 @@ use App\Entity\ItemShopOrder;
 use App\Entity\ItemShopSlot;
 use App\Entity\ItemShopType;
 use App\Entity\Edition;
-use App\Entity\Feature;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Dotenv\Dotenv;
-
-use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 class ItemShopController extends FOGController
 {
     #[Route("/order", name: "orderIndex")]
-    public function orderIndex(Request $request)
+    public function orderIndex(EntityManagerInterface $manager): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        $edition = $this->getCurrentEdition();
-        $types = $this->getDoctrine()->getRepository(ItemShopType::class)->findAll();
-        $slots = $this->getDoctrine()->getRepository(ItemShopSlot::class)->findAll();
-        $items = $this->getDoctrine()->getRepository(ItemShop::class)->findAll();
+        $edition = $this->FogParams->getCurrentEdition();
+        $types = $manager->getRepository(ItemShopType::class)->findAll();
+        $slots = $manager->getRepository(ItemShopSlot::class)->findAll();
+        $items = $manager->getRepository(ItemShop::class)->findAll();
 
         return $this->render('oeilglauque/orderIndex.html.twig', array(
             'edition' => $edition,
@@ -42,7 +40,7 @@ class ItemShopController extends FOGController
     }
 
     #[Route("/order/addSlot/{edition}", name: "addSlot")]
-    public function addSlot(Request $request, $edition, LoggerInterface $logger) {
+    public function addSlot(Request $request, Edition $edition, EntityManagerInterface $manager) {
         $slot = new ItemShopSlot();
         $slot->setDeliveryTime($this->parseDate($request->query->get('deliveryTime')));
         $slot->setOrderTime($this->parseDate($request->query->get('orderTime')));
@@ -58,15 +56,14 @@ class ItemShopController extends FOGController
             return $this->redirectToRoute('orderIndex');
         }
         
-        $editionval = $this->getDoctrine()->getRepository(Edition::class)->find($edition);
-        if (!$editionval) {
+        if (!$edition) {
             throw $this->createNotFoundException(
                 'Aucune édition n\'a pour id '.$edition
             );
         }
-        $slot->setEdition($editionval);
+        $slot->setEdition($edition);
 
-        $typeval = $this->getDoctrine()->getRepository(ItemShopType::class)->find($request->query->get('type'));
+        $typeval = $manager->getRepository(ItemShopType::class)->find($request->query->get('type'));
         if (!$typeval) {
             throw $this->createNotFoundException(
                 'Le type fourni n\'existe pas'
@@ -74,15 +71,15 @@ class ItemShopController extends FOGController
         }
         $slot->setType($typeval);
 
-        $this->getDoctrine()->getManager()->persist($slot);
-        $this->getDoctrine()->getManager()->flush();
+        $manager->persist($slot);
+        $manager->flush();
         $this->addFlash('success', "Le créneau a bien été ajouté. ");
 
         return $this->redirectToRoute('orderIndex');
     }
 
     #[Route("/order/addItem/{edition}", name: "addItem")]
-    public function addItem(Request $request, $edition)
+    public function addItem(Request $request, Edition $edition, EntityManagerInterface $manager)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -91,38 +88,37 @@ class ItemShopController extends FOGController
         $item->setDescription($request->query->get('description'));
         $item->setPrice($request->query->get('price'));
 
-        $editionval = $this->getDoctrine()->getRepository(Edition::class)->find($edition);
-        if (!$editionval) {
+        if (!$edition) {
             throw $this->createNotFoundException(
                 'Aucune édition n\'a pour id '.$edition
             );
         }
-        $item->setEdition($editionval);
+        $item->setEdition($edition);
 
-        $typeval = $this->getDoctrine()->getRepository(ItemShopType::class)->find($request->query->get('type'));
+        $typeval = $manager->getRepository(ItemShopType::class)->find($request->query->get('type'));
         if (!$typeval) {
             throw $this->createNotFoundException(
                 'Le type fourni n\'existe pas'
             );
         }
         $item->setType($typeval);
-        $this->getDoctrine()->getManager()->persist($item);
-        $this->getDoctrine()->getManager()->flush();
+        $manager->persist($item);
+        $manager->flush();
         $this->addFlash('success', "Le produit " . $item->getName() . " a bien été ajouté. ");
 
         return $this->redirectToRoute('orderIndex');
     }
 
     #[Route("/order/addType", name: "addType")]
-    public function addType(Request $request)
+    public function addType(Request $request, EntityManagerInterface $manager)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         if($request->query->get('name') != "") {
             $type = new ItemShopType();
             $type->setType($request->query->get('name'));
-            $this->getDoctrine()->getManager()->persist($type);
-            $this->getDoctrine()->getManager()->flush();
+            $manager->persist($type);
+            $manager->flush();
             $this->addFlash('success', "Le type " . $type->getType() . " a bien été ajouté. ");
         }
 
@@ -130,14 +126,13 @@ class ItemShopController extends FOGController
     }
 
     #[Route("/order/deleteSlot/{id}", name: "deleteSlot")]
-    public function deleteSlot(Request $request, $id)
+    public function deleteSlot(ItemShopSlot $slot, EntityManagerInterface $manager)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        $slot = $this->getDoctrine()->getRepository(ItemShopSlot::class)->find($id);
         if ($slot) {
-            $this->getDoctrine()->getManager()->remove($slot);
-            $this->getDoctrine()->getManager()->flush();
+            $manager->remove($slot);
+            $manager->flush();
             $this->addFlash('success', "Le créneau a bien été supprimé.");
         }
 
@@ -145,14 +140,13 @@ class ItemShopController extends FOGController
     }
 
     #[Route("/order/deleteItem/{id}", name: "deleteItem")]
-    public function deleteItem(Request $request, $id)
+    public function deleteItem(ItemShop $item, EntityManagerInterface $manager)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        $item = $this->getDoctrine()->getRepository(ItemShop::class)->find($id);
         if ($item) {
-            $this->getDoctrine()->getManager()->remove($item);
-            $this->getDoctrine()->getManager()->flush();
+            $manager->remove($item);
+            $manager->flush();
             $this->addFlash('success', "Le produit a bien été supprimé.");
         }
 
@@ -160,35 +154,32 @@ class ItemShopController extends FOGController
     }
 
     #[Route("/order/{slot}", name: "orderList")]
-    public function orderList(Request $request, $slot)
+    public function orderList(ItemShopSlot $slot, EntityManagerInterface $manager)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        $slotval = $this->getDoctrine()->getRepository(ItemShopSlot::class)->find($slot);
-        if (!$slotval) {
+        if (!$slot) {
             $this->addFlash('danger', "Le slot n'existe pas.");
             return $this->redirectToRoute('orderIndex');
         }
 
-        $edition = $this->getCurrentEdition();
-        $currslot = $slotval;
-        $types = $this->getDoctrine()->getRepository(ItemShopType::class)->findAll();
-        $slots = $this->getDoctrine()->getRepository(ItemShopSlot::class)->findAll();
-        $items = $this->getDoctrine()->getRepository(ItemShop::class)->findBy(["type" => $slotval->getType()]);
-        $orders = $this->getDoctrine()->getRepository(ItemShopOrder::class)->findBy(["slot" => $slotval]);
+        $edition = $this->FogParams->getCurrentEdition();
+        $currslot = $slot;
+        $types = $manager->getRepository(ItemShopType::class)->findAll();
+        $slots = $manager->getRepository(ItemShopSlot::class)->findAll();
+        $items = $manager->getRepository(ItemShop::class)->findBy(["type" => $slot->getType()]);
+        $orders = $manager->getRepository(ItemShopOrder::class)->findBy(["slot" => $slot]);
         $groupedOrders1 = array();
         $groupedOrders2 = array();
         if ($currslot->getPreOrderTime() != null) {
-            $groupedOrders1 = $this->getDoctrine()
-                ->getManager()
+            $groupedOrders1 = $manager
                 ->createQuery('SELECT COUNT(o.id) as itemcount, i.name as item FROM App\Entity\ItemShopOrder o JOIN App\Entity\ItemShop i WHERE o.slot = :slot AND (o.item) = i.id AND o.time < :preorder GROUP BY i.id')
                 ->setParameters(array(
                     'slot' => $currslot,
                     'preorder' => $currslot->getPreOrderTime()
                 ))
                 ->getResult();
-            $groupedOrders2 = $this->getDoctrine()
-                ->getManager()
+            $groupedOrders2 = $manager
                 ->createQuery('SELECT COUNT(o.id) as itemcount, i.name as item FROM App\Entity\ItemShopOrder o JOIN App\Entity\ItemShop i WHERE o.slot = :slot AND (o.item) = i.id AND o.time > :preorder GROUP BY i.id')
                 ->setParameters(array(
                     'slot' => $currslot,
@@ -196,8 +187,7 @@ class ItemShopController extends FOGController
                 ))
                 ->getResult();
         } else {
-            $groupedOrders1 = $this->getDoctrine()
-                ->getManager()
+            $groupedOrders1 = $manager
                 ->createQuery('SELECT COUNT(o.id) as itemcount, i.name as item FROM App\Entity\ItemShopOrder o JOIN App\Entity\ItemShop i WHERE o.slot = :slot AND (o.item) = i.id GROUP BY i.id')
                 ->setParameters(array(
                     'slot' => $currslot
@@ -218,20 +208,19 @@ class ItemShopController extends FOGController
     }
 
     #[Route("/order/addOrder/{slot}", name: "addOrder")]
-    public function addOrder(Request $request, $slot)
+    public function addOrder(Request $request, ItemShopSlot $slot, EntityManagerInterface $manager)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $order = new ItemShopOrder();
 
-        $slotval = $this->getDoctrine()->getRepository(ItemShopSlot::class)->find($slot);
-        if (!$slotval) {
+        if (!$slot) {
             $this->addFlash('danger', "Le slot n'existe pas.");
             return $this->redirectToRoute('orderIndex');
         }
-        $order->setSlot($slotval);
+        $order->setSlot($slot);
 
-        $itemval = $this->getDoctrine()->getRepository(ItemShop::class)->find($request->query->get('item'));
+        $itemval = $manager->getRepository(ItemShop::class)->find($request->query->get('item'));
         if (!$itemval) {
             $this->addFlash('danger', "Le slot n'existe pas.");
             return $this->redirectToRoute('orderList', ["slot" => $slot]);
@@ -240,12 +229,12 @@ class ItemShopController extends FOGController
 
         $order->setPseudo($request->query->get('pseudo'));
         $order->setTime(new DateTime("now", new DateTimeZone('Europe/Paris')));
-        $this->getDoctrine()->getManager()->persist($order);
-        $this->getDoctrine()->getManager()->flush();
+        $manager->persist($order);
+        $manager->flush();
         $this->addFlash('success', "La commande de " . $order->getPseudo() . " a bien été ajouté. ");
 
-        $orders = $this->getDoctrine()->getRepository(ItemShopOrder::class)->findBy(["slot" => $slotval]);
-        if ($slotval->getMaxOrder() != null && count($orders) >= $slotval->getMaxOrder()) {
+        $orders = $manager->getRepository(ItemShopOrder::class)->findBy(["slot" => $slot]);
+        if ($slot->getMaxOrder() != null && count($orders) >= $slot->getMaxOrder()) {
             $this->addFlash('danger', "Le nombre maximal de commande pour ce créneau a été atteint.");
         }
 
@@ -253,14 +242,14 @@ class ItemShopController extends FOGController
     }
 
     #[Route("/order/collectOrder/{id}/{state}", name: "collectOrder")]
-    public function collectOrder(Request $request, $id, $state)
+    public function collectOrder(Request $request, $id, $state, EntityManagerInterface $manager)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        $order = $this->getDoctrine()->getRepository(ItemShopOrder::class)->find($id);
+        $order = $manager->getRepository(ItemShopOrder::class)->find($id);
         $order->setCollected(!$state);
-        $this->getDoctrine()->getManager()->persist($order);
-        $this->getDoctrine()->getManager()->flush();
+        $manager->persist($order);
+        $manager->flush();
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(!$state); 
@@ -271,18 +260,16 @@ class ItemShopController extends FOGController
     }
 
     #[Route("/order/deleteOrder/{id}", name: "deleteOrder")]
-    public function deleteOrder(Request $request, $id)
+    public function deleteOrder(Request $request, ItemShopOrder $order, EntityManagerInterface $manager)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        $order = $this->getDoctrine()->getRepository(ItemShopOrder::class)->find($id);
         if ($order) {
-            $this->getDoctrine()->getManager()->remove($order);
-            $this->getDoctrine()->getManager()->flush();
+            $manager->remove($order);
+            $manager->flush();
             $this->addFlash('success', "La commande de " . $order->getPseudo() . " a bien été supprimé.");
         }
 
         return $this->redirectToRoute('orderList', ["slot" => $order->getSlot()->getId()]);
     }
 }
-?>

@@ -2,16 +2,13 @@
 namespace App\Controller;
 
 use App\Entity\BoardGameReservation;
-use App\Entity\LocalReservation;
 use App\Entity\Feature;
 use App\Entity\BoardGame;
 use App\Form\BoardGameReservationType;
-use App\Form\LocalReservationType;
 use App\Service\FOGMailerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\Mime\Address;
 
 class BoardGameReservationController extends FOGController
