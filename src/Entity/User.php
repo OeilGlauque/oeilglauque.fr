@@ -277,6 +277,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface //, \Ser
     }*/
 
     // To assure implementation of UserInterface
+    public function getUsername(): ?string
+    {
+        return $this->getPseudo();
+    }
+
     public function getUserIdentifier(): ?string
     {
         return $this->getPseudo();
