@@ -1,10 +1,11 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
 
-    encoders:
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
         # Symfony\Component\Security\Core\User\User: plaintext # for in-memory provider
-        App\Entity\User:
-            algorithm: bcrypt
+        #App\Entity\User:
+        #    algorithm: bcrypt
     
     #enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords

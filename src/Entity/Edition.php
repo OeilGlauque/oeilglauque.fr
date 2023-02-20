@@ -2,55 +2,46 @@
 
 namespace App\Entity;
 
+use App\Repository\EditionRepository;
+use App\Entity\GameSlot;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\EditionRepository")
- */
+#[ORM\Entity(repositoryClass: EditionRepository::class)]
 class Edition
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+    private int $id;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $annee;
+    #[ORM\Column(type: "integer")]
+    private int $annee;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    #[ORM\Column(type: "text")]
     private $homeText;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\GameSlot", mappedBy="edition")
-     */
-    private $gameSlots;
+    #[ORM\OneToMany(targetEntity: GameSlot::class, mappedBy: "edition")]
+    private Collection $gameSlots;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ItemShop", mappedBy="edition")
-     */
-    private $items;
+    #[ORM\OneToMany(targetEntity: ItemShop::class, mappedBy: "edition")]
+    private Collection $items;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ItemShopSlot", mappedBy="edition")
-     */
-    private $itemShopType;
+    #[ORM\OneToMany(targetEntity: ItemShopSlot::class, mappedBy: "edition")]
+    private Collection $itemShopType;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
+    #[Assert\Length(min: 1, max: 255)]
+    #[Assert\NotBlank()]
     private $dates;
 
     public function __construct()
     {
         $this->gameSlots = new ArrayCollection();
+        /*$this->items = new ArrayCollection();
+        $this->itemShopType = new ArrayCollection();*/
     }
 
     public function getId()

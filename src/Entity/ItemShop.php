@@ -2,50 +2,42 @@
 
 namespace App\Entity;
 
+use App\Entity\Edition;
+use App\Entity\ItemShopOrder;
+use App\Entity\ItemShopType;
+use App\Repository\ItemShopRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\ItemShopRepository")
- */
+#[ORM\Entity(repositoryClass: ItemShopRepository::class)]
 class ItemShop
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+    private int $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Edition", inversedBy="items")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Edition::class, inversedBy: "items")]
+    #[ORM\JoinColumn(nullable: false)]
     private $edition;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ItemShopOrder", mappedBy="slot")
-     */
+    #[ORM\OneToMany(targetEntity: ItemShopOrder::class, mappedBy: "slot")]
     private $orders;
 
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $name;
+    #[ORM\Column(type: "text")]
+    #[Assert\NotBlank()]
+    private string $name;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $description;
+    #[ORM\Column(type: "text", nullable: true)]
+    private ?string $description;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ItemShopType", inversedBy="items")
-     */
-    private $type;
+    #[ORM\ManyToOne(targetEntity: ItemShopType::class, inversedBy: "items")]
+    private ItemShopType $type;
 
-    /**
-     * @ORM\Column(type="float")
-     */
-    private $price;
+    #[ORM\Column(type: "float")]
+    #[Assert\Positive()]
+    #[Assert\NotNull()]
+    private float $price;
 
     public function getId()
     {
@@ -100,12 +92,12 @@ class ItemShop
         return $this;
     }
 
-    public function getPrice(): ?string
+    public function getPrice(): ?float
     {
         return $this->price;
     }
 
-    public function setPrice(string $price): self
+    public function setPrice(float $price): self
     {
         $this->price = $price;
 

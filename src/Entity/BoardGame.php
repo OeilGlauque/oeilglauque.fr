@@ -2,56 +2,48 @@
 
 namespace App\Entity;
 
+use App\Repository\BoardGameRepository;
+use App\Entity\BoardGameReservation;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\BoardGameRepository")
- */
+#[ORM\Entity(repositoryClass: BoardGameRepository::class)]
+#[UniqueEntity("name")]
 class BoardGame
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+    private int $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
+    #[ORM\Column(type: "string", length: 190, unique: true)]
+    #[Assert\Length(min: 1, max: 190)]
+    private string $name;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $year;
+    #[ORM\Column(type: "integer", nullable: true)]
+    #[Assert\Positive()]
+    private ?int $year;
 
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
-    private $price;
+    #[ORM\Column(type: "float", nullable: true)]
+    #[Assert\Positive()]
+    private ?float $price;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $missing;
+    #[ORM\Column(type: "text", nullable: true)]
+    private ?string $missing;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $note;
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Assert\Length(max: 255)]
+    private ?string $note;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $excess;
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Assert\Length(max: 255)]
+    private ?string $excess;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\BoardGameReservation", mappedBy="boardGames")
-     */
-    private $reservations;
+    #[ORM\ManyToMany(targetEntity: BoardGameReservation::class, mappedBy: "boardGames")]
+    private Collection $reservations;
 
     public function __construct()
     {

@@ -2,56 +2,52 @@
 
 namespace App\Entity;
 
+use App\Entity\Edition;
+use App\Entity\ItemShopOrder;
+use App\Entity\ItemShopType;
+use App\Repository\ItemShopSlotRepository;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\ItemShopSlotRepository")
- */
+#[ORM\Entity(repositoryClass: ItemShopSlotRepository::class)]
 class ItemShopSlot
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+    private int $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Edition", inversedBy="itemShopType")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $edition;
+    #[ORM\ManyToOne(targetEntity: Edition::class, inversedBy: "itemShopType")]
+    #[ORM\JoinColumn(nullable: false)]
+    private Edition $edition;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ItemShopOrder", mappedBy="slot")
-     */
-    private $orders;
+    #[ORM\OneToMany(targetEntity: ItemShopOrder::class, mappedBy: "slot")]
+    private Collection $orders;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ItemShopType", inversedBy="slots")
-     */
-    private $type;
+    #[ORM\ManyToOne(targetEntity: ItemShopType::class, inversedBy: "slots")]
+    private ItemShopType $type;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $deliveryTime;
+    #[ORM\Column(type: "datetime")]
+    #[Assert\NotNull()]
+    private DateTime $deliveryTime;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $orderTime;
+    #[ORM\Column(type: "datetime")]
+    #[Assert\NotNull()]
+    private DateTime $orderTime;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $preOrderTime;
+    #[ORM\Column(type: "datetime", nullable: true)]
+    private ?DateTime $preOrderTime;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $maxOrder;
+    #[ORM\Column(type: "integer", nullable: true)]
+    private ?int $maxOrder;
+
+    public function __construct()
+    {
+        $this->orders = new ArrayCollection();
+    }
 
     public function getId()
     {
@@ -82,48 +78,48 @@ class ItemShopSlot
         return $this;
     }
 
-    public function getOrders(): ?ItemShopOrder
+    public function getOrders(): ?Collection
     {
         return $this->orders;
     }
 
-    public function setOrders(?ItemShopOrder $orders): self
+    public function setOrders(?Collection $orders): self
     {
         $this->orders = $orders;
 
         return $this;
     }
 
-    public function getDeliveryTime(): ?\DateTime
+    public function getDeliveryTime(): ?DateTime
     {
         return $this->deliveryTime;
     }
 
-    public function setDeliveryTime(?\DateTime $deliveryTime): self
+    public function setDeliveryTime(?DateTime $deliveryTime): self
     {
         $this->deliveryTime = $deliveryTime;
 
         return $this;
     }
 
-    public function getOrderTime(): ?\DateTime
+    public function getOrderTime(): ?DateTime
     {
         return $this->orderTime;
     }
 
-    public function setOrderTime(?\DateTime $orderTime): self
+    public function setOrderTime(?DateTime $orderTime): self
     {
         $this->orderTime = $orderTime;
 
         return $this;
     }
 
-    public function getPreOrderTime(): ?\DateTime
+    public function getPreOrderTime(): ?DateTime
     {
         return $this->preOrderTime;
     }
 
-    public function setPreOrderTime(?\DateTime $preOrderTime): self
+    public function setPreOrderTime(?DateTime $preOrderTime): self
     {
         $this->preOrderTime = $preOrderTime;
 

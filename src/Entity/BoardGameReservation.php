@@ -2,52 +2,47 @@
 
 namespace App\Entity;
 
+use App\Repository\BoardGameReservationRepository;
+use App\Entity\BoardGame;
+use App\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\BoardGameReservationRepository")
- */
+#[ORM\Entity(repositoryClass: BoardGameReservationRepository::class)]
 class BoardGameReservation
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+    private int $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="boardGameReservations")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $author;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "boardGameReservations")]
+    #[ORM\JoinColumn(nullable: false)]
+    private User $author;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $validated;
+    #[ORM\Column(type: "boolean")]
+    private bool $validated;
 
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $note;
+    #[ORM\Column(type: "text", nullable: true)]
+    private ?string $note;
 
-    /**
-     * @ORM\Column(type="date")
-     */
-    private $dateBeg;
+    #[ORM\Column(type: "datetime")]
+    #[Assert\GreaterThanOrEqual("today")]
+    #[Assert\LessThan("1 year")]
+    #[Assert\NotBlank()]
+    private \DateTime $dateBeg;
 
-    /**
-     * @ORM\Column(type="date")
-     */
-    private $dateEnd;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\BoardGame", inversedBy="reservations")
-     */
-    private $boardGames;
+    #[ORM\Column(type: "datetime")]
+    #[Assert\GreaterThanOrEqual("today")]
+    #[Assert\LessThan("1 year")]
+    #[Assert\NotBlank()]
+    private \DateTime $dateEnd;
+
+    #[ORM\ManyToMany(targetEntity: BoardGame::class, inversedBy: "reservations")]
+    private Collection $boardGames;
 
     public function __construct()
     {

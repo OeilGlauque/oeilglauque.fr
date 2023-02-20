@@ -2,84 +2,65 @@
 
 namespace App\Entity;
 
+use App\Repository\GameRepository;
+use App\Entity\User;
+use App\Entity\GameSlot;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\GameRepository")
- */
+#[ORM\Entity(repositoryClass: GameRepository::class)]
 class Game
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+    private int $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $title;
+    #[ORM\Column(type: "string", length: 255)]
+    #[Assert\Length(min: 1, max: 255)]
+    #[Assert\NotBlank()]
+    private string $title;
 
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $description;
+    #[ORM\Column(type: "text")]
+    private string $description;
 
-    /**
-     * @ORM\Column(type="string", length=1024, nullable=true)
-     */
-    private $image;
+    #[ORM\Column(type: "string", length: 1024, nullable: true)]
+    #[Assert\Length(max: 1024)]
+    private ?string $image;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="partiesOrganisees")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $author;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "partiesOrganisees")]
+    #[ORM\JoinColumn(nullable: false)]
+    private User $author;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @Assert\Range(
-     *      min = 1,
-     *      max = 100,
-     *      minMessage = "Il faut au moins un joueur pour s'amuser...",
-     *      maxMessage = "Notre capacité d'accueil est limitée !" )
-     */
-    private $seats;
+    #[ORM\Column(type: "integer")]
+    #[Assert\Range(
+        min: 1,
+        max: 10,
+        minMessage: "Il faut au moins un joueur pour s'amuser...",
+        maxMessage: "Notre capacité d'accueil est limitée !" )]
+    private int $seats;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="partiesJouees")
-     */
-    private $players;
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: "partiesJouees")]
+    private Collection $players;
 
-    /**
-     * @ORM\Column(type="string", length=1024, nullable=true)
-     */
-    private $tags;
+    #[ORM\Column(type: "string", length: 1024, nullable: true)]
+    #[Assert\Length(max: 1024)]
+    private ?string $tags;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $forceOnlineSeats;
+    #[ORM\Column(type: "boolean")]
+    private bool $forceOnlineSeats;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\GameSlot", inversedBy="games")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $gameSlot;
+    #[ORM\ManyToOne(targetEntity: GameSlot::class, inversedBy: "games")]
+    #[ORM\JoinColumn(nullable: true)]
+    private GameSlot $gameSlot;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $validated;
+    #[ORM\Column(type: "boolean")]
+    private bool $validated;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $locked;
+    #[ORM\Column(type: "boolean")]
+    private bool $locked;
 
     public function __construct()
     {
