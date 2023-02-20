@@ -1,6 +1,8 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
 
+    enable_authenticator_manager: true
+
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
         # Symfony\Component\Security\Core\User\User: plaintext # for in-memory provider
@@ -30,13 +32,12 @@ security:
             security: false
         main:
             pattern: ^/
-            anonymous: ~
+            lazy: true
             form-login: 
                 login_path: login
                 check_path: login
             logout:
-                path: /logout
-                target: /
+                path: logout
             provider: db_provider
 
 

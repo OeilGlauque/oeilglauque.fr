@@ -46,4 +46,3 @@ class BoardGameReservationType extends AbstractType
             'data_class' => BoardGameReservation::class));
     }
 }
-?>

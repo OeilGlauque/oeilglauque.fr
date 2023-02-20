@@ -25,20 +25,19 @@ class BoardGameReservationController extends FOGController
         }
 
         $reservation = new BoardGameReservation();
-        $form = $this->createForm(BoardGameReservationType::class, $reservation, []);
+        $form = $this->createForm(BoardGameReservationType::class, $reservation);
         $boardGames = $manager->getRepository(BoardGame::class)->findAll();
         usort($boardGames, function($a, $b) {
             return strcmp($a->getName(), $b->getName());
         });
 
         $form->handleRequest($request);
-
-        $overlap = $manager
-            ->getRepository(BoardGameReservation::class)
-            ->findBoardGameReservationOverlap($reservation);
-
         if ($form->isSubmitted() && $form->isValid()) {
             if ($reservation->getDateBeg() < $reservation->getDateEnd()) {
+                $overlap = $manager
+                    ->getRepository(BoardGameReservation::class)
+                    ->findBoardGameReservationOverlap($reservation);
+                    
                 if (count($overlap) == 0) {
     
                     $user = $this->getUser();

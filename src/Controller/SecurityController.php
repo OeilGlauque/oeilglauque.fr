@@ -290,4 +290,7 @@ class SecurityController extends FOGController
             ]
         );
     }
+
+    #[Route('/logout', name: 'logout', methods: ['GET'])]
+    public function logout(){}
 }

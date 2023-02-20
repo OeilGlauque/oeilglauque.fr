@@ -39,13 +39,15 @@ class ItemShopController extends FOGController
         return DateTime::createFromFormat("Y-m-d*H:i", $date);
     }
 
-    #[Route("/order/addSlot/{edition}", name: "addSlot")]
+    #[Route("/order/addSlot/{id}", name: "addSlot")]
     public function addSlot(Request $request, Edition $edition, EntityManagerInterface $manager) {
         $slot = new ItemShopSlot();
         $slot->setDeliveryTime($this->parseDate($request->query->get('deliveryTime')));
         $slot->setOrderTime($this->parseDate($request->query->get('orderTime')));
         if ($request->query->get('preOrderTime') != null) {
             $slot->setPreOrderTime($this->parseDate($request->query->get('preOrderTime')));
+        }else {
+            $slot->setPreOrderTime($this->parseDate($request->query->get('orderTime')));
         }
         if ($request->query->get('maxOrder') != null) {
             $slot->setMaxOrder($request->query->get('maxOrder'));
