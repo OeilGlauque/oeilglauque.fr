@@ -89,7 +89,8 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false
+            "allow-contrib": false,
+            "docker": true
         }
     }
 }
