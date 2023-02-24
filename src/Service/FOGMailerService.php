@@ -2,20 +2,26 @@
 
 namespace App\Service;
 
-use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Bridge\Twig\Mime\BodyRenderer;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport\SendmailTransport;
 use Symfony\Component\Mime\Address;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 class FOGMailerService
 {
 
-    private MailerInterface $mailer;
+    private Mailer $mailer;
     private Address $mailFOG;
+    private BodyRenderer $twigRender;
 
-    public function __construct(MailerInterface $mailer)
+    public function __construct()
     {
-        $this->mailer = $mailer;
+        $this->mailer = new Mailer(new SendmailTransport( '/usr/sbin/sendmail -t' ));
         $this->mailFOG = new Address("fogfogtest@gmail.com", "L'équipe du FOG");
+        $this->twigRender = new BodyRenderer(new Environment(new FilesystemLoader('../templates')));
     }
 
     public function sendMail(Address $to, String $subject, String $template, array $context, array $cc = [], array $bcc = []) : bool
@@ -28,6 +34,8 @@ class FOGMailerService
             ->context($context)
             ->cc(...$cc)
             ->bcc(...$bcc);
+
+        $this->twigRender->render($email);
 
         $this->mailer->send($email);
 
