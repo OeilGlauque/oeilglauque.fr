@@ -8,10 +8,10 @@ use App\Entity\Edition;
 
 class FOGParametersService {
 
-    private $edition;
-    private $modeFog;
-    private $gameOpen;
-    private $planning;
+    private ?Edition $edition;
+    private ?bool $modeFog;
+    private ?bool $gameOpen;
+    private ?bool $planning;
 
     public function __construct(EditionRepository $editionRepository, FeatureRepository $featureRepository, int $current_edition) {
         $tmp = $editionRepository->findOneBy(['annee' => $current_edition]);
