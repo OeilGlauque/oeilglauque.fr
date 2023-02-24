@@ -13,7 +13,7 @@ class FOGParametersService {
     private $gameOpen;
     private $planning;
 
-    public function __construct(EditionRepository $editionRepository, FeatureRepository $featureRepository,int $current_edition) {
+    public function __construct(EditionRepository $editionRepository, FeatureRepository $featureRepository, int $current_edition) {
         $tmp = $editionRepository->findOneBy(['annee' => $current_edition]);
         $this->edition = $tmp ? $tmp : new Edition();
 

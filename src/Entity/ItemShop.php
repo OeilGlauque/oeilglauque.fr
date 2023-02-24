@@ -6,6 +6,8 @@ use App\Entity\Edition;
 use App\Entity\ItemShopOrder;
 use App\Entity\ItemShopType;
 use App\Repository\ItemShopRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -21,8 +23,8 @@ class ItemShop
     #[ORM\JoinColumn(nullable: false)]
     private $edition;
 
-    #[ORM\OneToMany(targetEntity: ItemShopOrder::class, mappedBy: "slot")]
-    private $orders;
+    #[ORM\OneToMany(targetEntity: ItemShopOrder::class, mappedBy: "item")]
+    private Collection $orders;
 
     #[ORM\Column(type: "text")]
     #[Assert\NotBlank()]
@@ -38,6 +40,11 @@ class ItemShop
     #[Assert\Positive()]
     #[Assert\NotNull()]
     private float $price;
+
+    public function __construct()
+    {
+        $this->orders = new ArrayCollection();
+    }
 
     public function getId()
     {

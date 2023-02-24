@@ -9,6 +9,7 @@ use App\Entity\Game;
 use App\Entity\GameSlot;
 use App\Form\GameType;
 use App\Form\GameEditType;
+use App\Repository\GameRepository;
 use App\Service\FOGMailerService;
 use App\Service\GlauqueMarkdownParser;
 use Doctrine\ORM\EntityManagerInterface;
@@ -209,9 +210,11 @@ class GameController extends FOGController {
     }
 
     #[Route("/partie/{id}", name: "showGame")]
-    public function showGame(Game $game): Response
+    public function showGame(int $id, GameRepository $gameRepository): Response
     {
+        $game = $gameRepository->find($id);
         if($game) {
+            /** @var \App\Entity\User */
             $user = $this->getUser();
             // Only the author can review a game that has not yet been validated
             if(!$game->getValidated() && ($user == null || ($user != null && $game->getAuthor() != $user))) {

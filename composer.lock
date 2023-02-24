@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d89ea56169ce5cb45d3efe6926faad08",
+    "content-hash": "e994533b5917e4bfc62471adc6fee8bb",
     "packages": [
         {
             "name": "brick/math",
@@ -4422,6 +4422,84 @@
             "time": "2023-01-24T15:33:24+00:00"
         },
         {
+            "name": "symfony/lock",
+            "version": "v6.2.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/lock.git",
+                "reference": "39ccc73e575f20d4d10b24ad366aa1a7a6d7447d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/lock/zipball/39ccc73e575f20d4d10b24ad366aa1a7a6d7447d",
+                "reference": "39ccc73e575f20d4d10b24ad366aa1a7a6d7447d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "psr/log": "^1|^2|^3"
+            },
+            "conflict": {
+                "doctrine/dbal": "<2.13",
+                "symfony/cache": "<6.2"
+            },
+            "require-dev": {
+                "doctrine/dbal": "^2.13|^3.0",
+                "predis/predis": "~1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Lock\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jérémy Derussé",
+                    "email": "jeremy@derusse.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Creates and manages locks, a mechanism to provide exclusive access to a shared resource",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "cas",
+                "flock",
+                "locking",
+                "mutex",
+                "redlock",
+                "semaphore"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/lock/tree/v6.2.5"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-01-01T08:38:09+00:00"
+        },
+        {
             "name": "symfony/mailer",
             "version": "v5.4.19",
             "source": {
@@ -6002,6 +6080,76 @@
                 }
             ],
             "time": "2023-01-01T08:38:09+00:00"
+        },
+        {
+            "name": "symfony/rate-limiter",
+            "version": "v5.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/rate-limiter.git",
+                "reference": "9392f306070f56dff094c2be6848e9303cd981ac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/rate-limiter/zipball/9392f306070f56dff094c2be6848e9303cd981ac",
+                "reference": "9392f306070f56dff094c2be6848e9303cd981ac",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "symfony/lock": "^5.2|^6.0",
+                "symfony/options-resolver": "^5.1|^6.0"
+            },
+            "require-dev": {
+                "psr/cache": "^1.0|^2.0|^3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\RateLimiter\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Wouter de Jong",
+                    "email": "wouter@wouterj.nl"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides a Token Bucket implementation to rate limit input and output in your application",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "limiter",
+                "rate-limiter"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/rate-limiter/tree/v5.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-11-17T15:49:41+00:00"
         },
         {
             "name": "symfony/routing",

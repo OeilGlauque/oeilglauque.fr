@@ -39,6 +39,7 @@ security:
             logout:
                 path: logout
             provider: db_provider
+            login_throttling: null
 
 
             #lazy: true

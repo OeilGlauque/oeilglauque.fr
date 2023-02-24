@@ -40,11 +40,11 @@ class Edition
     public function __construct()
     {
         $this->gameSlots = new ArrayCollection();
-        /*$this->items = new ArrayCollection();
-        $this->itemShopType = new ArrayCollection();*/
+        $this->items = new ArrayCollection();
+        $this->itemShopType = new ArrayCollection();
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }

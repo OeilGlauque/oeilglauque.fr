@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Entity\BoardGameReservation;
@@ -25,13 +26,13 @@ class AdminController extends FOGController {
      *      Interface d'administration      *
      ****************************************/
 
-    #[Route("/admin", name: "admin")]
+    #[Route("/admin", name: "admin", methods: ['GET'])]
     public function admin(FeatureRepository $featureRepository): Response
     {
         $newsState = $featureRepository->find(6)->getState();
-        return $this->render('oeilglauque/admin.html.twig', array(
+        return $this->render('oeilglauque/admin.html.twig', [
             'newsState' => $newsState
-        ));
+        ]);
     }
 
 
@@ -40,7 +41,7 @@ class AdminController extends FOGController {
      **********************************/
 
 
-    #[Route("/admin/editions", name: "admin_editions")]
+    #[Route("/admin/editions", name: "admin_editions", methods: ['GET'])]
     public function editionsAdmin(EditionRepository $editionRepository): Response
     {
         $editions = array_reverse($editionRepository->findAll());

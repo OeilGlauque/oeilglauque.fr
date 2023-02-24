@@ -240,28 +240,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /** @see \Serializable::serialize() */
-    /*public function serialize()
-    {
-        return serialize(array(
-            $this->id,
-            $this->pseudo,
-            $this->password,
-            // see section on salt below
-            // $this->salt,
-        ));
-    }*/
-
-    /** @see \Serializable::unserialize() */
-    /*public function unserialize($serialized)
-    {
-        list (
-            $this->id,
-            $this->pseudo,
-            $this->password
-        ) = unserialize($serialized, ['allowed_classes' => false]);
-    }*/
-
     // To assure implementation of UserInterface
     public function getUsername(): string
     {
@@ -284,7 +262,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
     }
 
-    public function getSalt()
+    public function getSalt(): ?string
     {
         return null;
     }

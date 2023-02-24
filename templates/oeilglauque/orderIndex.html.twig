@@ -41,7 +41,7 @@
                     </ul>
                 {% endfor %}
             </div>
-            <form class="form-inline" id="addSlot" method="GET" action="{{ path('addSlot', {'edition': edition.getId() }) }}">
+            <form class="form-inline" id="addSlot" method="GET" action="{{ path('addSlot', {'id': edition.getId() }) }}">
                 <label for="type">Type de produit</label>
                 <select name="type" id="type">
                     {% for type in types %}
@@ -84,7 +84,7 @@
                         </ul>
                     {% endfor %}
                 </div>
-                <form class="form-inline" id="addItem" method="GET" action="{{ path('addItem', {'edition': edition.getId() }) }}">
+                <form class="form-inline" id="addItem" method="GET" action="{{ path('addItem', {'id': edition.getId() }) }}">
                     <label for="type">Type de produit</label>
                     <select name="type" required id="type">
                         {% for type in types %}

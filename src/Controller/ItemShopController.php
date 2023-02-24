@@ -27,12 +27,14 @@ class ItemShopController extends FOGController
         $slots = $manager->getRepository(ItemShopSlot::class)->findAll();
         $items = $manager->getRepository(ItemShop::class)->findAll();
 
-        return $this->render('oeilglauque/orderIndex.html.twig', array(
+        //dd($edition);
+
+        return $this->render('oeilglauque/orderIndex.html.twig', [
             'edition' => $edition,
             'types' => $types,
             'slots' => $slots,
             'items' => $items
-        ));
+        ]);
     }
 
     private function parseDate(string $date) {
@@ -80,7 +82,7 @@ class ItemShopController extends FOGController
         return $this->redirectToRoute('orderIndex');
     }
 
-    #[Route("/order/addItem/{edition}", name: "addItem")]
+    #[Route("/order/addItem/{id}", name: "addItem")]
     public function addItem(Request $request, Edition $edition, EntityManagerInterface $manager)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
