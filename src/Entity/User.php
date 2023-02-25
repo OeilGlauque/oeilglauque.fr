@@ -43,11 +43,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: "string", length: 64)]
     #[Assert\NotBlank()]
-    #[Assert\Length(
-        min: 5,
-        max: 64,
-        minMessage: "Votre mot de passe doit contenir au moins {{ limit }} caractères",
-        maxMessage: "Votre mot de passe ne peut pas contenir plus de {{ limit }} caractères")]
     private $password;
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
