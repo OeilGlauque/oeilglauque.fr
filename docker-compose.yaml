@@ -11,7 +11,7 @@ services:
       MYSQL_PASSWORD: fogpwd
       MYSQL_DATABASE: fogdb
     ports:
-      - '3307:3306'
+      - '3306:3306'
     volumes:
       - './docker/db:/var/lib/mysql'
 ###< doctrine/doctrine-bundle ###
@@ -45,12 +45,6 @@ services:
       - ./docker/caddy/config:/config
       - ./public:/srv/app/public
       - php_socket:/var/run/php
-
-  mailer:
-    image: schickling/mailcatcher
-    ports: 
-      - "1025:1025"
-      - "1080:1080"
     
 volumes:
   php_socket:

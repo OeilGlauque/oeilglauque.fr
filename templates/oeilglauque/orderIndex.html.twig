@@ -31,7 +31,7 @@
                                     ({{ slot.getMaxOrder() }} max)
                                 {% endif %}
                                 <div class="itemAction">
-                                    <a href="{{ path('orderList', {'slot': slot.getId()}) }}" class="btn">Accéder</a>
+                                    <a href="{{ path('orderList', {'id': slot.getId()}) }}" class="btn">Accéder</a>
                                     <a href="{{ path('deleteSlot', {'id': slot.getId()}) }}" onclick="return confirm('Voulez-vous vraiment supprimer ce créneau ?')" class="btn btn-danger">Supprimer</a>
                                 </div>
                             </li>

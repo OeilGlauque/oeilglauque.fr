@@ -25,11 +25,15 @@ class LocalReservationController extends FOGController
         }
 
         $reservation = new LocalReservation();
-        $form = $this->createForm(LocalReservationType::class, $reservation, array());
+        $form = $this->createForm(LocalReservationType::class);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $reservation->setDate($form->get('date')->getData());
+            $reservation->setEndDate($form->get('duration')->getData());
+            $reservation->setMotif($form->get('motif')->getData());
+
             $overlap = $manager->getRepository(LocalReservation::class)->findLocalReservationOverlap($reservation);
 
             if ($overlap == 0) {
@@ -60,9 +64,9 @@ class LocalReservationController extends FOGController
             }
         }
 
-        return $this->render('oeilglauque/localReservation.html.twig', array(
+        return $this->render('oeilglauque/localReservation.html.twig', [
             'form' => $form->createView(),
             'state' => true
-        ));
+        ]);
     }
 }

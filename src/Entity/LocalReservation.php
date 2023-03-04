@@ -7,6 +7,7 @@ use App\Entity\User;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Service\DateFormaterService as Formater;
 
 #[ORM\Entity(repositoryClass: LocalReservationRepository::class)]
 class LocalReservation
@@ -77,16 +78,23 @@ class LocalReservation
 
     public function getDuration(): ?int
     {
-        try {
+        return $this->endDate->diff($this->date)->i;
+        /*try {
             return $this->getDate()->diff($this->endDate)->m;
         } catch(\Exception $e) {
             return 0;
-        }
+        }*/
     }
 
-    public function setDuration(float $duration): self
+    public function getEndDate(): \DateTime
     {
-        $this->endDate = \DateTimeImmutable::createFromMutable($this->getDate())->add(new \DateInterval("PT".$duration."M"));
+        return $this->endDate;
+    }
+
+    public function setEndDate(int $duration): self
+    {
+        $tmp = clone $this->date;
+        $this->endDate = $tmp->add(new \DateInterval("PT".$duration."M"));
 
         return $this;
     }
@@ -113,6 +121,11 @@ class LocalReservation
         $this->date = $date;
 
         return $this;
+    }
+
+    public function getFormatedDate(): string
+    {
+        return (new Formater())->format($this->date);
     }
 
     public function __toString()

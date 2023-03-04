@@ -18,22 +18,19 @@ class LocalReservationType extends AbstractType
     {
         $builder
             ->add('date', DateTimeType::class,
-                [/*'widget' => 'single_text',*/
+                [
                     'date_widget' => 'single_text',
                     'time_widget' => 'single_text',
                     'html5' => true,
-                    'years' => [date("Y"), date("Y")+1]])
-
-            /*->add('time', TimeType::class,
-                ['widget' => 'single_text',
-                'label' => 'Heure',
-                'html5' => true,
-                'invalid_message' => 'L\'heure doit être rentrée en incrément de 15 minutes',
-                'attr' => ['step' => 900]])*/
+                    'years' => [date("Y"), date("Y")+1]
+                ])
 
             ->add('duration',IntegerType::class,array('label' => 'Durée (minutes)',
-                /*'invalid_message' => 'La durée doit être rentrée en incrément de 15 minutes',*/
-                'attr' => ['min'=>'15', 'max'=>'300'/*, 'step'=>'15'*/]))
+                'attr' => [
+                    'min'=>'15',
+                    'max'=>'300',
+                    'minMessage' => 'La durée doit être supérieur à 15 minutes.',
+                    'maxMessage' => 'La durée ne doit pas excéder 5h soit 300 minutes.']))
 
             ->add('motif', TextareaType::class, array('label' => 'Motif'))
 
@@ -42,8 +39,6 @@ class LocalReservationType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => LocalReservation::class));
+        $resolver->setDefaults([]);
     }
 }
-?>

@@ -19,7 +19,7 @@
             Fin commande : {{ currentSlot.getOrderTime().format("d/m H:i")}}
         </span>
         <div class="d-flex justify-content-between">
-            <form class="form-inline addItem" id="addOrder" method="GET" action="{{ path('addOrder', {'slot': currentSlot.getId() }) }}">
+            <form class="form-inline addItem" id="addOrder" method="GET" action="{{ path('addOrder', {'id': currentSlot.getId() }) }}">
                 <input type="text" placeholder="Pseudo" required name="pseudo" />
                 <select name="item" required>
                     {% for item in items
@@ -41,7 +41,7 @@
                                     |filter(slot => slot.getEdition().getId() == edition.getId())
                                     |sort((a, b) => a.getDeliveryTime() <=> b.getDeliveryTime()) %}
                                     <li>
-                                        <a href="{{ path('orderList', {'slot': slot.getId()}) }}">
+                                        <a href="{{ path('orderList', {'id': slot.getId()}) }}">
                                             <strong>
                                                 {% if slot.getId() == currentSlot.getId() %}
                                                 > 

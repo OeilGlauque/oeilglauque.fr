@@ -28,11 +28,13 @@ yarn-error.log
 # NPM generated file
 /package-lock.json
 
+###> docker
+docker/caddy
+docker/db
+*override*
+###< docker
+
 # Config perso (arthur)
-.envrc
-shell.nix
 query.sql
-log
-*.py
 .idea
 .fleet

@@ -310,11 +310,11 @@ class AdminController extends FOGController {
     #[Route("/admin/reservations/local", name: "localReservationList")]
     public function localReservationList(EntityManagerInterface $doctrine): Response
     {
-        $reservations =$doctrine->getRepository(LocalReservation::class)->getLocalReservationList();
-        return $this->render('oeilglauque/admin/localReservationList.html.twig', array(
+        $reservations = $doctrine->getRepository(LocalReservation::class)->getLocalReservationList();
+        return $this->render('oeilglauque/admin/localReservationList.html.twig', [
             'reservations' => $reservations,
             'archive' => false
-        ));
+        ]);
     }
     #[Route("/admin/reservations/local/validate/{id}", name: "validateLocalReservation")]
     public function validateLocalReservation(LocalReservation $reservation, EntityManagerInterface $doctrine, FOGMailerService $mailer): Response

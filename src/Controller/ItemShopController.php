@@ -157,7 +157,7 @@ class ItemShopController extends FOGController
         return $this->redirectToRoute('orderIndex');
     }
 
-    #[Route("/order/{slot}", name: "orderList")]
+    #[Route("/order/{id}", name: "orderList")]
     public function orderList(ItemShopSlot $slot, EntityManagerInterface $manager)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -211,7 +211,7 @@ class ItemShopController extends FOGController
         ));
     }
 
-    #[Route("/order/addOrder/{slot}", name: "addOrder")]
+    #[Route("/order/addOrder/{id}", name: "addOrder")]
     public function addOrder(Request $request, ItemShopSlot $slot, EntityManagerInterface $manager)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -227,7 +227,7 @@ class ItemShopController extends FOGController
         $itemval = $manager->getRepository(ItemShop::class)->find($request->query->get('item'));
         if (!$itemval) {
             $this->addFlash('danger', "Le slot n'existe pas.");
-            return $this->redirectToRoute('orderList', ["slot" => $slot]);
+            return $this->redirectToRoute('orderList', ["id" => $slot->getId()]);
         }
         $order->setItem($itemval);
 
@@ -242,7 +242,7 @@ class ItemShopController extends FOGController
             $this->addFlash('danger', "Le nombre maximal de commande pour ce créneau a été atteint.");
         }
 
-        return $this->redirectToRoute('orderList', ["slot" => $slot]);
+        return $this->redirectToRoute('orderList', ["id" => $slot->getId()]);
     }
 
     #[Route("/order/collectOrder/{id}/{state}", name: "collectOrder")]
@@ -274,6 +274,6 @@ class ItemShopController extends FOGController
             $this->addFlash('success', "La commande de " . $order->getPseudo() . " a bien été supprimé.");
         }
 
-        return $this->redirectToRoute('orderList', ["slot" => $order->getSlot()->getId()]);
+        return $this->redirectToRoute('orderList', ["id" => $order->getSlot()->getId()]);
     }
 }

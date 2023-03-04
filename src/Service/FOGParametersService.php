@@ -14,8 +14,7 @@ class FOGParametersService {
     private ?bool $planning;
 
     public function __construct(EditionRepository $editionRepository, FeatureRepository $featureRepository, int $current_edition) {
-        $tmp = $editionRepository->findOneBy(['annee' => $current_edition]);
-        $this->edition = $tmp ? $tmp : new Edition();
+        $this->edition = $editionRepository->findOneBy(['annee' => $current_edition]);
 
         $this->modeFog = $featureRepository->find(4)->getState();
 
