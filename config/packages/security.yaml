@@ -26,6 +26,7 @@ security:
             form-login: 
                 login_path: login
                 check_path: login
+                enable_csrf: true
             logout:
                 path: logout
             provider: db_provider
