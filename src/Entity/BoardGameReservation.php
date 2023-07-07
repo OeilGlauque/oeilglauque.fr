@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\BoardGameReservationRepository;
 use App\Entity\BoardGame;
 use App\Entity\User;
+use App\Service\DateFormaterService as Formater;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -96,6 +97,11 @@ class BoardGameReservation
         return $this->dateBeg;
     }
 
+    public function getFormatedDateBeg(): ?string
+    {
+        return (new Formater())->format($this->dateEnd);
+    }
+
     public function setDateBeg(\DateTime $date): self
     {
         $this->dateBeg = $date;
@@ -106,6 +112,11 @@ class BoardGameReservation
     public function getDateEnd(): ?\DateTime
     {
         return $this->dateEnd;
+    }
+
+    public function getFormatedDateEnd(): ?string
+    {
+        return (new Formater())->format($this->dateEnd);
     }
 
     public function setDateEnd(\DateTime $date): self

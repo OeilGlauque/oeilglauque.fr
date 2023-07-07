@@ -8,7 +8,7 @@
         <div class="well">
             <p>Demande par {{ r.getAuthor().getPseudo() }} ({{ r.getAuthor().getFirstName() }} {{ r.getAuthor().getName() }}, {{ r.getAuthor().getEmail() }})</p>
             <p>Début : {{ r.getFormatedDate() }}</p> <!-- .format("D j M Y à H:i") -->
-            <p>Durée : {{ r.getDuration() }} minutes</p>
+            <p>Durée : {{ r.getFormatedDuration() }}</p>
             <p> Motif : {{ r.getMotif() }}</p>
             <hr />
             {% if not archive %}

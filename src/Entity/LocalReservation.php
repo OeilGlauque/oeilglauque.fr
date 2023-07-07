@@ -8,6 +8,7 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Service\DateFormaterService as Formater;
+use DateInterval;
 
 #[ORM\Entity(repositoryClass: LocalReservationRepository::class)]
 class LocalReservation
@@ -76,14 +77,46 @@ class LocalReservation
         return $this;
     }
 
-    public function getDuration(): ?int
+    public function getDuration(): ?DateInterval
     {
-        return $this->endDate->diff($this->date)->i;
+        return $this->endDate->diff($this->date);
         /*try {
             return $this->getDate()->diff($this->endDate)->m;
         } catch(\Exception $e) {
             return 0;
         }*/
+    }
+
+    public function getFormatedDuration(): ?string
+    {
+        $int = $this->endDate->diff($this->date);
+
+        $hfmt = "";
+        $mfmt = "";
+
+        if ($int->h == 1)
+        {
+            $hfmt .= $int->h . " heure";
+        }
+        else if ($int->h > 1)
+        {
+            $hfmt .= $int->h . " heures";
+        }
+
+        if ($int->i > 0)
+        {
+            $mfmt .= $int->i . " minutes";
+        }
+
+        if ($int->h > 0 && $int->i > 0)
+        {
+            $out = $hfmt . " et " . $mfmt;
+        }
+        else {
+            $out = $hfmt . $mfmt;
+        }
+
+        return $out;
     }
 
     public function getEndDate(): \DateTime

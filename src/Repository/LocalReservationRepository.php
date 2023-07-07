@@ -70,8 +70,7 @@ class LocalReservationRepository extends ServiceEntityRepository
         try {
             $qb->where($qb->expr()->orX($c1, $c2, $c3))
                 ->setParameter('begDate', $reservation->getDate(), Types::DATETIME_MUTABLE)
-                ->setParameter('endDate', $reservation->getDate()
-                    ->add(new \DateInterval("PT" . $reservation->getDuration() . "M")), Types::DATETIME_MUTABLE);
+                ->setParameter('endDate', $reservation->getEndDate(), Types::DATETIME_MUTABLE);
         } catch (Exception $e) {
         }
 
