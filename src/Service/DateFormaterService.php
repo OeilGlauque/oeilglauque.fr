@@ -8,7 +8,7 @@ class DateFormaterService
 {
     private IntlDateFormatter $fmt;
 
-    public function __construct(?string $pattern = "E d MMM Y à HH:mm")
+    public function __construct(?string $pattern = "EEEE d MMMM Y à HH:mm")
     {
         $this->fmt = new IntlDateFormatter("fr_FR",IntlDateFormatter::FULL,IntlDateFormatter::FULL,null,null,$pattern);
 

@@ -99,7 +99,7 @@ class BoardGameReservation
 
     public function getFormatedDateBeg(): ?string
     {
-        return (new Formater())->format($this->dateEnd);
+        return (new Formater("EEEE d MMMM Y"))->format($this->dateEnd);
     }
 
     public function setDateBeg(\DateTime $date): self
@@ -116,7 +116,7 @@ class BoardGameReservation
 
     public function getFormatedDateEnd(): ?string
     {
-        return (new Formater())->format($this->dateEnd);
+        return (new Formater("EEEE d MMMM Y"))->format($this->dateEnd);
     }
 
     public function setDateEnd(\DateTime $date): self

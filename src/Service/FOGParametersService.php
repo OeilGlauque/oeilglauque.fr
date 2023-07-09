@@ -13,8 +13,8 @@ class FOGParametersService {
     private ?bool $gameOpen;
     private ?bool $planning;
 
-    public function __construct(EditionRepository $editionRepository, FeatureRepository $featureRepository, int $current_edition) {
-        $this->edition = $editionRepository->findOneBy(['annee' => $current_edition]);
+    public function __construct(EditionRepository $editionRepository, FeatureRepository $featureRepository, int $current_edition, string $current_edition_type) {
+        $this->edition = $editionRepository->findOneBy(['annee' => $current_edition,'type' => $current_edition_type]);
 
         $this->modeFog = $featureRepository->find(4)->getState();
 

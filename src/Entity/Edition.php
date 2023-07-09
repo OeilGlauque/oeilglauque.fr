@@ -37,6 +37,10 @@ class Edition
     #[Assert\NotBlank()]
     private $dates;
 
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
+    private string $type = 'FOG';
+
     public function __construct()
     {
         $this->gameSlots = new ArrayCollection();
@@ -112,6 +116,18 @@ class Edition
     public function setDates(string $dates): self
     {
         $this->dates = $dates;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }
