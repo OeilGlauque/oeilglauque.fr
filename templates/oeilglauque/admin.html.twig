@@ -7,6 +7,8 @@
 {% block body %}
 
     <h1 class="titre">Administration</h1>
+
+    <h2> Éditions </h2>
     <div class="row d-flex justify-content-center">
         <div class="col-md-4 d-flex justify-content-center">
             <a href="{{ path('admin_editions') }}" class="btn btn-lg btn-block btn-admin">Gestion des éditions</a>
@@ -18,6 +20,8 @@
             <a href="{{ path('adminFeature') }}" class="btn btn-lg btn-block btn-admin">Fonctionnalités du site</a>
         </div>
     </div>
+
+    <h2> Parties </h2>
     <div class="row d-flex justify-content-center">
         <div class="col-md-4 d-flex justify-content-center">
             <a href="{{ path('adminGamesList') }}" class="btn btn-lg btn-block btn-admin">Gestion des parties</a>
@@ -26,6 +30,8 @@
             <a href="{{ path('unvalidatedGamesList') }}" class="btn btn-lg btn-block btn-admin">Validation parties</a>
         </div>
     </div>
+
+    <h2> Réservations </h2>
     <div class="row d-flex justify-content-center">
         <div class="col-md-4 d-flex justify-content-center">
             <a href="{{ path('localReservationList') }}" class="btn btn-lg btn-block btn-admin">Réservations du local</a>

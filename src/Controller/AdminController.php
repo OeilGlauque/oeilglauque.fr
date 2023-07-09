@@ -13,6 +13,7 @@ use App\Entity\GameSlot;
 use App\Entity\Game;
 use App\Entity\News;
 use App\Entity\User;
+use App\Form\EditionType;
 use App\Form\NewsType;
 use App\Repository\EditionRepository;
 use App\Repository\FeatureRepository;
@@ -187,11 +188,36 @@ class AdminController extends FOGController {
      ******************************/
 
     #[Route("/admin/editions/nouvelle", name: "newEdition")]
-    public function newEdition(): Response
+    public function newEdition(Request $request, EditionRepository $editionRepository, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('oeilglauque/admin/newEdition.html.twig');
+        $edition = new Edition();
+        $form = $this->createForm(EditionType::class,$edition);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            if ($editionRepository->findOneBy(['annee' => $edition->getAnnee(), 'type' => $edition->getType()]) != null)
+            {
+                $this->addFlash('danger', 'Une édition du même type existe déjà pour cette année.');
+            } 
+            else
+            {
+                $entityManager->persist($edition);
+                $entityManager->flush();
+
+                $this->addFlash('success', "L'édition a bien été créée.");
+            }
+        }
+
+        return $this->render('oeilglauque/admin/newEdition.html.twig',[
+            'form' => $form->createView()
+        ]);
     }
 
+    /*
+     * TODO : remove
+     */
     #[Route("/admin/editions/creer", name: "createEdition")]
     public function createEdition(Request $request, EntityManagerInterface $doctrine): Response
     {
