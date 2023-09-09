@@ -9,14 +9,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainPageController extends FOGController {
     
     #[Route("/", name: "index", methods: ['GET'])]
-    public function index(EditionRepository $editionRepository) : Response{
-        $edition = $editionRepository->findOneBy(['annee' => $this->getParameter('current_edition')]);
+    public function index() : Response{
+        $edition = $this->FogParams->getCurrentEdition();//$editionRepository->findOneBy(['annee' => $this->getParameter('current_edition')]);
         $homeText = '';
         if ($edition != null) {
             $homeText = $edition->getHomeText();
         }
-        return $this->render('oeilglauque/index.html.twig', array(
+        return $this->render('oeilglauque/index.html.twig', [
             'homeText' => $homeText
-        ));
+        ]);
     }
 }
