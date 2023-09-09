@@ -18,8 +18,6 @@ class LocalReservationType extends AbstractType
             ->add('date', DateTimeType::class, [
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
-                'html5' => true,
-                'years' => [date("Y"), date("Y")+1]
             ])
 
             ->add('duration', IntegerType::class, [

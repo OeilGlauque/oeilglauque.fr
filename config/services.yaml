@@ -5,7 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     current_edition: 2022
-    current_edition_type: 'RDLN'
+    current_edition_type: 'FOG'
     allow_registration: true
 
 services:
