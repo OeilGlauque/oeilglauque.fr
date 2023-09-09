@@ -46,9 +46,9 @@ class AdminController extends FOGController {
     public function editionsAdmin(EditionRepository $editionRepository): Response
     {
         $editions = array_reverse($editionRepository->findAll());
-        return $this->render('oeilglauque/admin/editions.html.twig', array(
+        return $this->render('oeilglauque/admin/editions.html.twig', [
             'editions' => $editions
-        ));
+        ]);
     }
 
     #[Route("/admin/editions/updateEdition/{edition}", name: "updateEdition")]
@@ -132,8 +132,8 @@ class AdminController extends FOGController {
             return $this->redirectToRoute('newsIndex');
         }
 
-        return $this->render('oeilglauque/admin/writeNews.html.twig', array(
-            'form' => $form->createView(), 
+        return $this->renderForm('oeilglauque/admin/writeNews.html.twig', array(
+            'form' => $form, 
             'edit' => false
         ));
     }

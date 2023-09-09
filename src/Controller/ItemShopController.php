@@ -173,33 +173,33 @@ class ItemShopController extends FOGController
         $slots = $manager->getRepository(ItemShopSlot::class)->findAll();
         $items = $manager->getRepository(ItemShop::class)->findBy(["type" => $slot->getType()]);
         $orders = $manager->getRepository(ItemShopOrder::class)->findBy(["slot" => $slot]);
-        $groupedOrders1 = array();
-        $groupedOrders2 = array();
+        $groupedOrders1 = [];
+        $groupedOrders2 = [];
         if ($currslot->getPreOrderTime() != null) {
             $groupedOrders1 = $manager
                 ->createQuery('SELECT COUNT(o.id) as itemcount, i.name as item FROM App\Entity\ItemShopOrder o JOIN App\Entity\ItemShop i WHERE o.slot = :slot AND (o.item) = i.id AND o.time < :preorder GROUP BY i.id')
-                ->setParameters(array(
+                ->setParameters([
                     'slot' => $currslot,
                     'preorder' => $currslot->getPreOrderTime()
-                ))
+                ])
                 ->getResult();
             $groupedOrders2 = $manager
                 ->createQuery('SELECT COUNT(o.id) as itemcount, i.name as item FROM App\Entity\ItemShopOrder o JOIN App\Entity\ItemShop i WHERE o.slot = :slot AND (o.item) = i.id AND o.time > :preorder GROUP BY i.id')
-                ->setParameters(array(
+                ->setParameters([
                     'slot' => $currslot,
                     'preorder' => $currslot->getPreOrderTime()
-                ))
+                ])
                 ->getResult();
         } else {
             $groupedOrders1 = $manager
                 ->createQuery('SELECT COUNT(o.id) as itemcount, i.name as item FROM App\Entity\ItemShopOrder o JOIN App\Entity\ItemShop i WHERE o.slot = :slot AND (o.item) = i.id GROUP BY i.id')
-                ->setParameters(array(
+                ->setParameters([
                     'slot' => $currslot
-                ))
+                ])
                 ->getResult();
         }
 
-        return $this->render('oeilglauque/orderList.html.twig', array(
+        return $this->render('oeilglauque/orderList.html.twig', [
             'edition' => $edition,
             'slots' => $slots,
             'orders' => $orders,
@@ -208,7 +208,7 @@ class ItemShopController extends FOGController
             'types' => $types,
             'items' => $items,
             'currentSlot' => $currslot
-        ));
+        ]);
     }
 
     #[Route("/order/addOrder/{id}", name: "addOrder")]

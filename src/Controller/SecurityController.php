@@ -75,10 +75,10 @@ class SecurityController extends FOGController
             return $this->redirectToRoute('index');
         }
         
-        return $this->render(
+        return $this->renderForm(
             'oeilglauque/register.html.twig',
             [
-                'form' => $form->createView(),
+                'form' => $form,
                 'allow_registration' => $this->getParameter('allow_registration'), 
             ]
         );

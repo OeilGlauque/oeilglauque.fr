@@ -69,8 +69,8 @@ class BoardGameReservationController extends FOGController
             }
         }
 
-        return $this->render('oeilglauque/boardGameReservation.html.twig', array(
-            'form' => $form->createView(),
+        return $this->renderForm('oeilglauque/boardGameReservation.html.twig', array(
+            'form' => $form,
             'boardGames' => $boardGames,
             'state' => true
         ));

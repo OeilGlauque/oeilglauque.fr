@@ -64,8 +64,8 @@ class LocalReservationController extends FOGController
             }
         }
 
-        return $this->render('oeilglauque/localReservation.html.twig', [
-            'form' => $form->createView(),
+        return $this->renderForm('oeilglauque/localReservation.html.twig', [
+            'form' => $form,
             'state' => true
         ]);
     }

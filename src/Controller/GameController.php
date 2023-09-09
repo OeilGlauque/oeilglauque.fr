@@ -94,8 +94,8 @@ class GameController extends FOGController {
             return $this->redirectToRoute('listeParties');
         }
 
-        return $this->render('oeilglauque/newGame.html.twig', [
-            'form' => $form->createView(), 
+        return $this->renderForm('oeilglauque/newGame.html.twig', [
+            'form' => $form, 
             'edit' => false
         ]);
     }
@@ -203,8 +203,8 @@ class GameController extends FOGController {
             return $this->redirectToRoute('showGame', ["id" => $id]);
         }
 
-        return $this->render('oeilglauque/newGame.html.twig', [
-            'form' => $form->createView(), 
+        return $this->renderForm('oeilglauque/newGame.html.twig', [
+            'form' => $form, 
             'edit' => true
         ]);
     }
@@ -224,10 +224,10 @@ class GameController extends FOGController {
 
             $game->setDescription(GlauqueMarkdownParser::parse($game->getDescription()));
 
-            return $this->render('oeilglauque/showGame.html.twig', array(
+            return $this->render('oeilglauque/showGame.html.twig', [
                 'game' => $game, 
                 'registered' => $game->getPlayers()->contains($this->getUser()), 
-            ));
+            ]);
         }else{
             throw $this->createNotFoundException('Impossible de trouver la partie demandée. ');
         }
