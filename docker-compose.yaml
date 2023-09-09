@@ -5,11 +5,6 @@ services:
   mysql:
     image: mariadb:10.5.19
     restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpwd
-      MYSQL_USER: fog
-      MYSQL_PASSWORD: fogpwd
-      MYSQL_DATABASE: fogdb
     ports:
       - '3306:3306'
     volumes:

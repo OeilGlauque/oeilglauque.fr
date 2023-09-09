@@ -160,8 +160,8 @@ class AdminController extends FOGController {
             return $this->redirectToRoute('newsIndex');
         }
 
-        return $this->render('oeilglauque/admin/writeNews.html.twig', array(
-            'form' => $form->createView(), 
+        return $this->renderForm('oeilglauque/admin/writeNews.html.twig', array(
+            'form' => $form, 
             'edit' => true
         ));
     }
@@ -210,8 +210,8 @@ class AdminController extends FOGController {
             }
         }
 
-        return $this->render('oeilglauque/admin/newEdition.html.twig',[
-            'form' => $form->createView()
+        return $this->renderForm('oeilglauque/admin/newEdition.html.twig',[
+            'form' => $form
         ]);
     }
 
@@ -408,6 +408,7 @@ class AdminController extends FOGController {
             'archive' => false
         ));
     }
+    
     #[Route("/admin/reservations/boardGame/validate/{id}", name: "validateBoardGameReservation")]
     public function validateBoardGameReservation(BoardGameReservation $reservation, EntityManagerInterface $doctrine, FOGMailerService $mailer): Response
     {
