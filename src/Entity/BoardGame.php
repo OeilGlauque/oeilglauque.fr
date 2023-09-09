@@ -19,7 +19,7 @@ class BoardGame
     #[ORM\Column(type: "integer")]
     private int $id;
 
-    #[ORM\Column(type: "string", length: 190, unique: true)]
+    #[ORM\Column(type: "string", length: 190)]
     #[Assert\Length(min: 1, max: 190)]
     private string $name;
 
