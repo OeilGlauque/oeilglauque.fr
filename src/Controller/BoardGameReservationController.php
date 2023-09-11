@@ -15,7 +15,7 @@ use Symfony\Component\Mime\Address;
 class BoardGameReservationController extends FOGController
 {
     #[Route("/reservations/boardGame", name: "boardGameReservation")]
-    public function boardGameReservation(Request $request, EntityManagerInterface $manager, FOGMailerService $mailer, FOGDiscordWebhookService $discord,)
+    public function boardGameReservation(Request $request, EntityManagerInterface $manager, FOGMailerService $mailer, FOGDiscordWebhookService $discord)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
