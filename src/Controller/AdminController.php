@@ -18,6 +18,7 @@ use App\Form\NewsType;
 use App\Repository\EditionRepository;
 use App\Repository\FeatureRepository;
 use App\Service\FOGMailerService;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mime\Address;
 
@@ -402,11 +403,11 @@ class AdminController extends FOGController {
     #[Route("/admin/reservations/boardGame", name: "boardGameReservationList")]
     public function boardGameReservationList(EntityManagerInterface $doctrine): Response
     {
-        $reservations =$doctrine->getRepository(BoardGameReservation::class)->getBoardGameReservationList();
-        return $this->render('oeilglauque/admin/boardGameReservationList.html.twig', array(
+        $reservations = $doctrine->getRepository(BoardGameReservation::class)->getBoardGameReservationList();
+        return $this->render('oeilglauque/admin/boardGameReservationList.html.twig', [
             'reservations' => $reservations,
             'archive' => false
-        ));
+        ]);
     }
     
     #[Route("/admin/reservations/boardGame/validate/{id}", name: "validateBoardGameReservation")]
@@ -422,26 +423,34 @@ class AdminController extends FOGController {
             'oeilglauque/emails/boardGameReservation/confirmationReservation.html.twig',
             ['reservation' => $reservation],
             [],
-            [$mailer->getMailFOG()]
+            []
         );
 
         $this->addFlash('success', "La demande a bien été acceptée.");
         return $this->redirectToRoute('boardGameReservationList');
     }
 
+    #[Route("/admin/reservations/boardGame/reject/{id}", name: "rejectBoardGameReservation")]
+    public function rejectBoardGameReservation(BoardGameReservation $reservation, EntityManagerInterface $doctrine, FOGMailerService $mailer) : Response {
+        $reservation->setValidated(false);
+        $doctrine->persist($reservation);
+        $doctrine->flush();
+
+        $mailer->sendMail(
+            new Address($reservation->getAuthor()->getEmail(), $reservation->getAuthor()->getPseudo()),
+            'Demande de réservation de jeu au FOG refusée',
+            'oeilglauque/emails/boardGameReservation/suppressionReservation.html.twig',
+            ['reservation' => $reservation],
+            [],
+            []
+        );
+
+        $this->addFlash('success', "La demande a bien été rejetée.");
+        return $this->redirectToRoute('boardGameReservationList');
+    }
+
     #[Route("/admin/reservations/boardGame/delete/{id}", name: "deleteBoardGameReservation")]
     public function deleteBoardGameReservation(BoardGameReservation $reservation, EntityManagerInterface $doctrine, FOGMailerService $mailer) : Response {
-        if($reservation->getDateBeg() > new \DateTime()) {
-            $mailer->sendMail(
-                new Address($reservation->getAuthor()->getEmail(), $reservation->getAuthor()->getPseudo()),
-                'Demande de réservation de jeu au FOG refusée',
-                'oeilglauque/emails/boardGameReservation/suppressionReservation.html.twig',
-                ['reservation' => $reservation],
-                [],
-                [$mailer->getMailFOG()]
-            );
-        }
-
         $doctrine->remove($reservation);
         $doctrine->flush();
 
@@ -449,6 +458,7 @@ class AdminController extends FOGController {
 
         return $this->redirectToRoute('boardGameReservationList');
     }
+    
     #[Route("/admin/reservations/boardGame/archive", name: "boardGameReservationArchive")]
     public function boardGameReservationArchive(EntityManagerInterface $doctrine): Response
     {

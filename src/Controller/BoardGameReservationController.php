@@ -5,6 +5,7 @@ use App\Entity\BoardGameReservation;
 use App\Entity\Feature;
 use App\Entity\BoardGame;
 use App\Form\BoardGameReservationType;
+use App\Service\FOGDiscordWebhookService;
 use App\Service\FOGMailerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +15,7 @@ use Symfony\Component\Mime\Address;
 class BoardGameReservationController extends FOGController
 {
     #[Route("/reservations/boardGame", name: "boardGameReservation")]
-    public function boardGameReservation(Request $request, EntityManagerInterface $manager, FOGMailerService $mailer)
+    public function boardGameReservation(Request $request, EntityManagerInterface $manager, FOGMailerService $mailer, FOGDiscordWebhookService $discord,)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -47,13 +48,47 @@ class BoardGameReservationController extends FOGController
                     $manager->persist($reservation);
                     $manager->flush();
 
+                    // mail pour l'utilisateur
                     $mailer->sendMail(
                         new Address($reservation->getAuthor()->getEmail(), $reservation->getAuthor()->getPseudo()),
                         'Nouvelle demande de réservation de jeu au FOG',
                         'oeilglauque/emails/boardGameReservation/nouvelleReservation.html.twig',
                         ['reservation' => $reservation],
                         [],
-                        [$mailer->getMailFOG()]
+                        []
+                    );
+
+                    // mail pour le bureau
+                    $mailer->sendMail(
+                        $mailer->getMailFOG(),
+                        'Nouvelle demande de réservation de jeu au FOG',
+                        'oeilglauque/emails/boardGameReservation/admin/nouvelleReservation.html.twig',
+                        ['reservation' => $reservation],
+                        [],
+                        []
+                    );
+
+                    // ping discord du bureau
+                    $discord->send(
+                        'Nouvelle demande de réservation de jeux.',
+                        [[
+                            "title" => "Demande de réservation de jeux par " . $reservation->getAuthor()->getPseudo() . " du " . $reservation->getDateBeg()->format('d/m/Y') . " au " . $reservation->getDateEnd()->format("d/m/Y"),
+                            "description" => "Liste des jeux :",
+                            "fields" => array_merge(
+                                array_map(function ($jeu,$price) {return ["name" => "- " . $jeu . " (" . $price . "€)", "value" => ""];}, 
+                                $reservation->getBoardGames()->getValues(),
+                                array_map(function ($el) { return $el->getPrice();}, $reservation->getBoardGames()->getValues())
+                            ),
+                                [
+                                    [
+                                        "name" => "", "value" => ""
+                                    ],
+                                    [
+                                        "name" => "Note :", "value" => $reservation->getNote()
+                                    ]
+                                ]
+                            )
+                        ]]
                     );
     
                     $this->addFlash('info', "Votre réservation a bien été enregistrée, vous recevrez une confirmation par e-mail dès qu'elle sera acceptée.");
@@ -69,10 +104,10 @@ class BoardGameReservationController extends FOGController
             }
         }
 
-        return $this->renderForm('oeilglauque/boardGameReservation.html.twig', array(
+        return $this->renderForm('oeilglauque/boardGameReservation.html.twig', [
             'form' => $form,
             'boardGames' => $boardGames,
             'state' => true
-        ));
+        ]);
     }
 }

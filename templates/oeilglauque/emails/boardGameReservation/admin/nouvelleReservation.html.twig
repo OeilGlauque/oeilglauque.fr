@@ -1,6 +1,6 @@
 {% set titre = 'Réservation de jeu au FOG' %}
 {% set salutation %}
-    Bonjour, une réservation par {{ reservation.getAuthor().getPseudo() }} ({{ reservation.getAuthor().getName() }} {{ reservation.getAuthor().getFirstName() }}) a été faite.
+    Bonjour, une demande de réservation par {{ reservation.getAuthor().getPseudo() }} ({{ reservation.getAuthor().getName() }} {{ reservation.getAuthor().getFirstName() }}) a été faite.
 {% endset %}
 {% set first_paragraph %}
     La demande d'emprunt est du {{ reservation.getFormatedDateBeg() }} au {{ reservation.getFormatedDateEnd() }}.

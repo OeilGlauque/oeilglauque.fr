@@ -35,3 +35,7 @@ services:
         arguments:
             $current_edition: '%current_edition%'
             $current_edition_type: '%current_edition_type%'
+
+    App\Service\FOGDiscordWebhookService:
+        arguments:
+            $webhook: '%env(DISCORD_WEBHOOK)%'

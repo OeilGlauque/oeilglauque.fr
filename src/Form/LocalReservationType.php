@@ -37,8 +37,8 @@ class LocalReservationType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults([/*
             'data_class' => LocalReservation::class
-        ]);
+        */]);
     }
 }

@@ -23,8 +23,8 @@ class BoardGameReservation
     #[ORM\JoinColumn(nullable: false)]
     private User $author;
 
-    #[ORM\Column(type: "boolean")]
-    private bool $validated;
+    #[ORM\Column(type: "boolean", nullable: true)]
+    private ?bool $validated;
 
     #[ORM\Column(type: "text", nullable: true)]
     private ?string $note;
@@ -47,7 +47,7 @@ class BoardGameReservation
 
     public function __construct()
     {
-        $this->validated = false;
+        $this->validated = null;
         $this->boardGames = new ArrayCollection();
     }
 
@@ -99,7 +99,7 @@ class BoardGameReservation
 
     public function getFormatedDateBeg(): ?string
     {
-        return (new Formater("EEEE d MMMM Y"))->format($this->dateEnd);
+        return (new Formater("EEEE d MMMM Y"))->format($this->dateBeg);
     }
 
     public function setDateBeg(\DateTime $date): self

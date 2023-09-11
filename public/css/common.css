@@ -209,6 +209,7 @@ input {
     border-radius: 5px;
 }
 
+/*
 select {
     border-radius: 5px;
     color: black;
@@ -220,8 +221,16 @@ select {
 
 select option {
     color: black;
+}
+
+select option:nth-child(even) {
+    background-color: #FFFFFF;
+}
+
+select option:nth-child(odd) {
     background-color: #EEEEEE;
 }
+*/
 
 .my-selectable {
     -webkit-user-select: all;  /* Chrome all / Safari all */
