@@ -15,15 +15,15 @@ class BoardGameReservationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dateBeg', DateType::class,
-                ['widget' => 'single_text',
-                    'html5' => true,
-                    'label' => 'Date de Début'])
+            ->add('dateBeg', DateType::class, [
+                'widget' => 'single_text',
+                'label' => 'Date de Début'
+            ])
 
-            ->add('dateEnd', DateType::class,
-                ['widget' => 'single_text',
-                    'html5' => true,
-                    'label' => 'Date de fin'])
+            ->add('dateEnd', DateType::class, [
+                'widget' => 'single_text',
+                'label' => 'Date de fin',
+            ])
 
             ->add('boardGames', EntityType::class, [
                 'label'=>'Jeux',
@@ -31,7 +31,7 @@ class BoardGameReservationType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => true,
                 'attr' => ['style' => 'height: 150px']  /*'select2multiple', 'multiple'=> 'multiple'*/
-                ])
+            ])
 
             ->add('note', TextareaType::class, ['label' => 'Note', 'required' => false, "empty_data"=>""])
 

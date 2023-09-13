@@ -30,15 +30,23 @@ class BoardGameReservation
     private ?string $note;
 
     #[ORM\Column(type: "datetime")]
-    #[Assert\GreaterThanOrEqual("today")]
-    #[Assert\LessThan("1 year")]
+    #[Assert\GreaterThanOrEqual(
+        value: "today",
+        message: "Le début de la réservation ne peut pas être avant aujourd'hui.")]
+    #[Assert\LessThan(
+        value: "1 year",
+        message: "Le début de la réservation doit être dans moins d'un an.")]
     #[Assert\NotBlank()]
     private \DateTime $dateBeg;
 
 
     #[ORM\Column(type: "datetime")]
-    #[Assert\GreaterThanOrEqual("today")]
-    #[Assert\LessThan("1 year")]
+    #[Assert\GreaterThanOrEqual(
+        value: "today",
+        message: "La fin de la réservation ne peut pas être avant aujourd'hui.")]
+    #[Assert\LessThan(
+        value: "1 year",
+        message: "La fin de la réservation doit être dans moins d'un an.")]
     #[Assert\NotBlank()]
     private \DateTime $dateEnd;
 
