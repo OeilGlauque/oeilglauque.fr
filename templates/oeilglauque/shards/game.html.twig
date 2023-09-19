@@ -1,6 +1,5 @@
-<div class="row gameShard ghid_{{ game.getGameSlot().getId() }}" data="{{ game.getGameSlot().getId() }},{{ game.getTags() }}">
-    <div class="col-lg-12">
-        <div>
+<div class="gameShard ghid_{{ game.getGameSlot().getId() }}" data="{{ game.getId() }},{{ game.getGameSlot().getId() }},{{ game.getTags() }}">
+    <div class="game-desc">
 
 {% if game.getFreeSeats() > 1 %}
 {% set accord = 's' %}
@@ -8,33 +7,37 @@
 {% set accord = '' %}
 {% endif %}
 
-            <a href="{{ path('showGame', {'id':game.getId()}) }}"><h2 class="redandblack">{{ game.getTitle() }}</h2></a>
-            <p class="small">Proposé par {{ game.getAuthor().getPseudo() }}<br />
-            Créneau : <span class="slot">{{ game.getGameSlot().getText() }}</span><br />
-            Tags : <span  class="tags">{{ game.listTags() }}</span></p>
-            <p>{{ game.getDescription()|striptags('<br>,<em>,<b>,<u>,<h3>,<a>')|raw }}
-                {% if game.getDescription() ends with '...' %}
-                <a href="{{ path('showGame', {'id':game.getId()}) }}">Voir la suite</a>
-                {% endif %}
-            </p>
-            <br />
-            {% if game.getFreeSeats() > 0 %}
-
-                {% if app.user in game.getPlayers() %}
-                    <p>Vous êtes inscrit à cette partie !</p>
-                {% else %}
-                    <p>{{ game.getFreeSeats() }} place{{accord}} disponible{{accord}}</p>
-                {% endif %}
-
-            {% else %}
-                <p>Malheureusement, il n'y a plus de place disponible en ligne...
-                {% if game.getForceOnlineSeats() == false %}
-                Mais vous pourrez encore vous inscrire à l'accueil du festival !
-                {% endif %}
-                </p>
+        <a href="{{ path('showGame', {'id':game.getId()}) }}"><h2 class="redandblack">{{ game.getTitle() }}</h2></a>
+        <p class="small">Proposé par {{ game.getAuthor().getPseudo() }}<br />
+        Créneau : <span class="slot">{{ game.getGameSlot().getText() }}</span><br />
+        Tags : <span  class="tags">{{ game.listTags() }}</span></p>
+        <p>{{ game.getDescription()|striptags('<br>,<em>,<b>,<u>,<h3>,<a>')|raw }}
+            {% if game.getDescription() ends with '...' %}
+            <a href="{{ path('showGame', {'id':game.getId()}) }}">Voir la suite</a>
             {% endif %}
-        </div>
+        </p>
+        <br />
+        {% if game.getFreeSeats() > 0 %}
+
+            {% if app.user in game.getPlayers() %}
+                <p>Vous êtes inscrit à cette partie !</p>
+            {% else %}
+                <p>{{ game.getFreeSeats() }} place{{accord}} disponible{{accord}}</p>
+            {% endif %}
+
+        {% else %}
+            <p>Malheureusement, il n'y a plus de place disponible en ligne...
+            {% if game.getForceOnlineSeats() == false %}
+            Mais vous pourrez encore vous inscrire à l'accueil du festival !
+            {% endif %}
+            </p>
+        {% endif %}
     </div>
-    <hr/>
-    &nbsp
+    {% if game.getImage() %}
+        <div class="game-img">
+            <img style="margin-bottom: 1rem; width: 100%;" src={{ game.getImage() }} />
+        </div>
+    {% endif %}
 </div>
+<hr/>
+&nbsp

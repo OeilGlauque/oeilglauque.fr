@@ -34,6 +34,10 @@ docker/db
 *override*
 ###< docker
 
+###> user uploaded files
+public/uploads
+###< user uploaded files
+
 # Config perso (arthur)
 query.sql
 .idea

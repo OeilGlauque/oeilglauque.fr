@@ -39,3 +39,7 @@ services:
     App\Service\FOGDiscordWebhookService:
         arguments:
             $webhook: '%env(DISCORD_WEBHOOK)%'
+
+    App\Service\FileUploader:
+        arguments:
+            $baseTargetDir: '%kernel.project_dir%/public/uploads'

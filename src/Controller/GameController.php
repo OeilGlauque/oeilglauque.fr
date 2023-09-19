@@ -10,15 +10,16 @@ use App\Entity\GameSlot;
 use App\Form\GameType;
 use App\Form\GameEditType;
 use App\Repository\GameRepository;
+use App\Service\FileUploader;
 use App\Service\FOGMailerService;
 use App\Service\GlauqueMarkdownParser;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Mime\Address;
+use Symfony\Component\Filesystem\Filesystem;
 
 class GameController extends FOGController {
     
     #[Route("/nouvellePartie", name: "nouvellePartie")]
-    public function newGame(Request $request, FOGMailerService $mailer, EntityManagerInterface $entityManager): Response
+    public function newGame(Request $request, FOGMailerService $mailer, EntityManagerInterface $entityManager, FileUploader $uploader): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -71,23 +72,27 @@ class GameController extends FOGController {
             //Remove any undesired html tags
             $game->setDescription(strip_tags($game->getDescription()));
 
+            $file = $form->get('img')->getData();
+            if ($file) {
+                $filename = $uploader->upload($file, "games");
+                if ($filename != "") {
+                    $game->setImage($filename);
+                } else {
+                    $this->addFlash('danger', "Erreur lors de l'upload de l'image.");
+                    return $this->redirectToRoute('nouvellePartie');
+                }
+            }
+
             // Sauvegarde en base
             $entityManager->persist($game);
             $entityManager->flush();
 
-            $mailer->sendMail(new Address("fogfogtest@gmail.com","L'équipe du FOG"), "Demande de validation de partie", "oeilglauque/emails/game/gameValidationRequest.html.twig", ['user' => $user, 'game' => $game]);
-            /*$message = (new \Swift_Message('Demande de validation de partie'))
-                ->setFrom([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
-                ->setTo([$_ENV['MAILER_ADDRESS'] => 'L\'équipe du FOG'])
-                ->setBody(
-                    $this->renderView(
-                        'oeilglauque/emails/game/gameValidationRequest.html.twig',
-                        ['user' => $user,
-                        'game' => $game]
-                    ),
-                    'text/html'
-                );
-            $mailer->send($message);*/
+            $mailer->sendMail(
+                $mailer->getMailFOG(),
+                "Demande de validation de partie",
+                "oeilglauque/emails/game/gameValidationRequest.html.twig",
+                ['user' => $user, 'game' => $game]
+            );
 
             $this->addFlash('info', "Votre partie a bien été enregistrée ! Elle va être validée par notre équipe avant d'être mise en ligne. Merci pour votre investissement auprès du Festival !");
 
@@ -151,7 +156,7 @@ class GameController extends FOGController {
     }
 
     #[Route("/partie/edit/{id}", name: "editGame")]
-    public function editGame(Request $request, Game $game, EntityManagerInterface $manager): Response
+    public function editGame(Request $request, Game $game, EntityManagerInterface $manager, FileUploader $uploader): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -192,6 +197,19 @@ class GameController extends FOGController {
                     if($g->getGameSlot() == $game->getGameSlot() && $g->getId() != $id) {
                         $this->addFlash('danger', "Vous êtes déjà Maître du Jeu de la partie ".$g->getTitle()." sur cet horaire !");
                         return $this->redirectToRoute('editGame', ["id" => $id]);
+                    }
+                }
+
+                $file = $form->get('img')->getData();
+                if ($file) {
+                    $filename = $uploader->upload($file, "games");
+                    if ($filename != "") {
+                        $filesystem = new Filesystem();
+                        $filesystem->remove($game->getImage());
+                        $game->setImage($filename);
+                    } else {
+                        $this->addFlash('danger', "Erreur lors de l'upload de l'image.");
+                        return $this->redirectToRoute('nouvellePartie');
                     }
                 }
             }

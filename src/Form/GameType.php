@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class GameType extends AbstractType
 {
@@ -30,6 +32,22 @@ class GameType extends AbstractType
             ->add('seats', IntegerType::class, ['label' => 'Places disponibles', 'invalid_message' => "Veuillez entrer un nombre"])
             ->add('tags', TextType::class, ['label' => 'Tags', 'required' => false])
             ->add('forceOnlineSeats', CheckboxType::class, ['label' => 'Permettre de réserver toutes les places en ligne (déconseillé). Par défaut, la moitié des places sont réservable en ligne et l\'autre moitié réservable sur place.', 'required' => false])
+            ->add('img', FileType::class, [
+                'label' => "Image (optionel)",
+                'mapped' => false,
+                'required' => false,
+                'constraints' => new File([
+                    'maxSize' => '2M',
+                    'maxSizeMessage' => "Le fichier est trop lourd ({{ size }} {{ suffix }}), la taille maximale est de 2 Mo.",
+                    'uploadIniSizeErrorMessage' => "Le fichier est trop lourd, la taille maximale est de 2Mo.",
+                    'mimeTypes' => [
+                        'image/png',
+                        'image/jpeg',
+                        'image/webp'
+                    ],
+                    'mimeTypesMessage' => "Le type de fichier n'est pas valide. Les formats acceptés sont png, jpeg et webp."
+                ])
+            ])
             
             ->add('save', SubmitType::class, ['label' => 'Valider']);
     }
@@ -42,4 +60,3 @@ class GameType extends AbstractType
         ]);
     }
 }
-?>
