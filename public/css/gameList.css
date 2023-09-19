@@ -44,7 +44,7 @@ ul {
 		gap: 1rem;
 	}
 
-	.gameShard {
+	.game {
 		display: flex;
 		justify-content: space-between;
 	}
