@@ -1,4 +1,8 @@
-www.oeilglauque.fr, oeilglauque.fr, oeilglauque.insa-rennes.fr {
+{
+	local_certs
+}
+
+localhost:443 {
 	root * /srv/app/public
 	php_fastcgi unix//var/run/php/php-fpm.sock
     encode zstd gzip
