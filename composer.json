@@ -8,6 +8,7 @@
         "doctrine/doctrine-bundle": "^2.8",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.14",
+        "google/apiclient": "^2.15.0",
         "phpdocumentor/reflection-docblock": "5.3",
         "sensio/framework-extra-bundle": "^6.2",
         "symfony/asset": "5.4.*",
@@ -82,7 +83,8 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "pre-autoload-dump": "Google\\Task\\Composer::cleanup"
     },
     "conflict": {
         "symfony/symfony": "*"
@@ -91,6 +93,9 @@
         "symfony": {
             "allow-contrib": false,
             "docker": true
-        }
+        },
+        "google/apiclient-services" :[
+            "Gmail"
+        ]
     }
 }

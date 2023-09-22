@@ -40,6 +40,17 @@
             <a href="{{ path('boardGameReservationList') }}" class="btn btn-lg btn-block btn-admin">Réservations de jeux</a>
         </div>
     </div>
+
+    <h2> Email </h2>
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-4 d-flex justify-content-center">
+            <a href="{{ path('oauth') }}" class="btn btn-lg btn-block btn-admin">Autorisation Gmail</a>
+        </div>
+        <div class="col-md-4 d-flex justify-content-center">
+            <a href="{{ path('testEmail') }}" class="btn btn-lg btn-block btn-admin">Test email</a>
+        </div>
+    </div>
+
     {% if newsState %}
         <div class="row d-flex justify-content-center">
             <div class="col-md-4 d-flex justify-content-center">

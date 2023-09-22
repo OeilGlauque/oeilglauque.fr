@@ -15,7 +15,7 @@ class FOGMailerService
     public function __construct(MailerInterface $mailer)
     {
         $this->mailer = $mailer;
-        $this->mailFOG = new Address("fogfogtest@gmail.com", "L'équipe du FOG");
+        $this->mailFOG = new Address("oeilglauque@gmail.com", "L'équipe du FOG");
     }
 
     public function sendMail(Address $to, String $subject, String $template, array $context, array $cc = [], array $bcc = []) : bool
@@ -37,5 +37,10 @@ class FOGMailerService
     public function getMailFOG(): Address 
     {
         return $this->mailFOG;
+    }
+
+    public function getMailer(): MailerInterface 
+    {
+        return $this->mailer;
     }
 }

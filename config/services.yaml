@@ -43,3 +43,8 @@ services:
     App\Service\FileUploader:
         arguments:
             $baseTargetDir: '%kernel.project_dir%/public/uploads'
+
+    App\Service\FOGGmail:
+        arguments:
+            $address_mail: '%env(ADDRESS_MAIL)%'
+            $address_name: '%env(ADDRESS_NAME)%'

@@ -18,8 +18,11 @@ use App\Form\NewsType;
 use App\Repository\EditionRepository;
 use App\Repository\FeatureRepository;
 use App\Service\FOGMailerService;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Google\Client;
+use Google\Service\Gmail;
+use App\Entity\GoogleAuthToken;
+use App\Service\FOGGmail;
 use Symfony\Component\Mime\Address;
 
 class AdminController extends FOGController {
@@ -492,5 +495,49 @@ class AdminController extends FOGController {
             $this->addFlash('success', $feature->getName() . " est désormais " . ($feature->getState() ? "activée" : "désactivée"));
         }
         return $this->redirectToRoute('adminFeature');
+    }
+
+    /**********************************
+     *     Authorize Gmail mailer     *
+     **********************************/
+
+    #[Route("/admin/oauth", name: "oauth")]
+    public function oauth(Request $request, Client $client, EntityManagerInterface $manager) : Response
+    {
+        if ($request->query->get('code') == "")
+        {
+            $client->addScope(Gmail::GMAIL_SEND);
+            $client->setAccessType('offline');
+
+            $auth_url = $client->createAuthUrl();
+
+            return $this->redirect(filter_var($auth_url,FILTER_SANITIZE_URL));
+        }
+
+        $client->fetchAccessTokenWithAuthCode($request->query->get('code'));
+        $google_token = $client->getAccessToken();
+
+        $token = new GoogleAuthToken();
+        $token->setAccessToken($google_token['access_token']);
+        $token->setRefreshToken($google_token['refresh_token']);
+        $token->setCreated($google_token['created']);
+        $token->setExpiresIn($google_token['expires_in']);
+
+        $manager->persist($token);
+        $manager->flush();
+
+        $this->addFlash('success', "Le token à été récupéré avec succès.");
+
+        return $this->redirectToRoute('admin');
+    }
+
+    #[Route("/admin/testemail", name: "testEmail")]
+    public function testEmail(FOGGmail $mailer) : Response
+    {
+        $mailer->sendEmail($mailer->getMailFOG(),"Test de l'envoie de mail", "Test réussi !");
+
+        $this->addFlash('success', "Le mail à bien été envoyé.");
+
+        return $this->redirectToRoute('admin');
     }
 }
