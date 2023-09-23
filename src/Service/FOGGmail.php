@@ -10,14 +10,18 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mime\Email;
 use Google\Client;
 use Google\Service\Gmail\Message;
+use Symfony\Bridge\Twig\Mime\BodyRenderer;
+use Twig\Environment;
 
 class FOGGmail
 {
     private Gmail $mailer;
     private Address $mailFOG;
+    private Environment $twig;
 
-    public function __construct(EntityManagerInterface $manager, Client $client, string $address_mail, string $address_name)
+    public function __construct(EntityManagerInterface $manager, Client $client, string $address_mail, string $address_name, Environment $twig)
     {
+        $this->twig = $twig;
         $this->mailFOG = new Address($address_mail, $address_name);//new Address('oeilglauque@gmail.com', 'L\'Équipe du FOG');
 
         $token = $manager->getRepository(GoogleAuthToken::class)->findLastToken();
@@ -49,7 +53,10 @@ class FOGGmail
             ->context($context)
             ->cc(...$cc)
             ->bcc(...$bcc);
-
+        
+        $body_renderer = new BodyRenderer($this->twig);
+        $body_renderer->render($email);
+        
         $message = new Message();
         $message->setRaw(strtr(base64_encode($email->toString()),['+' => '-', '/' => '_']));
 

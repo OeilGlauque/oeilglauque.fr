@@ -6,7 +6,7 @@ use App\Entity\Feature;
 use App\Entity\BoardGame;
 use App\Form\BoardGameReservationType;
 use App\Service\FOGDiscordWebhookService;
-use App\Service\FOGMailerService;
+use App\Service\FOGGmail;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,7 +15,7 @@ use Symfony\Component\Mime\Address;
 class BoardGameReservationController extends FOGController
 {
     #[Route("/reservations/boardGame", name: "boardGameReservation")]
-    public function boardGameReservation(Request $request, EntityManagerInterface $manager, FOGMailerService $mailer, FOGDiscordWebhookService $discord)
+    public function boardGameReservation(Request $request, EntityManagerInterface $manager, FOGGmail $mailer, FOGDiscordWebhookService $discord)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -57,7 +57,7 @@ class BoardGameReservationController extends FOGController
                         $manager->flush();
 
                         // mail pour l'utilisateur
-                        $mailer->sendMail(
+                        $mailer->sendTemplatedEmail(
                             new Address($reservation->getAuthor()->getEmail(), $reservation->getAuthor()->getPseudo()),
                             'Nouvelle demande de réservation de jeu au FOG',
                             'oeilglauque/emails/boardGameReservation/nouvelleReservation.html.twig',
@@ -67,7 +67,7 @@ class BoardGameReservationController extends FOGController
                         );
 
                         // mail pour le bureau
-                        $mailer->sendMail(
+                        $mailer->sendTemplatedEmail(
                             $mailer->getMailFOG(),
                             'Nouvelle demande de réservation de jeu au FOG',
                             'oeilglauque/emails/boardGameReservation/admin/nouvelleReservation.html.twig',

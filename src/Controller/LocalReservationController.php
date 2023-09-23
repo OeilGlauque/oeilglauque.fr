@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\LocalReservation;
 use App\Entity\Feature;
 use App\Form\LocalReservationType;
-use App\Service\FOGMailerService;
+use App\Service\FOGGmail;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,7 +14,7 @@ use Symfony\Component\Mime\Address;
 class LocalReservationController extends FOGController
 {
     #[Route("/reservations/local", name: "localReservation")]
-    public function localReservation(Request $request, EntityManagerInterface $manager, FOGMailerService $mailer)
+    public function localReservation(Request $request, EntityManagerInterface $manager, FOGGmail $mailer)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -46,7 +46,7 @@ class LocalReservationController extends FOGController
                 $manager->persist($reservation);
                 $manager->flush();
 
-                $mailer->sendMail(
+                $mailer->sendTemplatedEmail(
                     new Address($reservation->getAuthor()->getEmail(), $reservation->getAuthor()->getPseudo()),
                     'Nouvelle demande de réservation du local FOG',
                     'oeilglauque/emails/localReservation/nouvelleReservation.html.twig',

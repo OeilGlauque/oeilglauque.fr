@@ -11,7 +11,7 @@ use App\Form\GameType;
 use App\Form\GameEditType;
 use App\Repository\GameRepository;
 use App\Service\FileUploader;
-use App\Service\FOGMailerService;
+use App\Service\FOGGmail;
 use App\Service\GlauqueMarkdownParser;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -19,7 +19,7 @@ use Symfony\Component\Filesystem\Filesystem;
 class GameController extends FOGController {
     
     #[Route("/nouvellePartie", name: "nouvellePartie")]
-    public function newGame(Request $request, FOGMailerService $mailer, EntityManagerInterface $entityManager, FileUploader $uploader): Response
+    public function newGame(Request $request, FOGGmail $mailer, EntityManagerInterface $entityManager, FileUploader $uploader): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -87,7 +87,7 @@ class GameController extends FOGController {
             $entityManager->persist($game);
             $entityManager->flush();
 
-            $mailer->sendMail(
+            $mailer->sendTemplatedEmail(
                 $mailer->getMailFOG(),
                 "Demande de validation de partie",
                 "oeilglauque/emails/game/gameValidationRequest.html.twig",

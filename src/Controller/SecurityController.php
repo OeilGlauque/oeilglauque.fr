@@ -10,7 +10,7 @@ use App\Entity\User;
 use App\Form\ChangePasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
 use App\Repository\UserRepository;
-use App\Service\FOGMailerService;
+use App\Service\FOGGmail;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
@@ -160,7 +160,7 @@ class SecurityController extends FOGController
     }
 
     #[Route("/forgotpwd", name: "forgotPwd", methods: ['GET', 'POST'])]
-    public function forgotPwd(Request $request, FOGMailerService $mailer, EntityManagerInterface $entityManager, TokenGeneratorInterface $tokenGenerator): Response
+    public function forgotPwd(Request $request, FOGGmail $mailer, EntityManagerInterface $entityManager, TokenGeneratorInterface $tokenGenerator): Response
     {
         $form = $this->createForm(ResetPasswordRequestFormType::class);
         $form->handleRequest($request);
@@ -179,7 +179,7 @@ class SecurityController extends FOGController
 
                 $url = $this->generateUrl('resetPwd', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
 
-                $mailer->sendMail(new Address($email,$user->getPseudo()), 'Demande de réinitialisation de mot de passe', 'oeilglauque/emails/resetPwdRequest.html.twig', ['user' => $user, 'url' => $url]);
+                $mailer->sendTemplatedEmail(new Address($email,$user->getPseudo()), 'Demande de réinitialisation de mot de passe', 'oeilglauque/emails/resetPwdRequest.html.twig', ['user' => $user, 'url' => $url]);
 
                 $this->addFlash('success', 'Mail envoyé, vérifiez votre boite mail.');
                 return $this->redirectToRoute('index');
