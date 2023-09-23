@@ -27,13 +27,22 @@ class GoogleAuthTokenRepository extends ServiceEntityRepository
      *
      * @return GoogleAuthToken
      */
-    public function findLastToken(): GoogleAuthToken
+    public function findLastToken(): GoogleAuthToken|null
     {
         $qb = $this->createQueryBuilder("t")
                     ->orderBy('t.id','DESC')
                     ->setMaxResults(1);
 
-        return $qb->getQuery()->getResult()[0];
+        $result = $qb->getQuery()->getResult();
+
+        if ($result == [])
+        {
+            return null;
+        } 
+        else
+        {
+            return $result[0];
+        }
     }
 
 //    /**
