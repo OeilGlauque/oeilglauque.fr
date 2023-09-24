@@ -8,28 +8,32 @@
             Les gobelins en charge du planning n'ont pas encore fini leur travail&nbsp;!
         </p>
     -->
-    <div>
-        <div class="row justify-content-center mb-3">
-            <div class="col-lg d-flex justify-content-center">
-                <a href="/img/planning/planning_ven.jpg">
-                    <img alt="vendredi" src="/img/planning/planning_ven.jpg" class="img-fluid"/>
-                </a>
+    {% if planning %}
+        <div>
+            <div class="row justify-content-center mb-3">
+                <div class="col-lg d-flex justify-content-center">
+                    <a href="/img/planning/planning_ven.jpg">
+                        <img alt="vendredi" src="/img/planning/planning_ven.jpg" class="img-fluid"/>
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center mb-3">
+                <div class="col-lg d-flex justify-content-center">
+                    <a href="/img/planning/planning_sam.jpg">
+                        <img alt="samedi" src="/img/planning/planning_sam.jpg"class="img-fluid"/>
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg d-flex justify-content-center">
+                    <a href="/img/planning/planning_dim.jpg">
+                        <img alt="dimanche" src="/img/planning/planning_dim.jpg" class="img-fluid"/>
+                    </a>
+                </div>
             </div>
         </div>
-        <div class="row justify-content-center mb-3">
-            <div class="col-lg d-flex justify-content-center">
-                <a href="/img/planning/planning_sam.jpg">
-                    <img alt="samedi" src="/img/planning/planning_sam.jpg"class="img-fluid"/>
-                </a>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-lg d-flex justify-content-center">
-                <a href="/img/planning/planning_dim.jpg">
-                    <img alt="dimanche" src="/img/planning/planning_dim.jpg" class="img-fluid"/>
-                </a>
-            </div>
-        </div>
-    </div>
+    {% else %}
+        <p> Le planning n'est pas encore disponible. Revenez plus tard !</p>
+    {% endif %}
 
 {% endblock %}
