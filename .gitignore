@@ -38,6 +38,10 @@ docker/db
 public/uploads
 ###< user uploaded files
 
+###> google client secret
+client_secret*
+###< google client secret
+
 # Config perso (arthur)
 query.sql
 .idea
