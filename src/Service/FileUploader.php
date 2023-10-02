@@ -22,7 +22,6 @@ class FileUploader
         try {
             $file->move($this->baseTargetDir . "/" . $dir, $filename);
         } catch (FileException $e) {
-            dd($e);
             return "";
         }
 
