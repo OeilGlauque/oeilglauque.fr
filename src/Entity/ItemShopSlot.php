@@ -39,10 +39,10 @@ class ItemShopSlot
     private DateTime $orderTime;
 
     #[ORM\Column(type: "datetime", nullable: true)]
-    private ?DateTime $preOrderTime;
+    private ?DateTime $preOrderTime = null;
 
     #[ORM\Column(type: "integer", nullable: true)]
-    private ?int $maxOrder;
+    private ?int $maxOrder = null;
 
     public function __construct()
     {

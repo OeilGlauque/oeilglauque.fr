@@ -48,8 +48,6 @@ class ItemShopController extends FOGController
         $slot->setOrderTime($this->parseDate($request->query->get('orderTime')));
         if ($request->query->get('preOrderTime') != null) {
             $slot->setPreOrderTime($this->parseDate($request->query->get('preOrderTime')));
-        }else {
-            $slot->setPreOrderTime($this->parseDate($request->query->get('orderTime')));
         }
         if ($request->query->get('maxOrder') != null) {
             $slot->setMaxOrder($request->query->get('maxOrder'));
@@ -246,25 +244,24 @@ class ItemShopController extends FOGController
     }
 
     #[Route("/order/collectOrder/{id}/{state}", name: "collectOrder")]
-    public function collectOrder(Request $request, $id, $state, EntityManagerInterface $manager)
+    public function collectOrder(Request $request, $id, $state, EntityManagerInterface $manager) : Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $order = $manager->getRepository(ItemShopOrder::class)->find($id);
         $order->setCollected(!$state);
-        $manager->persist($order);
         $manager->flush();
 
-        if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(!$state); 
+        if ($request->getContent() == "update") {
+            return new JsonResponse(json_encode(!$state),json: true);
         } else {
             $this->addFlash('success', "La commande de " . $order->getPseudo() . " a bien été livré. ");
-            return $this->redirectToRoute('orderList', ["slot" => $order->getSlot()->getId()]);
+            return $this->redirectToRoute('orderList', ["id" => $order->getSlot()->getId()]);
         }
     }
 
     #[Route("/order/deleteOrder/{id}", name: "deleteOrder")]
-    public function deleteOrder(Request $request, ItemShopOrder $order, EntityManagerInterface $manager)
+    public function deleteOrder(ItemShopOrder $order, EntityManagerInterface $manager) : Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 

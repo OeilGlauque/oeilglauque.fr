@@ -18,16 +18,16 @@
             {% endif %}
             Fin commande : {{ currentSlot.getOrderTime().format("d/m H:i")}}
         </span>
-        <div class="d-flex justify-content-between">
-            <form class="form-inline addItem" id="addOrder" method="GET" action="{{ path('addOrder', {'id': currentSlot.getId() }) }}">
-                <input type="text" placeholder="Pseudo" required name="pseudo" />
+        <div class="d-md-flex justify-content-between">
+            <form class="addItem" id="addOrder" method="GET" action="{{ path('addOrder', {'id': currentSlot.getId() }) }}">
+                <input class="my-3 my-md-0" type="text" placeholder="Pseudo" required name="pseudo" />
                 <select name="item" required>
                     {% for item in items
 						|filter(item => item.getEdition().getId() == edition.getId()) %}
                         <option value="{{ item.getId() }}">{{ item.getName() }} ({{ item.getPrice }} €)</option>
                     {% endfor %}
                 </select>
-                <input type="submit" class="form-control mr-sm-2 btn btn-danger" value="Valider" /> 
+                <input type="submit" class="me-lg-5 btn btn-danger my-3 my-md-0 flex-shrink-1" value="Valider" /> 
             </form>
             <div>
                 <h3>Sélectionner un autre créneau</h3>
@@ -128,7 +128,26 @@
     </div>
     <script>
         function collectOrder(id, state) {
-            $.ajax({  
+            fetch('/order/collectOrder/'+id+'/'+state, {
+                method: 'Post',
+                header: {'Content-Type' : 'application/json'},
+                body: "update"
+            }).then((res) => {
+                if (!res.ok) {
+                    throw Error(res.statusText)
+                }
+                return res
+            }).then((res) => 
+                res.json()
+            ).then((data) => {
+                console.log(data)
+                const order = document.getElementById('order' + id);
+                order.querySelector('.state').innerText = data ? 'Livré 👍' : 'En attente de livraison 👎';
+                order.querySelector('.state').className = 'state ' + (data ? 'ok' : 'ko');
+                order.querySelector('.orderAction .collect').innerText = data ? 'Annuler livraison' : 'Livrer';
+                order.querySelector('.orderAction .collect').setAttribute('onclick', 'collectOrder(' + id + ', ' + (data ? '1' : '0') + ')');
+            })
+            /*$.ajax({  
                url: '/order/collectOrder/' + id + '/' + state,  
                type: 'POST',   
                dataType: 'json',  
@@ -144,7 +163,7 @@
                error : function(xhr, textStatus, errorThrown) {  
                   alert('Ajax request failed.');  
                }  
-            });
+            });*/
         }
     </script>
 

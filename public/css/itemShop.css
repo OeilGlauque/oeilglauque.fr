@@ -47,15 +47,17 @@ ul {
 }
 
 .orderAction div a {
-    margin: 0 30px;
+    margin: 0 10px;
 }
 
 .addItem {
+    display: flex;
     flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .addItem input {
-    flex-direction: row;
     margin: 0 15px;
 }
 
@@ -86,4 +88,11 @@ ul {
 
 li {
     font-family: system-ui;
+}
+
+@media (min-width: 992px) {
+    .addItem {
+        align-items: center;
+        flex-wrap: nowrap;
+    }
 }
