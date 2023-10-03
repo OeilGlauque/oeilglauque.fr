@@ -10,7 +10,7 @@ class FOGDiscordWebhookService {
     public function send(string $msg, array $embeds){
         $json_data = json_encode([
             'content' => '<@&278289623933911041>'.$msg,
-            'username' => 'Website',
+            'username' => 'Bonifacius',
             'embeds' => $embeds
         ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
