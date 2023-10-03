@@ -11,6 +11,7 @@ use App\Form\GameType;
 use App\Form\GameEditType;
 use App\Repository\GameRepository;
 use App\Service\FileUploader;
+use App\Service\FOGDiscordWebhookService;
 use App\Service\FOGGmail;
 use App\Service\GlauqueMarkdownParser;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,7 +20,7 @@ use Symfony\Component\Filesystem\Filesystem;
 class GameController extends FOGController {
     
     #[Route("/nouvellePartie", name: "nouvellePartie")]
-    public function newGame(Request $request, FOGGmail $mailer, EntityManagerInterface $entityManager, FileUploader $uploader): Response
+    public function newGame(Request $request, FOGGmail $mailer, EntityManagerInterface $entityManager, FileUploader $uploader, FOGDiscordWebhookService $discord): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -93,6 +94,8 @@ class GameController extends FOGController {
                 "oeilglauque/emails/game/gameValidationRequest.html.twig",
                 ['user' => $user, 'game' => $game]
             );
+
+            $discord->send("Nouvelle partie disponible pour validation (https://oeilglauque.fr/admin/games/validate)");
 
             $this->addFlash('info', "Votre partie a bien été enregistrée ! Elle va être validée par notre équipe avant d'être mise en ligne. Merci pour votre investissement auprès du Festival !");
 
