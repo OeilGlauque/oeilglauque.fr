@@ -208,7 +208,12 @@ class GameController extends FOGController {
                     $filename = $uploader->upload($file, "games");
                     if ($filename != "") {
                         $filesystem = new Filesystem();
-                        $filesystem->remove($game->getImage());
+
+                        // remove previous image if exist
+                        if ($game->getImage() != null) {
+                            $filesystem->remove($game->getImage());
+                        }
+                        
                         $game->setImage($filename);
                     } else {
                         $this->addFlash('danger', "Erreur lors de l'upload de l'image.");
