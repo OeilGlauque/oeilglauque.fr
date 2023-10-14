@@ -37,7 +37,7 @@ class Game
     #[ORM\Column(type: "integer")]
     #[Assert\Range(
         min: 1,
-        max: 10,
+        max: 15,
         minMessage: "Il faut au moins un joueur pour s'amuser...",
         maxMessage: "Notre capacité d'accueil est limitée !" )]
     private int $seats;
