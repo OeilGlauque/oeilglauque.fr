@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1 class="titre">Menu</h1>
+    {% if planning %}
+        <div class="d-flex justify-content-center">
+            <a href="/img/planning/planning_dim.jpg">
+                <img alt="menu" src="/img/planning/planning_dim.jpg"/>
+            </a>
+        </div>
+    {% else %}
+        <p> Le menu n'est pas encore disponible. Revenez plus tard !</p>
+    {% endif %}
+
+{% endblock %}

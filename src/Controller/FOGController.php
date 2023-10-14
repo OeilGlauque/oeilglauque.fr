@@ -27,6 +27,9 @@ class FOGController extends AbstractController {
         if (!array_key_exists('planning', $parameters)) {
             $parameters['planning'] = $this->FogParams->getPlanningStatus();
         }
+        if (!array_key_exists('menu', $parameters)) {
+            $parameters['menu'] = $this->FogParams->getMenuStatus();
+        }
         return parent::render($view, $parameters);
     }
 }

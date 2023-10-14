@@ -12,6 +12,7 @@ class FOGParametersService {
     private ?bool $modeFog;
     private ?bool $gameOpen;
     private ?bool $planning;
+    private ?bool $menu;
 
     public function __construct(EditionRepository $editionRepository, FeatureRepository $featureRepository, int $current_edition, string $current_edition_type) {
         $this->edition = $editionRepository->findOneBy(['annee' => $current_edition,'type' => $current_edition_type]);
@@ -21,6 +22,8 @@ class FOGParametersService {
         $this->gameOpen = $featureRepository->find(5)->getState();
 
         $this->planning = $featureRepository->find(7)->getState();
+
+        $this->menu = $featureRepository->find(8)->getState();
     }
 
     public function getCurrentEdition(): ?Edition {
@@ -37,5 +40,9 @@ class FOGParametersService {
 
     public function getPlanningStatus(): ?bool {
         return $this->planning;
+    }
+
+    public function getMenuStatus() : ?bool {
+        return $this->menu;
     }
 }
