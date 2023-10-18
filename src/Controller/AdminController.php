@@ -347,30 +347,12 @@ class AdminController extends FOGController {
         exec("/usr/bin/python /srv/app/pdf.py");
         exec("cp /tmp/out.pdf /srv/app/");
         exec("rm /tmp/out*");
-        //$html = $this->renderView('oeilglauque/printGames.html.twig',['games' => $games]);
-
-        /*$fs->dumpFile('/tmp/out.html',$html);
-
-        exec("weasyprint /tmp/out.html /tmp/out.pdf");*/
 
         $response = new BinaryFileResponse('/srv/app/out.pdf');
         $response->headers->set('Content-Type','application/pdf');
         $response->deleteFileAfterSend();
 
         return $response;
-        /*return $this->render('oeilglauque/printGames.html.twig',[
-            'game' => $games[0]
-        ]);*/
-    }
-
-    #[Route("/admin/games/print/raw", name: "rawPrintGames")]
-    public function rawPrintGames(GameRepository $gameRepository, FOGParametersService $FOGParams): Response
-    {
-        $games = $gameRepository->getOrderedGameList($FOGParams->getCurrentEdition(),true);
-
-        return $this->render('oeilglauque/printGames.html.twig',[
-            'games' => $games
-        ]);
     }
 
     /************************************
