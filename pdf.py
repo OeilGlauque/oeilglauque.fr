@@ -12,4 +12,4 @@ for file in glob('/tmp/*.pdf'):
     src = Pdf.open(file)
     res.pages.extend(src.pages)
 
-res.save('/tmp/out.pdf')
+res.save('/tmp/res.pdf')

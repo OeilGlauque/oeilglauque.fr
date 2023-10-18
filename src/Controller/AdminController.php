@@ -345,7 +345,6 @@ class AdminController extends FOGController {
         }
 
         exec("/usr/bin/python /srv/app/pdf.py");
-        exec("cp /tmp/out.pdf /srv/app/");
         exec("rm /tmp/out*");
 
         $response = new BinaryFileResponse('/srv/app/out.pdf');
