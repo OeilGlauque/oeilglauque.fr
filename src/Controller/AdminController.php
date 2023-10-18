@@ -21,7 +21,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Google\Client;
 use Google\Service\Gmail;
 use App\Entity\GoogleAuthToken;
+use App\Repository\GameRepository;
 use App\Service\FOGGmail;
+use App\Service\FOGParametersService;
+use LDAP\Result;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Mime\Address;
 
 class AdminController extends FOGController {
@@ -326,6 +331,46 @@ class AdminController extends FOGController {
         } else {
             throw $this->createNotFoundException('Impossible de trouver la partie demandée.');
         }
+    }
+
+    #[Route("/admin/games/print", name: "printGames")]
+    public function printGames(GameRepository $gameRepository, FOGParametersService $FOGParams, Filesystem $fs): Response
+    {
+
+        $games = $gameRepository->getOrderedGameList($FOGParams->getCurrentEdition(),true);
+        for ($i=0; $i < count($games); $i++)
+        {
+            $html = $this->renderView('oeilglauque/printGames.html.twig',['game' => $games[$i]]);
+            $fs->dumpFile('/tmp/out'.$i.'.html',$html);
+        }
+
+        exec("/usr/bin/python /srv/app/pdf.py");
+        exec("cp /tmp/out.pdf /srv/app/");
+        exec("rm /tmp/out*");
+        //$html = $this->renderView('oeilglauque/printGames.html.twig',['games' => $games]);
+
+        /*$fs->dumpFile('/tmp/out.html',$html);
+
+        exec("weasyprint /tmp/out.html /tmp/out.pdf");*/
+
+        $response = new BinaryFileResponse('/srv/app/out.pdf');
+        $response->headers->set('Content-Type','application/pdf');
+        $response->deleteFileAfterSend();
+
+        return $response;
+        /*return $this->render('oeilglauque/printGames.html.twig',[
+            'game' => $games[0]
+        ]);*/
+    }
+
+    #[Route("/admin/games/print/raw", name: "rawPrintGames")]
+    public function rawPrintGames(GameRepository $gameRepository, FOGParametersService $FOGParams): Response
+    {
+        $games = $gameRepository->getOrderedGameList($FOGParams->getCurrentEdition(),true);
+
+        return $this->render('oeilglauque/printGames.html.twig',[
+            'games' => $games
+        ]);
     }
 
     /************************************

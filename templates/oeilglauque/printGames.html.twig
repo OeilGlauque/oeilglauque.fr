@@ -1,0 +1,26 @@
+<!doctype html>
+
+<html style="width: 100%">
+    <meta charset="utf-8">
+
+    <body style="width: 100%;">
+        <div style="display: flex; justify-content: center; width: 100%;">
+            <h1 style="font-size: 3rem;">{{ game.title }}</h1>
+        </div>
+            <div style="margin: 0 1rem">
+                <h3>Description :</h3>
+                <div style="padding: 0 1rem">
+                {{ game.description }}
+                </div>
+            </div>
+
+            <div style="margin: 0 1rem">
+                <h3>Joueurs :</h3>
+                <ul>
+                {% for player in game.getPlayers() %}
+                    <li>{{ player.getPseudo }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+    </body>
+</html>
