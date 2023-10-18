@@ -347,7 +347,7 @@ class AdminController extends FOGController {
         exec("/usr/bin/python /srv/app/pdf.py");
         exec("rm /tmp/out*");
 
-        $response = new BinaryFileResponse('/srv/app/out.pdf');
+        $response = new BinaryFileResponse('/tmp/res.pdf');
         $response->headers->set('Content-Type','application/pdf');
         $response->deleteFileAfterSend();
 
