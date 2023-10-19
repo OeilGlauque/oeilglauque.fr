@@ -3,10 +3,16 @@
 {% block body %}
 
     <h1 class="titre">Menu</h1>
-    {% if planning %}
-        <div class="d-flex justify-content-center">
-            <a href="/img/planning/planning_dim.jpg">
-                <img alt="menu" src="/img/planning/planning_dim.jpg"/>
+    {% if menu %}
+        <div style="display: grid; gap: 3rem;">
+            <a href="/img/menu/menu-1_XIX.webp">
+                <img alt="menu" src="/img/menu/menu-1_XIX.webp" width="100%"/>
+            </a>
+            <a href="/img/menu/menu-2_XIX.webp">
+                <img alt="menu" src="/img/menu/menu-2_XIX.webp" width="100%"/>
+            </a>
+            <a href="/img/menu/menu-3_XIX.webp">
+                <img alt="menu" src="/img/menu/menu-3_XIX.webp" width="100%"/>
             </a>
         </div>
     {% else %}
