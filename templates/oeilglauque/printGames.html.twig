@@ -14,8 +14,15 @@
                 </div>
             </div>
 
+            <div>
+                <h3>Crénau :</h3>
+                <div style="padding: 0 1rem">
+                    {{ game.getGameSlot().getText() }}
+                </div>
+            </div>
+
             <div style="margin: 0 1rem">
-                <h3>Joueurs :</h3>
+                <h3>Joueurs ({{ game.getSeats() }} places) :</h3>
                 <ul>
                 {% for player in game.getPlayers() %}
                     <li>{{ player.getPseudo }}</li>
