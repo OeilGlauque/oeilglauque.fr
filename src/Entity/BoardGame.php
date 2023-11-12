@@ -45,6 +45,12 @@ class BoardGame
     #[ORM\ManyToMany(targetEntity: BoardGameReservation::class, mappedBy: "boardGames")]
     private Collection $reservations;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $state = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $editor = null;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -165,5 +171,29 @@ class BoardGame
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function getState(): ?string
+    {
+        return $this->state;
+    }
+
+    public function setState(?string $state): static
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    public function getEditor(): ?string
+    {
+        return $this->editor;
+    }
+
+    public function setEditor(?string $editor): static
+    {
+        $this->editor = $editor;
+
+        return $this;
     }
 }
