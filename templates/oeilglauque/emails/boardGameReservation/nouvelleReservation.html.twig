@@ -37,7 +37,7 @@
                     {% if g.getPrice() < 10 %}
                         10.00€
                     {% else %}
-                        {{ (g.getPrice() - (g.getPrice() % 10)) | number_format(2, ',', ' ') }}€
+                        {{ g.getPrice() | number_format(2, ',', ' ') }}€
                     {% endif %}
                 {% endif %}
             </li>
