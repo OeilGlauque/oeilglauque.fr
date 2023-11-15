@@ -80,7 +80,7 @@ class BoardGameReservationController extends FOGController
                         $discord->send(
                             'Nouvelle demande de réservation de jeux.',
                             [[
-                                "title" => "Demande de réservation de jeux par " . $reservation->getAuthor()->getPseudo() . " du " . $reservation->getDateBeg()->format('d/m/Y') . " au " . $reservation->getDateEnd()->format("d/m/Y"),
+                                "title" => "Demande de réservation de jeux par " . $reservation->getAuthor()->getPseudo() . " (" . $reservation->getAuthor()->getEmail() . ") du " . $reservation->getDateBeg()->format('d/m/Y') . " au " . $reservation->getDateEnd()->format("d/m/Y"),
                                 "description" => "Liste des jeux :",
                                 "fields" => array_merge(
                                     array_map(function ($jeu,$price) {return ["name" => "- " . $jeu . " (" . $price . "€)", "value" => ""];}, 
