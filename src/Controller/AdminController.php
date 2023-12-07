@@ -517,7 +517,7 @@ class AdminController extends FOGController {
             $feature->setState($state != 0);
             $doctrine->flush();
 
-            $this->addFlash('success', $feature->getName() . " est désormais " . ($feature->getState() ? "activée" : "désactivée"));
+            $this->addFlash('success', "La fonctionnalité " . $feature->getName() . " est désormais " . ($feature->getState() ? "activée" : "désactivée"));
         }
         return $this->redirectToRoute('adminFeature');
     }

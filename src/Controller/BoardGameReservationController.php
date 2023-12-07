@@ -83,7 +83,13 @@ class BoardGameReservationController extends FOGController
                                 "title" => "Demande de réservation de jeux par " . $reservation->getAuthor()->getPseudo() . " (" . $reservation->getAuthor()->getEmail() . ") du " . $reservation->getDateBeg()->format('d/m/Y') . " au " . $reservation->getDateEnd()->format("d/m/Y"),
                                 "description" => "Liste des jeux :",
                                 "fields" => array_merge(
-                                    array_map(function ($jeu,$price) {return ["name" => "- " . $jeu . " (" . $price . "€)", "value" => ""];}, 
+                                    array_map(function ($jeu,$price) {
+                                        return ["name" => "- " . $jeu . " (" . $price . "€)", "value" => 
+                                        (!is_null($jeu->getMissing()) && $jeu->getMissing() !== "" ? "Manquant : " . $jeu->getMissing() . "\n" : "") .
+                                        (!is_null($jeu->getExcess()) && $jeu->getExcess() !== "" ? "En trop : " . $jeu->getExcess() . "\n" : "" ) .
+                                        (!is_null($jeu->getNote()) && $jeu->getNote() !== "" ? "Note : " . $jeu->getNote() : "") 
+                                    ];
+                                    }, 
                                     $reservation->getBoardGames()->getValues(),
                                     array_map(function ($el) { return $el->getPrice();}, $reservation->getBoardGames()->getValues())
                                 ),
@@ -93,6 +99,9 @@ class BoardGameReservationController extends FOGController
                                         ],
                                         [
                                             "name" => "Note :", "value" => $reservation->getNote()
+                                        ],
+                                        [
+                                            "name" => "Lien pour gérer la réservation :", "value" => "https://oeilglauque.fr/admin/reservations/boardGame"
                                         ]
                                     ]
                                 )
