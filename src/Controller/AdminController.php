@@ -24,7 +24,6 @@ use App\Entity\GoogleAuthToken;
 use App\Repository\GameRepository;
 use App\Service\FOGGmail;
 use App\Service\FOGParametersService;
-use LDAP\Result;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Mime\Address;

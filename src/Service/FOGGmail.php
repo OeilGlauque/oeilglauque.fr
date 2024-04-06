@@ -6,6 +6,7 @@ use App\Entity\GoogleAuthToken;
 use Doctrine\ORM\EntityManagerInterface;
 use Google\Service\Gmail;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mime\Email;
 use Google\Client;
@@ -15,14 +16,21 @@ use Twig\Environment;
 
 class FOGGmail
 {
-    private ?Gmail $mailer;
+    private Gmail|MailerInterface $mailer;
     private Address $mailFOG;
     private Environment $twig;
+    private bool $dev_env = false;
 
-    public function __construct(EntityManagerInterface $manager, Client $client, string $address_mail, string $address_name, Environment $twig)
+    public function __construct(EntityManagerInterface $manager, Client $client, string $address_mail, string $address_name, Environment $twig, string $dev_env, MailerInterface $dev_mailer)
     {
         $this->twig = $twig;
         $this->mailFOG = new Address($address_mail, $address_name);
+
+        if ($dev_env === 'dev') {
+            $this->mailer = $dev_mailer;
+            $this->dev_env = true;
+            return;
+        }
 
         $token = $manager->getRepository(GoogleAuthToken::class)->findLastToken();
 
@@ -60,6 +68,11 @@ class FOGGmail
             ->context($context)
             ->cc(...$cc)
             ->bcc(...$bcc);
+
+        if ($this->dev_env) {
+            $this->mailer->send($email);
+            return true;
+        }
         
         $body_renderer = new BodyRenderer($this->twig);
         $body_renderer->render($email);
@@ -81,6 +94,11 @@ class FOGGmail
             ->text($text)
             ->cc(...$cc)
             ->bcc(...$bcc);
+
+        if ($this->dev_env) {
+            $this->mailer->send($email);
+            return true;
+        }
 
         $message = new Message();
         $message->setRaw(strtr(base64_encode($email->toString()),['+' => '-', '/' => '_']));

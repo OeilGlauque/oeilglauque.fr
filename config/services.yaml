@@ -48,3 +48,4 @@ services:
         arguments:
             $address_mail: '%env(ADDRESS_MAIL)%'
             $address_name: '%env(ADDRESS_NAME)%'
+            $dev_env: '%env(APP_ENV)%'
