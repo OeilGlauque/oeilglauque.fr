@@ -19,6 +19,13 @@ class BoardGameRepository extends ServiceEntityRepository
         parent::__construct($registry, BoardGame::class);
     }
 
+    public function findAllAlphabetical(){
+        return $this->createQueryBuilder('b')
+            ->orderBy('b.name', 'ASC')
+            ->getQuery()
+            ->execute();
+    }
+
     // /**
     //  * @return BoardGame[] Returns an array of BoardGame objects
     //  */

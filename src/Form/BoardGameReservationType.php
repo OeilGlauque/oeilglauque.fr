@@ -2,6 +2,7 @@
 namespace App\Form;
 
 use App\Entity\BoardGameReservation;
+use App\Repository\BoardGameRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -12,6 +13,13 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class BoardGameReservationType extends AbstractType
 {
+
+    private $boardGamesRepository;
+
+    public function __construct(BoardGameRepository $boardGamesRepository){
+        $this->boardGamesRepository = $boardGamesRepository;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -30,6 +38,7 @@ class BoardGameReservationType extends AbstractType
                 'class' => 'App\Entity\BoardGame',
                 'choice_label' => 'name',
                 'multiple' => true,
+                'choices' => $this->boardGamesRepository->findAllAlphabetical(),
                 'attr' => ['style' => 'height: 150px']  /*'select2multiple', 'multiple'=> 'multiple'*/
             ])
 

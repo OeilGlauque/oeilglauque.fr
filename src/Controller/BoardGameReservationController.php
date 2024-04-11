@@ -27,10 +27,7 @@ class BoardGameReservationController extends FOGController
 
         $reservation = new BoardGameReservation();
         $form = $this->createForm(BoardGameReservationType::class, $reservation);
-        $boardGames = $manager->getRepository(BoardGame::class)->findAll();
-        usort($boardGames, function($a, $b) {
-            return strcmp($a->getName(), $b->getName());
-        });
+        $boardGames = $manager->getRepository(BoardGame::class)->findAllAlphabetical();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
