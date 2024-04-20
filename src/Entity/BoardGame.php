@@ -51,6 +51,9 @@ class BoardGame
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $editor = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $duration = null;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -196,4 +199,17 @@ class BoardGame
 
         return $this;
     }
+
+    public function getDuration(): ?int
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(?int $duration): static
+    {
+        $this->duration = $duration;
+
+        return $this;
+    }
+
 }
