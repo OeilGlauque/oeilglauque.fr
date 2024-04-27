@@ -166,4 +166,11 @@ class BoardGameReservation
             . '-' . $this->getDateEnd()->format("j M Y")
             . ' (' . implode(", ", $this->boardGames->toArray()) . ')';
     }
+
+    public function deposit(): int
+    {
+        return $this->boardGames->reduce(function (int $res, BoardGame $el) {
+            return $res + $el->getPrice();
+        }, 0);
+    }
 }

@@ -30,17 +30,6 @@
     <p style="font-size: 14px; line-height: 1.5; text-align: center; font-family: lucida sans unicode, lucida grande, sans-serif; word-break: break-word; mso-line-height-alt: 21px; margin: 0;">Note : {{ reservation.getNote() }}</p>
 {% endset %}
 {% set third_paragraph %}
-    Le bureau va bientôt te contacter pour confirmer ta réservation et décider d'un rendez-vous. Lors du retrait de jeu munis-toi d'un chèque de caution par jeux au montant indiqué : 
-    {% for g in reservation.getBoardGames() %}
-            <li>
-                {% if g.getPrice() != null %}
-                    {% if g.getPrice() < 10 %}
-                        10.00€
-                    {% else %}
-                        {{ g.getPrice() | number_format(2, ',', ' ') }}€
-                    {% endif %}
-                {% endif %}
-            </li>
-        {% endfor %}
+    Le bureau va bientôt te contacter pour confirmer ta réservation et décider d'un rendez-vous. Lors du retrait de jeu munis-toi d'un chèque de caution d'un montant de {{ reservation.deposit() }} €.
 {% endset %}
 {% include 'oeilglauque/emails/reservationEmailBase.html.twig' %}

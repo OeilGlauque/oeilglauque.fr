@@ -28,6 +28,7 @@
         {% endfor %}
     </ul>
     <p style="font-size: 14px; line-height: 1.5; text-align: center; font-family: lucida sans unicode, lucida grande, sans-serif; word-break: break-word; mso-line-height-alt: 21px; margin: 0;">Note : {{ reservation.getNote() }}</p>
+    <p style="font-size: 14px; line-height: 1.5; text-align: center; font-family: lucida sans unicode, lucida grande, sans-serif; word-break: break-word; mso-line-height-alt: 21px; margin: 0;">Caution totale : {{ reservation.deposit() }}</p>
 {% endset %}
 {% set third_paragraph %}
     Il vous faut donc maintenant confirmer que les jeux sont empruntables en utilisant le lien suivant:

@@ -81,7 +81,7 @@ class BoardGameReservationController extends FOGController
                                 "description" => "Liste des jeux :",
                                 "fields" => array_merge(
                                     array_map(function ($jeu,$price) {
-                                        return ["name" => "- " . $jeu . " (" . $price . "€)", "value" => 
+                                        return ["name" => "- " . $jeu . " (" . $price . " €)", "value" => 
                                         (!is_null($jeu->getMissing()) && $jeu->getMissing() !== "" ? "Manquant : " . $jeu->getMissing() . "\n" : "") .
                                         (!is_null($jeu->getExcess()) && $jeu->getExcess() !== "" ? "En trop : " . $jeu->getExcess() . "\n" : "" ) .
                                         (!is_null($jeu->getNote()) && $jeu->getNote() !== "" ? "Note : " . $jeu->getNote() : "") 
@@ -96,6 +96,10 @@ class BoardGameReservationController extends FOGController
                                         ],
                                         [
                                             "name" => "Note :", "value" => $reservation->getNote()
+                                        ],
+                                        [
+                                            "name" => "Caution totale : " . $reservation->deposit() . " €",
+                                            "value" => ""
                                         ],
                                         [
                                             "name" => "Lien pour gérer la réservation :", "value" => "https://oeilglauque.fr/admin/reservations/boardGame"
