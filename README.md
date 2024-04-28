@@ -5,46 +5,10 @@ Site web du Festival de l’Œil Glauque
 
 ## Installation
 
-Pour installer le site localement, il faut au préalable avoir installé PHP7.3, Composer et MariaDB. L'installation varie selon la distribution mais est normalement relativement simple. 
+Pour installer le site localement, il faut au préalable avoir installé Docker ([version Desktop](https://docs.docker.com/get-docker/) ou [version CLI](https://docs.docker.com/engine/install/)) et [Docker Compose](https://docs.docker.com/compose/install/). Pour vous faciliter la gestion des dépendances, vous pouvez également installer [Symfony CLI](https://symfony.com/download), PHP et Composer. L'installation varie selon votre système d'exploitation, mais est normalement relativement simple. Si vous êtes sur Windows il est conseiller d'ajouter Symfony CLI, PHP et Composer à votre [PATH](#mettre-à-jour-path).
 
- ### Exemple d'installation pour Fedora 28 : 
 
-```bash
-sudo dnf install php-cli php-common php-pdo_mysql php-gmp composer mariadb-server
-sudo systemctl start mariadb
-mysql --user root --execute "select version()" # Vérifier l'installation de MariaDB
-mysql_secure_installation # Pour finaliser et sécuriser
-```
-
- ### Cas particulier d'Ubuntu (18.04)
-
-```bash
- # Installation de la dernière version de php
-sudo apt install php php-cli php-common php-mysql php-mbstring php-xml
- # Installation de composer v2
-sudo curl -s https://getcomposer.org/installer | php
-sudo mv composer.phar /usr/local/bin/composer
- # MariaDB à présent
-sudo apt-get install mariadb-server
-sudo mysql_secure_installation
-# Vérifier l'installation de MariaDB
-mysql -u root -p
-select version();
-```
- ### Cas particulier de Windows
-
-* Télécharger et dézipper dans le dossier de votre choix la dernière version de php pour windows sur [windows.php.net](windows.php.net)
-* Ajouter le dossier de php à la variable d'environnement PATH (voir [PATH](#Mettre-à-jour-PATH))
-* Depuis un terminal, `php -v` pour vérifier l'installation. La version de php doit s'afficher.
-* Dans le fichier `php.ini`, décommenter les lignes `extension=gmp` et `extension=pdo_mysql`
-* Télécharger et installer Composer avec l'exécutable disponible sur [getcomposer.org](getcomposer.org). Redémarrer explorer.exe pour PATH.
-* Depuis un terminal, `composer --version` pour vérifier l'installation.
-* Télécharger et installer Symfony avec l'exécutable disponible sur [symfony.com](symfony.com). Redémarrer explorer.exe pour PATH.
-* Depuis un terminal, `symfony check:requirements` pour vérifier l'installation.
-* Télécharger et installer MariaDB avec l'exécutable disponible sur [downloads.mariadb.org](downloads.mariadb.org). N'oublier pas de renseigner un mot de passe. Mettre à jour PATH.
-* Depuis un terminal, `mysql -u root -p --execute "select version()"` pour vérifier l'installation.
-
-#### Mettre à jour PATH
+#### Mettre à jour PATH sur Windows
 
 Dans *Panneau de configuration > Système et sécurité > Système > Paramètres système avancés > Variables d'environnement*, sélectionner la variable `Path` parmi les variables système et cliquer sur modifier. Cliquer sur nouveau puis parcourir et sélectionner le dossier contenant l'exécutable de votre choix. Valider avec OK.
 Pour que le changement soit effectif, redémarrer explorer.exe (merci windows😣).
@@ -53,32 +17,80 @@ Certains installateurs modifient Path par eux-même. Néanmoins, il reste néces
 
 ### Suite de l'installation
 
-Une fois le git cloné, il faut faire une copie de `.env` en `.env.local`. Ensuite, on peut configurer localement le connecteur MariaDB dans le fichier `.env.local` selon votre installation. On en profite aussi pour paramétrer le système de mail :
+Une fois le git cloné, il faut faire une copie de `.env` en `.env.local` et créer un fichier `docker-compose.override.yaml`.
+Le fichier `docker-compose.override.yaml` doit avoir cette structure :
 
-```bash
-DATABASE_URL=mysql://user:password@127.0.0.1:3306/databaseName?serverVersion=mariadb-x.x.x
- # Remplacer user et password par ce que vous avez rempli lors de l'installation de MariaDB
- # Remplacer databaseName par le nom que vous voulez donner à la base de donnée
- # Remplacer x.x.x par le numéro de version de mariadb obtenu plus haut
-MAILER_ADDRESS=fogfogtest@gmail.com
- # Cette adresse gmail sert de test pour le système de mail
+```yaml
+services:
+  mysql:
+    environment:
+      MYSQL_ROOT_PASSWORD: ROOT_PWD # à remplacer
+      MYSQL_USER: USER # à remplacer
+      MYSQL_PASSWORD: USER_PWD # à remplacer
+      MYSQL_DATABASE: DB_NAME # à remplacer
+
+  mailer:
+    image: schickling/mailcatcher
+    ports: 
+      - "1025:1025"
+      - "1080:1080"
+    
+  caddy:
+    volumes:
+      - ./docker/caddy/Caddyfile.dev:/etc/caddy/Caddyfile
 ```
 
-Pour paramètrer correctement les mails, il faut mettre `password: testGmail159` dans le fichier `config/packages/swiftmail.yaml`.
+Penser à bien remplacer les informations pour la base de données mysql.
 
-Il ne reste plus qu'à installer les dépendances, effectuer une migration de la base de données et lancer le serveur de développement : 
+Ensuite, on peut configurer localement le connecteur MariaDB et le système de mail dans le fichier `.env.local` selon votre installation. Pour les mails, vous pouvez soit utiliser le mailcatcher (plus simple) soit utiliser l'api gmail. Peu importe la méthode choisie il faut également définir une adresse mail et un nom lié à cette adresse.
 
 ```bash
+DATABASE_URL=mysql://user:password@mysql/databaseName?serverVersion=mariadb-x.x.x
+# Remplacer user, password et databaseName par ce que vous avez rempli dans les variables d'environnement du docker-compose.override.yaml
+# Remplacer x.x.x par le numéro de version de mariadb indiquer dans le docker-compose.yaml
+
+# Pour les mails
+ADDRESS_MAIL=john.doe@exemple.com
+ADRESS_NAME="John Doe"
+
+# ailcatcher
+MAILER_ADDRESS=smtp://mailer:1025
+
+# api gmail
+GOOGLE_API_KEY=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GOOGLE_AUTH_CONFIG=path_to_client_secret.json
+```
+
+Si vous souhaitez utiliser un webhook Discord, vous devez renseigner l'url du webhook dans la variable `DISCORD_WEBHOOK`.
+
+Il ne reste plus qu'à installer les dépendances, créer et effectuer une migration de la base de données : 
+
+```bash
+docker compose up -d
+docker compose exec -it php sh # entrer le docker php
 composer install
 composer require symfony/flex # En cas d'erreur
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:diff
 php bin/console doctrine:migrations:migrate
-php bin/console server:run
-# Ajouter --no-interaction à une commande si cette dernière plante en posant une question
 ```
 
-Pour remplir la base de donnée actuellement pleine de table vide, on a à disposition une sauvegarde de bdd factice que l'on peut injecter en utilisant, dans le shell MySQL, la commande `source chemin/vers/la/fogdbsample.sql`.
+Pour remplir la base de donnée actuellement pleine de table vide, on a à disposition une sauvegarde factice de base de données :
+```bash
+# copier la sauvegarde dans le docker mysql
+docker compose cp ./fogdbsample.sql mysql:/fogdbsample.sql
+# entrer dans le docker mysql
+docker compose exec -it mysql sh
+mysql -u root -p # le mot de passe demander est celui que vous avez mis dans la variable MYSQL_ROOT_PASSWORD du docker-compose.override.yaml
+```
+```SQL
+use DB_NAME;
+source fogdbsample.sql;
+quit;
+```
+
 En particulier, les utilisateurs enregistrés sont :
 - root (pwd : root)
 - TheBoss (pwd : portal)
@@ -86,47 +98,7 @@ En particulier, les utilisateurs enregistrés sont :
 
 ## Déploiement
 
-### Nouvelle installation 
-
 Voir [DEPLOY.md](DEPLOY.md)
-
-### Mise à jour vers une nouvelle version
-
-/!\ Toujours backup avant /!\
-
-Vérifier la config mail dans `config/packages/swiftmailer.yaml`
-
-```bash
-git pull origin master
-git fetch --tags
-git checkout <version tag name>
-composer install --no-dev --optimize-autoloader
-php bin/console doctrine:migrations:diff
-php bin/console doctrine:migrations:migrate
-php bin/console cache:clear --env=prod --no-debug && chmod -R 777 var/cache
-docker-compose restart php
-```
-
-### Mise à jour du mot de passe de la base de données
-
- * Éditer la variable d'environnement MYSQL_ROOT_PASSWORD du container de base de données
- * Mettre à jour le mot de passe de l'instance actuelle :
-
-```bash
-docker-compose exec -u 0 mysql mysql -u fog -p
-<ancien mot de passe>
-ALTER USER 'fog'@'localhost' IDENTIFIED BY 'newpassword';
-ALTER USER 'fog'@'%' IDENTIFIED BY 'newpassword';
-Ctrl+P Ctrl+Q
-```
-
- * Modifier le fichier .env du site Symfony
- * Mettre à jour le cache et redémarrer le process PHP :
-
-```bash
-php bin/console cache:clear --env=prod --no-debug && chmod -R 777 var/cache
-docker-compose restart php
-```
 
 ## Développement
 

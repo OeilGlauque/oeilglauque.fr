@@ -1,214 +1,110 @@
 # Nouvelle installation
 
-Basée sur [how to dockerise a symfony project](https://knplabs.com/fr/blog/how-to-dockerise-a-symfony-4-project).
-
 ## Préparer la machine d'hébergement
-Il faut installer `docker` et `docker-compose` et autoriser l'utilisateur courant à les utiliser. 
+
+Il faut installer Docker et Docker Compose et autoriser l'utilisateur courant à les utiliser. 
 ```bash
-sudo groupadd docker //The docker group might already exists
+sudo groupadd docker # The docker group might already exists
 sudo usermod -aG docker $USER
 newgrp docker
-docker ps //For testing purpose
+docker ps # For testing purpose
 ```
 L'utilisation de [lazydocker](https://github.com/jesseduffield/lazydocker) est fortement recommandée.
 
-L'architecture du dossier d'installation doit être comme suit :
-```
- - apps/
-   - oeilglauque.fr/
- - bin/
- - docker/
-   - nginx/
-       - default.conf
-   - php/
-       - Dockerfile
-   - db/
-   - certbot/
- - docker-compose.yml 
-```
+Sélectionner un dossier et cloné le repository dans ce dernier.
 
-## Lancer les containers mariadb et nginx
+## Configuration de l'environnement
 
-Le fichier docker-compose.yml ressemblera à cela d'ici la fin du déploiement :
+Une fois le git cloné, il faut faire une copie de `.env` en `.env.local` et créer un fichier `docker-compose.override.yaml`.
+Le fichier `docker-compose.override.yaml` doit avoir cette structure :
 
-```yml
-version: '3.5'
+```yaml
 services:
-    mysql:
-        image: mariadb:10.5.3
-        restart: on-failure
-        environment:
-            MYSQL_ROOT_PASSWORD: rootpwd
-            MYSQL_USER: fog
-            MYSQL_PASSWORD: fogpwd
-            MYSQL_DATABASE: fogdb
-        ports: 
-          - '3306:3306'
-        volumes: 
-          - './docker/db:/var/lib/mysql'
-
-    adminer:
-        image: adminer
-        restart: on-failure
-        ports:
-          - '8080:8080'
-
-    nginx:
-        image: nginx:1.19.0-alpine
-        restart: on-failure
-        volumes:
-          - './apps/oeilglauque.fr/public/:/usr/src/app'
-          - './docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro'
-          - './docker/nginx/log/:/var/log/nginx/'
-          - './docker/certbot/conf:/etc/letsencrypt'
-          - './docker/certbot/www:/var/www/certbot'
-        ports:
-          - '80:80'
-          - '443:443'
-          - '465:465'
-        command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
-        depends_on:
-             - php
-
-    certbot: 
-        image: certbot/certbot 
-        restart: always
-        volumes: 
-          - './docker/certbot/conf:/etc/letsencrypt' 
-          - './docker/certbot/www:/var/www/certbot' 
-        entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-
-    php:
-        build:
-          context: .
-          dockerfile: docker/php/Dockerfile
-        volumes:
-          - './apps/oeilglauque.fr:/usr/src/app'
-        restart: always
-        user: 1000:1000
+  mysql:
+    environment:
+      MYSQL_ROOT_PASSWORD: ROOT_PWD # à remplacer
+      MYSQL_USER: USER # à remplacer
+      MYSQL_PASSWORD: USER_PWD # à remplacer
+      MYSQL_DATABASE: DB_NAME # à remplacer
 ```
 
-La version du fichier dépends de la version de docker mais ubuntu peut être un peu capricieux. La version stable la plus récente fera l'affaire. Pour mariadb, on choisira l'image stable la plus récente, idem pour nginx en version alpine. Adminer n'est là que pour pouvoir monitorer facilement la bdd et n'est pas absolument nécessaire.  Certbot permet d'obtenir des certificats let'sencrypt automatiquement.
-On précise les options dont on a envie pour mysql, avec de meilleurs mots de passe bien sûr. Si nécessaire, on stop tout les autres services utilisant les port 80 et 443.
-Il faut également s'assurer que docker ait les droits pour écrire les volumes sur la partie host.
+Penser à bien remplacer les informations pour la base de données mysql.
 
-Le fichier de configuration nginx est le suivant :
-```nginx
-server { 
-	listen 80;
-	server_name oeilglauque.fr; 
-	
-	location / { 
-		return 301 https://$host$request_uri; 
-	} 
-	location /.well-known/acme-challenge/ { 
-		root /var/www/certbot; 
-	} 
-}
+Ensuite, il faut configurer localement le connecteur MariaDB et le système de mail dans le fichier `.env.local`.
 
-server {
-	listen 443 ssl http2; 
-	server_name oeilglauque.fr, www.oeilglauque.fr;
-	ssl_certificate /etc/letsencrypt/live/oeilglauque.fr/fullchain.pem; 
-	ssl_certificate_key /etc/letsencrypt/live/oeilglauque.fr/privkey.pem; 
-	include /etc/letsencrypt/options-ssl-nginx.conf; 
-	ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; 
-
-	location / { 
-		root /usr/src/app; 
-		try_files $uri /index.php$is_args$args; 
-	}
-	location ~ ^/index\.php(/|$) {
-		client_max_body_size 50m; 
-		fastcgi_pass php:9000; 
-		fastcgi_buffers 16 16k;
-		fastcgi_buffer_size 32k; 
-		include fastcgi_params; 
-		fastcgi_param SCRIPT_FILENAME /usr/src/app/public/index.php; 
-	}
-	location ~ \.php$ { 
-		return 404; 
-	} 
-
-	error_log /var/log/nginx/error.log; 
-	access_log /var/log/nginx/access.log;
-}
-```
-Il y a en réalité 2 serveurs nginx. Un écoute le http et renvoie vers le https ou résout les challenges ssl. Le second écoute en https et sert le site.
-On peut, dans un premier temps, tester en enlevant les références à php/https et en modifiant la config nginx pour du http seulement. `sudo docker-compose up -d` pour lancer les containers. Normalement, les localhost :80 et :8080 doivent afficher les interfaces nginx et adminer et on peut se connecter à la bdd via ce dernier.
-
-## Préparer le container php
-
-On écrit le Dockerfile :
-```docker
-# ./docker/php/Dockerfile
-FROM php:7.4.10-fpm
-
-RUN docker-php-ext-install pdo_mysql
-
-RUN pecl install apcu
-
-RUN apt-get update && \
-apt-get install -y \
-zlib1g-dev \
-libzip-dev \
-libgmp-dev \
-libxml2-dev
-
-RUN docker-php-ext-configure gmp
-RUN docker-php-ext-install gmp
-RUN docker-php-ext-configure xml
-RUN docker-php-ext-install xml
-RUN docker-php-ext-install zip
-RUN docker-php-ext-enable apcu
-
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php composer-setup.php --filename=composer \
-    && php -r "unlink('composer-setup.php');" \
-    && mv composer /usr/local/bin/composer
-
-WORKDIR /usr/src/app
-
-VOLUME /usr/src/app
-
-RUN PATH=$PATH:/usr/src/apps/oeilglauque.fr/vendor/bin:bin
-```
-On utilise la version de php-fpm stable la plus récente.
-Il faut absolument préparer le `.env.local` correctement dans le projet. Notamment :
- - `APP_ENV=prod`
- - `DATABASE_URL=mysql://fog:fogpwd@mysql:3306/fogdb?serverVersion=mariadb-10.5.3` (La version mariadb dépend de l'install)
- - `MAILER_ADDRESS=emailfog`
-
-De plus, il faut paramètrer le fichier `config/packages/swiftmail.yaml` avec la bonne adresse mail et mot de passe.
-
-Ensuite, il faut build le Dockerfile: `sudo docker-compose build` et relancer les containers `sudo docker-compose up -d` en s'assurant que la définition du container php soit bien présent dans le docker-compose.yml.
-
-En principe avec la commande exec de docker on peut lancer l'install de composer mais ce n'est pas toujours possible. On peut directement entrer dans le bash du container: `sudo docker-compose exec -u 0 php /bin/bash` ou `sudo docker exec -it -u 0 nom_du_container /bin/bash` (selon si docker fait un caprice ou non, ça arrive 🤷‍♂️)
-
-On peut finir l'installation :
 ```bash
+APP_ENV=prod
+
+DATABASE_URL=mysql://user:password@mysql/databaseName?serverVersion=mariadb-x.x.x
+# Remplacer user, password et databaseName par ce que vous avez rempli dans les variables d'environnement du docker-compose.override.yaml
+# Remplacer x.x.x par le numéro de version de mariadb indiquer dans le docker-compose.yaml
+
+# Pour les mails
+ADDRESS_MAIL=john.doe@exemple.com
+ADRESS_NAME="John Doe"
+
+# api gmail
+GOOGLE_API_KEY=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GOOGLE_AUTH_CONFIG=path_to_client_secret.json
+```
+
+Si vous souhaitez utiliser un webhook Discord, vous devez renseigner l'url du webhook dans la variable `DISCORD_WEBHOOK`.
+
+## Premier lancement des dockers
+
+Il ne reste plus qu'à installer les dépendances, créer et effectuer une migration de la base de données : 
+
+```bash
+docker compose up -d
+docker compose exec -it php sh # entrer le docker php
 composer install --no-dev --optimize-autoloader
+composer require symfony/flex # En cas d'erreur
+php bin/console doctrine:database:create
 php bin/console doctrine:migrations:diff
 php bin/console doctrine:migrations:migrate
 ```
-## Mettre en place le https
 
-Cette partie se base sur [cet article](https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71).
+# Mise à jour vers une nouvelle version
 
-On peut cette fois-ci utiliser la config finale. Pour pouvoir lancer nginx en https il faut faire une manip un peu complexe qui est automatisée par un script. On récupère donc le script en question et on l'édite avec les bons paramètres (domaines avec et sans www, adresse email et `data_path="./docker/certbot"`). 
+/!\ Toujours backup avant /!\
+
 
 ```bash
-curl -L https://raw.githubusercontent.com/wmnnd/nginx-certbot/master/init-letsencrypt.sh -o init-letsencrypt.sh
+git pull origin master
+# si vous utiliser des tags
+git fetch --tags
+git checkout <version tag name>
+docker compose exec -it php sh # entrer dans le docker php
+composer install --no-dev --optimize-autoloader # si les dépendances ont changées
+php bin/console doctrine:migrations:diff # si vous avez modifié ou créé des entités
+php bin/console doctrine:migrations:migrate # si vous avez modifié ou créé des entités
+php bin/console cache:clear
 ```
-Dans un premier temps, pour tester, on peut mettre staging à 1 afin de ne pas épuiser le quota de certificat/site/semaine de let'sencrypt en cas de problème. Dans ce cas le certificat sera bien présent, mais ne sera pas trusté par les navigateurs.
-Ensuite, on peut exécuter le script.
-```bash
-chmod +x init-letsencrypt.sh
-sudo ./init-letsencrypt.sh
-```
-Si tout se passe bien, certbot nous félicite, on peut accéder au site en https et le http redirige vers le https. On peut alors le faire définitivement avec staging à 0. Cette opération n'est à faire qu'une fois pour initialiser les certificats. Ces derniers sont normalement renouvelés tous les ~90 jours.
 
-## Quelques commandes MySQL utiles
+### Mise à jour du mot de passe de la base de données
+
+ * Éditer la variable d'environnement MYSQL_ROOT_PASSWORD du container de base de données
+ * Mettre à jour le mot de passe de l'instance actuelle :
+
+```bash
+docker compose exec -it mysql sh
+mysql -u DB_NAME -p # le mot de passe demander est l'ancien mot de passe
+ALTER USER 'DB_NAME'@'localhost' IDENTIFIED BY 'newpassword';
+ALTER USER 'DB_NAME'@'%' IDENTIFIED BY 'newpassword';
+Ctrl+P Ctrl+Q
+```
+
+ * Modifier le fichier .env.local du site Symfony
+ * Mettre à jour le cache et redémarrer le process PHP :
+
+```bash
+docker compose exec php sh -c "php bin/console cache:clear"
+docker compose restart php
+```
+
+# Quelques commandes MySQL utiles
 
 - Faire une backup de la base de donnée
 ```bash
