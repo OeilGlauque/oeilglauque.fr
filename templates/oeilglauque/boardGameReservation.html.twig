@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block customcss %}
-    <link rel="stylesheet" href="/css/reservation.css"/>
+    <link rel="stylesheet" href="/css/reservation.css?v=1.1"/>
 {% endblock %}
 
 {% block scripts %}
@@ -26,7 +26,37 @@
         La réponse vous sera envoyée via l'adresse e-mail renseignée sur votre compte. Il faudra fournir des chèques de caution lors du retrait des jeux.
         </p>
 
-        {{ form(form) }}
+        <div class="form">
+            {{ form_start(form)  }}
+
+                {{ form_row(form.dateBeg) }}
+
+                {{ form_row(form.dateEnd) }}
+
+                {{ form_label(form.boardGames) }}
+
+                <div class="row">
+                        {% for checkbox in form.boardGames.children %}
+                            <div class="styled-input-single">
+                                {{ form_widget(checkbox) }}
+                                {{ form_label(checkbox) }}
+                                {{ form_errors(checkbox) }}
+                            </div>
+                        {% endfor %}
+                </div>
+
+                {{ form_row(form.note) }}
+
+                <div id="price-container">
+                    Prix de la caution: <span id="total-price">0</span> €
+                </div>
+
+                {{ form_row(form.save) }}
+
+            {{ form_end(form) }}
+        </div>
+
+        <script src="{{ asset('js/selectBoardGames.js') }}"></script>
 
         <h2>Liste des jeux</h2>
         <table class="reservation">
@@ -45,9 +75,12 @@
                 <tr>
                     <!--<td>{{ g.getId() }}</td>-->
                     <td>{{ g.getName() }}</td>
+                    <td>{% if g.getPrice() != null %}{{ g.getPrice() | number_format(2, ',', ' ') }} € {% endif %}</td>
+                    <td>{{ g.getState() != null ? g.getState() ~ ' état' : 'Etat inconnu' }}</td>
+
                     <!--
                     <td>{{ g.getYear() }}</td>
-                    <td>{% if g.getPrice() != null %}{{ g.getPrice() | number_format(2, ',', ' ') }} € {% endif %}</td>
+
                     <td>{{ g.getMissing() }}</td>
                     <td>{{ g.getExcess() }}</td>
                     <td>{{ g.getNote() }}</td>

@@ -1,6 +1,7 @@
 <?php
 namespace App\Form;
 
+use App\Entity\BoardGame;
 use App\Entity\BoardGameReservation;
 use App\Repository\BoardGameRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -36,9 +37,13 @@ class BoardGameReservationType extends AbstractType
             ->add('boardGames', EntityType::class, [
                 'label'=>'Jeux',
                 'class' => 'App\Entity\BoardGame',
-                'choice_label' => 'name',
+                'choice_label' => function (BoardGame $boardGame) {
+                    $state = empty($boardGame->getState()) ? 'état inconnu' : $boardGame->getState() . ' état';
+                    return $boardGame->getName() . ' - ' . $state . ' - ' . $boardGame->getPrice() . '€';
+                },
                 'multiple' => true,
                 'choices' => $this->boardGamesRepository->findAllAlphabetical(),
+                'expanded' => true,
                 'attr' => ['style' => 'height: 150px']  /*'select2multiple', 'multiple'=> 'multiple'*/
             ])
 
