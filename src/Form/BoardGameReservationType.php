@@ -42,7 +42,7 @@ class BoardGameReservationType extends AbstractType
                     $state = empty($boardGame->getState()) ? 'état inconnu' : 'Etat ' . $boardGame->getState();
 
                     $stateMappings = [
-                        "Excellent" => "excellent_state",
+                        "Exellent" => "excellent_state",
                         "Bon" => "good_state",
                         "Moyen" => "medium_state",
                         "Mauvais" => "bad_state"
