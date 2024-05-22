@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let caution = 0;
             Array.from(options)
                 .filter(option => option.checked)
-                .map(option => caution += parseInt(document.querySelector(`label[for="${option.id}"]`).innerText.split('-')[2].split('€')[0]));
+                .map(option => caution += parseInt(document.querySelector(`label[for="${option.id}"]`).children[0].children[2].innerText.split('€')[0]));
             selectBox.textContent = caution;
         });
     });
