@@ -37,9 +37,20 @@ class BoardGameReservationType extends AbstractType
             ->add('boardGames', EntityType::class, [
                 'label'=>'Jeux',
                 'class' => 'App\Entity\BoardGame',
+                'label_html' => true,
                 'choice_label' => function (BoardGame $boardGame) {
-                    $state = empty($boardGame->getState()) ? 'état inconnu' : $boardGame->getState() . ' état';
-                    return $boardGame->getName() . ' - ' . $state . ' - ' . $boardGame->getPrice() . '€';
+                    $state = empty($boardGame->getState()) ? 'état inconnu' : 'Etat ' . $boardGame->getState();
+
+                    $stateMappings = [
+                        "Excellent" => "excellent_state",
+                        "Bon" => "good_state",
+                        "Moyen" => "medium_state",
+                        "Mauvais" => "bad_state"
+                    ];
+
+                    $stateClass = $stateMappings[$boardGame->getState()] ?? "unknown_state";
+
+                    return '<div class="game_container"><div>' . $boardGame->getName() . '</div> <div class="game_state '. $stateClass .'">' . $state . '</div> <div>' . $boardGame->getPrice() . '€</div></div>';
                 },
                 'multiple' => true,
                 'choices' => $this->boardGamesRepository->findAllAlphabetical(),
