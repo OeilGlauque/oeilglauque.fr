@@ -8,6 +8,12 @@ img {
 	margin: 3em 0;
 }
 
+#home_img{
+    width: 45%;
+    display: block;
+    margin: 1em auto 2em;
+}
+
 
 .lead {
 	background-color: #fbecd8;
@@ -50,6 +56,10 @@ img {
     
     .afficheWrapper img {
         width: 48%;
+    }
+
+    #home_img{
+        width: 60%;
     }
     /*
     .affiche {
