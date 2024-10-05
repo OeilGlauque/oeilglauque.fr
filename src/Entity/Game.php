@@ -203,10 +203,9 @@ class Game
         return implode(', ', preg_split('/( *[,;] *)/', $this->tags));
     }
 
-    public function setTags(string $tags): self
+    public function setTags(array $tags): self
     {
-        $this->tags = $tags;
-
+        $this->tags = implode(',', $tags);
         return $this;
     }
 
