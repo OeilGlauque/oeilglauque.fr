@@ -11,6 +11,7 @@ class FOGParametersService {
     private ?Edition $edition;
     private ?bool $modeFog;
     private ?bool $gameOpen;
+    private ?bool $gameRegistration;
     private ?bool $planning;
     private ?bool $menu;
 
@@ -24,6 +25,8 @@ class FOGParametersService {
         $this->planning = $featureRepository->find(7)->getState();
 
         $this->menu = $featureRepository->find(8)->getState();
+
+        $this->gameRegistration = $featureRepository->find(9)->getState();
     }
 
     public function getCurrentEdition(): ?Edition {
@@ -44,5 +47,9 @@ class FOGParametersService {
 
     public function getMenuStatus() : ?bool {
         return $this->menu;
+    }
+
+    public function getGameRegistrationStatus(): ?bool {
+        return $this->gameRegistration;
     }
 }

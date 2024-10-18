@@ -24,6 +24,9 @@ class FOGController extends AbstractController {
         if (!array_key_exists('gameOpen', $parameters)) {
             $parameters['gameOpen'] = $this->FogParams->getGameStatus();
         }
+        if (!array_key_exists('gameRegistration', $parameters)) {
+            $parameters['gameRegistration'] = $this->FogParams->getGameRegistrationStatus();
+        }
         if (!array_key_exists('planning', $parameters)) {
             $parameters['planning'] = $this->FogParams->getPlanningStatus();
         }
