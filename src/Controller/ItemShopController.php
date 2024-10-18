@@ -223,6 +223,7 @@ class ItemShopController extends FOGController
         $order->setSlot($slot);
 
         $itemval = $manager->getRepository(ItemShop::class)->find($request->query->get('item'));
+
         if (!$itemval) {
             $this->addFlash('danger', "Le slot n'existe pas.");
             return $this->redirectToRoute('orderList', ["id" => $slot->getId()]);
@@ -232,8 +233,15 @@ class ItemShopController extends FOGController
 
         if ($date->format('H:i:s') > $slot->getOrderTime()->modify('+10 minutes')->format('H:i:s')){
             $this->addFlash('danger', "L'heure limite de commande a été dépassé...");
-            //return $this->redirectToRoute('orderList', ["id" => $slot->getId()]);
+            return $this->redirectToRoute('orderList', ["id" => $slot->getId()]);
         }
+
+        $orders = $manager->getRepository(ItemShopOrder::class)->findBy(["slot" => $slot]);
+        if ($slot->getMaxOrder() != null && count($orders) >= $slot->getMaxOrder()) {
+            $this->addFlash('danger', "Le nombre maximal de commande pour ce créneau a été atteint.");
+            return $this->redirectToRoute('orderList', ["id" => $slot->getId()]);
+        }
+
 
         $order->setItem($itemval);
 
@@ -243,10 +251,6 @@ class ItemShopController extends FOGController
         $manager->flush();
         $this->addFlash('success', "La commande de " . $order->getPseudo() . " a bien été ajouté. ");
 
-        $orders = $manager->getRepository(ItemShopOrder::class)->findBy(["slot" => $slot]);
-        if ($slot->getMaxOrder() != null && count($orders) >= $slot->getMaxOrder()) {
-            $this->addFlash('danger', "Le nombre maximal de commande pour ce créneau a été atteint.");
-        }
 
         return $this->redirectToRoute('orderList', ["id" => $slot->getId()]);
     }
