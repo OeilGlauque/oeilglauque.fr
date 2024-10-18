@@ -227,10 +227,18 @@ class ItemShopController extends FOGController
             $this->addFlash('danger', "Le slot n'existe pas.");
             return $this->redirectToRoute('orderList', ["id" => $slot->getId()]);
         }
+
+        $date = new DateTime("now", new DateTimeZone('Europe/Paris'));
+
+        if ($date->format('H:i:s') > $slot->getOrderTime()->modify('+10 minutes')->format('H:i:s')){
+            $this->addFlash('danger', "L'heure limite de commande a été dépassé...");
+            //return $this->redirectToRoute('orderList', ["id" => $slot->getId()]);
+        }
+
         $order->setItem($itemval);
 
         $order->setPseudo($request->query->get('pseudo'));
-        $order->setTime(new DateTime("now", new DateTimeZone('Europe/Paris')));
+        $order->setTime($date);
         $manager->persist($order);
         $manager->flush();
         $this->addFlash('success', "La commande de " . $order->getPseudo() . " a bien été ajouté. ");
