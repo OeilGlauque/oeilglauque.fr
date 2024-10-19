@@ -232,13 +232,13 @@ class ItemShopController extends FOGController
         $date = new DateTime("now", new DateTimeZone('Europe/Paris'));
 
         if ($date->format('H:i:s') > $slot->getOrderTime()->modify('+30 minutes')->format('H:i:s')){
-            $this->addFlash('danger', "L'heure limite de commande a été dépassé...");
+            $this->addFlash('popup', "Heure limite de commande dépassé...");
             return $this->redirectToRoute('orderList', ["id" => $slot->getId()]);
         }
 
         $orders = $manager->getRepository(ItemShopOrder::class)->findBy(["slot" => $slot]);
         if ($slot->getMaxOrder() != null && count($orders) >= $slot->getMaxOrder()) {
-            $this->addFlash('danger', "Le nombre maximal de commande pour ce créneau a été atteint.");
+            $this->addFlash('popup', "Le nombre maximal de commande pour ce créneau a été atteint.");
             return $this->redirectToRoute('orderList', ["id" => $slot->getId()]);
         }
 

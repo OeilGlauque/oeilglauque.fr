@@ -102,10 +102,19 @@
         <main role="main" class="container">
         {% for label, flashes in app.session.flashbag.all %}
             {% for flash in flashes %}
-                <div class="alert alert-{{ label }} alert-dismissible fade show">
-                    {{ flash }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+                {% if label == "popup" %}
+                    <script>
+                        window.addEventListener('load',function(){
+                            alert("{{ flash }}");
+                        });
+
+                    </script>
+                {% else %}
+                    <div class="alert alert-{{ label }} alert-dismissible fade show">
+                        {{ flash }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
             {% endfor %}
         {% endfor %}
         {% block body %}{% endblock %}
