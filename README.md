@@ -53,7 +53,7 @@ DATABASE_URL=mysql://user:password@mysql/databaseName?serverVersion=mariadb-x.x.
 ADDRESS_MAIL=john.doe@exemple.com
 ADRESS_NAME="John Doe"
 
-# ailcatcher
+# mail catcher
 MAILER_ADDRESS=smtp://mailer:1025
 
 # api gmail
