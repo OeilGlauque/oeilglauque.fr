@@ -2,41 +2,36 @@
 
 namespace App\Entity;
 
+use App\Entity\Edition;
+use App\Entity\Game;
+use App\Repository\GameSlotRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\GameSlotRepository")
- */
+#[ORM\Entity(repositoryClass: GameSlotRepository::class)]
 class GameSlot
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+     #[ORM\Id]
+     #[ORM\GeneratedValue]
+     #[ORM\Column(type: "integer")]
+    private int $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Edition", inversedBy="gameSlots")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $edition;
+    #[ORM\ManyToOne(targetEntity: Edition::class, inversedBy: "gameSlots")]
+    #[ORM\JoinColumn(nullable: false)]
+    private Edition $edition;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Game", mappedBy="gameSlot")
-     */
-    private $games;
+    #[ORM\OneToMany(targetEntity: Game::class, mappedBy: "gameSlot")]
+    private Collection $games;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=false)
-     */
-    private $text;
+    #[ORM\Column(type: "string", length: 255)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 1, max: 255)]
+    private string $text;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+   #[ORM\Column(type: "integer")]
+   #[Assert\PositiveOrZero()]
     private $maxGames;
 
     public function __construct()

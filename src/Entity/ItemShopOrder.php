@@ -2,46 +2,36 @@
 
 namespace App\Entity;
 
+use App\Entity\ItemShop;
+use App\Entity\ItemShopSlot;
+use App\Repository\ItemShopOrderRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\ItemShopOrderRepository")
- */
+#[ORM\Entity(repositoryClass: ItemShopOrderRepository::class)]
 class ItemShopOrder
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+    private int $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ItemShop", inversedBy="orders")
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
-    private $item;
+    #[ORM\ManyToOne(targetEntity: ItemShop::class, inversedBy: "orders")]
+    #[ORM\JoinColumn(onDelete: "CASCADE")]
+    private ItemShop $item;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ItemShopSlot", inversedBy="orders")
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
-    private $slot;
+    #[ORM\ManyToOne(targetEntity: ItemShopSlot::class, inversedBy: "orders")]
+    #[ORM\JoinColumn(onDelete: "CASCADE")]
+    private ItemShopSlot $slot;
 
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $pseudo;
+    #[ORM\Column(type: "text")]
+    private string $pseudo;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $time;
+    #[ORM\Column(type: "datetime")]
+    private DateTime $time;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $collected;
+    #[ORM\Column(type: "boolean")]
+    private bool $collected;
 
     public function __construct()
     {
@@ -89,12 +79,12 @@ class ItemShopOrder
         return $this;
     }
 
-    public function getTime(): ?\Datetime
+    public function getTime(): ?Datetime
     {
         return $this->time;
     }
 
-    public function setTime(?\Datetime $time): self
+    public function setTime(?Datetime $time): self
     {
         $this->time = $time;
 

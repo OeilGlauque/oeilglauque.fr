@@ -1,0 +1,45 @@
+version: '3.7'
+
+services:
+###> doctrine/doctrine-bundle ###
+  mysql:
+    image: mariadb:10.5.19
+    restart: unless-stopped
+    ports:
+      - '3306:3306'
+    volumes:
+      - './docker/db:/var/lib/mysql'
+###< doctrine/doctrine-bundle ###
+
+  adminer:
+    image: adminer:latest
+    restart: unless-stopped
+    ports:
+      - '8080:8080'
+    
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./:/srv/app
+      - php_socket:/var/run/php
+
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    depends_on:
+      - php
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./docker/caddy/data:/data
+      - ./docker/caddy/config:/config
+      - ./public:/srv/app/public
+      - php_socket:/var/run/php
+    
+volumes:
+  php_socket:

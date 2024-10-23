@@ -1,3 +1,74 @@
+/* form*/
+.game_container{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: center;
+	flex-wrap: wrap;
+	height: 100%;
+	width: 100%;
+}
+
+label{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+}
+
+.form-check{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.unknown_state{background-color: lightgray;}
+.excellent_state{background-color: green; color: white;}
+.bad_state{background-color: lightcoral;}
+.good_state{background-color: lightgreen;}
+.medium_state{background-color: #ffe766;}
+
+.game_state{
+	border-radius: 10px;
+	padding: 3px;
+}
+
+.styled-input-single{
+	padding: 5px;
+	border-bottom: 1px solid #ccc;
+}
+
+.row{
+	max-height: 200px;
+	max-width: 70%;
+	overflow-y: auto;
+	background-color: white;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+}
+
+#price-container{
+	margin-bottom: 6%;
+}
+
+.row::-webkit-scrollbar {
+	width: 8px;
+}
+
+.row::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+.row::-webkit-scrollbar-thumb {
+	background: #888;
+}
+
+.row::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
 table.reservation {
 	width: 100%;
 }
@@ -5,6 +76,7 @@ table.reservation {
 span.select2-container {
 	width: 100% !important;
 }
+
 
 table tr:nth-child(even) {
 	background-color: #f2f2f2;
@@ -17,5 +89,17 @@ table tr:nth-child(even) {
 	
 	th:nth-child(2), th:nth-child(3), th:nth-child(4) {
 		display: none;
+	}
+
+	.row{
+		max-width: 100%;
+	}
+
+	.styled-input-single{
+		padding: 2%;
+	}
+
+	.game_state{
+		padding: 0.5% 2% 0.5% 2%;
 	}
 }

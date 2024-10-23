@@ -6,9 +6,10 @@
 
 
 {% block body %}
-
+        <h1 class="titre">Parties de JDR</h1>
         <h1>Liste des parties</h1>
-        <p class="well m-0"><b>Attention !</b> Si vous êtes inscrit sur le site, votre place est réservée à condition que vous soyez présent 10 minutes avant le début de la partie et que vous achetiez un pass Jeu de Rôle à l'accueil, coûtant 2€ et vous offrant l'accès à toutes les parties. </p>
+        <p class="well m-0"><b>Attention !</b> Si vous êtes inscrit sur le site, votre place est réservée à condition que vous soyez présent 10 minutes avant le début de la partie et que vous achetiez un ticket Jeu de Rôle à 2€ à l'accueil. </br>
+        Pour information, meujeuter une partie est gratuit et vous permet de participer gratuitement à un autre jdr en tant que joueur !</p>
         {% if hasRegistered %}
             <b>Parties jouées cette année :</b><br />
             <ul>
@@ -28,27 +29,31 @@
         {% endif %}
 
         {% if games|length > 0 %}
-            <div class="d-flex flex-sm-row flex-column">
-                <div class="mt-10 me-4 col-sm-2 d-flex flex-sm-column flex-wrap flex-sm-nowrap" id="filter">
-                    <b class="mb-2">Créneaux sélectionnés :</b><br />
-                    <label class="btn mb-3 me-3 me-sm-0 d-flex justify-content-center align-items-center" id="selectAll">
+            <div class="game-list-view"> <!-- d-flex flex-sm-row flex-column -->
+                <div> <!-- mt-10 me-sm-4 col-sm-2 -->
+                    <b>Créneaux sélectionnés :</b><br />
+                    <label class="btn" id="selectAllSlots"> <!--  my-3 d-flex justify-content-center align-items-center -->
                         <span>Tout sélectionner</span>
                         <input type="checkbox" hidden autocomplete="off" />
                     </label>
+                    <div class="btn-filters"> <!-- slot-filters d-flex flex-wrap justify-content-between -->
                     {% for g in gameSlots %}
-                        <label inactive class="btn btn-filtre mb-3 me-3 me-sm-0 d-flex justify-content-between align-items-center">
-                            <div class="d-lg-block d-none"></div>
+                        <label inactive="true" class="btn btn-filter btn-slot"> <!-- btn-slot mb-3 flex-grow-1 d-flex justify-content-between align-items-center -->
+                            <div></div>
                             <span>{{ g.getText() }}</span>
-                            <input type="checkbox" class="d-lg-block d-none slots" data="{{ g.getId() }}" autocomplete="off" />
+                            <input type="checkbox" data="{{ g.getId() }}" autocomplete="off" />
                         </label>
                     {% endfor %}
-                    <b class="mb-2">Tags sélectionnés :</b><br />
-                    <label class="btn mb-3 me-3 me-sm-0 d-flex justify-content-center align-items-center" id="selectAllTags" onmouseup="selectAllTags(this)">
+                    </div>
+                    <b>Tags sélectionnés :</b><br />
+                    <label class="btn" id="selectAllTags"> <!-- my-3 d-flex justify-content-center align-items-center onmouseup="selectAllTags(this)" -->
                         <span>Tout sélectionner</span>
                         <input type="checkbox" hidden autocomplete="off" />
                     </label>
+                    <div class="btn-filters"> <!--d-flex flex-wrap justify-content-between -->
+                    </div>
                 </div>
-                <div class="col-md-10 col-8">
+                <div> <!-- col-md-10 col-8 -->
                     {% for g in games %}
                         {{ include('oeilglauque/shards/game.html.twig', 
                             {
@@ -69,6 +74,9 @@
 {% endblock %}
 
 {% block scripts %}
+<!--
 <script src="/js/selectTags.js"></script>
 <script src="/js/selectGames.js"></script>
+-->
+<script src='/js/filterGames.js'></script>
 {% endblock %}

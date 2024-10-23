@@ -2,29 +2,30 @@
 
 namespace App\Entity;
 
+use App\Repository\FeatureRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\FeatureRepository")
- */
+#[ORM\Entity(repositoryClass: FeatureRepository::class)]
 class Feature
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+    private int $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
+    #[ORM\Column(type: "string", length: 255)]
+    #[Assert\Length(min: 1, max: 255)]
+    #[Assert\NotBlank()]
+    private string $name;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $state;
+    #[ORM\Column(type: "boolean")]
+    private bool $state;
+
+    public function __construct()
+    {
+        $this->state = false;
+    }
 
     public function getId(): ?int
     {

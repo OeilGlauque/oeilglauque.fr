@@ -2,34 +2,35 @@
 
 namespace App\Entity;
 
+use App\Entity\ItemShop;
+use App\Entity\ItemShopSlot;
+use App\Repository\ItemShopTypeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\ItemShopTypeRepository")
- */
+#[ORM\Entity(repositoryClass: ItemShopTypeRepository::class)]
 class ItemShopType
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+    private int $id;
 
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $type;
+    #[ORM\Column(type: "text")]
+    private string $type;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ItemShop", mappedBy="type")
-     */
-    private $items;
+    #[ORM\OneToMany(targetEntity: ItemShop::class, mappedBy: "type")]
+    private Collection $items;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ItemShopSlot", mappedBy="type")
-     */
-    private $slots;
+    #[ORM\OneToMany(targetEntity: ItemShopSlot::class, mappedBy: "type")]
+    private Collection $slots;
+
+    public function __construct()
+    {
+        $this->items = new ArrayCollection();
+        $this->slots = new ArrayCollection();
+    }
 
     public function getId()
     {

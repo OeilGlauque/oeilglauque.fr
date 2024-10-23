@@ -4,11 +4,9 @@ namespace App\Repository;
 
 use App\Entity\LocalReservation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Types\Type;
-use Doctrine\ORM\Query\Lexer;
+use Doctrine\DBAL\Types\Types;
 use Exception;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\ExpressionLanguage\Node\FunctionNode;
 
 class LocalReservationRepository extends ServiceEntityRepository
 {
@@ -25,7 +23,7 @@ class LocalReservationRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('r')
             ->where('r.date > :yesterday')
-            ->setParameter('yesterday', new \DateTime('-1 day'), \Doctrine\DBAL\Types\Type::DATETIME)
+            ->setParameter('yesterday', new \DateTime('-1 day'), Types::DATETIME_MUTABLE)
             ->addOrderBy('r.date', 'ASC')
             ->getQuery()
             ->getResult();
@@ -39,8 +37,8 @@ class LocalReservationRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('r')
             ->where('r.date < :today')
             ->andWhere('r.date > :lastyear')
-            ->setParameter('today', new \DateTime(), \Doctrine\DBAL\Types\Type::DATETIME)
-            ->setParameter('lastyear', new \DateTime('-1 year'), \Doctrine\DBAL\Types\Type::DATETIME)
+            ->setParameter('today', new \DateTime(), Types::DATETIME_MUTABLE)
+            ->setParameter('lastyear', new \DateTime('-1 year'), Types::DATETIME_MUTABLE)
             ->addOrderBy('r.date', 'ASC')
             ->getQuery()
             ->getResult();
@@ -71,9 +69,8 @@ class LocalReservationRepository extends ServiceEntityRepository
 
         try {
             $qb->where($qb->expr()->orX($c1, $c2, $c3))
-                ->setParameter('begDate', $reservation->getDate(), Type::DATETIME)
-                ->setParameter('endDate', \DateTimeImmutable::createFromMutable($reservation->getDate())
-                    ->add(new \DateInterval("PT" . $reservation->getDuration() . "M")), Type::DATETIME);
+                ->setParameter('begDate', $reservation->getDate(), Types::DATETIME_MUTABLE)
+                ->setParameter('endDate', $reservation->getEndDate(), Types::DATETIME_MUTABLE);
         } catch (Exception $e) {
         }
 

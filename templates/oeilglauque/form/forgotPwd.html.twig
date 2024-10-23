@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block customcss %}
+    <link rel="stylesheet" href="/css/pwd.css"/>
+{% endblock %}
+
+{% block body %}
+
+        <h1 class="titre small">Mot de passe oublié</h1>
+        {{ form_start(form) }}
+                {{ form_row(form.email) }}
+
+                <p class="pwd">Un lien pour réinitialiser votre mot de passe sera envoyé sur l'adresse mail que vous avez renseigné lors de l'inscription.</p>
+
+                {{ form_row(form.save) }}
+        {{ form_end(form)}}
+
+{% endblock %}

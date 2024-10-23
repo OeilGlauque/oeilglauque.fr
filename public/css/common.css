@@ -70,20 +70,25 @@ h2 {
     font-family: 'OldNewspaperTypes', serif;
 }
 
-h1.titre {
+.titre{
     font-family: 'Mirkwood_Chronicle', serif;
     color: #3d1921;
     font-size: 2em;
-    text-transform: uppercase;
     text-align: center;
+    display: block;
+    margin: 1em auto;
+    max-width: 800px;
+}
 
+h2.titre{
+    line-height: normal;
+}
+
+h1.titre {
+    text-transform: uppercase;
     background-image: url("/img/title_bg.png");
     background-size: 100% 100%;
     padding: 75px 0;
-    display: block;
-    margin: 1em auto;
-
-    max-width: 800px;
 }
 
 h1.titre.small {
@@ -209,6 +214,7 @@ input {
     border-radius: 5px;
 }
 
+/*
 select {
     border-radius: 5px;
     color: black;
@@ -220,8 +226,16 @@ select {
 
 select option {
     color: black;
+}
+
+select option:nth-child(even) {
+    background-color: #FFFFFF;
+}
+
+select option:nth-child(odd) {
     background-color: #EEEEEE;
 }
+*/
 
 .my-selectable {
     -webkit-user-select: all;  /* Chrome all / Safari all */

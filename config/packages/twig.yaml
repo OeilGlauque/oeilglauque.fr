@@ -5,4 +5,4 @@ twig:
     exception_controller: null
     form_themes:
         - 'oeilglauque/form/fields.html.twig'
-        - 'bootstrap_4_horizontal_layout.html.twig'
+        - 'bootstrap_5_layout.html.twig'

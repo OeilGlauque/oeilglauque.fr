@@ -1,7 +1,3 @@
-body {
-	/*background-color: #a1694d;*/
-}
-
 .container {
 	background-color: inherit;
 }
@@ -10,6 +6,12 @@ img {
 	width: 100%;
 	height: auto;
 	margin: 3em 0;
+}
+
+#home_img{
+    width: 45%;
+    display: block;
+    margin: 1em auto 2em;
 }
 
 
@@ -23,16 +25,6 @@ img {
 
 .lead strong {
 	color: #973504;
-}
-
-.afficheWrapper {
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-}
-
-.afficheWrapper img {
-    width: 48%;
 }
 
 .videoWrapper {
@@ -53,4 +45,25 @@ img {
     left: 0;
     width: 100%;
     height: 100%;
+}
+
+@media (min-width: 992px) {
+    .afficheWrapper {
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .afficheWrapper img {
+        width: 48%;
+    }
+
+    #home_img{
+        width: 60%;
+    }
+    /*
+    .affiche {
+        width: 50%;
+    }
+    */
 }

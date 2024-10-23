@@ -2,53 +2,58 @@
     "type": "project",
     "license": "proprietary",
     "require": {
-        "php": "^7.1.3",
+        "php": "8.2.*",
         "ext-iconv": "*",
-        "doctrine/annotations": "^1.0",
-        "doctrine/doctrine-bundle": "^2.1",
-        "doctrine/doctrine-migrations-bundle": "^3.0",
-        "doctrine/orm": "^2.7",
-        "phpdocumentor/reflection-docblock": "^5.1",
-        "sensio/framework-extra-bundle": "^5.1",
-        "sensiolabs/security-checker": "^5.0",
-        "symfony/asset": "^4.0",
-        "symfony/console": "^4.0",
-        "symfony/dotenv": "^4.0",
-        "symfony/expression-language": "^4.0",
+        "doctrine/annotations": "*",
+        "doctrine/doctrine-bundle": "^2.8",
+        "doctrine/doctrine-migrations-bundle": "^3.2",
+        "doctrine/orm": "^2.14",
+        "google/apiclient": "^2.15.0",
+        "phpdocumentor/reflection-docblock": "5.3",
+        "symfony/asset": "6.4.*",
+        "symfony/console": "6.4.*",
+        "symfony/dotenv": "6.4.*",
+        "symfony/expression-language": "6.4.*",
         "symfony/flex": "^1.17",
-        "symfony/form": "^4.0",
-        "symfony/framework-bundle": "^4.0",
-        "symfony/lts": "^4@dev",
+        "symfony/form": "6.4.*",
+        "symfony/framework-bundle": "6.4.*",
+        "symfony/google-mailer": "6.4.*",
+        "symfony/mailer": "6.4.*",
         "symfony/monolog-bundle": "^3.1",
-        "symfony/process": "^4.0",
-        "symfony/property-access": "^4.0",
-        "symfony/property-info": "^4.0",
-        "symfony/security-bundle": "^4.0",
-        "symfony/serializer": "^4.0",
-        "symfony/swiftmailer-bundle": "^3.1",
-        "symfony/twig-bundle": "^4.0",
-        "symfony/validator": "^4.0",
-        "symfony/web-link": "^4.0",
-        "symfony/yaml": "^4.0",
-        "twig/extensions": "^1.5",
-        "web-token/jwt-framework": "^1.1"
+        "symfony/process": "6.4.*",
+        "symfony/property-access": "6.4.*",
+        "symfony/property-info": "6.4.*",
+        "symfony/proxy-manager-bridge": "6.4.*",
+        "symfony/rate-limiter": "6.4.*",
+        "symfony/runtime": "6.4.*",
+        "symfony/security-bundle": "6.4.*",
+        "symfony/serializer": "6.4.*",
+        "symfony/twig-bundle": "6.4.*",
+        "symfony/validator": "6.4.*",
+        "symfony/web-link": "6.4.*",
+        "symfony/yaml": "6.4.*",
+        "web-token/jwt-framework": "3.1.*"
     },
     "require-dev": {
-        "symfony/browser-kit": "^4.0",
-        "symfony/css-selector": "^4.0",
-        "symfony/debug-bundle": "^4.0",
-        "symfony/maker-bundle": "^1.6",
-        "symfony/phpunit-bridge": "^4.0",
-        "symfony/stopwatch": "^4.0",
-        "symfony/var-dumper": "^4.0",
-        "symfony/web-profiler-bundle": "^4.0",
-        "symfony/web-server-bundle": "^4.0"
+        "symfony/browser-kit": "6.4.*",
+        "symfony/css-selector": "6.4.*",
+        "symfony/debug-bundle": "6.4.*",
+        "symfony/maker-bundle": "*",
+        "symfony/phpunit-bridge": "6.4.*",
+        "symfony/stopwatch": "6.4.*",
+        "symfony/var-dumper": "6.4.*",
+        "symfony/web-profiler-bundle": "6.4.*"
     },
     "config": {
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "ocramius/package-versions": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        }
     },
     "autoload": {
         "psr-4": {
@@ -77,14 +82,20 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "pre-autoload-dump": "Google\\Task\\Composer::cleanup"
     },
     "conflict": {
         "symfony/symfony": "*"
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false
-        }
+            "allow-contrib": false,
+            "require": "6.4.*",
+            "docker": true
+        },
+        "google/apiclient-services" :[
+            "Gmail"
+        ]
     }
 }

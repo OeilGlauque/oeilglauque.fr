@@ -1,12 +1,12 @@
-<div class="row gameShard ghid_{{ game.getGameSlot().getId() }}" data="{{ game.getGameSlot().getId() }},{{ game.getTags() }}">
-    <div class="col-lg-12">
-        <div>
+<div class="gameShard ghid_{{ game.getGameSlot().getId() }}" data="{{ game.getId() }},{{ game.getGameSlot().getId() }},{{ game.getTags() }}">
+    <div class="game">
+        <div class="game-desc">
 
-{% if game.getFreeSeats() > 1 %}
-{% set accord = 's' %}
-{% else %}
-{% set accord = '' %}
-{% endif %}
+    {% if game.getFreeSeats() > 1 %}
+    {% set accord = 's' %}
+    {% else %}
+    {% set accord = '' %}
+    {% endif %}
 
             <a href="{{ path('showGame', {'id':game.getId()}) }}"><h2 class="redandblack">{{ game.getTitle() }}</h2></a>
             <p class="small">Proposé par {{ game.getAuthor().getPseudo() }}<br />
@@ -34,6 +34,11 @@
                 </p>
             {% endif %}
         </div>
+        {% if game.getImage() %}
+            <div class="game-img">
+                <img style="margin-bottom: 1rem; width: 100%;" src={{ game.getImage() }} />
+            </div>
+        {% endif %}
     </div>
     <hr/>
     &nbsp

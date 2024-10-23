@@ -2,45 +2,37 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use App\Service\FOGParametersService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use App\Entity\Edition;
-use App\Entity\Feature;
 
-class FOGController extends Controller {
+class FOGController extends AbstractController {
 
-    public function getCurrentEdition(): ?Edition {
-        $edition = $this->getDoctrine()->getRepository(Edition::class)->findOneBy(['annee' => $this->getParameter('current_edition')]);
-        return $edition ? $edition : new Edition();
+    protected FOGParametersService $FogParams;
+
+    public function __construct(FOGParametersService $FogParams) {
+        $this->FogParams = $FogParams;
     }
 
-    public function getModeFog(): ?bool {
-        return $this->getDoctrine()->getRepository(Feature::class)->find(4)->getState();
-    }
-
-    public function getGameStatus(): ?bool {
-        return $this->getDoctrine()->getRepository(Feature::class)->find(5)->getState();
-    }
-
-    public function getPlanningStatus(): ?bool {
-        return $this->getDoctrine()->getRepository(Feature::class)->find(7)->getState();
-    }
-
-    public function render(string $view, array $parameters = [], Response $response = null): Response {
-        if (!array_key_exists ('dates', $parameters)) {
-            $parameters['dates'] = $this->getCurrentEdition()->getDates();
+    public function render(string $view, array $parameters = [], Response $response = null) : Response {
+        if (!array_key_exists('dates', $parameters)) {
+            $parameters['dates'] = $this->FogParams->getCurrentEdition()->getDates();
         }
-        if (!array_key_exists ('modeFog', $parameters)) {
-            $parameters['modeFog'] = $this->getModeFog();
+        if (!array_key_exists('modeFog', $parameters)) {
+            $parameters['modeFog'] = $this->FogParams->getModeFog();
         }
-        if (!array_key_exists ('gameOpen', $parameters)) {
-            $parameters['gameOpen'] = $this->getGameStatus();
+        if (!array_key_exists('gameOpen', $parameters)) {
+            $parameters['gameOpen'] = $this->FogParams->getGameStatus();
         }
-        if (!array_key_exists ('planning', $parameters)) {
-            $parameters['planning'] = $this->getPlanningStatus();
+        if (!array_key_exists('gameRegistration', $parameters)) {
+            $parameters['gameRegistration'] = $this->FogParams->getGameRegistrationStatus();
+        }
+        if (!array_key_exists('planning', $parameters)) {
+            $parameters['planning'] = $this->FogParams->getPlanningStatus();
+        }
+        if (!array_key_exists('menu', $parameters)) {
+            $parameters['menu'] = $this->FogParams->getMenuStatus();
         }
         return parent::render($view, $parameters);
     }
 }
-
-?>

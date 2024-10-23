@@ -3,12 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\BoardGameReservation;
-use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\DBAL\Types\Type;
-use Exception;
-use phpDocumentor\Reflection\Types\Object_;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * @method BoardGameReservation|null find($id, $lockMode = null, $lockVersion = null)
@@ -30,7 +27,7 @@ class BoardGameReservationRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('r')
             ->where('r.dateEnd > :yesterday')
-            ->setParameter('yesterday', new \DateTime('-1 day'), \Doctrine\DBAL\Types\Type::DATETIME)
+            ->setParameter('yesterday', new \DateTime('-1 day'), Types::DATETIME_MUTABLE)
             ->addOrderBy('r.dateBeg', 'ASC')
             ->getQuery()
             ->getResult();
@@ -44,8 +41,8 @@ class BoardGameReservationRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('r')
             ->where('r.dateEnd < :today')
             ->andWhere('r.dateEnd > :lastyear')
-            ->setParameter('today', new \DateTime(), \Doctrine\DBAL\Types\Type::DATETIME)
-            ->setParameter('lastyear', new \DateTime('-1 year'), \Doctrine\DBAL\Types\Type::DATETIME)
+            ->setParameter('today', new \DateTime(), Types::DATETIME_MUTABLE)
+            ->setParameter('lastyear', new \DateTime('-1 year'), Types::DATETIME_MUTABLE)
             ->addOrderBy('r.dateBeg', 'ASC')
             ->getQuery()
             ->getResult();
@@ -75,8 +72,8 @@ class BoardGameReservationRepository extends ServiceEntityRepository
         );
 
         $qb->where($qb->expr()->orX($c1, $c2, $c3))
-            ->setParameter('begDate', $reservation->getDateBeg(), Type::DATETIME)
-            ->setParameter('endDate', $reservation->getDateEnd(), Type::DATETIME);
+            ->setParameter('begDate', $reservation->getDateBeg(), Types::DATETIME_MUTABLE)
+            ->setParameter('endDate', $reservation->getDateEnd(), Types::DATETIME_MUTABLE);
 
         $res = $qb->getQuery()->getResult();
         $ret = [];

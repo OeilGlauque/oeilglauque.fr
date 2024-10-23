@@ -1,0 +1,10 @@
+www.oeilglauque.fr, oeilglauque.fr, oeilglauque.insa-rennes.fr {
+	root * /srv/app/public
+	php_fastcgi unix//var/run/php/php-fpm.sock
+    encode zstd gzip
+	file_server
+	log {
+		output file /data/log
+		format console
+	}
+}

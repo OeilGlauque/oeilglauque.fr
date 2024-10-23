@@ -12,7 +12,7 @@
             <p>
                 Attention ! Pour des raisons de performances (et de sécurité) la dernière édition n'est pas chargée directement en base de données. 
                 Pour passer le site vers une nouvelle édition, il faut d'abord la créer en base sur cette page puis l'activer en modifiant le paramètre <code>current_edition</code>
-                du fichier <span><code>config/services.yaml</code></span> et redéployer le site. En cas de doute, contactez le Webmaster. 
+                et éventuellement <code>current_edition_type</code> du fichier <span><code>config/services.yaml</code></span> et redéployer le site. En cas de doute, contactez le Webmaster. 
             </p>
             <br />
             <p>
@@ -20,7 +20,10 @@
                 Les parties créées ensuite seront ratachées à cette nouvelle édition. Êtes vous sûrs de vouloir faire ça ? Si c'est le cas, entrez l'année et les dates de cette nouvelle édition : 
             </p>
         </div>
+
+        {{ form(form) }}
         
+        <!--
         <form method="GET" id="newEdition" action="{{ path('createEdition') }}" class="row gy-2">
             <div class="d-flex justify-content-center col-md-8">
                 <label for="annee" class="col-md-4">Année :</label>
@@ -43,6 +46,7 @@ Vous pourrez aussi tout simplement venir profiter de l'ambiance et de nos sandwi
                 <input type="submit" class="btn btn-danger" value="Valider" />
             </div>
         </form>
+        -->
         <br />
         <p>
             <a href="{{ path('admin') }}">Retour à l'interface d'administration</a>

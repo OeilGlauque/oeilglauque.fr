@@ -2,52 +2,45 @@
 
 namespace App\Entity;
 
+use App\Repository\LocalReservationRepository;
+use App\Entity\User;
 use DateTime;
-use FG\ASN1\Universal\Integer;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Service\DateFormaterService as Formater;
+use DateInterval;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\LocalReservationRepository")
- */
+#[ORM\Entity(repositoryClass: LocalReservationRepository::class)]
 class LocalReservation
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private int $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="localReservations")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $author;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "localReservations")]
+    #[ORM\JoinColumn(nullable: false)]
+    private User $author;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $validated;
+    #[ORM\Column(type: "boolean")]
+    private bool $validated;
 
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $motif;
+    #[ORM\Column(type: "text")]
+    private ?string $motif;
 
-    /**
-     * @ORM\Column(type="datetime")
-     * @Assert\GreaterThanOrEqual("today")
-     * @Assert\LessThan("1 year")
-     */
-    private $date;
 
-    /**
-     * @ORM\Column(type="datetime")
-     * @Assert\GreaterThanOrEqual("today")
-     * @Assert\LessThan("1 year")
-     */
-    private $endDate;
+    #[ORM\Column(type: "datetime")]
+    #[Assert\GreaterThanOrEqual("today")]
+    #[Assert\LessThan("1 year")]
+    #[Assert\NotBlank()]
+    private \DateTime $date;
+
+
+    #[ORM\Column(type: "datetime")]
+    #[Assert\GreaterThanOrEqual("today")]
+    #[Assert\LessThan("1 year")]
+    #[Assert\NotBlank()]
+    private \DateTime $endDate;
 
     public function __construct()
     {
@@ -55,7 +48,7 @@ class LocalReservation
         $this->date = new DateTime();
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -72,7 +65,7 @@ class LocalReservation
         return $this;
     }
 
-    public function getAuthor(): ?User
+    public function getAuthor(): User
     {
         return $this->author;
     }
@@ -84,18 +77,57 @@ class LocalReservation
         return $this;
     }
 
-    public function getDuration(): ?int
+    public function getDuration(): ?DateInterval
     {
-        try {
+        return $this->endDate->diff($this->date);
+        /*try {
             return $this->getDate()->diff($this->endDate)->m;
         } catch(\Exception $e) {
             return 0;
-        }
+        }*/
     }
 
-    public function setDuration(float $duration): self
+    public function getFormatedDuration(): ?string
     {
-        $this->endDate = \DateTimeImmutable::createFromMutable($this->getDate())->add(new \DateInterval("PT".$duration."M"));
+        $int = $this->endDate->diff($this->date);
+
+        $hfmt = "";
+        $mfmt = "";
+
+        if ($int->h == 1)
+        {
+            $hfmt .= $int->h . " heure";
+        }
+        else if ($int->h > 1)
+        {
+            $hfmt .= $int->h . " heures";
+        }
+
+        if ($int->i > 0)
+        {
+            $mfmt .= $int->i . " minutes";
+        }
+
+        if ($int->h > 0 && $int->i > 0)
+        {
+            $out = $hfmt . " et " . $mfmt;
+        }
+        else {
+            $out = $hfmt . $mfmt;
+        }
+
+        return $out;
+    }
+
+    public function getEndDate(): \DateTime
+    {
+        return $this->endDate;
+    }
+
+    public function setEndDate(int $duration): self
+    {
+        $tmp = clone $this->date;
+        $this->endDate = $tmp->add(new \DateInterval("PT".$duration."M"));
 
         return $this;
     }
@@ -122,6 +154,11 @@ class LocalReservation
         $this->date = $date;
 
         return $this;
+    }
+
+    public function getFormatedDate(): string
+    {
+        return (new Formater())->format($this->date);
     }
 
     public function __toString()

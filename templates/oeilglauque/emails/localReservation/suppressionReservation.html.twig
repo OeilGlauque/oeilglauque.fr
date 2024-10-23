@@ -3,7 +3,7 @@
 	Bonjour {{ reservation.getAuthor().getPseudo() }}
 {% endset %}
 {% set first_paragraph %}
-	Votre de demande de réservation pour le {{ reservation.getDate().format("D j M Y à H:i") }} pendant {{ reservation.getDuration() }} minutes a malheureusement été refusé par un admin.
+	Votre de demande de réservation pour le {{ reservation.getDate().format("D j M Y à H:i") }} pendant {{ reservation.getFormatedDuration() }} a malheureusement été refusé par un admin.
 {%  endset %}
 {%  set second_paragraph %}
 	Pour rappel, le motif de votre réservation était le suivant : {{ reservation.getMotif() }}

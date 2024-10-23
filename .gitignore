@@ -17,7 +17,6 @@ yarn-error.log
 ###< symfony/webpack-encore-pack ###
 
 ###> symfony/phpunit-bridge ###
-.phpunit
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
@@ -28,3 +27,22 @@ yarn-error.log
 
 # NPM generated file
 /package-lock.json
+
+###> docker
+docker/caddy
+docker/db
+*override*
+###< docker
+
+###> user uploaded files
+public/uploads
+###< user uploaded files
+
+###> google client secret
+client_secret*
+###< google client secret
+
+# Config perso (arthur)
+query.sql
+.idea
+.fleet

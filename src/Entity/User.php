@@ -2,127 +2,94 @@
 
 Namespace App\Entity;
 
+use App\Entity\BoardGameReservation;
+use App\Entity\Game;
+use App\Entity\LocalReservation;
+use App\Entity\News;
+use App\Repository\UserRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
-/**
- * @ORM\Table(name="app_users")
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- */
-class User implements UserInterface, \Serializable
+#[ORM\Table(name: "app_users")]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity("pseudo")]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+    private ?int $id;
 
-    /**
-     * @ORM\Column(type="string", length=64)
-     */
-    private $name;
+    #[ORM\Column(type: "string", length: 64)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 1, max: 64)]
+    private string $name;
 
-    /**
-     * @ORM\Column(type="string", length=64)
-     */
-    private $firstName;
+    #[ORM\Column(type: "string", length: 64)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 1, max: 64)]
+    private string $firstName;
 
-    /**
-     * @ORM\Column(type="string", length=64, unique=true)
-     * @Assert\NotBlank()
-     */
-    private $pseudo;
+    #[ORM\Column(type: "string", length: 64, unique: true)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 1, max: 64)]
+    private string $pseudo;
 
-    /**
-     * length=64 : for bcrypt
-     * @ORM\Column(type="string", length=64)
-     * @Assert\NotBlank()
-     */
+    #[ORM\Column(type: "string", length: 64)]
+    #[Assert\NotBlank()]
     private $password;
-    
-    // This will not be mapped in database, but needs to be accessible during registration
-    // Limit of 64 in database; this must also be set in Forms/UserType.php !!!
-    // This limit of 64 is due to a bug causing too long passwords encoded with more than one byte per char to break registration (bcrypt hashing)
-    /**
-     * length=64
-     * @Assert\NotBlank()
-     * @Assert\Length(
-     *      min=2, 
-     *      max=64, 
-     *      minMessage="Votre mot de passe doit contenir au moins {{ limit }} caractères", 
-     *      maxMessage="Votre mot de passe ne peut pas contenir plus de {{ limit }} caractères")
-     */
-    private $plainPassword;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $resetToken;
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Assert\Length(max: 255)]
+    private ?string $resetToken;
 
-    /**
-    * @ORM\Column(type="string", length=254, unique=true)
-    * @Assert\NotBlank()
-    * @Assert\Email()
-    */
-    private $email;
+    #[ORM\Column(type: "string", length: 254)]
+    #[Assert\NotBlank()]
+    #[Assert\Email()]
+    private string $email;
 
-    /**
-     * @ORM\Column(type="string", length=512, nullable=true)
-     */
-    private $avatar;
+    #[ORM\Column(type: "string", length: 512, nullable: true)]
+    #[Assert\Length(max: 512)]
+    private ?string $avatar;
 
-    /**
-     * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
-     */
-    private $dateCreated;
+    #[ORM\Column(type: "datetime_immutable")]
+    #[Assert\NotNull()]
+    private DateTimeImmutable $dateCreated;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\News", mappedBy="Author")
-     */
-    private $newsRedacted;
+    #[ORM\OneToMany(targetEntity: News::class, mappedBy: "author")]
+    private Collection $newsRedacted;
 
-    /**
-     * @ORM\Column(name="is_active", type="boolean", options={"default": true})
-     */
-    private $isActive;
+    #[ORM\Column(name: "is_active", type: "boolean")]
+    private bool $isActive;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $roles;
+    #[ORM\Column(type: "text")]
+    private ?string $roles;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Game", mappedBy="author")
-     */
-    private $partiesOrganisees;
+    #[ORM\OneToMany(targetEntity: Game::class, mappedBy: "author")]
+    private Collection $partiesOrganisees;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Game", mappedBy="players")
-     */
-    private $partiesJouees;
+    #[ORM\ManyToMany(targetEntity: Game::class, mappedBy: "players")]
+    private Collection $partiesJouees;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\LocalReservation", mappedBy="author")
-     */
-    private $localReservations;
+    #[ORM\OneToMany(targetEntity: LocalReservation::class, mappedBy: "author")]
+    private Collection $localReservations;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\BoardGameReservation", mappedBy="author")
-     */
-    private $boardGameReservations;
+    #[ORM\OneToMany(targetEntity: BoardGameReservation::class, mappedBy: "author")]
+    private Collection $boardGameReservations;
 
     public function __construct()
     {
         $this->newsRedacted = new ArrayCollection();
         $this->roles = "ROLE_USER";
-        $this->password = "_";
-        $this->dateCreated = new \DateTime();
+        $this->dateCreated = new \DateTimeImmutable();
         $this->isActive = true;
+        $this->resetToken = null;
         $this->partiesOrganisees = new ArrayCollection();
         $this->partiesJouees = new ArrayCollection();
         $this->boardGameReservations = new ArrayCollection();
@@ -181,7 +148,7 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    public function getPlainPassword()
+    /*public function getPlainPassword()
     {
         return $this->plainPassword;
     }
@@ -189,7 +156,7 @@ class User implements UserInterface, \Serializable
     public function setPlainPassword($password)
     {
         $this->plainPassword = $password;
-    }
+    }*/
 
     public function getResetToken(): ?string
     {
@@ -268,41 +235,29 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    /** @see \Serializable::serialize() */
-    public function serialize()
-    {
-        return serialize(array(
-            $this->id,
-            $this->pseudo,
-            $this->password,
-            // see section on salt below
-            // $this->salt,
-        ));
-    }
-
-    /** @see \Serializable::unserialize() */
-    public function unserialize($serialized)
-    {
-        list (
-            $this->id,
-            $this->pseudo,
-            $this->password
-        ) = unserialize($serialized, ['allowed_classes' => false]);
-    }
-
     // To assure implementation of UserInterface
-    public function getUsername(): ?string
+    public function getUsername(): string
     {
         return $this->getPseudo();
     }
-    public function getRoles()
+
+    public function getUserIdentifier(): string
     {
-        return explode(";", $this->roles);
+        return $this->getPseudo();
     }
+
+    public function getRoles(): array
+    {
+        $roles = preg_split("/;/",$this->roles);
+
+        return array_unique($roles);
+    }
+
     public function eraseCredentials()
     {
     }
-    public function getSalt()
+
+    public function getSalt(): ?string
     {
         return null;
     }

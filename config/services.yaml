@@ -1,7 +1,11 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
 # Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    current_edition: 2022
+    current_edition: 2024
+    current_edition_type: 'FOG'
     allow_registration: true
 
 services:
@@ -17,7 +21,7 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/*'
-        exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
+        exclude: '../src/{Migrations,Tests,Kernel.php}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -27,8 +31,21 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\Service\FOGParametersService:
+        arguments:
+            $current_edition: '%current_edition%'
+            $current_edition_type: '%current_edition_type%'
 
-    twig.extension.text:
-        class: Twig_Extensions_Extension_Text
-        tags:
-            - { name: twig.extension }
+    App\Service\FOGDiscordWebhookService:
+        arguments:
+            $webhook: '%env(DISCORD_WEBHOOK)%'
+
+    App\Service\FileUploader:
+        arguments:
+            $baseTargetDir: '%kernel.project_dir%/public/uploads'
+
+    App\Service\FOGGmail:
+        arguments:
+            $address_mail: '%env(ADDRESS_MAIL)%'
+            $address_name: '%env(ADDRESS_NAME)%'
+            $dev_env: '%env(APP_ENV)%'

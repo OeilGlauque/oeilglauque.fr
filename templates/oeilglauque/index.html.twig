@@ -7,30 +7,30 @@
 {% block customGraph %}
 	<script type="application/ld+json">
 		{
-		  "@context": "https://schema.org",
-		  "@type": "NGO",
-		  "name": "Club de l'Oeil Glauque",
-		  "alternateName": "FOG",
-		  "url": "https://www.oeilglauque.fr",
-		  "logo": "https://oeilglauque.fr/img/logo.png",
-		  "address": {
-			"@type": "PostalAddress",
-			"streetAddress": "20 avenue des buttes de coesmes",
-			"postOfficeBoxNumber": "CS 70839",
-			"addressLocality": "Rennes",
-			"addressRegion": "Bretagne",
-			"postalCode": "35000",
-			"addressCountry": "France"
-		  },
-		  "contactPoint": {
-			"@type": "ContactPoint",
-			"contactType": "Information",
-			"email": "oeilglauque@gmail.com"
-		  },
-		  "sameAs": [
-			"https://www.facebook.com/festival.oeil.glauque/",
-			"https://twitter.com/oeilglauque",
-			"https://www.instagram.com/festival_oeil_glauque/"
+			"@context": "https://schema.org",
+			"@type": "NGO",
+			"name": "Club de l'Oeil Glauque",
+			"alternateName": "FOG",
+			"url": "https://www.oeilglauque.fr",
+			"logo": "https://oeilglauque.fr/img/logo.png",
+			"address": {
+				"@type": "PostalAddress",
+				"streetAddress": "20 avenue des buttes de coesmes",
+				"postOfficeBoxNumber": "CS 70839",
+				"addressLocality": "Rennes",
+				"addressRegion": "Bretagne",
+				"postalCode": "35000",
+				"addressCountry": "France"
+			},
+			"contactPoint": {
+				"@type": "ContactPoint",
+				"contactType": "Information",
+				"email": "oeilglauque@gmail.com"
+			},
+			"sameAs": [
+				"https://www.facebook.com/festival.oeil.glauque/",
+				"https://twitter.com/oeilglauque",
+				"https://www.instagram.com/festival_oeil_glauque/"
 		  ]
 		}
 	</script>
@@ -50,41 +50,47 @@
 
 {% block body %}
 
-        <img src="img/index.png" alt="Le Festival de l'Oeil Glauque"/>
+	<img id="home_img" src="img/index_XX.png" alt="Le Festival de l'Oeil Glauque"/>
 
-        {% if modeFog %}
-                <p class="lead">
-                        <strong>Oyez Voyageurs ! Bienvenue sur le site du Festival de l’&OElig;il Glauque !</strong>
-                        <br/>
-                        {% if homeText %}
-                                {{ homeText }}
-                        {% else %}
-                                Jeux de rôle et jeux de plateau vous attendent à la prochaine édition du Festival de l'Oeil Glauque !
-                                Pendant 48h vous pourrez profiter de séances de jeux de rôle, découvrir notre ludothèque de plus de 150 jeux de plateau ou assister à un concert de métal.
-                                Au cours du week-end n’hésitez pas à prendre part à une murder-party, un escape game, ainsi qu'à des tournois de Magic ou Warhammer. 
-                                Vous pourrez aussi tout simplement venir profiter de l'ambiance et de nos sandwichs, pizzas, burgers et autres friandises et boissons, notamment nos crêpes et nos fameux 3D6 !
-                        {% endif %}
-                </p>
-        {% else %}
-                <p class="lead">
-                        <strong>Oyez Voyageurs ! Bienvenue sur le site du Festival de l’&OElig;il Glauque !</strong>
-                        <br/>
-                        Comment cela&nbsp;? Vous ne savez point qui nous sommes&nbsp;??? Nous sommes l'association de jeux de rôle et de jeux de plateau de l’INSA Rennes pardi&nbsp;!
-                        Et nous organisons chaque année un festival de jeux où nos bénévoles seront ravis de t’accueillir pour te guider dans cette aventure de 48h.
-                        Alors rendez-vous à notre prochaine édition&nbsp;!
-                </p>
-        {% endif %}
+	{% if modeFog %}
+		<p class="lead">
+			<strong>Oyez Voyageurs ! Bienvenue sur le site du Festival de l’&OElig;il Glauque !</strong>
+			<br/>
+			{% if homeText %}
+					{{ homeText | raw }}
+			{% else %}
+					Jeux de rôle et jeux de plateau vous attendent à la prochaine édition du Festival de l'Oeil Glauque !
+					Pendant 48h vous pourrez profiter de séances de jeux de rôle, découvrir notre ludothèque de plus de 200 jeux de plateau ou assister à un concert de métal.
+					Au cours du week-end n’hésitez pas à prendre part à une murder-party, un escape game, ainsi qu'à des tournois de Magic ou Warhammer. 
+					Vous pourrez aussi tout simplement venir profiter de l'ambiance et de nos sandwichs, pizzas, burgers et autres friandises et boissons, notamment nos crêpes et nos fameux 3D6 !
+			{% endif %}
+		</p>
+	{% else %}
+		<p class="lead">
+			<strong>Oyez Voyageurs ! Bienvenue sur le site du Festival de l’&OElig;il Glauque !</strong>
+			<br/>
+			Comment cela&nbsp;? Vous ne savez point qui nous sommes&nbsp;??? Nous sommes l'association de jeux de rôle et de jeux de plateau de l’INSA Rennes pardi&nbsp;!
+			Et nous organisons chaque année un festival de jeux où nos bénévoles seront ravis de t’accueillir pour te guider dans cette aventure de 48h.
+			Alors rendez-vous à notre prochaine édition&nbsp;!
+		</p>
+	{% endif %}
 
-		<div class="afficheWrapper">
-			<img alt="Affiche FOG" src="img/affiche.png">
-			<img alt="Affiche concert FOG" src="img/afficheConcert.png">
-		</div>
-                
-        <div class="videoWrapper">
-                <iframe title="Aftermovie du FOG" src="https://www.youtube-nocookie.com/embed/Qb0fA_ii_cg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
+	<!--
+	<div class="afficheWrapper">
+		<img class="affiche" alt="Affiche FOG" src="img/affiche_XIX.webp"/>
+	</div>
+	-->
+
+	<div class="afficheWrapper">
+		<img alt="Affiche FOG" src="img/affiche_XX.webp">
+		<img alt="Affiche concert FOG" src="img/concert_XX.webp">
+	</div>
+			
+	<div class="videoWrapper">
+		<iframe title="Aftermovie du FOG" src="https://www.youtube-nocookie.com/embed/Qb0fA_ii_cg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+	</div>
 
 
-        <img src="img/deco_bas.png" id="deco" alt="Deco" />
+	<img src="img/deco_bas.png" id="deco" alt="Deco" />
 
 {% endblock %}

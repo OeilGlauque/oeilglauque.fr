@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1 class="titre">Menu</h1>
+    {% if menu %}
+        <div style="display: grid; gap: 3rem;">
+            <a href="/img/menu/menu-1_XX.webp">
+                <img alt="menu" src="/img/menu/menu-1_XX.webp" width="100%"/>
+            </a>
+            <a href="/img/menu/menu-2_XX.webp">
+                <img alt="menu" src="/img/menu/menu-2_XX.webp" width="100%"/>
+            </a>
+            <a href="/img/menu/menu-3_XX.webp">
+                <img alt="menu" src="/img/menu/menu-3_XX.webp" width="100%"/>
+            </a>
+        </div>
+    {% else %}
+        <p> Le menu n'est pas encore disponible. Revenez plus tard !</p>
+    {% endif %}
+
+{% endblock %}

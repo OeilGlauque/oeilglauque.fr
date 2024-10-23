@@ -9,7 +9,7 @@
         <h1>Gestion des éditions</h1>
         {% for e in editions %}
             <div class="well">
-                <h3>Édition {{e.getAnnee()}}</h3>
+                <h3>Édition {{e.getType()}} {{e.getAnnee()}}</h3>
                 <form class="form-inline" id="editEdition" method="GET" action="{{ path('updateEdition', {'edition': e.getId()}) }}">
                     <div class="d-flex justify-content-center align-items-center">
                         <p class="mr-3">Dates : </p>
