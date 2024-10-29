@@ -39,7 +39,7 @@ class AdminController extends FOGController {
     {
         /* Page spécial Alice */
         $user = $this->getUser();
-        if($user && $user->getUserIdentifier() == "Sironysos"){
+        if($user && $user->getUserIdentifier() == "Sironysos" or $user->getUserIdentifier() == "soVI"){
             return $this->render('oeilglauque/admin/loveForAlice.html.twig');
         }
 
