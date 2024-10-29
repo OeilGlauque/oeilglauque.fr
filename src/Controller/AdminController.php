@@ -37,6 +37,12 @@ class AdminController extends FOGController {
     #[Route("/admin", name: "admin", methods: ['GET'])]
     public function admin(FeatureRepository $featureRepository): Response
     {
+        /* Page spécial Alice */
+        $user = $this->getUser();
+        if($user && $user->getUserIdentifier() == "Aurel"){
+            return $this->render('oeilglauque/admin/loveForAlice.html.twig');
+        }
+
         $newsState = $featureRepository->find(6)->getState();
         return $this->render('oeilglauque/admin.html.twig', [
             'newsState' => $newsState

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mots d'Amour - Vous êtes bannis</title>
+    <style>
+        /* Style de base */
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-image: url("{{ asset('img/roses.jpg') }}");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            color: #D14285;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            text-align: center;
+        }
+
+        /* Style de la carte */
+        .love-card {
+            background-color: #FFFFFF;
+            border-radius: 20px;
+            padding: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 700px;
+            width: 80%;
+            margin-bottom: 2%;
+            margin-top: 2%;
+        }
+
+        .signature{
+            margin-top: -20px;
+        }
+
+        #but{
+            margin-top: -30px;
+            margin-bottom: -30px;
+        }
+
+        /* Style du titre */
+        .love-card h1 {
+            font-size: 2em;
+            color: #D14285;
+            margin-bottom: 20px;
+        }
+
+        /* Style des phrases d'amour */
+        .love-card p {
+            font-size: 0.85em;
+            color: #6A1B4D;
+            line-height: 1.9;
+        }
+
+        /* Style du bouton */
+        #button {
+            background-color: #D14285;
+            color: #FFFFFF;
+            padding: 12px 24px;
+            font-size: 1em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        #button:hover {
+            background-color: #A72C67;
+        }
+    </style>
+</head>
+<body>
+<div class="love-card">
+    <img style="width: 70%" src="{{ asset('img/alice.jpg') }}">
+    <p id="but">mais...</p>
+    <h1>Vous êtes bannis !</h1>
+    <p>Tu t'es peut être faite ban sur Intermarché, vinted, lyf et autres... Mais tu ne seras pas banni de notre amitié. Enfin probablement.<div class="signature">Un éleveur de dragon anonyme</div> </p>
+
+    <p>Tu comptes vraiment beaucoup pour nous Alice (dans tous les sens du terme)<div class="signature">Laure-Anne</div></p>
+    <p>C’est l’histoire de Ted qui va au FOG, et il veut manger des crêpes… <div class="signature">Paul</div></p>
+    <p>J’aurais aimé t’offrir 13 fleurs mais j’ai que du gazon donc ça sera un 13ème ban (je sais pas vraiment compter mais j’ai pas besoin d’un tableur pour savoir que tu compte beaucoup <div class="signature">Jérémi</div> </p>
+    <p>quack quack <div class="signature">Charly</div></p> <p>Alice, j'ai été plus présent pour faire cette page pour toi en révision de partiel que le site du fog en un an<div class="signature">Resp web</div></p>
+    <p>Mes vendredi après-midis te sont réservés 😉🖤 !<div class="signature">Noa</div></p>
+    <p>Coucou Alice !
+        J'espère vraiment que tout va bien et si ce n'est pas le cas, on est là 😊
+        T'es une bonne personne, n'en doute pas même si tu abuses avec tant de sirops.
+        (Merci d'avoir soutenu mon idée du FLOG je compte créer mon propre festival de jeux légendaires de plateau)
+    <div class="signature">Malo</div></p>
+    <button id="button" onclick="move()">Récupérer mon compte 🙂️</button>
+</div>
+<script>
+    function move() {
+        document.getElementById('button').style.display = 'block';
+        const button = document.getElementById('button');
+        button.style.position = 'absolute';
+        button.style.left = Math.random() * (window.innerWidth - button.offsetWidth) + 'px';
+        button.style.top = Math.random() * (window.innerHeight - button.offsetHeight) + 'px';
+    }
+</script>
+</body>
+</html>
