@@ -12,7 +12,7 @@ class MainPageController extends FOGController {
 
         /* Page spécial Alice */
         $user = $this->getUser();
-        if($user && $user->getUserIdentifier() == "Sironysos" or $user->getUserIdentifier() == "soVI"){
+        if($user && ($user->getUserIdentifier() == "Sironysos" || $user->getUserIdentifier() == "soVI")){
             return $this->render('oeilglauque/admin/loveForAlice.html.twig');
         }
 
