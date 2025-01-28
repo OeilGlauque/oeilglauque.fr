@@ -1,0 +1,154 @@
+/* New button style */
+.button{
+    color: #3D1A21;
+    font-family: 'Mirkwood_Chronicle', Arial, serif;
+    background-color: transparent;
+    border: none;
+    transition: 0.2s ease-in;
+    font-size: 1.1rem;
+}
+
+.button:hover{
+    transform: scale(1.1);
+    color: #3D1A21;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.primary{
+    background-color: #581422;
+    border-radius: 10px;
+    box-shadow: 2px 2px 1px black;
+    padding: 10px 15px;
+    color: white;
+}
+
+.primary:hover{
+    color: white;
+}
+
+
+/* AppBar */
+header {
+    background-size: 100% 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 2%;
+    padding-bottom: 1.5%;
+    color: #3D1A21;
+    position: fixed;
+    width: 100%;
+    background-color: transparent;
+    z-index: 2;
+    transition: 0.5s ease-in-out;
+}
+
+#title_container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+#title_container h1{
+    width: max-content;
+    margin-left: 4%;
+}
+
+/* Bouton menu */
+header #menu-toggle {
+    background-image: url(/img/menu_dark.png);
+    transition: 0.2s ease-in;
+    background-size: 100% 100%;
+    width: 40px;
+    height: 35px;
+    cursor: pointer;
+    margin-left: 30px;
+}
+
+/* Titre */
+header h1{
+    font-size: 1.3rem;
+}
+
+header h1 a{
+    color: #3D1A21;
+}
+
+header h1 a:hover {
+    text-decoration: none;
+    color: #3D1A21;
+}
+
+#date{
+
+}
+
+/* Boutons login */
+#login{
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    margin-top: 0;
+    padding: 0;
+}
+
+#login a{
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+#login .separator::after {
+    content: "|";
+}
+
+/* scrolled bar */
+.scrolled{
+    background-color: #402222;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.414);
+}
+
+.scrolled a, .scrolled .button, .scrolled .separator{
+    color: white;
+}
+
+.scrolled #menu-toggle{
+    background-image: url(/img/menu.png);
+}
+
+
+/* Responsive */
+@media screen and (max-width: 1100px) and (min-width: 750px) {
+    header #menu-toggle {
+        width: 30px;
+        height: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    header #login a {
+        margin-left: 12px;
+        margin-right: 2px;
+    }
+
+    header #menu-toggle {
+        width: 30px;
+        height: 25px;
+    }
+
+    header h1{
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    header #menu-toggle {
+        width: 20px;
+        height: 15px;
+    }
+
+    header #login .button{
+        font-size: 0.6rem;
+    }
+}

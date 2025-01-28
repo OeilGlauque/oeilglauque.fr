@@ -12,7 +12,7 @@ class MainPageController extends FOGController {
 
         /* Page spécial Alice */
         $user = $this->getUser();
-        if($user && ($user->getUserIdentifier() == "Sironysos" || $user->getUserIdentifier() == "soVI")){
+        if($user && ($user->getUserIdentifier() == "Sironysos")){
             return $this->render('oeilglauque/admin/loveForAlice.html.twig');
         }
 
@@ -23,7 +23,8 @@ class MainPageController extends FOGController {
         }
 
         return $this->render('oeilglauque/index.html.twig', [
-            'homeText' => $homeText
+            'homeText' => $homeText,
+            'homePage' => true
         ]);
     }
 }

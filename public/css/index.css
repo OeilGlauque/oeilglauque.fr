@@ -1,32 +1,81 @@
+#particles-js{
+    position: absolute;
+    width: 100%;
+    height: 87vh;
+    background-image: url("");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
+body{
+    background-color: #FFF2DA;
+}
+
 .container {
-	background-color: inherit;
+    background-color: inherit;
+    padding-top: 0;
+    padding-right: 0;
+    padding-left: 0;
+    width: 100vw;
+}
+
+main{
+    margin: 0;
+    padding: 0;
 }
 
 img {
-	width: 100%;
-	height: auto;
-	margin: 3em 0;
+    width: 100%;
+    height: auto;
+    margin: 3em 0;
 }
 
-#home_img{
-    width: 45%;
-    display: block;
-    margin: 1em auto 2em;
+.landing_page{
+    background-image: url(/img/indexBg.png);
+    background-size: cover;
+    height: 87vh;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    margin-bottom: 2%;
+    background-position: bottom;
+    background-repeat: no-repeat;
 }
 
+.title{
+    margin-top: 4%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: pulse 3s ease-in-out infinite;
+}
 
+.title #home_img{
+    width: 35%;
+}
+
+#home_content{
+    padding: 0.5em 5.125em 2em 5.125em;
+    margin-top: 4%;
+}
+
+/** Description **/
 .lead {
-	background-color: #fbecd8;
-	border-radius: 25px;
-	padding: 1.5em;
-
-	font-family: 'Andada', sans-serif;
+    background-color: #3D1A21;
+    padding: 1.5em;
+    font-family: 'Andada', sans-serif;
+    border-radius: 20px;
+    box-shadow: 4px 4px 0 black;
+    color: white;
+    text-align: center;
 }
 
 .lead strong {
-	color: #973504;
+    color: #FFF2DA;
 }
 
+/** Video **/
 .videoWrapper {
     overflow: hidden;
     position: relative;
@@ -41,10 +90,32 @@ img {
 
 .videoWrapper iframe {
     position: absolute;
+    border-radius: 15px;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.96);
+    }
+}
+
+@media (max-width: 808px) {
+    .title #home_img{
+        width: 60%;
+    }
+}
+
+@media (max-width: 480px){
+    .title #home_img{
+        width: 90%;
+    }
 }
 
 @media (min-width: 992px) {
@@ -53,7 +124,7 @@ img {
         display: flex;
         justify-content: space-between;
     }
-    
+
     .afficheWrapper img {
         width: 48%;
     }
