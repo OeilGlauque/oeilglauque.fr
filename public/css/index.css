@@ -36,7 +36,7 @@ img {
     background-size: cover;
     height: 87vh;
     display: flex;
-    justify-items: center;
+    justify-content: center;
     align-items: center;
     margin-bottom: 2%;
     background-position: bottom;
@@ -52,7 +52,7 @@ img {
 }
 
 .title #home_img{
-    width: 35%;
+    width: 25vw;
 }
 
 #home_content{

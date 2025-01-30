@@ -52,6 +52,4 @@ particlesJS("particles-js", {
         },
     },
     retina_detect: true,
-}, function(){
-    console.log("c'est censé marcher");
-});
+}, function(){});
