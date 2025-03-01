@@ -32,7 +32,7 @@ img {
 }
 
 .landing_page{
-    background-image: url(/img/indexBg.png);
+    background-image: url(/img/indexBg.webp);
     background-size: cover;
     height: 87vh;
     display: flex;
