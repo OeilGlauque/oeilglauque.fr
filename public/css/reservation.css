@@ -40,7 +40,7 @@ label{
 }
 
 .row{
-	max-height: 200px;
+	max-height: 450px;
 	max-width: 70%;
 	overflow-y: auto;
 	background-color: white;
