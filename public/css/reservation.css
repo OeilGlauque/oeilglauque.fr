@@ -1,6 +1,19 @@
-#transparent{
-	margin-top: 8vh;
+.landing_page{
+	background-image: url(/img/indexBg.webp);
+	background-size: cover;
+	height: 17vh;
+	background-position: bottom;
+	background-repeat: no-repeat;
 }
+
+body{
+	background-color: #FFF2DA;
+}
+
+.container{
+	background-color: transparent;
+}
+
 
 /* form*/
 .ts-wrapper .option .title {
@@ -84,6 +97,10 @@ table tr:nth-child(even) {
 	background-color: #f2f2f2;
 }
 
+#reservation-content{
+	margin-top: 5%;
+}
+
 #reservation{
 	background-color: #3D1A21;
 	box-shadow: 4px 4px 0 black;
@@ -123,6 +140,19 @@ section #desc{
 		width: 40%;
 	}
 }
+
+@media screen and (max-width: 1400px) {
+	.landing_page{
+		height: 12vh;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.landing_page{
+		height: 8vh;
+	}
+}
+
 
 @media screen and (max-width: 750px) {
 	tr td:nth-child(2), tr td:nth-child(3), tr td:nth-child(4) {
