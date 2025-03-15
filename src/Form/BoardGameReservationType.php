@@ -55,7 +55,7 @@ class BoardGameReservationType extends AbstractType
                 'choices' => $options['choices'],
             ])
 
-            ->add('note', TextareaType::class, ['label' => 'Note', 'required' => false, "empty_data"=>""])
+            ->add('note', TextareaType::class, ['label' => 'Note', 'required' => false, "empty_data"=>"", "attr"=>['placeholder' => "Un message à nous faire passer ?"]])
 
             ->add('save', SubmitType::class, ['label' => 'Valider']);
     }

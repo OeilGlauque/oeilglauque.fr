@@ -13,31 +13,35 @@
     <h1 class="titre small">Réservations de jeux</h1>
 
     {% if state %}
-        <p>
-        Bienvenue sur cette page intrépide aventurier ! Ici nous vous proposons de venir emprunter des jeux dans notre Ludothèque.
-        <br />
-        La réponse vous sera envoyée via l'adresse e-mail renseignée sur votre compte. Il faudra fournir des chèques de caution lors du retrait des jeux.
-        </p>
 
-        <div class="form">
-            {{ form_start(form)  }}
+        <section id="reservation-content">
+            <p id="desc">
+                Bienvenue sur cette page intrépide aventurier ! Ici nous vous proposons de venir emprunter des jeux dans notre Ludothèque.
+                <br />
+                La réponse vous sera envoyée via l'adresse e-mail renseignée sur votre compte. <span style="color: red">Il faudra fournir des chèques de caution lors du retrait des jeux.</span>
+            </p>
+
+            <div class="form" id="reservation">
+                {{ form_start(form)  }}
 
                 {{ form_row(form.dateBeg) }}
 
                 {{ form_row(form.dateEnd) }}
 
-               {{ form_row(form.boardGames) }}
+                {{ form_row(form.boardGames) }}
 
                 {{ form_row(form.note) }}
 
-                <div id="price-container">
+                <p id="price-container">
                     Prix de la caution: <span id="total-price">0</span> €
-                </div>
+                </p>
 
                 {{ form_row(form.save) }}
 
-            {{ form_end(form) }}
-        </div>
+                {{ form_end(form) }}
+            </div>
+        </section>
+
         <script src="{{ asset('js/selectBoardGames.js') }}"></script>
 
         <h2>Liste des jeux</h2>

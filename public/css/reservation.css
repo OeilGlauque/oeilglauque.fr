@@ -12,7 +12,7 @@
 .good_state{color: #00d300;}
 .medium_state{color: #ffdb00;}
 
-.ts-wrapper .option .url {
+.ts-wrapper .option .price {
 	display: block;
 	font-size: 12px;
 	color: #a0a0a0;
@@ -30,16 +30,7 @@ label{
 	width: 100%;
 }
 
-.form-check{
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-}
 
-.game_state{
-	border-radius: 10px;
-	padding: 3px;
-}
 
 .styled-input-single{
 	padding: 5px;
@@ -57,7 +48,7 @@ label{
 }
 
 #price-container{
-	margin-bottom: 6%;
+	margin-bottom: 3%;
 }
 
 .row::-webkit-scrollbar {
@@ -87,6 +78,46 @@ span.select2-container {
 
 table tr:nth-child(even) {
 	background-color: #f2f2f2;
+}
+
+#reservation{
+	background-color: #3D1A21;
+	box-shadow: 4px 4px 0 black;
+	border-radius: 20px;
+	padding: 1.3vh 0 1.3vh 0;
+	margin: 0;
+}
+
+section #desc{
+	font-size: 1.2em;
+	text-align: center;
+}
+
+#reservation label, #reservation p{
+	color: white;
+	font-size: 1em;
+}
+
+@media screen and (min-width: 992px) {
+	#reservation-content {
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		margin-top: 5%;
+	}
+
+	#reservation{
+		width: 40vw;
+	}
+
+	#reservation label, #reservation p{
+		color: white;
+		font-size: 1em;
+	}
+
+	#reservation-content #desc{
+		width: 40%;
+	}
 }
 
 @media screen and (max-width: 750px) {
