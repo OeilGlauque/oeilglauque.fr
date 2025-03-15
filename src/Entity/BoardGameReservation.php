@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\BoardGameReservationRepository;
-use App\Entity\BoardGame;
-use App\Entity\User;
 use App\Service\DateFormaterService as Formater;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
