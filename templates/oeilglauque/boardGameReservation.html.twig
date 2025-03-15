@@ -10,7 +10,7 @@
 
 {% block body %}
 
-    <h1 class="titre small">Réservations de jeux</h1>
+    <h1 class="titre small" id="transparent">Réservations de jeux</h1>
 
     {% if state %}
 
@@ -43,6 +43,8 @@
         </section>
 
         <script src="{{ asset('js/selectBoardGames.js') }}"></script>
+        <script src="{{ asset('js/scrolledHeader.js') }}"></script>
+
 
         <h2>Liste des jeux</h2>
         <table class="reservation">
@@ -80,5 +82,4 @@
     {% else %}
         <p>Les réservations de jeux sont temporairement désactivées 😕</p>
     {% endif %}
-
 {% endblock %}
