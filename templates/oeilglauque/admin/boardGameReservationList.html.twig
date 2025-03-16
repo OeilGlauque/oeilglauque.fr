@@ -1,56 +1,66 @@
 {% extends 'base.html.twig' %}
 
+{% block customcss %}
+    <link rel="stylesheet" href="/css/adminReservation.css"/>
+{% endblock %}
+
 {% block body %}
 
     <h1>Demandes de réservation de jeux</h1>
 
-    {% for r in reservations %}
-        <div class="well">
-            <p>Demande par {{ r.getAuthor().getPseudo() }} ({{ r.getAuthor().getFirstName() }} {{ r.getAuthor().getName() }}, {{ r.getAuthor().getEmail() }})</p>
-            <p>Début : {{ r.getDateBeg().format("d/m/Y") }}</p>
-            <p>Fin : {{ r.getDateEnd().format("d/m/Y") }}</p>
-            <p> Jeux :</p>
-            <ul>
-                {% for g in r.getBoardGames() %}
-                    <li>
-                        {{ g.getName() }} ({{ g.getYear() }}{% if g.getPrice() != null %}, {{ g.getPrice() | number_format(2, ',', ' ') }} €{% endif %})
-                        {% if ((g.getMissing() != null) or (g.getExcess() != null) or (g.getNote() != null)) %}
-                            <ul>
-                                {% if g.getMissing() != null %}
-                                    <li>Pièces manquantes : {{ g.getMissing() }}</li>
-                                {% endif %}
-                                {% if g.getExcess() != null %}
-                                    <li>Pièces en trop : {{ g.getExcess() }}</li>
-                                {% endif %}
-                                {% if g.getNote() != null %}
-                                    <li>Note : {{ g.getNote() }}</li>
-                                {% endif %}
-                            </ul>
-                        {% endif %}
-                    </li>
-                {% endfor %}
-            </ul>
-            <p> Note : {{ r.getNote() }}</p>
-            <hr />
-            {% if not archive %}
-                {% if r.getValidated() %}
-                    <button class="btn btn-success m-3" disabled>Réservation validée</button>
-                {% else %}
-                    <a href="{{ path('validateBoardGameReservation', {'id': r.getId()}) }}" onclick="return confirm('Voulez-vous vraiment valider la réservation ?')" class="btn btn-success m-3">Valider cette réservation</a>
+    <section class="reservations-container">
+        {% for r in reservations %}
+            {% set caution = 0 %}
+            <div class="well admin-reservation">
+                <h2>Demande par {{ r.getAuthor().getPseudo() }} ({{ r.getAuthor().getFirstName() }} {{ r.getAuthor().getName() }}, {{ r.getAuthor().getEmail() }})</h2>
+                <div class="reservation-dates">
+                    <p><strong>Début :</strong>  {{ r.getDateBeg().format("d/m/Y") }}</p>
+                    <p><strong> Fin :</strong>  {{ r.getDateEnd().format("d/m/Y") }}</p>
+                </div>
+                <p> Jeux :</p>
+                <ul class="games-container">
+                    {% for g in r.getBoardGames() %}
+                        {% set caution = caution + g.getPrice() %}
+                        <li class="games">
+                            {{ g.getName() }} ({{ g.getYear() }}{% if g.getPrice() != null %}, {{ g.getPrice() | number_format(2, ',', ' ') }} €{% endif %})
+                            {% if ((g.getMissing() != null) or (g.getExcess() != null) or (g.getNote() != null)) %}
+                                <ul>
+                                    {% if g.getMissing() != null %}
+                                        <li>Pièces manquantes : {{ g.getMissing() }}</li>
+                                    {% endif %}
+                                    {% if g.getExcess() != null %}
+                                        <li>Pièces en trop : {{ g.getExcess() }}</li>
+                                    {% endif %}
+                                    {% if g.getNote() != null %}
+                                        <li>Note : {{ g.getNote() }}</li>
+                                    {% endif %}
+                                </ul>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+                <p>Caution totale: <span id="total-caution">{{ caution }}</span>€</p>
+                <p> Note : {{ r.getNote() }}</p>
+                {% if not archive %}
+                    {% if r.getValidated() %}
+                        <button class="btn btn-success m-3" disabled>Réservation validée</button>
+                    {% else %}
+                        <a href="{{ path('validateBoardGameReservation', {'id': r.getId()}) }}" onclick="return confirm('Voulez-vous vraiment valider la réservation ?')" class="btn btn-success m-3">Valider cette réservation</a>
+                    {% endif %}
+                    {% if not (r.getValidated() is null) and (r.getValidated() == false) %}
+                        <button class="btn btn-danger m-3" disabled>Reservation rejetée</button>
+                    {% else %}
+                        <a href="{{ path('rejectBoardGameReservation', {'id': r.getId()}) }}" onclick="return confirm('Voulez-vous vraiment rejeter la réservation ?')" class="btn btn-danger m-3">Rejeter cette réservation</a>
+                    {% endif %}
                 {% endif %}
-                {% if not (r.getValidated() is null) and (r.getValidated() == false) %}
-                    <button class="btn btn-danger m-3" disabled>Reservation rejetée</button>
-                {% else %}
-                    <a href="{{ path('rejectBoardGameReservation', {'id': r.getId()}) }}" onclick="return confirm('Voulez-vous vraiment rejeter la réservation ?')" class="btn btn-danger m-3">Rejeter cette réservation</a>
-                {% endif %}
-            {% endif %}
-            <a href="{{ path('deleteBoardGameReservation', {'id': r.getId()}) }}" onclick="return confirm('Voulez-vous vraiment supprimer la réservation ?')" class="btn btn-danger m-5">Supprimer cette réservation</a>
-        </div><br />
-    {% else %}
-        <div class="row">
-            <p>Aucune demande de réservation de jeux. </p>
-        </div>
-    {% endfor %}
+                <a href="{{ path('deleteBoardGameReservation', {'id': r.getId()}) }}" onclick="return confirm('Voulez-vous vraiment supprimer la réservation ?')" class="btn btn-danger m-3">Supprimer cette réservation</a>
+            </div><br />
+        {% else %}
+            <div class="row">
+                <p>Aucune demande de réservation de jeux. </p>
+            </div>
+        {% endfor %}
+    </section>
 
     {% if archive %}
         <br /><p><a href="{{ path('boardGameReservationList') }}">Retour aux réservations actuelles</a></p>

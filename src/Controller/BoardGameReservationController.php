@@ -26,8 +26,9 @@ class BoardGameReservationController extends FOGController
         }
 
         $reservation = new BoardGameReservation();
-        $form = $this->createForm(BoardGameReservationType::class, $reservation);
         $boardGames = $manager->getRepository(BoardGame::class)->findAllAlphabetical();
+        $form = $this->createForm(BoardGameReservationType::class, data: $reservation, options: ['choices' => $boardGames]);
+
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -120,7 +121,8 @@ class BoardGameReservationController extends FOGController
         return $this->renderForm('oeilglauque/boardGameReservation.html.twig', [
             'form' => $form,
             'boardGames' => $boardGames,
-            'state' => true
+            'state' => true,
+            'homePage' => true
         ]);
     }
 }
