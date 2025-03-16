@@ -38,7 +38,6 @@
         <meta name="theme-color" content="#402222">
     </head>
     <body>
-
         <nav class="menu">
             <div class="menu-toggle" onclick="document.querySelector('nav.menu').classList.toggle('visible')">&times;</div>
             <section class="menu-category">
@@ -149,5 +148,9 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
 
         {% block scripts %}{% endblock %}
+
+        {% block javascripts %}
+                {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
     </body>
 </html>

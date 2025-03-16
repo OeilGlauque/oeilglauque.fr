@@ -64,6 +64,8 @@ CREATE TABLE `board_game` (
   `missing` longtext DEFAULT NULL,
   `note` varchar(255) DEFAULT NULL,
   `excess` varchar(255) DEFAULT NULL,
+  `editor` varchar(255) DEFAULT NULL,
+  `state` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -74,7 +76,7 @@ CREATE TABLE `board_game` (
 
 LOCK TABLES `board_game` WRITE;
 /*!40000 ALTER TABLE `board_game` DISABLE KEYS */;
-INSERT INTO `board_game` VALUES (1,'Perudo',2015,15,NULL,NULL,'1 dé bleu'),(2,'Les aventuriers du rail',2017,30,NULL,NULL,NULL),(3,'Shadow hunter',2010,25,'1 cube orange',NULL,NULL);
+INSERT INTO `board_game` VALUES (1,'Perudo',2015,15,NULL,NULL,'1 dé bleu', NULL, 'Bon'),(2,'Les aventuriers du rail',2017,30,NULL,NULL,NULL, NULL, 'Mauvais'),(3,'Shadow hunter',2010,25,'1 cube orange',NULL,NULL, NULL, 'Excellent');
 /*!40000 ALTER TABLE `board_game` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -209,7 +211,7 @@ CREATE TABLE `feature` (
 
 LOCK TABLES `feature` WRITE;
 /*!40000 ALTER TABLE `feature` DISABLE KEYS */;
-INSERT INTO `feature` VALUES (1,'Shop de noël',0),(2,'Réservations du local',1),(3,'Réservations de jeux',1),(4,'Mode FOG',1),(5,'Système de partie',1),(6,'Système de news',0),(7,'Planning',1),(8,'Menu',1);
+INSERT INTO `feature` VALUES (1,'Shop de noël',0),(2,'Réservations du local',1),(3,'Réservations de jeux',1),(4,'Mode FOG',1),(5,'Système de partie',1),(6,'Système de news',0),(7,'Planning',1),(8,'Menu',1),(9, 'Proposition de parties', 0);
 /*!40000 ALTER TABLE `feature` ENABLE KEYS */;
 UNLOCK TABLES;
 

@@ -1,26 +1,33 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const selectBox = document.getElementById('total-price');
-    const gameList = document.getElementById('game-list');
-    const optionsContainer = document.getElementsByClassName('row')[0];
-    const options = optionsContainer.querySelectorAll('.form-check input');
-
-
-    options.forEach(option => {
-        option.addEventListener('change', () => {
+let boardGames = null;
+let games = {};
+const totalCaution = document.getElementById('total-price');
+document.addEventListener('DOMContentLoaded', function() {
+    boardGames = new TomSelect('.tom-select', {
+        valueField: 'id',
+        labelField: 'label',
+        searchField: 'label',
+        onChange: function (value){
             let caution = 0;
-            let selectedGames = [];
+            value.map((game) => {
+                caution += games[game];
+            });
+            totalCaution.textContent = caution;
+        },
+        render: {
+            option: function(data, escape) {
+                let elements = data.label.split('-');
 
-            Array.from(options)
-                .filter(option => option.checked)
-                .map(option => {
-                    const game = document.querySelector(`label[for="${option.id}"]`).children[0];
+                games[elements[0]] = parseInt(elements[3]);
 
-                    caution += parseInt(game.children[2].innerText.split('€')[0])
-                    selectedGames.push(" " + game.children[0].innerText);
-                });
-
-            selectBox.textContent = caution;
-            gameList.innerHTML = selectedGames.toString();
-        });
+                return `<div><span class="title">${escape(elements[0])}<span class="state ${escape(elements[2])}"> (${escape(elements[1])})</span></span><span class="price"> Caution: ${escape(elements[3])}€</span></div>`;
+            },
+            item: function (data, escape) {
+                return `<div>${escape(data.id)}<a onclick="onDeleteItem('${escape(data.id)}')" style="border-left: 1px solid #dee2e6; margin-left: 5px; padding: 0 5px;">×</a></div>`
+            }
+        }
     });
 });
+
+function onDeleteItem(id){
+    boardGames.removeItem(id);
+}

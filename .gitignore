@@ -46,3 +46,7 @@ client_secret*
 query.sql
 .idea
 .fleet
+###> symfony/asset-mapper ###
+/public/assets/
+/assets/vendor/
+###< symfony/asset-mapper ###

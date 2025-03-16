@@ -50,7 +50,7 @@ main {
 }
 
 .container {
-    padding: 0.5em 5.125em 2em 5.125em;
+    padding: 0.5em 1.125em 2em 1.125em;
     background-color: #fbecd8;
 }
 
@@ -75,7 +75,7 @@ h2 {
     font-size: 2em;
     text-align: center;
     display: block;
-    margin: 1em auto;
+    margin: 0 auto;
     max-width: 800px;
 }
 
@@ -85,7 +85,7 @@ h2.titre{
 
 h1.titre {
     text-transform: uppercase;
-    background-image: url("/img/title_bg.png");
+    background-image: url("/img/title_bg.webp");
     background-size: 100% 100%;
     padding: 75px 0;
 }
