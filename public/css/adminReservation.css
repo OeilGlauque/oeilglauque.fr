@@ -1,0 +1,39 @@
+/* Validation Reservation*/
+
+.well{
+    background-color: #3D1A21;
+    border-radius: 15px;
+    box-shadow: 4px 4px 0 black;
+    margin: 1em auto;
+
+}
+
+.well h2{
+    color: #fbecd8;
+    text-align: center;
+}
+
+.well p, .well li{
+    color: white;
+}
+
+.reservation-dates{
+    display: flex;
+    justify-content: space-around;
+    font-size: 1.1em;
+}
+
+.games-container{
+    padding-left: 0;
+}
+
+.games{
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    width: fit-content;
+    padding: 1em;
+    border-radius: 15px;
+    background-color: black;
+    margin-bottom: 2%;
+}

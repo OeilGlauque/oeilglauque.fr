@@ -1,3 +1,5 @@
+/* Client reservation */
+
 .landing_page{
 	background-image: url(/img/indexBg.webp);
 	background-size: cover;
@@ -99,6 +101,7 @@ table tr:nth-child(even) {
 
 #reservation-content{
 	margin-top: 5%;
+	margin-bottom: 5%;
 }
 
 #reservation{
@@ -118,6 +121,8 @@ section #desc{
 	color: white;
 	font-size: 1em;
 }
+
+/* Media Queries */
 
 @media screen and (min-width: 992px) {
 	#reservation-content {
