@@ -93,19 +93,19 @@
         -->
 
 		<div class="afficheWrapper">
-			<img alt="Affiche FOG" src="img/affiche_XX.webp">
-			<img alt="Affiche concert FOG" src="img/concert_XX.webp">
+			<img loading="lazy" alt="Affiche FOG" src="img/affiche_XX.webp">
+			<img loading="lazy" alt="Affiche concert FOG" src="img/concert_XX.webp">
 		</div>
 
 		<div id="video">
 			<h2>Une vidéo vaut mieux que mille mots...</h2>
 			<div class="videoWrapper">
-				<iframe title="Aftermovie du FOG" src="https://www.youtube-nocookie.com/embed/Qb0fA_ii_cg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+				<iframe loading="lazy" title="Aftermovie du FOG" src="https://www.youtube-nocookie.com/embed/Qb0fA_ii_cg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 			</div>
 		</div>
 
 
-		<img src="img/deco_bas.png" id="deco" alt="Deco" />
+		<img loading="lazy" src="img/deco_bas.webp" id="deco" alt="Deco" />
 	</section>
 
 {% endblock %}
@@ -113,5 +113,5 @@
 {% block scripts %}
 	<script src="js/scrolledHeader.js"></script>
 	<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-	<!-- <script src="{{ asset('js/particules.js') }}"></script> !-->
+	<script src="{{ asset('js/particules.js') }}"></script>
 {% endblock %}

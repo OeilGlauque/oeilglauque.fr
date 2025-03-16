@@ -58,7 +58,7 @@ header {
 
 /* Bouton menu */
 header #menu-toggle {
-    background-image: url(/img/menu_dark.png);
+    background-image: url(/img/menu_dark.webp);
     transition: 0.2s ease-in;
     background-size: 100% 100%;
     width: 40px;
@@ -114,7 +114,7 @@ header h1 a:hover {
 }
 
 .scrolled #menu-toggle{
-    background-image: url(/img/menu.png);
+    background-image: url(/img/menu.webp);
 }
 
 
