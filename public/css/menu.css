@@ -70,7 +70,7 @@ nav.menu h1 {
 nav.menu h1#festival::after {
 	content: "";
 	display: block;
-	background: url("/img/deco_bas.png") no-repeat center;
+	background: url("/img/deco_bas.webp") no-repeat center;
 	background-size: auto 100%;
 	width: 100%;
 	height: 0.5em;

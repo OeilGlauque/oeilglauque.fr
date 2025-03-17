@@ -65,7 +65,7 @@ header a:hover {
 /* Bouton Menu */
 
 header #menu-toggle {
-	background-image: url(/img/menu.png);
+	background-image: url(/img/menu.webp);
 	background-size: 100% 100%;
 	width: 40px;
 	height: 35px;

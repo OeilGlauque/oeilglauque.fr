@@ -25,6 +25,8 @@
 
 .games-container{
     padding-left: 0;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .games{
@@ -35,5 +37,6 @@
     padding: 1em;
     border-radius: 15px;
     background-color: black;
-    margin-bottom: 2%;
+    margin-bottom: 0.5em;
+    margin-left: 1em;
 }
