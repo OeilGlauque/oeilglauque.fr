@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         render: {
             option: function(data, escape) {
-                let elements = data.label.split('-');
+                let elements = data.label.split('|');
 
                 games[elements[0]] = parseInt(elements[3]);
 

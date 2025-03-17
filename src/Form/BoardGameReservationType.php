@@ -46,7 +46,7 @@ class BoardGameReservationType extends AbstractType
                         "Mauvais" => "bad_state"
                     ];
                     $stateClass = $stateMappings[$boardGame->getState()] ?? "unknown_state";
-                    return $boardGame->getName().'-'.$state.'-'.$stateClass.'-'.$boardGame->getPrice();
+                    return $boardGame->getName().'|'.$state.'|'.$stateClass.'|'.$boardGame->getPrice();
                 },
                 'attr' => [
                     'class' => 'tom-select',
