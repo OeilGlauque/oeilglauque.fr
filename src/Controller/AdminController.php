@@ -360,7 +360,7 @@ class AdminController extends FOGController {
             return $this->redirectToRoute('admin');
         }
 
-        $parties = $serializer->serialize($games, 'json', [AbstractNormalizer::ATTRIBUTES => ['title', 'description', 'gameSlot' => ['text'], 'seats', 'players' => ['pseudo']]]);
+        $parties = $serializer->serialize($games, 'json', [AbstractNormalizer::ATTRIBUTES => ['title', 'tags', 'description', 'gameSlot' => ['text'], 'seats', 'players' => ['pseudo'], 'author' => ['pseudo']]]);
         $fs->dumpFile('/tmp/parties.json', $parties);
 
         exec('cp /srv/app/printGames.typ /tmp/printGames.typ');
