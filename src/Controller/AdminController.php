@@ -27,6 +27,8 @@ use App\Service\FOGParametersService;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 class AdminController extends FOGController {
 
@@ -348,18 +350,22 @@ class AdminController extends FOGController {
     }
 
     #[Route("/admin/games/print", name: "printGames")]
-    public function printGames(GameRepository $gameRepository, FOGParametersService $FOGParams, Filesystem $fs): Response
+    public function printGames(GameRepository $gameRepository, FOGParametersService $FOGParams, Filesystem $fs, SerializerInterface $serializer): Response
     {
 
         $games = $gameRepository->getOrderedGameList($FOGParams->getCurrentEdition(),true);
-        for ($i=0; $i < count($games); $i++)
-        {
-            $html = $this->renderView('oeilglauque/printGames.html.twig',['game' => $games[$i]]);
-            $fs->dumpFile('/tmp/out'.$i.'.html',$html);
+
+        if (count($games) == 0) {
+            $this->addFlash('warning','Aucune partie pour l\'édition');
+            return $this->redirectToRoute('admin');
         }
 
-        exec("/usr/bin/python /srv/app/pdf.py");
-        exec("rm /tmp/out*");
+        $parties = $serializer->serialize($games, 'json', [AbstractNormalizer::ATTRIBUTES => ['title', 'description', 'gameSlot' => ['text'], 'seats', 'players' => ['pseudo']]]);
+        $fs->dumpFile('/tmp/parties.json', $parties);
+
+        exec('cp /srv/app/printGames.typ /tmp/printGames.typ');
+        exec('cd /tmp && /bin/typst compile printGames.typ res.pdf');
+        exec('rm /tmp/parties.json');
 
         $response = new BinaryFileResponse('/tmp/res.pdf');
         $response->headers->set('Content-Type','application/pdf');
