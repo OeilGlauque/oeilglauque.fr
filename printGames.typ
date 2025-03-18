@@ -33,7 +33,8 @@
 
   == Joueurs (#partie.seats places) :
   #list(
-    ..partie.players.map(it => it.pseudo)
+    spacing: 1em,
+    ..(partie.players.map(p => p.pseudo) + range(partie.seats - partie.players.len()).map(it => []))
   )
 
   #pagebreak(weak: true)
