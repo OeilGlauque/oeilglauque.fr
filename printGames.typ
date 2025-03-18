@@ -5,18 +5,17 @@
 
 #show heading: it => {
   it
-  v(0.5em)
+  v(0.4em)
 }
 
 #let parties = json("parties.json");
 
 #for partie in parties [
-  #text(20pt, align(center)[= #partie.title])
+  #align(center, text(20pt)[= #partie.title])
 
-  == Description :
   #eval(
     partie.description
-      .replace("#", "=== ")
+      .replace("#", "== ")
       .replace(regex("\*\*(\w*)\*\*"), match => "#strong[" + match.captures.at(0) + "]")
       .replace(regex("\*(\w+)\*"), match => "#emph[" + match.captures.at(0) + "]")
       .replace(regex(`__(\w*)__`.text), match => "#underline[" + match.captures.at(0) + "]")
@@ -24,7 +23,13 @@
     , mode: "markup"
   )
 
-  #text(14.5pt)[*Créneau :*] #partie.gameSlot.text
+  #if partie.tags != "" [
+    _*Tags :* #partie.tags.replace(";", ", ") _
+  ]
+
+  #line(start: (10%,0%), end: (90%, 0%))
+  
+  #text(13pt)[ Proposé par #partie.author.pseudo sur le créneau *#partie.gameSlot.text*. ]
 
   == Joueurs (#partie.seats places) :
   #list(
