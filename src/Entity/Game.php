@@ -38,8 +38,7 @@ class Game
     #[Assert\Range(
         min: 1,
         max: 15,
-        minMessage: "Il faut au moins un joueur pour s'amuser...",
-        maxMessage: "Notre capacité d'accueil est limitée !" )]
+        notInRangeMessage: 'Le nombre de joueurs doit être compris entre {{ min }} and {{ max }}.')]
     private int $seats;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: "partiesJouees")]
