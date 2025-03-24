@@ -54,7 +54,6 @@ article{
 .home-title-reversed{
     color: #f5dcc0;
     margin-top: 0;
-    margin-bottom: 0.6em;
 }
 
 .title-img{
@@ -208,7 +207,7 @@ article{
     margin: 0;
 }
 
-#contacts img:hover {
+#contacts ul img:hover {
     width: 66px;
 }
 
