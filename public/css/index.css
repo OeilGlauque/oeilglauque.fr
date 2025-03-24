@@ -187,6 +187,11 @@ article{
 
 #contacts p{
     text-align: center;
+    color: white
+}
+
+#contacts a{
+    color: #f5dcc0;
 }
 
 #contacts ul {
