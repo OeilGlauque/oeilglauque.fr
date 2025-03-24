@@ -57,7 +57,7 @@
 		</div>
 	</section>
 
-	<section id="home_content">
+	<section id="home_content scroll-animation">
 		<p class="lead">
 			<strong>Oyez Voyageurs ! Bienvenue sur le site du Festival de l’&OElig;il Glauque !</strong>
 			<br />
@@ -89,7 +89,7 @@
 			</div>
 		</article>
 
-		<article class="article-reversed">
+		<article class="article-reversed scroll-animation">
 			<h2 class="home-title home-title-reversed">AFTER MOVIE FOG XVI</h2>
 			<div class="title-img"><img loading="lazy" src="{{ asset('img/deco_bas_clair.webp') }}"></div>
 			<div class="videoWrapper">
@@ -97,7 +97,7 @@
 			</div>
 		</article>
 
-		<article>
+		<article class="scroll-animation">
 			<h2 class="home-title">Nos partenaires</h2>
 			<div class="title-img"><img loading="lazy" src="{{ asset('img/deco_bas.webp') }}"></div>
 			<div id="sponsorWrapper">
@@ -152,7 +152,7 @@
 			</div>
 		</article>
 
-		<article id="contacts" class="article-reversed">
+		<article id="contacts" class="article-reversed scroll-animation">
 			<h2 class="home-title home-title-reversed">Nous contacter</h2>
 			<div class="title-img"><img loading="lazy" src="{{ asset('img/deco_bas_clair.webp') }}"></div>
 			<p>
@@ -177,7 +177,8 @@
 {% endblock %}
 
 {% block scripts %}
-	<script src="js/scrolledHeader.js"></script>
+	<script src="{{ asset('js/revealOnScroll.js') }}"></script>
+	<script src="{{ asset('js/scrolledHeader.js') }}"></script>
 	<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 	<script src="{{ asset('js/particules.js') }}"></script>
 {% endblock %}

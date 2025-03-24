@@ -41,7 +41,7 @@ header {
     width: 100%;
     background-color: transparent;
     z-index: 2;
-    transition: 0.5s ease-in-out;
+    transition: 0.3s ease-in-out;
 }
 
 #title_container{
