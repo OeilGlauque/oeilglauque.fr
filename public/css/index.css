@@ -215,7 +215,7 @@ article{
 }
 
 #contacts ul img:hover {
-    width: 66px;
+    transform: scale(1.1);
 }
 
 
