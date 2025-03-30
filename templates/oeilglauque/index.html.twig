@@ -48,25 +48,20 @@
 
 {% endblock %}
 
+{% block body %}
 
-{% block mainPage %}
 	<div id="particles-js"></div>
 	<section class="landing_page">
 		<div class="title">
 			<img id="home_img" src="img/index_XX.webp" alt="Le Festival de l'Oeil Glauque"/>
 		</div>
 	</section>
-{% endblock %}
 
-
-
-{% block body %}
-
-	<section id="home_content">
-		{% if modeFog %}
-			<p class="lead">
-				<strong>Oyez Voyageurs ! Bienvenue sur le site du Festival de l’&OElig;il Glauque !</strong>
-				<br/>
+	<section id="home_content scroll-animation">
+		<p class="lead">
+			<strong>Oyez Voyageurs ! Bienvenue sur le site du Festival de l’&OElig;il Glauque !</strong>
+			<br />
+			{% if modeFog %}
 				{% if homeText %}
 					{{ homeText | raw }}
 				{% else %}
@@ -75,43 +70,115 @@
 					Au cours du week-end n’hésitez pas à prendre part à une murder-party, un escape game, ainsi qu'à des tournois de Magic ou Warhammer.
 					Vous pourrez aussi tout simplement venir profiter de l'ambiance et de nos sandwichs, pizzas, burgers et autres friandises et boissons, notamment nos crêpes et nos fameux 3D6 !
 				{% endif %}
-			</p>
-		{% else %}
-			<p class="lead">
-				<strong>Oyez Voyageurs ! Bienvenue sur le site du Festival de l’&OElig;il Glauque !</strong>
-				<br/>
+			{% else %}
 				Comment cela&nbsp;? Vous ne savez point qui nous sommes&nbsp;??? Nous sommes l'association de jeux de rôle et de jeux de plateau de l’INSA Rennes pardi&nbsp;!
 				Et nous organisons chaque année un festival de jeux où nos bénévoles seront ravis de t’accueillir pour te guider dans cette aventure de 48h.
 				Alors rendez-vous à notre prochaine édition&nbsp;!
-			</p>
-		{% endif %}
+			{% endif %}
+			<br />
+			<br/>
+			<a href="{{ path('infosFest') }}">- Plus d'infos sur le festival -</a>
+		</p>
 
-		<!--
-        <div class="afficheWrapper">
-            <img class="affiche" alt="Affiche FOG" src="img/affiche_XIX.webp"/>
-        </div>
-        -->
+		<article>
+			<h2 class="home-title">Affiches fog XX</h2>
+			<div class="title-img"><img loading="lazy" src="{{ asset('img/deco_bas.webp') }}"></div>
+			<div class="afficheWrapper">
+				<img  loading="lazy" alt="Affiche FOG" src="img/affiche_XX.webp">
+				<img loading="lazy" alt="Affiche concert FOG" src="img/concert_XX.webp">
+			</div>
+		</article>
 
-		<div class="afficheWrapper">
-			<img loading="lazy" alt="Affiche FOG" src="img/affiche_XX.webp">
-			<img loading="lazy" alt="Affiche concert FOG" src="img/concert_XX.webp">
-		</div>
-
-		<div id="video">
-			<h2>Une vidéo vaut mieux que mille mots...</h2>
+		<article class="article-reversed scroll-animation">
+			<h2 class="home-title home-title-reversed">AFTER MOVIE FOG XVI</h2>
+			<div class="title-img"><img loading="lazy" src="{{ asset('img/deco_bas_clair.webp') }}"></div>
 			<div class="videoWrapper">
 				<iframe loading="lazy" title="Aftermovie du FOG" src="https://www.youtube-nocookie.com/embed/Qb0fA_ii_cg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 			</div>
-		</div>
+		</article>
 
+		<article class="scroll-animation">
+			<h2 class="home-title">Nos partenaires</h2>
+			<div class="title-img"><img loading="lazy" src="{{ asset('img/deco_bas.webp') }}"></div>
+			<div id="sponsorWrapper">
+				<a href="https://aeir.insa-rennes.fr">
+					<img loading="lazy" alt="AEIR" src="img/partenaires/aeir.webp"/>
+				</a>
+				<a href="https://www.insa-rennes.fr">
+					<img loading="lazy" alt="INSA Rennes" src="img/partenaires/insa.webp"/>
+				</a>
+				<a href="https://www.univ-rennes.fr">
+					<img loading="lazy"  alt="Université de Rennes" src="img/partenaires/univ-rennes.webp"/>
+				</a>
+				<a href="https://www.lyf.eu/fr">
+					<img loading="lazy" alt="Lyf pay" src="img/partenaires/lyfpay.webp"/>
+				</a>
+				<a href="http://editionsstellamaris.blogspot.com">
+					<img loading="lazy"  alt="Stellamaris" src="img/partenaires/stellamaris.webp"/>
+				</a>
+				<a href="https://sortileges.fr">
+					<img loading="lazy" alt="Sortilèges" src="img/partenaires/sortilege.webp"/>
+				</a>
+				<a href="https://www.iello.fr">
+					<img loading="lazy" alt="Iello" src="img/partenaires/iello.webp"/>
+				</a>
+				<a href="https://www.rprod.com/fr">
+					<img loading="lazy" alt="Repos éditions" src="img/partenaires/repos.webp"/>
+				</a>
+				<a href="https://www.librairie-critic.fr">
+					<img loading="lazy" alt="Critics" src="img/partenaires/critic-noir.webp"/>
+				</a>
+				<a href="https://www.black-book-editions.fr">
+					<img loading="lazy" alt="Blackbook éditions" src="img/partenaires/bbe.webp"/>
+				</a>
+				<a href="https://www.letempledujeu.fr">
+					<img loading="lazy" alt="Temple du jeu" src="img/partenaires/tdj.webp"/>
+				</a>
+				<a style="flex: 0 0 auto" href="https://www.star.fr">
+					<img loading="lazy" style="width: 100px" alt="STAR Rennes" src="img/partenaires/star.webp"/>
+				</a>
+				<a href="https://www.ankama.com">
+					<img loading="lazy" alt="Ankama" src="img/partenaires/ankama.webp"/>
+				</a>
+				<a href="https://www.breizhloc.fr">
+					<img loading="lazy" alt="Breizh loc" src="img/partenaires/breizhloc.webp"/>
+				</a>
+				<a href="https://francemurder.com">
+					<img loading="lazy" alt="France Murder" src="img/partenaires/francemurder.webp"/>
+				</a>
+				<a href="https://scriptarium.org">
+					<img loading="lazy" alt="Scriptarium" src="img/partenaires/scriptarium.webp"/>
+				</a>
+			</div>
+		</article>
 
-		<img loading="lazy" src="img/deco_bas.webp" id="deco" alt="Deco" />
+		<article id="contacts" class="article-reversed scroll-animation">
+			<h2 class="home-title home-title-reversed">Nous contacter</h2>
+			<div class="title-img"><img loading="lazy" src="{{ asset('img/deco_bas_clair.webp') }}"></div>
+			<p>
+				Pour toute question en lien avec notre activité ou avec le festival, n'hésitez pas à rejoindre <a style="" href="https://discord.gg/AHUvc9sHk6">notre serveur Discord</a> où vous pourrez retrouver toute l'équipe.
+			</p>
+
+			<p>
+				Si vous avez des questions plus importantes ou si vous êtes timides, vous pouvez également nous contacter sur notre adresse mail&nbsp;: <a href='mailto:oeilglauque@gmail.com'> oeilglauque@gmail.com </a>
+			</p>
+
+			<p>Et retrouvez-nous sur les réseaux sociaux !</p>
+
+			<ul>
+				<li><a href="https://www.facebook.com/festival.oeil.glauque/"><img loading="lazy"  src="img/contact/facebook.webp" alt="facebook" /></a></li>
+				<li><a href="https://twitter.com/oeilglauque"><img loading="lazy"  src="img/contact/twitter.webp" alt="twitter" /></a></li>
+				<li><a href="https://www.instagram.com/festival_oeil_glauque/"><img loading="lazy"  src="img/contact/instagram.webp" alt="instagram" /></a></li>
+			</ul>
+		</article>
+
 	</section>
 
 {% endblock %}
 
 {% block scripts %}
-	<script src="js/scrolledHeader.js"></script>
+	<script src="{{ asset('js/revealOnScroll.js') }}"></script>
+	<script src="{{ asset('js/scrolledHeader.js') }}"></script>
 	<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 	<script src="{{ asset('js/particules.js') }}"></script>
 {% endblock %}

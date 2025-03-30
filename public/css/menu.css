@@ -3,12 +3,12 @@
 /* The menu is invisible by default, and is made visible by changing its class */
 nav.menu {
 	width: 0;
-	transition: width 0.50s ease-in;
+	transition: width 0.40s ease-in;
 }
 
 nav.menu.visible {
 	width: 100%;
-	transition: width 0.65s ease-out;
+	transition: width 0.45s ease-out;
 }
 
 nav.menu.visible ~ *{
