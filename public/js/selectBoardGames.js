@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', function() {
         valueField: 'id',
         labelField: 'label',
         searchField: 'label',
+        onItemAdd: function(item) {
+            boardGames.setTextboxValue('')
+        },
         onChange: function (value){
             let caution = 0;
             value.map((game) => {
