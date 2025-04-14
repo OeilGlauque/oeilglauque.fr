@@ -31,9 +31,14 @@ body{
 .good_state{color: #00d300;}
 .medium_state{color: #ffdb00;}
 
-.ts-wrapper .option .price {
+.ts-wrapper .option .secondary-container{
+	display: flex;
+	gap: 1rem;
+}
+
+.ts-wrapper .option .secondary-el {
 	display: block;
-	font-size: 12px;
+	font-size: 0.7rem;
 	color: #a0a0a0;
 }
 
