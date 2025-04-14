@@ -20,6 +20,7 @@ body{
 /* form*/
 .ts-wrapper .option .title {
 	display: block;
+	font-size: 0.85rem;
 }
 .ts-wrapper .option .state{
 	font-style: italic;
