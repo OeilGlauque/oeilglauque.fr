@@ -66,6 +66,8 @@ CREATE TABLE `board_game` (
   `excess` varchar(255) DEFAULT NULL,
   `editor` varchar(255) DEFAULT NULL,
   `state` varchar(255) DEFAULT NULL,
+  `duration` varchar(255) DEFAULT NULL,
+  `players` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -76,7 +78,7 @@ CREATE TABLE `board_game` (
 
 LOCK TABLES `board_game` WRITE;
 /*!40000 ALTER TABLE `board_game` DISABLE KEYS */;
-INSERT INTO `board_game` VALUES (1,'Perudo',2015,15,NULL,NULL,'1 dé bleu', NULL, 'Bon'),(2,'Les aventuriers du rail',2017,30,NULL,NULL,NULL, NULL, 'Mauvais'),(3,'Shadow hunter',2010,25,'1 cube orange',NULL,NULL, NULL, 'Excellent');
+INSERT INTO `board_game` VALUES (1,'Perudo',2015,15,NULL,NULL,'1 dé bleu', NULL, 'Bon', '1h/2h', '2+'),(2,'Les aventuriers du rail',2017,30,NULL,NULL,NULL, NULL, 'Mauvais'),(3,'Shadow hunter',2010,25,'1 cube orange',NULL,NULL, NULL, 'Excellent');
 /*!40000 ALTER TABLE `board_game` ENABLE KEYS */;
 UNLOCK TABLES;
 

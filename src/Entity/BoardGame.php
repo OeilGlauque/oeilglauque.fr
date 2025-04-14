@@ -51,6 +51,12 @@ class BoardGame
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $editor = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $duration = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $players = null;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -193,6 +199,30 @@ class BoardGame
     public function setEditor(?string $editor): static
     {
         $this->editor = $editor;
+
+        return $this;
+    }
+
+    public function getDuration(): ?string
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(?string $duration): static
+    {
+        $this->duration = $duration;
+
+        return $this;
+    }
+
+    public function getPlayers(): ?string
+    {
+        return $this->players;
+    }
+
+    public function setPlayers(?string $players): static
+    {
+        $this->players = $players;
 
         return $this;
     }
