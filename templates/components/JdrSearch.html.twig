@@ -1,0 +1,17 @@
+<div {{ attributes }}>
+    <input
+            type="search"
+            data-model="query"
+            placeholder="Rechercher un JDR..."
+    >
+
+    {% for g in this.games %}
+        {{ include('oeilglauque/shards/game.html.twig',
+            {
+                'game': g
+            })
+        }}
+    {% else %}
+        <p>Il n'y a pas encore de partie cette année... Revenez bientôt !</p>
+    {% endfor %}
+</div>

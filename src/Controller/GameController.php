@@ -146,12 +146,14 @@ class GameController extends FOGController {
             }
     
             return $this->render('oeilglauque/gamesList.html.twig', [
-                'games' => $games,
                 'gameSlots' => $gameSlots,
                 'userGames' => $userGames, 
                 'hasRegistered' => count($userGames) > 0, 
                 'userProposedGames' => $userProposedGames, 
-                'isMJ' => count($userProposedGames) > 0, 
+                'isMJ' => count($userProposedGames) > 0,
+                'props' => [
+                    'edition' => $this->FogParams->getCurrentEdition(),
+                ]
             ]);
         }
         $this->addFlash('danger', "Il n'y a pas d'édition du FOG prévu pour le moment.");
