@@ -155,7 +155,7 @@ class GameController extends FOGController {
                     'edition' => $this->FogParams->getCurrentEdition(),
                 ],
                 'hasGames' => count($games) > 0,
-                'homePage' => true
+                'newHeader' => true
             ]);
         }
         $this->addFlash('danger', "Il n'y a pas d'édition du FOG prévu pour le moment.");

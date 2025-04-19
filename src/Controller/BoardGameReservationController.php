@@ -112,7 +112,7 @@ class BoardGameReservationController extends FOGController
         
                         $this->addFlash('info', "Votre réservation a bien été enregistrée, vous recevrez une confirmation par e-mail dès qu'elle sera acceptée.");
         
-                        return $this->redirectToRoute('index');
+                        return $this->redirectToRoute('boardGameReservation');
                     }
                 }
             }
@@ -122,7 +122,7 @@ class BoardGameReservationController extends FOGController
             'form' => $form,
             'boardGames' => $boardGames,
             'state' => true,
-            'homePage' => true
+            'newHeader' => true
         ]);
     }
 }
