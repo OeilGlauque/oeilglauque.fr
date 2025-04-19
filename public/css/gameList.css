@@ -6,6 +6,10 @@ body{
 	background-color: transparent;
 }
 
+.titre{
+	margin-bottom: 1rem;
+}
+
 .game-list-view{
 	margin-top: 2rem;
 }
