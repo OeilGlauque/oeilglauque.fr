@@ -232,9 +232,10 @@ class GameController extends FOGController {
             return $this->redirectToRoute('showGame', ["id" => $id]);
         }
 
-        return $this->renderForm('oeilglauque/newGame.html.twig', [
+        return $this->render('oeilglauque/newGame.html.twig', [
             'form' => $form, 
-            'edit' => true
+            'edit' => true,
+            'newHeader' => true
         ]);
     }
 
