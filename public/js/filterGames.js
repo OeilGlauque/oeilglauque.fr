@@ -181,3 +181,5 @@ toggleAllTags.querySelector('input').onchange = (e) => {
     }
     updateGamesList()
 }
+
+updateGamesList()
