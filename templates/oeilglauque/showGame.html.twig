@@ -1,6 +1,15 @@
 {% extends 'base.html.twig' %}
 
+{% block customcss %}
+    <link rel="stylesheet" href="/css/gameDetails.css"/>
+{% endblock %}
+
+{% block mainPage %}
+    <section class="landing_page"></section>
+{% endblock %}
+
 {% block body %}
+<script src="{{ asset('js/scrolledHeader.js') }}"></script>
 
 <!--
 <meta property="og:title" content="Partie JDR : %name%">
@@ -33,12 +42,24 @@
         Attention ! Cette partie n'a pas encore été validée par notre équipe, et n'est donc pas encore publiée. Les joueurs ne peuvent pas encore s'y inscrire. 
         </div>
         {% endif %}
-        <p>Proposé par {{ game.getAuthor().getPseudo() }}<br />
-        Créneau : {{ game.getGameSlot().getText() }}<br />
-        Tags : {{ game.listTags() }}</p>
-        <hr />
-        <p>{{ game.getDescription()|striptags('<br>,<em>,<b>,<u>,<h3>,<a>')|raw }}</p>
-        <hr />
+
+        <section class="game-section">
+            <div class="infos-games">
+                <p>Proposé par {{ game.getAuthor().getPseudo() }}</p>
+                <p>Créneau : {{ game.getGameSlot().getText() }}</p>
+                <p>Tags:</p>
+                <ul>
+                    {% for tag in game.getTagsList() %}
+                        <li>{{ tag }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="game-desc">
+                <p>{{ game.getDescription()|striptags('<br>,<em>,<b>,<u>,<h3>,<a>')|raw }}</p>
+            </div>
+        </section>
+
         <b>Participants : </b>
         {% for player in game.getPlayers() %}
         <span>

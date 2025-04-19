@@ -256,7 +256,8 @@ class GameController extends FOGController {
 
             return $this->render('oeilglauque/showGame.html.twig', [
                 'game' => $game, 
-                'registered' => $game->getPlayers()->contains($this->getUser()), 
+                'registered' => $game->getPlayers()->contains($this->getUser()),
+                'newHeader' => true
             ]);
         }else{
             throw $this->createNotFoundException('Impossible de trouver la partie demandée. ');

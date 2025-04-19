@@ -192,6 +192,10 @@ class Game
         return implode(';', preg_split('/( *[,;] *)/', $this->tags));
     }
 
+    public function getTagsList(): array{
+        return explode(';', $this->getTags());
+    }
+
     public function hasTag(string $tag): ?bool
     {
         return in_array($tag, preg_split('/( *[,;] *)/', $this->tags));
