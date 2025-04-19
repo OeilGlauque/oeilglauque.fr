@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Game;
 use App\Entity\GameSlot;
@@ -317,7 +318,7 @@ class GameController extends FOGController {
 
 
     #[Route("/partie/unregister/{id}", name: "unregisterGame")]
-    public function unregisterGame(Game $game, EntityManagerInterface $manager) {
+    public function unregisterGame(Game $game, EntityManagerInterface $manager, FOGGmail $mailer) {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         if($game) {
@@ -325,6 +326,17 @@ class GameController extends FOGController {
             $game->removePlayer($user); // Handles 'contains' verification
             $manager->flush();
             $this->addFlash('info', "Vous avez bien été désinscrit de la partie ".$game->getTitle());
+
+            /* Mail for the MJ */
+            $mailer->sendTemplatedEmail(
+                new Address($game->getAuthor()->getEmail(), $game->getAuthor()->getPseudo()),
+                'Désinscription d\'un participant à votre JDR',
+                'oeilglauque/emails/game/gamePlayerCancel.html.twig',
+                ['player' => $user, 'game' => $game],
+                [],
+                []
+            );
+
             return $this->redirectToRoute('showGame', ["id" => $game->getId()]);
         }else{
             throw $this->createNotFoundException('Impossible de trouver la partie demandée. ');
