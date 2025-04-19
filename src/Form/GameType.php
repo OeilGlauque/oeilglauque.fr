@@ -32,8 +32,8 @@ class GameType extends AbstractType
             ])
             ->add('seats', IntegerType::class, ['label' => 'Places disponibles', 'invalid_message' => "Veuillez entrer un nombre"])
             ->add('tags', ChoiceType::class, [
+                'label' => 'Tags',
                 'autocomplete' => true,
-                'placeholder' => 'Tags',
                 'choices' => [
                     'Cyberpunk' => 'cyberpunk',
                     'Débutants' => 'débutants',
