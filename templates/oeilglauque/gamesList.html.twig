@@ -60,9 +60,15 @@
                 </label>
                 <div class="btn-filters"> <!--d-flex flex-wrap justify-content-between -->
                 </div>
+                <label class="btn">
+                    <span>Masquer parties pleines</span>
+                    <input type="checkbox" id="full-checkbox" checked>
+                </label>
             </div>
             {% if hasGames %}
-            {{ component('JdrSearch', props) }}
+            {{ component('JdrSearch', {
+                'edition': edition,
+            }) }}
             {% else %}
                 <p>Il n'y a pas encore de partie cette année... Revenez bientôt !</p>
             {% endif %}

@@ -1,4 +1,4 @@
-<div class="gameShard ghid_{{ game.getGameSlot().getId() }}" data="{{ game.getId() }},{{ game.getGameSlot().getId() }},{{ game.getTags() }}">
+<div class="gameShard ghid_{{ game.getGameSlot().getId() }}" data="{{ game.getId() }},{{ game.getGameSlot().getId() }},{{ game.getTags() }}, {{ game.getFreeSeats() }}">
     <div class="game" onclick="location.href='{{ path('showGame', {'id':game.getId()}) }}';">
         <div class="game-desc">
 
@@ -19,7 +19,7 @@
                 {% if app.user in game.getPlayers() %}
                     <p>Vous êtes inscrit à cette partie !</p>
                 {% else %}
-                    <p>{{ game.getFreeSeats() }} place{{accord}} disponible{{accord}}</p>
+                    <p>{{ game.getFreeSeats() }} place{{accord}} disponible{{accord}} en ligne</p>
                 {% endif %}
 
             {% else %}

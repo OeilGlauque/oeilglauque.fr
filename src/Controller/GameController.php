@@ -152,9 +152,7 @@ class GameController extends FOGController {
                 'hasRegistered' => count($userGames) > 0, 
                 'userProposedGames' => $userProposedGames, 
                 'isMJ' => count($userProposedGames) > 0,
-                'props' => [
-                    'edition' => $this->FogParams->getCurrentEdition(),
-                ],
+                'edition' => $this->FogParams->getCurrentEdition(),
                 'hasGames' => count($games) > 0,
                 'newHeader' => true
             ]);

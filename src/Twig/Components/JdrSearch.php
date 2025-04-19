@@ -18,7 +18,7 @@ class JdrSearch
 
 
     #[LiveProp(writable: false)]
-    public edition $edition;
+    public Edition $edition;
 
     public function __construct(private GameRepository $gameRepository)
     {

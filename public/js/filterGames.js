@@ -7,12 +7,18 @@ let btn_tag = []
 let games = []
 let tags = new Set()
 
+let fullCheckbox = document.getElementById('full-checkbox');
+fullCheckbox.addEventListener('change', () => {
+    updateGamesList();
+})
+
 for (let el of document.getElementsByClassName('gameShard')) {
     data = el.getAttribute('data').split(',')
     games.push({
         id: data[0],
         slot_id: data[1],
         tags: data[2].split(';'),
+        freeSeats: data[3],
         element: el
     })
     for (let tag of data[2].split(';')) {
@@ -118,6 +124,15 @@ function updateGamesList() {
             if (active_slots[game.slot_id] && active_tag) {
                 game.element.style.display = ""
             } else {
+                game.element.style.display = "none"
+            }
+        })
+    }
+
+    if (fullCheckbox.checked) {
+        games.forEach(game => {
+            if (game.freeSeats < 1) {
+                console.log(game.id);
                 game.element.style.display = "none"
             }
         })
