@@ -153,7 +153,8 @@ class GameController extends FOGController {
                 'isMJ' => count($userProposedGames) > 0,
                 'props' => [
                     'edition' => $this->FogParams->getCurrentEdition(),
-                ]
+                ],
+                'homePage' => true
             ]);
         }
         $this->addFlash('danger', "Il n'y a pas d'édition du FOG prévu pour le moment.");
