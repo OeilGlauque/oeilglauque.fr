@@ -71,6 +71,7 @@ header #menu-toggle {
 header h1, header #appbar-title{
     color: #3D1A21;
     font-size: 1.3rem;
+    margin: 0 auto 0 2vh;
 }
 
 #appbar-title:hover {
