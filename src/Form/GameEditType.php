@@ -21,7 +21,9 @@ class GameEditType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, ['label' => 'Titre'])
-            ->add('description', TextareaType::class, ['label' => 'Description'])
+            ->add('description', TextareaType::class, ['label' => 'Description', 'attr' => [
+                'maxlength' => 1000,
+            ]])
             ->add('gameSlot', EntityType::class, [
                 'class' => GameSlot::class, 
                 'choice_label' => 'text', 
