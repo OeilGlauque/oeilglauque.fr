@@ -102,9 +102,10 @@ class GameController extends FOGController {
             return $this->redirectToRoute('listeParties');
         }
 
-        return $this->renderForm('oeilglauque/newGame.html.twig', [
+        return $this->render('oeilglauque/newGame.html.twig', [
             'form' => $form, 
-            'edit' => false
+            'edit' => false,
+            'newHeader' => true
         ]);
     }
 
