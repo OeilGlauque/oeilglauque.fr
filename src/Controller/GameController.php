@@ -154,6 +154,7 @@ class GameController extends FOGController {
                 'props' => [
                     'edition' => $this->FogParams->getCurrentEdition(),
                 ],
+                'hasGames' => count($games) > 0,
                 'homePage' => true
             ]);
         }

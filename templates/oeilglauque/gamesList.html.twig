@@ -58,9 +58,11 @@
                 <div class="btn-filters"> <!--d-flex flex-wrap justify-content-between -->
                 </div>
             </div>
-            <div> <!-- col-md-10 col-8 -->
-                {{ component('JdrSearch', props) }}
-            </div>
+            {% if hasGames %}
+            {{ component('JdrSearch', props) }}
+            {% else %}
+                <p>Il n'y a pas encore de partie cette année... Revenez bientôt !</p>
+            {% endif %}
         </div>
 {% endblock %}
 

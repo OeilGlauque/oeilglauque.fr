@@ -6,6 +6,58 @@ body{
 	background-color: transparent;
 }
 
+.game-list-view{
+	margin-top: 2rem;
+}
+
+.games{
+	display: flex;
+	flex-direction: column;
+}
+
+.game {
+	background-color: #402222;
+	padding: 0.5rem 2rem 0.5rem 2rem;
+	border-radius: 1rem;
+	box-shadow: 4px 4px 0 black;
+	cursor: pointer;
+	transition: 0.2s ease-in-out;
+}
+
+.game:hover{
+	transform: scale(1.01);
+}
+
+.game h2{
+	color: #FFF2DA;
+}
+
+.game p{
+	color: white;
+}
+
+.games input{
+	width: 80%;
+	text-align: center;
+	border: 2px solid #973504;
+	margin: 0 auto 2rem;
+	padding: 0.5rem;
+	border-radius: 1rem;
+	background-color: white;
+	box-shadow: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-ms-appearance: none;
+	-o-appearance: none;
+	appearance: none;
+	outline: none;
+	transition: 0.2s;
+}
+
+.games input:focus{
+	border-color: #000000;
+}
+
 hr {
 	width: 100%;
 	background-color: black;
@@ -49,7 +101,7 @@ ul {
 	.game-list-view {
 		display: grid;
 		grid-template-columns: 1fr 5fr;
-		gap: 1rem;
+		gap: 2rem;
 	}
 
 	.game {
