@@ -77,18 +77,19 @@
             {# Il reste des places #}
             {% if not registered %}
                 {% if game.getLocked() %}
-                    <p>Les inscriptions en ligne sont fermées pour cette partie mais il est encore possible de s'inscrire à l'accueil !</p>
+                    <p>Les inscriptions en ligne sont fermées... Mais il est encore possible de s'inscrire à l'accueil !</p>
                 {% else %}
-                    <p>Il reste encore {{ game.getFreeSeats() }} place{{accord}} disponible{{accord}} en ligne. 
+                    <p>Il reste {{ game.getFreeSeats() }} place{{accord}} disponible{{accord}} en ligne.
                     {% if game.getForceOnlineSeats() == false %}
-                    Il y aura également {{ game.getOfflineSeats() }} place{{accordOffline}} disponible{{accordOffline}} directement à l'accueil du festival. Soyez rapide pour vous y inscrire !
+                    <br />Il y aura également {{ game.getOfflineSeats() }} place{{accordOffline}} disponible{{accordOffline}} à l'accueil du festival.
                     {% endif %}
                 {% endif %}
                 </p><br /><br />
             {% endif %}
+            <div class="game-btn">
             {% if game.getValidated() and game.getAuthor() != app.user %}
                 {% if registered %}
-                <a href="{{ path('unregisterGame', {'id': game.getId()}) }}" class="btn">Me désinscrire de cette partie</a>
+                    <a href="{{ path('unregisterGame', {'id': game.getId()}) }}" class="btn">Me désinscrire de cette partie</a>
                 {% else %}
                     {% if not game.getLocked() %}
                         <a href="{{ path('registerGame', {'id': game.getId()}) }}" class="btn">M'inscrire à cette partie</a>
@@ -96,6 +97,7 @@
                 {% endif %}
             {% endif %}
         {% else %}
+            <div class="game-btn">
             {# plus de place #}
             {% if game.getValidated() and game.getAuthor() != app.user %}
                 {% if registered %}
@@ -110,8 +112,9 @@
             {% endif %}
         {% endif %}
         {% if game.getAuthor() == app.user or is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('editGame', {'id': game.getId()}) }}" class="btn ms-3 btn-info">Éditer cette partie</a>
+            <a href="{{ path('editGame', {'id': game.getId()}) }}" class="btn ms-3 btn-info">Éditer cette partie</a>
         {% endif %}
+        </div>
         <br /><br />
         <a href="{{ path('listeParties') }}">Retour à la liste des parties</a>
 
