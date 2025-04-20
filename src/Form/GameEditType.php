@@ -33,6 +33,7 @@ class GameEditType extends AbstractType
             ])
             ->add('seats', IntegerType::class, ['label' => 'Places disponibles', 'attr' => ['min' => $options['seats']],'invalid_message' => "Veuillez entrer un nombre"])
             ->add('tags', TextType::class, ['label' => 'Tags', 'required' => false, 'disabled' => true])
+            ->add('tw', TextType::class, ['label' => 'TW', 'required' => false])
             ->add('forceOnlineSeats', CheckboxType::class, ['label' => 'Permettre de réserver toutes les places en ligne (déconseillé). Par défaut, la moitié des places sont réservable en ligne et l\'autre moitié réservable sur place.', 'required' => false])
             ->add('img', FileType::class, [
                 'label' => "Image (optionel)",

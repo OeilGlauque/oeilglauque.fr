@@ -29,6 +29,10 @@
                 {% endif %}
                 </p>
             {% endif %}
+            <br />
+            {% if game.getTw() %}
+                <p id="tw">⚠️ {{ game.getTw() }}</p>
+            {% endif %}
         </div>
         {% if game.getImage() %}
             <div class="game-img">

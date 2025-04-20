@@ -15,6 +15,12 @@ body{
     gap: 1rem;
 }
 
+#tw{
+    background-color: #7e0a0a;
+    border-radius: 0.5em;
+    padding: 0.5rem;
+}
+
 .infos-games{
     background-color: #3D1A21;
     border-radius: 0.8rem;
@@ -24,7 +30,7 @@ body{
     align-items: center;
     justify-content: center;
     height: min-content;
-    width: 30vw;
+    width: 30rem;
     min-width: 12rem;
 }
 
@@ -33,7 +39,7 @@ body{
     min-width: 20rem;
 }
 
-ul{
+.game-section ul{
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -42,7 +48,7 @@ ul{
     gap: 1rem;
 }
 
-li{
+.game-section li{
     color: white;
     list-style-type: none;
     background-color: black;

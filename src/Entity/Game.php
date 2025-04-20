@@ -61,6 +61,9 @@ class Game
     #[ORM\Column(type: "boolean")]
     private bool $locked;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $tw = null;
+
     public function __construct()
     {
         $this->players = new ArrayCollection();
@@ -245,6 +248,18 @@ class Game
     public function setLocked(bool $locked): self
     {
         $this->locked = $locked;
+
+        return $this;
+    }
+
+    public function getTw(): ?string
+    {
+        return $this->tw;
+    }
+
+    public function setTw(?string $tw): static
+    {
+        $this->tw = $tw;
 
         return $this;
     }

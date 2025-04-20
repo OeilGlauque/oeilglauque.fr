@@ -53,6 +53,9 @@
                         <li>{{ tag }}</li>
                     {% endfor %}
                 </ul>
+                {% if game.getTw() %}
+                    <p id="tw">⚠️ {{ game.getTw() }}</p>
+                {% endif %}
             </div>
 
             <div class="game-desc">

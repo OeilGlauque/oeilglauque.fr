@@ -41,6 +41,12 @@ body{
 	color: white;
 }
 
+#tw{
+	background-color: #7e0a0a;
+	border-radius: 0.5em;
+	padding: 0.5rem;
+}
+
 .games input{
 	width: 80%;
 	text-align: center;
