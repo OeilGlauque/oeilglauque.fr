@@ -4,5 +4,6 @@
 
 {% block body %}
     <p>{{ player.getPseudo() }} s'est désinscrit(e) de votre JDR "{{ game.getTitle() }}"</p>
+    <p>Joueurs inscrits: {{ game.getBookedSeats() }}</p>
     <p><a href="https://www.oeilglauque.fr/partie/{{ game.getId() }}">Cliquez ici</a> pour gérer votre JDR en ligne</p>
 {% endblock %}

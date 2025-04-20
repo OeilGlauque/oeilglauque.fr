@@ -4,6 +4,7 @@ body{
 
 .container{
 	background-color: transparent;
+	padding: 0 0.4rem 0 0.4rem;
 }
 
 .titre{
@@ -35,10 +36,37 @@ body{
 
 .game h2{
 	color: #FFF2DA;
+	font-size: 1.2rem;
 }
 
 .game p{
 	color: white;
+	font-size: 0.8rem;
+}
+
+.game-infos{
+	display: flex;
+	gap: 1rem;
+	background-color: black;
+	width: fit-content;
+	border-radius: 0.5em;
+	padding: 0.5rem;
+	flex-wrap: wrap;
+}
+
+.info-section{
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	color: white;
+	flex-wrap: wrap;
+	margin-bottom: 1rem;
+	text-align: left;
+}
+
+.game-infos p{
+	margin-bottom: 0;
+	font-size: 0.9rem;
 }
 
 #tw{
@@ -95,6 +123,10 @@ ul {
 	margin: 1.5rem 0;
 }
 
+.btn{
+	font-size: 0.8rem;
+}
+
 .btn-filter {
 	display: flex;
 	justify-content: space-between;
@@ -102,6 +134,17 @@ ul {
 }
 
 .btn-filters {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1rem;
+	margin-bottom: 2rem;
+}
+
+.games-filters{
+	margin-bottom: 4rem;
+}
+
+.btn-options{
 	display: grid;
 	grid-template-columns: 1fr;
 	gap: 1rem;
@@ -139,6 +182,10 @@ ul {
 
 @media (max-width: 768px) {
 	.btn-filters {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.btn-options {
 		grid-template-columns: repeat(2, 1fr);
 	}
 }

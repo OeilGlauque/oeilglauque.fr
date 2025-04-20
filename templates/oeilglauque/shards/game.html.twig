@@ -9,9 +9,15 @@
     {% endif %}
 
             <h2 class="redandblack">{{ game.getTitle() }}</h2>
-            <p class="small">Proposé par {{ game.getAuthor().getPseudo() }}<br />
-            Créneau : <span class="slot">{{ game.getGameSlot().getText() }}</span><br />
-            Tags : <span  class="tags">{{ game.listTags() }}</span></p>
+            <div class="info-section">
+                <div class="game-infos">
+                    <p class="small">Proposé par {{ game.getAuthor().getPseudo() }}</p>
+                    <p>Créneau : <span class="slot">{{ game.getGameSlot().getText() }}</span></p>
+                </div>
+                {% for tag in game.getTagsList() %}
+                    <div class="game-infos"><p>{{ tag }}</p></div>
+                {% endfor %}
+            </div>
             <p class="description">{{ game.getDescription()|striptags('<br>,<em>,<b>,<u>,<h3>,<a>')|raw }}</p>
             <br />
             {% if game.getFreeSeats() > 0 %}

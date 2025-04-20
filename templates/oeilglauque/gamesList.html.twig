@@ -38,7 +38,7 @@
         {% endif %}
 
         <div class="game-list-view"> <!-- d-flex flex-sm-row flex-column -->
-            <div> <!-- mt-10 me-sm-4 col-sm-2 -->
+            <div class="games-filters"> <!-- mt-10 me-sm-4 col-sm-2 -->
                 <b>Créneaux sélectionnés :</b><br />
                 <label class="btn" id="selectAllSlots"> <!--  my-3 d-flex justify-content-center align-items-center -->
                     <span>Tout sélectionner</span>
@@ -60,10 +60,12 @@
                 </label>
                 <div class="btn-filters"> <!--d-flex flex-wrap justify-content-between -->
                 </div>
-                <label class="btn">
-                    <span>Masquer parties pleines</span>
-                    <input type="checkbox" id="full-checkbox" checked>
-                </label>
+                <div class="btn-options">
+                    <label class="btn btn-filter">
+                        <span>Masquer parties pleines</span>
+                        <input type="checkbox" id="full-checkbox" checked>
+                    </label>
+                </div>
             </div>
             {% if hasGames %}
             {{ component('JdrSearch', {

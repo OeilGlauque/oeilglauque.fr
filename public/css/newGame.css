@@ -21,7 +21,6 @@ body{
 	text-align: right;
 	/* Overriding bootstrap style */
 	flex: 0 0 25%;
-	max-width: 25%;
 }
 
 #game-form label.form-check-label {
