@@ -79,9 +79,9 @@
                 {% if game.getLocked() %}
                     <p>Les inscriptions en ligne sont fermées... Mais il est encore possible de s'inscrire à l'accueil !</p>
                 {% else %}
-                    <p>Il reste {{ game.getFreeSeats() }} place{{accord}} disponible{{accord}} en ligne.
+                    <p>Il reste <strong>{{ game.getFreeSeats() }} place{{accord}}</strong> disponible{{accord}} en ligne.
                     {% if game.getForceOnlineSeats() == false %}
-                    <br />Il y aura également {{ game.getOfflineSeats() }} place{{accordOffline}} disponible{{accordOffline}} à l'accueil du festival.
+                    <br />Il y aura également <strong>{{ game.getOfflineSeats() }} place{{accordOffline}}</strong> disponible{{accordOffline}} à l'accueil du festival.
                     {% endif %}
                 {% endif %}
                 </p><br /><br />
