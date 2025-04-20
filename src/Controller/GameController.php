@@ -177,7 +177,7 @@ class GameController extends FOGController {
             return $this->redirectToRoute('showGame', ["id" => $id]);
         }
 
-        $form = $this->createForm(GameEditType::class, $game, ['slots' => $this->FogParams->getCurrentEdition()->getGameSlots(), 'seats' => $game->getBookedSeats()]);
+        $form = $this->createForm(GameEditType::class, $game, ['slots' => $this->FogParams->getCurrentEdition()->getGameSlots(), 'seats' => $game->getBookedSeats(), 'tags' => $game->getTagsList()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
