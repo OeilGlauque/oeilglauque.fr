@@ -25,26 +25,21 @@
                     center: 'title',
                     end: ''
                 },
-                titleFormat: { // will produce something like "Tuesday, September 18, 2018"
+                titleFormat: {
                     month: 'long',
                     year: 'numeric',
                     weekday: 'short'
                 },
                 events: [
-                    {
-                        title: 'Test Event',
-                        start: '2025-04-26 08:00:00',
-                        end: '2025-04-26 17:00:00',
-                        backgroundColor: 'blue',
-                        borderColor: 'blue'
-                    },
-                    {
-                        title: 'Test Event',
-                        start: '2025-04-26 10:00:00',
-                        end: '2025-04-26 14:00:00',
-                        backgroundColor: 'red',
-                        borderColor: 'blue'
-                    }
+                    {% for event in events %}
+                        {
+                            title: '{{ event.title }}',
+                            start: '{{ event.getStringBegin() }}',
+                            end: '{{ event.getStringEnd() }}',
+                            backgroundColor: 'purple',
+                            borderColor: 'purple'
+                        },
+                    {% endfor %}
                 ],
                 timeZone: 'local',
                 defaultDate: new Date(2018, 8, 1),

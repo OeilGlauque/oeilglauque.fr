@@ -44,9 +44,19 @@ class Event
         return $this;
     }
 
+    public function getStringBegin(): ? string
+    {
+        return $this->beginAt->format('Y-m-d H:i:s');
+    }
+
     public function getEndAt(): ?\DateTime
     {
         return $this->endAt;
+    }
+
+    public function getStringEnd(): ? string
+    {
+        return $this->endAt->format('Y-m-d H:i:s');
     }
 
     public function setEndAt(?\DateTime $endAt): static

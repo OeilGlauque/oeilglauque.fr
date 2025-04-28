@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\EventRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,9 +21,11 @@ class StaticPagesController extends FOGController {
     }
 
     #[Route("/planning", name: "planning", methods: ['GET'])]
-    public function planning() : Response
+    public function planning(EventRepository $eventRepository) : Response
     {
-        return $this->render('oeilglauque/planning.html.twig');
+        return $this->render('oeilglauque/planning.html.twig', [
+            'events' => $eventRepository->findAll(),
+        ]);
     }
 
     #[Route("/contact", name: "contact", methods: ['GET'])]
