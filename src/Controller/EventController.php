@@ -31,12 +31,6 @@ final class EventController extends FOGController
         ]);
     }
 
-    #[Route(path: '/calendar', name: 'app_event_calendar')]
-    public function calendar(): Response
-    {
-        return $this->render('oeilglauque/planning.html.twig');
-    }
-
     #[Route('/new', name: 'app_event_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
