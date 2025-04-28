@@ -1,5 +1,61 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const calendarEl = document.getElementById('calendar-holder');
+
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridTwoDays',
+                locale: 'fr',
+                minTime: '10:00:00', // 8 AM
+                maxTime: '21:00:00',
+                height: 900,
+                views: {
+                    dayGridTwoDays:{
+                        type: 'timeGridDay',
+                        duration: { days: 2},
+                        slotMinTime: "08:00:00",
+                        slotMaxTime: "23:00:00"
+                    }
+                },
+                headerToolbar: {
+                    start: '',
+                    center: 'title',
+                    end: ''
+                },
+                titleFormat: { // will produce something like "Tuesday, September 18, 2018"
+                    month: 'long',
+                    year: 'numeric',
+                    weekday: 'short'
+                },
+                events: [
+                    {
+                        title: 'Test Event',
+                        start: '2025-04-26 08:00:00',
+                        end: '2025-04-26 17:00:00',
+                        backgroundColor: 'blue',
+                        borderColor: 'blue'
+                    },
+                    {
+                        title: 'Test Event',
+                        start: '2025-04-26 10:00:00',
+                        end: '2025-04-26 14:00:00',
+                        backgroundColor: 'red',
+                        borderColor: 'blue'
+                    }
+                ],
+                timeZone: 'local',
+                defaultDate: new Date(2018, 8, 1),
+            });
+
+            calendar.gotoDate('2025-04-26');
+            calendar.render();
+        });
+    </script>
+{% endblock %}
+
 {% block body %}
      <!--
         <p>
@@ -7,36 +63,38 @@
         </p>
         -->
     {% if planning %}
-    <div class="w-100">
-        <a href="/img/planning/planning_XX.webp">
-            <img alt="planning" src="/img/planning/planning_XX.webp" class="w-100"/>
-        </a>
-    </div>
-    <!--
-        <div>
-            <div class="row justify-content-center mb-3">
-                <div class="col-lg d-flex justify-content-center">
-                    <a href="/img/planning/planning_ven.jpg">
-                        <img alt="vendredi" src="/img/planning/planning_ven.jpg" class="img-fluid"/>
-                    </a>
-                </div>
-            </div>
-            <div class="row justify-content-center mb-3">
-                <div class="col-lg d-flex justify-content-center">
-                    <a href="/img/planning/planning_sam.jpg">
-                        <img alt="samedi" src="/img/planning/planning_sam.jpg"class="img-fluid"/>
-                    </a>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg d-flex justify-content-center">
-                    <a href="/img/planning/planning_dim.jpg">
-                        <img alt="dimanche" src="/img/planning/planning_dim.jpg" class="img-fluid"/>
-                    </a>
-                </div>
-            </div>
-        </div>
-    -->
+        <div id="calendar-holder"></div>
+
+        <!-- <div class="w-100">
+         <a href="/img/planning/planning_XX.webp">
+             <img alt="planning" src="/img/planning/planning_XX.webp" class="w-100"/>
+         </a>
+     </div>
+
+         <div>
+             <div class="row justify-content-center mb-3">
+                 <div class="col-lg d-flex justify-content-center">
+                     <a href="/img/planning/planning_ven.jpg">
+                         <img alt="vendredi" src="/img/planning/planning_ven.jpg" class="img-fluid"/>
+                     </a>
+                 </div>
+             </div>
+             <div class="row justify-content-center mb-3">
+                 <div class="col-lg d-flex justify-content-center">
+                     <a href="/img/planning/planning_sam.jpg">
+                         <img alt="samedi" src="/img/planning/planning_sam.jpg"class="img-fluid"/>
+                     </a>
+                 </div>
+             </div>
+             <div class="row justify-content-center">
+                 <div class="col-lg d-flex justify-content-center">
+                     <a href="/img/planning/planning_dim.jpg">
+                         <img alt="dimanche" src="/img/planning/planning_dim.jpg" class="img-fluid"/>
+                     </a>
+                 </div>
+             </div>
+         </div>
+     -->
     {% else %}
         <p> Le planning n'est pas encore disponible. Revenez plus tard !</p>
     {% endif %}
