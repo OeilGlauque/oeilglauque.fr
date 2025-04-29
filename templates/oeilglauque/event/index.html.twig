@@ -12,8 +12,7 @@
                 <th>Début</th>
                 <th>Fin</th>
                 <th>Titre</th>
-                <th>Couleur</th>
-                <th>actions</th>
+                <th>action</th>
             </tr>
         </thead>
         <tbody>
@@ -23,9 +22,7 @@
                 <td>{{ event.beginAt ? event.beginAt|date('Y-m-d H:i') : '' }}</td>
                 <td>{{ event.endAt ? event.endAt|date('Y-m-d H:i') : '' }}</td>
                 <td>{{ event.title }}</td>
-                <td>{{ event.color }}</td>
                 <td>
-                    <a href="{{ path('app_event_show', {'id': event.id}) }}">afficher</a>
                     <a href="{{ path('app_event_edit', {'id': event.id}) }}">edit</a>
                 </td>
             </tr>
@@ -37,6 +34,13 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_event_new') }}">Nouvel event</a>
-    <a href="{{ path('planning') }}">Planning</a>
+    <div style="display: flex">
+        <form method="post" action="{{ path('app_event_new') }}">
+            <button class="btn">Nouvel event</button>
+        </form>
+
+        <form method="get" action="{{ path('planning') }}">
+            <button class="btn">Planning</button>
+        </form>
+    </div>
 {% endblock %}
