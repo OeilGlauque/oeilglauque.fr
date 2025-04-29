@@ -12,6 +12,7 @@
                 <th>Début</th>
                 <th>Fin</th>
                 <th>Titre</th>
+                <th>Couleur</th>
                 <th>Lieu</th>
                 <th>actions</th>
             </tr>
@@ -20,9 +21,10 @@
         {% for event in events %}
             <tr>
                 <td>{{ event.id }}</td>
-                <td>{{ event.beginAt ? event.beginAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ event.endAt ? event.endAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ event.beginAt ? event.beginAt|date('Y-m-d H:i') : '' }}</td>
+                <td>{{ event.endAt ? event.endAt|date('Y-m-d H:i') : '' }}</td>
                 <td>{{ event.title }}</td>
+                <td>{{ event.color }}</td>
                 <td>{{ event.location }}</td>
                 <td>
                     <a href="{{ path('app_event_show', {'id': event.id}) }}">afficher</a>

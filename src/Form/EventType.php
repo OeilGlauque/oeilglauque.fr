@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Event;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,6 +23,14 @@ class EventType extends AbstractType
             ])
             ->add('title', null, [
                 'label' => 'Titre',
+            ])
+            ->add('color', ChoiceType::class, [
+                'choices' => [
+                    'Marron' => 'brown',
+                    'Violet' => 'purple',
+                    'Orange' => 'orange',
+                ],
+                'required' => true,
             ])
             ->add('location', null, [
                 'label' => 'Lieu',

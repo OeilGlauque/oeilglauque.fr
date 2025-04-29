@@ -34,10 +34,10 @@
                     {% for event in events %}
                         {
                             title: '{{ event.title }}',
-                            start: '{{ event.getStringBegin() }}',
-                            end: '{{ event.getStringEnd() }}',
-                            backgroundColor: 'purple',
-                            borderColor: 'purple'
+                            start: '{{ event.beginAt|date('Y-m-d H:i:s') }}',
+                            end: '{{ event.endAt|date('Y-m-d H:i:s') }}',
+                            backgroundColor: '{{ event.color }}',
+                            borderColor: '{{ event.color }}'
                         },
                     {% endfor %}
                 ],

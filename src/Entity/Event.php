@@ -26,6 +26,9 @@ class Event
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $location = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $color = null;
+
 
     public function getId(): ?int
     {
@@ -44,19 +47,9 @@ class Event
         return $this;
     }
 
-    public function getStringBegin(): ? string
-    {
-        return $this->beginAt->format('Y-m-d H:i:s');
-    }
-
     public function getEndAt(): ?\DateTime
     {
         return $this->endAt;
-    }
-
-    public function getStringEnd(): ? string
-    {
-        return $this->endAt->format('Y-m-d H:i:s');
     }
 
     public function setEndAt(?\DateTime $endAt): static
@@ -86,6 +79,18 @@ class Event
     public function setLocation(?string $location): static
     {
         $this->location = $location;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): static
+    {
+        $this->color = $color;
 
         return $this;
     }
