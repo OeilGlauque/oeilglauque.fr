@@ -32,9 +32,6 @@ class EventType extends AbstractType
                 ],
                 'required' => true,
             ])
-            ->add('location', null, [
-                'label' => 'Lieu',
-            ])
         ;
     }
 

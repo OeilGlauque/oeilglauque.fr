@@ -23,9 +23,14 @@ class StaticPagesController extends FOGController {
     #[Route("/planning", name: "planning", methods: ['GET'])]
     public function planning(EventRepository $eventRepository) : Response
     {
-        return $this->render('oeilglauque/planning.html.twig', [
-            'events' => $eventRepository->findAll(),
-        ]);
+        if ($this->FogParams->getCurrentEdition()->getId() != null) {
+            return $this->render('oeilglauque/planning.html.twig', [
+                'events' => $eventRepository->findByEdition($this->FogParams->getCurrentEdition()->getId()),
+            ]);
+        }
+
+        $this->addFlash('danger', "Il n'y a pas d'édition du FOG prévu pour le moment.");
+        return $this->redirectToRoute('index');
     }
 
     #[Route("/contact", name: "contact", methods: ['GET'])]

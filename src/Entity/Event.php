@@ -24,11 +24,15 @@ class Event
     private ?string $title = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $location = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
     private ?string $color = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $edition = null;
+
+    function __construct(int $edition)
+    {
+        $this->edition = $edition;
+    }
 
     public function getId(): ?int
     {
@@ -71,18 +75,6 @@ class Event
         return $this;
     }
 
-    public function getLocation(): ?string
-    {
-        return $this->location;
-    }
-
-    public function setLocation(?string $location): static
-    {
-        $this->location = $location;
-
-        return $this;
-    }
-
     public function getColor(): ?string
     {
         return $this->color;
@@ -91,6 +83,18 @@ class Event
     public function setColor(?string $color): static
     {
         $this->color = $color;
+
+        return $this;
+    }
+
+    public function getEdition(): ?int
+    {
+        return $this->edition;
+    }
+
+    public function setEdition(?int $edition): static
+    {
+        $this->edition = $edition;
 
         return $this;
     }

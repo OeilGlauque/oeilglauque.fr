@@ -26,30 +26,41 @@ final class EventController extends FOGController
     #[Route(name: 'app_event_index', methods: ['GET'])]
     public function index(EventRepository $eventRepository): Response
     {
-        return $this->render('oeilglauque/event/index.html.twig', [
-            'events' => $eventRepository->findAll(),
-        ]);
+        if ($this->FogParams->getCurrentEdition()->getId() != null) {
+            return $this->render('oeilglauque/event/index.html.twig', [
+                'events' => $eventRepository->findByEdition($this->FogParams->getCurrentEdition()->getId()),
+                'edition' => $this->FogParams->getCurrentEdition()
+            ]);
+        }
+
+        $this->addFlash('danger', "Il n'y a pas d'édition du FOG prévu pour le moment.");
+        return $this->redirectToRoute('index');
     }
 
     #[Route('/new', name: 'app_event_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $event = new Event();
-        $form = $this->createForm(EventType::class, $event);
-        $form->handleRequest($request);
+        if($this->FogParams->getCurrentEdition()->getId() != null){
+            $event = new Event($this->FogParams->getCurrentEdition()->getId());
+            $form = $this->createForm(EventType::class, $event);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($event);
-            $entityManager->flush();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $entityManager->persist($event);
+                $entityManager->flush();
 
-            return $this->redirectToRoute('app_event_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_event_index', [], Response::HTTP_SEE_OTHER);
+            }
+
+            return $this->render('oeilglauque/event/new.html.twig', [
+                'event' => $event,
+                'form' => $form,
+            ]);
         }
-
-        return $this->render('oeilglauque/event/new.html.twig', [
-            'event' => $event,
-            'form' => $form,
-        ]);
+        $this->addFlash('danger', "Il n'y a pas d'édition du FOG prévu pour le moment.");
+        return $this->redirectToRoute('index');
     }
+
 
     #[Route('/{id}', name: 'app_event_show', methods: ['GET'])]
     public function show(Event $event): Response
