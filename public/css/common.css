@@ -45,6 +45,19 @@ a:hover {
     text-decoration: underline;
 }
 
+/* Header */
+.landing_page{
+    background-image: url(/img/indexBg.webp);
+    background-size: cover;
+    height: 17vh;
+    background-position: bottom;
+    background-repeat: no-repeat;
+}
+
+#transparent{
+    margin-top: 8vh;
+}
+
 main {
     flex: 1 1 auto;
 }
@@ -255,5 +268,18 @@ select option:nth-child(odd) {
 
     .container {
         padding: 0.5em 1.125em 2em 1.125em;
+    }
+}
+
+
+@media screen and (max-width: 1400px) {
+    .landing_page{
+        height: 12vh;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .landing_page{
+        height: 8vh;
     }
 }
