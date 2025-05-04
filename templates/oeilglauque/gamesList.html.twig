@@ -68,9 +68,23 @@
                 </div>
             </div>
             {% if hasGames %}
-            {{ component('JdrSearch', {
-                'edition': edition,
-            }) }}
+                <div class="games">
+                    <input
+                            id="search-input"
+                            type="search"
+                            placeholder="Rechercher un JDR..."
+                    >
+
+                    <div class="game-list">
+                        {% for g in games %}
+                            {{ include('oeilglauque/shards/game.html.twig',
+                                {
+                                    'game': g
+                                })
+                            }}
+                        {% endfor %}
+                    </div>
+                </div>
             {% else %}
                 <p>Il n'y a pas encore de partie cette année... Revenez bientôt !</p>
             {% endif %}
