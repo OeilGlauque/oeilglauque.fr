@@ -27,6 +27,7 @@ body{
 	border-radius: 1rem;
 	box-shadow: 4px 4px 0 black;
 	cursor: pointer;
+	width: 55vw;
 	transition: 0.2s ease-in-out;
 }
 
@@ -75,26 +76,21 @@ body{
 	padding: 0.5rem;
 }
 
-.games input{
+.games input {
 	width: 80%;
-	text-align: center;
-	border: 2px solid #973504;
-	margin: 0 auto 2rem;
-	padding: 0.5rem;
-	border-radius: 1rem;
-	background-color: white;
-	box-shadow: none;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	-ms-appearance: none;
-	-o-appearance: none;
-	appearance: none;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+	border-radius: 16px;
+	padding: 1em;
+	border: 1px solid #e0e0e0;
+	font-size: 16px;
 	outline: none;
-	transition: 0.2s;
+	background-color: white;
+	transition: border-color 0.3s;
+	margin: 0 auto 2rem;
 }
 
-.games input:focus{
-	border-color: #000000;
+.games input:focus {
+	border-color: #7e0a0a;
 }
 
 hr {
@@ -181,6 +177,10 @@ ul {
 }
 
 @media (max-width: 768px) {
+	.game{
+		width: 85vw;
+	}
+
 	.btn-filters {
 		grid-template-columns: repeat(2, 1fr);
 	}
