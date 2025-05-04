@@ -33,8 +33,6 @@
         "symfony/stimulus-bundle": "^2.23",
         "symfony/twig-bundle": "6.4.*",
         "symfony/ux-autocomplete": "^2.23",
-        "symfony/ux-live-component": "^2.24",
-        "symfony/ux-twig-component": "^2.24",
         "symfony/validator": "6.4.*",
         "symfony/web-link": "6.4.*",
         "symfony/yaml": "6.4.*",
