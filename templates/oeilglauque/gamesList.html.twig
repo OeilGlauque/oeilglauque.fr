@@ -39,7 +39,7 @@
 
         <div class="game-list-view"> <!-- d-flex flex-sm-row flex-column -->
             <div class="games-filters"> <!-- mt-10 me-sm-4 col-sm-2 -->
-                <b>Créneaux sélectionnés :</b><br />
+                <b>Créneaux :</b><br />
                 <label class="btn" id="selectAllSlots"> <!--  my-3 d-flex justify-content-center align-items-center -->
                     <span>Tout sélectionner</span>
                     <input type="checkbox" hidden autocomplete="off" />
@@ -53,7 +53,7 @@
                         </label>
                     {% endfor %}
                 </div>
-                <b>Tags sélectionnés :</b><br />
+                <b>Tags :</b><br />
                 <label class="btn" id="selectAllTags"> <!-- my-3 d-flex justify-content-center align-items-center onmouseup="selectAllTags(this)" -->
                     <span>Tout sélectionner</span>
                     <input type="checkbox" hidden autocomplete="off" />
@@ -69,6 +69,7 @@
             </div>
             {% if hasGames %}
                 <div class="games">
+
                     <input
                             id="search-input"
                             type="search"
