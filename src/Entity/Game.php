@@ -196,7 +196,7 @@ class Game
     }
 
     public function getTagsList(): array{
-        return explode(';', $this->getTags());
+        return preg_split('/( *[,;] *)/', $this->getTags(),-1,PREG_SPLIT_NO_EMPTY);
     }
 
     public function hasTag(string $tag): ?bool
