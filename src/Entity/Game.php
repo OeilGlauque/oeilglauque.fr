@@ -61,6 +61,9 @@ class Game
     #[ORM\Column(type: "boolean")]
     private bool $locked;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $tw = null;
+
     public function __construct()
     {
         $this->players = new ArrayCollection();
@@ -192,6 +195,10 @@ class Game
         return implode(';', preg_split('/( *[,;] *)/', $this->tags));
     }
 
+    public function getTagsList(): array{
+        return preg_split('/( *[,;] *)/', $this->getTags(),-1,PREG_SPLIT_NO_EMPTY);
+    }
+
     public function hasTag(string $tag): ?bool
     {
         return in_array($tag, preg_split('/( *[,;] *)/', $this->tags));
@@ -241,6 +248,18 @@ class Game
     public function setLocked(bool $locked): self
     {
         $this->locked = $locked;
+
+        return $this;
+    }
+
+    public function getTw(): ?string
+    {
+        return $this->tw;
+    }
+
+    public function setTw(?string $tw): static
+    {
+        $this->tw = $tw;
 
         return $this;
     }

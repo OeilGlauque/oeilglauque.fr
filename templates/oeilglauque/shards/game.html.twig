@@ -1,5 +1,5 @@
-<div class="gameShard ghid_{{ game.getGameSlot().getId() }}" data="{{ game.getId() }},{{ game.getGameSlot().getId() }},{{ game.getTags() }}">
-    <div class="game">
+<div class="gameShard ghid_{{ game.getGameSlot().getId() }}" data="{{ game.getId() }},{{ game.getGameSlot().getId() }},{{ game.getTags() }},{{ game.getFreeSeats() }},{{ game.getTitle() }}">
+    <div class="game" onclick="location.href='{{ path('showGame', {'id':game.getId()}) }}';">
         <div class="game-desc">
 
     {% if game.getFreeSeats() > 1 %}
@@ -8,22 +8,26 @@
     {% set accord = '' %}
     {% endif %}
 
-            <a href="{{ path('showGame', {'id':game.getId()}) }}"><h2 class="redandblack">{{ game.getTitle() }}</h2></a>
-            <p class="small">Proposé par {{ game.getAuthor().getPseudo() }}<br />
-            Créneau : <span class="slot">{{ game.getGameSlot().getText() }}</span><br />
-            Tags : <span  class="tags">{{ game.listTags() }}</span></p>
-            <p>{{ game.getDescription()|striptags('<br>,<em>,<b>,<u>,<h3>,<a>')|raw }}
-                {% if game.getDescription() ends with '...' %}
-                <a href="{{ path('showGame', {'id':game.getId()}) }}">Voir la suite</a>
-                {% endif %}
-            </p>
+            <h2 class="redandblack">{{ game.getTitle() }}</h2>
+            <div class="info-section">
+                <div class="game-infos">
+                    <p class="small">Proposé par {{ game.getAuthor().getPseudo() }}</p>
+                    <p>Créneau : <span class="slot">{{ game.getGameSlot().getText() }}</span></p>
+                </div>
+                {% for tag in game.getTagsList() %}
+                    <div class="game-infos"><p>{{ tag }}</p></div>
+                {% endfor %}
+            </div>
+            <div class="description">
+                {{ game.getDescription()|striptags('<br>,<em>,<b>,<u>,<h3>,<a>')|raw }}
+            </div>
             <br />
             {% if game.getFreeSeats() > 0 %}
 
                 {% if app.user in game.getPlayers() %}
                     <p>Vous êtes inscrit à cette partie !</p>
                 {% else %}
-                    <p>{{ game.getFreeSeats() }} place{{accord}} disponible{{accord}}</p>
+                    <p>{{ game.getFreeSeats() }} place{{accord}} disponible{{accord}} en ligne</p>
                 {% endif %}
 
             {% else %}
@@ -33,6 +37,10 @@
                 {% endif %}
                 </p>
             {% endif %}
+            <br />
+            {% if game.getTw() %}
+                <p id="tw">⚠️ {{ game.getTw() }}</p>
+            {% endif %}
         </div>
         {% if game.getImage() %}
             <div class="game-img">
@@ -40,6 +48,4 @@
             </div>
         {% endif %}
     </div>
-    <hr/>
-    &nbsp
 </div>

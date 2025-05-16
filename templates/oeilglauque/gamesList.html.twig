@@ -4,12 +4,21 @@
     <link rel="stylesheet" href="/css/gameList.css"/>
 {% endblock %}
 
+{% block mainPage %}
+    <section class="landing_page"></section>
+{% endblock %}
 
 {% block body %}
-        <h1 class="titre">Parties de JDR</h1>
-        <h1>Liste des parties</h1>
-        <p class="well m-0"><b>Attention !</b> Si vous êtes inscrit sur le site, votre place est réservée à condition que vous soyez présent 10 minutes avant le début de la partie et que vous achetiez un ticket Jeu de Rôle à 2€ à l'accueil. </br>
-        Pour information, meujeuter une partie est gratuit et vous permet de participer gratuitement à un autre jdr en tant que joueur !</p>
+    <h1 class="titre small">Parties de JDR</h1>
+
+        <script src="{{ asset('js/scrolledHeader.js') }}"></script>
+
+        <div class="alert alert-secondary">
+            <a style="color: black; text-decoration: underline" href="{{ path('nouvellePartie') }}">Meujeuter une partie</a> est gratuit et vous permet de participer gratuitement à un autre jdr en tant que joueur !</p>
+        </div>
+        <div class="alert alert-danger">
+            Si vous êtes inscrit sur le site, votre place est réservée à condition que vous soyez présent <strong>10 minutes</strong> avant le début de la partie et que vous achetiez un <strong>ticket Jeu de Rôle (2€) à l'accueil</strong>.
+        </div>
         {% if hasRegistered %}
             <b>Parties jouées cette année :</b><br />
             <ul>
@@ -28,15 +37,14 @@
             </ul>
         {% endif %}
 
-        {% if games|length > 0 %}
-            <div class="game-list-view"> <!-- d-flex flex-sm-row flex-column -->
-                <div> <!-- mt-10 me-sm-4 col-sm-2 -->
-                    <b>Créneaux sélectionnés :</b><br />
-                    <label class="btn" id="selectAllSlots"> <!--  my-3 d-flex justify-content-center align-items-center -->
-                        <span>Tout sélectionner</span>
-                        <input type="checkbox" hidden autocomplete="off" />
-                    </label>
-                    <div class="btn-filters"> <!-- slot-filters d-flex flex-wrap justify-content-between -->
+        <div class="game-list-view"> <!-- d-flex flex-sm-row flex-column -->
+            <div class="games-filters"> <!-- mt-10 me-sm-4 col-sm-2 -->
+                <b>Créneaux :</b><br />
+                <label class="btn" id="selectAllSlots"> <!--  my-3 d-flex justify-content-center align-items-center -->
+                    <span>Tout sélectionner</span>
+                    <input type="checkbox" hidden autocomplete="off" />
+                </label>
+                <div class="btn-filters"> <!-- slot-filters d-flex flex-wrap justify-content-between -->
                     {% for g in gameSlots %}
                         <label inactive="true" class="btn btn-filter btn-slot"> <!-- btn-slot mb-3 flex-grow-1 d-flex justify-content-between align-items-center -->
                             <div></div>
@@ -44,39 +52,47 @@
                             <input type="checkbox" data="{{ g.getId() }}" autocomplete="off" />
                         </label>
                     {% endfor %}
-                    </div>
-                    <b>Tags sélectionnés :</b><br />
-                    <label class="btn" id="selectAllTags"> <!-- my-3 d-flex justify-content-center align-items-center onmouseup="selectAllTags(this)" -->
-                        <span>Tout sélectionner</span>
-                        <input type="checkbox" hidden autocomplete="off" />
+                </div>
+                <b>Tags :</b><br />
+                <label class="btn" id="selectAllTags"> <!-- my-3 d-flex justify-content-center align-items-center onmouseup="selectAllTags(this)" -->
+                    <span>Tout sélectionner</span>
+                    <input type="checkbox" hidden autocomplete="off" />
+                </label>
+                <div class="btn-filters"> <!--d-flex flex-wrap justify-content-between -->
+                </div>
+                <div class="btn-options">
+                    <label class="btn btn-filter">
+                        <span>Masquer parties pleines</span>
+                        <input type="checkbox" id="full-checkbox" checked>
                     </label>
-                    <div class="btn-filters"> <!--d-flex flex-wrap justify-content-between -->
+                </div>
+            </div>
+            {% if hasGames %}
+                <div class="games">
+
+                    <input
+                        id="search-input"
+                        type="search"
+                        placeholder="Rechercher un JDR..."
+                    >
+
+                    <div class="game-list">
+                        {% for g in games %}
+                            {{ include('oeilglauque/shards/game.html.twig',
+                                {
+                                    'game': g
+                                })
+                            }}
+                        {% endfor %}
+                        <p id="empty-result">Aucun jdr correspond avec votre recherche...</p>
                     </div>
                 </div>
-                <div> <!-- col-md-10 col-8 -->
-                    {% for g in games %}
-                        {{ include('oeilglauque/shards/game.html.twig', 
-                            {
-                                'game': g
-                            }) 
-                        }}
-                    {% endfor %}
-                </div>
-            </div>
-        {% else %}
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Il n'y a pas encore de partie cette année... Revenez bientôt !</p>
-                </div>
-            </div>
-        {% endif %}
-
+            {% else %}
+                <p>Il n'y a pas encore de partie cette année... Revenez bientôt !</p>
+            {% endif %}
+        </div>
 {% endblock %}
 
 {% block scripts %}
-<!--
-<script src="/js/selectTags.js"></script>
-<script src="/js/selectGames.js"></script>
--->
 <script src='/js/filterGames.js'></script>
 {% endblock %}

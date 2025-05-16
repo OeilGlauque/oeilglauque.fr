@@ -1,3 +1,106 @@
+body{
+	background-color: #FFF2DA;
+}
+
+.container{
+	background-color: transparent;
+	padding: 0 0.4rem 0 0.4rem;
+}
+
+.titre{
+	margin-bottom: 1rem;
+}
+
+.game-list-view{
+	margin-top: 2rem;
+}
+
+.game-list {
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+}
+
+.games{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 1em 0em;
+}
+
+.game {
+	background-color: #402222;
+	padding: 0.5rem 2rem 0.5rem 2rem;
+	border-radius: 1rem;
+	box-shadow: 4px 4px 0 black;
+	cursor: pointer;
+	width: 55vw;
+	transition: 0.2s ease-in-out;
+	color: white;
+}
+
+.game:hover{
+	transform: scale(1.01);
+}
+
+.game h2, h3 {
+	color: #FFF2DA;
+	font-size: 1.2rem;
+}
+
+.game p{
+	color: white;
+	font-size: 0.8rem;
+}
+
+.game-infos{
+	display: flex;
+	gap: 1rem;
+	background-color: black;
+	width: fit-content;
+	border-radius: 0.5em;
+	padding: 0.5rem;
+	flex-wrap: wrap;
+}
+
+.info-section{
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	color: white;
+	flex-wrap: wrap;
+	margin-bottom: 1rem;
+	text-align: left;
+}
+
+.game-infos p{
+	margin-bottom: 0;
+	font-size: 0.9rem;
+}
+
+#tw{
+	background-color: #7e0a0a;
+	border-radius: 0.5em;
+	padding: 0.5rem;
+}
+
+.games input {
+	width: 80%;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+	border-radius: 16px;
+	padding: 1em 1em 1em 3em;
+	border: 1px solid #e0e0e0;
+	font-size: 16px;
+	outline: none;
+	background: white url("../img/magnifying-glass.svg") no-repeat 1em/1em;
+	transition: border-color 0.3s;
+	margin: 0 auto 2rem;
+}
+
+.games input:focus {
+	border-color: #7e0a0a;
+}
+
 hr {
 	width: 100%;
 	background-color: black;
@@ -21,7 +124,11 @@ ul {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin: 1.5rem 0;
+	margin: 0.6rem 0 1.5rem 0;
+}
+
+.btn{
+	font-size: 0.8rem;
 }
 
 .btn-filter {
@@ -37,11 +144,23 @@ ul {
 	margin-bottom: 2rem;
 }
 
+.games-filters{
+	margin-bottom: 4rem;
+}
+
+
+.btn-options{
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1rem;
+	margin-bottom: 2rem;
+}
+
 @media (min-width: 768px) {
 	.game-list-view {
 		display: grid;
 		grid-template-columns: 1fr 5fr;
-		gap: 1rem;
+		gap: 2rem;
 	}
 
 	.game {
@@ -67,7 +186,15 @@ ul {
 }
 
 @media (max-width: 768px) {
+	.game{
+		width: 85vw;
+	}
+
 	.btn-filters {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.btn-options {
 		grid-template-columns: repeat(2, 1fr);
 	}
 }

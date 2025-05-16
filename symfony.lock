@@ -127,7 +127,7 @@
         }
     },
     "symfony/lock": {
-        "version": "6.2",
+        "version": "6.4",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
