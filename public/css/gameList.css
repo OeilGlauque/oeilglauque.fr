@@ -15,10 +15,17 @@ body{
 	margin-top: 2rem;
 }
 
+.game-list {
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+}
+
 .games{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	margin: 1em 0em;
 }
 
 .game {
@@ -29,13 +36,14 @@ body{
 	cursor: pointer;
 	width: 55vw;
 	transition: 0.2s ease-in-out;
+	color: white;
 }
 
 .game:hover{
 	transform: scale(1.01);
 }
 
-.game h2{
+.game h2, h3 {
 	color: #FFF2DA;
 	font-size: 1.2rem;
 }

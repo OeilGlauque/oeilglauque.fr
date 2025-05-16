@@ -18,7 +18,9 @@
                     <div class="game-infos"><p>{{ tag }}</p></div>
                 {% endfor %}
             </div>
-            <p class="description">{{ game.getDescription()|striptags('<br>,<em>,<b>,<u>,<h3>,<a>')|raw }}</p>
+            <div class="description">
+                {{ game.getDescription()|striptags('<br>,<em>,<b>,<u>,<h3>,<a>')|raw }}
+            </div>
             <br />
             {% if game.getFreeSeats() > 0 %}
 
@@ -46,5 +48,4 @@
             </div>
         {% endif %}
     </div>
-    &nbsp
 </div>
