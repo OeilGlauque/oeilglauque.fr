@@ -73,11 +73,14 @@ class AdminController extends FOGController {
                 'Aucune édition n\'a pour id '.$edition
             );
         }
-        if($request->query->get('dates') != "") {
-            $editionval->setDates($request->query->get('dates'));
+        if($request->query->get('start') != "" && $request->query->get('end') != "") {
+            $editionval->setStart(\DateTime::createFromFormat('Y-m-d', $request->query->get('start')));
+            $editionval->setEnd(\DateTime::createFromFormat('Y-m-d', $request->query->get('end')));
             $editionval->setHomeText($request->query->get('homeText'));
             $doctrine->flush();
             $this->addFlash('success', "L'édition " . $editionval->getAnnee() . " a bien été mise à jour.");
+        }else{
+            $this->addFlash('danger', "Veuillez remplir toutes les dates");
         }
         return $this->redirectToRoute('admin_editions');
     }

@@ -11,10 +11,21 @@
             <div class="well">
                 <h3>Édition {{e.getType()}} {{e.getAnnee()}}</h3>
                 <form class="form-inline" id="editEdition" method="GET" action="{{ path('updateEdition', {'edition': e.getId()}) }}">
-                    <!--<div class="d-flex justify-content-center align-items-center">
-                        <p class="mr-3">Dates : </p>
-                        <input type="text" name="dates" value="{{ e.getDates() }}" class="form-control form-control-sm mr-sm-2" />
-                    </div> -->
+                    {% if e.start != null %}
+                        <div class="d-flex justify-content-center align-items-center">
+                            <p class="mr-3">Début : </p>
+                            <input type="date" name="start" value="{{ e.start|date('Y-m-d') }}" class="form-control form-control-sm mr-sm-2" />
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <p class="mr-3">Fin : </p>
+                            <input type="date" name="end" value="{{ e.end|date('Y-m-d') }}" class="form-control form-control-sm mr-sm-2" />
+                        </div>
+                    {% else %}
+                        <div class="d-flex justify-content-center align-items-center">
+                            <p class="mr-3">Début : </p>
+                            <input type="text" disabled name="start" value="{{ e.getDates() }}" class="form-control form-control-sm mr-sm-2" />
+                        </div>
+                    {% endif %}
                     <div class="d-flex justify-content-center align-items-center">
                         <p class="mr-3">Texte d'accueil : </p>
                         <textarea name="homeText" class="form-control form-control-sm mr-sm-2">{{ e.getHomeText() }}</textarea>
