@@ -210,6 +210,7 @@ class AdminController extends FOGController {
 
         if ($form->isSubmitted() && $form->isValid())
         {
+            $edition->setAnnee($edition->getStart()->format('Y'));
             if ($editionRepository->findOneBy(['annee' => $edition->getAnnee(), 'type' => $edition->getType()]) != null)
             {
                 $this->addFlash('danger', 'Une édition du même type existe déjà pour cette année.');

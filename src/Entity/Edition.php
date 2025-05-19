@@ -6,6 +6,7 @@ use App\Repository\EditionRepository;
 use App\Entity\GameSlot;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -40,6 +41,12 @@ class Edition
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank()]
     private string $type = 'FOG';
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $start = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $end = null;
 
     public function __construct()
     {
@@ -110,6 +117,9 @@ class Edition
 
     public function getDates(): ?string
     {
+        if ($this->start !== null) {
+            return "Du " . $this->getStart()->format('d') . " au " . $this->getEnd()->format('d') . " " . $this->getEnd()->format('M');
+        }
         return $this->dates;
     }
 
@@ -128,6 +138,30 @@ class Edition
     public function setType(string $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getStart(): ?\DateTimeInterface
+    {
+        return $this->start;
+    }
+
+    public function setStart(?\DateTimeInterface $start): static
+    {
+        $this->start = $start;
+
+        return $this;
+    }
+
+    public function getEnd(): ?\DateTimeInterface
+    {
+        return $this->end;
+    }
+
+    public function setEnd(?\DateTimeInterface $end): static
+    {
+        $this->end = $end;
 
         return $this;
     }
