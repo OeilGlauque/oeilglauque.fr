@@ -64,7 +64,9 @@ class GameType extends AbstractType
                 'expanded' => false,
                 'attr' => ['style' => 'height: 200px', 'class' => 'tom-select', 'placeholder' => 'Choisissez des tags...'],
             ])
-            ->add('tw', TextType::class, ['label' => 'TW', 'required' => false])
+            ->add('tw', TextType::class, ['label' => 'Trigger Warning (Avertissements)', 'required' => false, 'attr' => array(
+                'placeholder' => 'Gore, déconseillé aux enfants, suicide, ...'
+            )])
             ->add('forceOnlineSeats', CheckboxType::class, ['label' => 'Permettre de réserver toutes les places en ligne (déconseillé). Par défaut, la moitié des places sont réservable en ligne et l\'autre moitié réservable sur place.', 'required' => false])
             ->add('img', FileType::class, [
                 'label' => "Image (optionel)",
