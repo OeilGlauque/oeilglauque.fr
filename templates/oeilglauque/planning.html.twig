@@ -9,13 +9,13 @@
             const calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridTwoDays',
                 locale: 'fr',
-                minTime: '10:00:00', // 8 AM
+                 minTime: '10:00:00',
                 maxTime: '21:00:00',
                 height: 900,
                 views: {
                     dayGridTwoDays:{
                         type: 'timeGridDay',
-                        duration: { days: 2},
+                        duration: { days: 3},
                         slotMinTime: "08:00:00",
                         slotMaxTime: "23:00:00"
                     }
@@ -42,10 +42,9 @@
                     {% endfor %}
                 ],
                 timeZone: 'local',
-                defaultDate: new Date(2018, 8, 1),
             });
 
-            calendar.gotoDate('2025-04-26');
+            calendar.gotoDate('{{ edition.start|date('Y-m-d') }}')
             calendar.render();
         });
     </script>
