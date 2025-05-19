@@ -39,6 +39,11 @@ body{
     min-width: 20rem;
 }
 
+.game-desc h2{
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
 .game-section ul{
     display: flex;
     flex-wrap: wrap;
