@@ -34,8 +34,8 @@ class FOGController extends AbstractController {
             $parameters['menu'] = $this->FogParams->getMenuStatus();
         }
 
-        if(!array_key_exists('homePage', $parameters)) {
-            $parameters['homePage'] = false;
+        if(!array_key_exists('newHeader', $parameters)) {
+            $parameters['newHeader'] = false;
         }
         
         return parent::render($view, $parameters);

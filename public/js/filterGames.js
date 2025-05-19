@@ -7,12 +7,25 @@ let btn_tag = []
 let games = []
 let tags = new Set()
 
+let searchTimeout;
+
+let searchInput = document.getElementById('search-input');
+let fullCheckbox = document.getElementById('full-checkbox');
+let emptyResult = document.getElementById('empty-result');
+
+
+fullCheckbox.addEventListener('change', () => {
+    updateGamesList();
+})
+
 for (let el of document.getElementsByClassName('gameShard')) {
     data = el.getAttribute('data').split(',')
     games.push({
         id: data[0],
+        title: data[4],
         slot_id: data[1],
         tags: data[2].split(';'),
+        freeSeats: data[3],
         element: el
     })
     for (let tag of data[2].split(';')) {
@@ -75,6 +88,22 @@ for (let button of document.getElementsByClassName('btn-slot')) {
     }
 }
 
+function searchGames() {
+    let query = searchInput.value.trim().toLowerCase();
+    games.forEach(game => {
+        if (!game.title.toLowerCase().includes(query.toLowerCase())) {
+            game.element.style.display = "none"
+        }
+    });
+}
+
+searchInput.addEventListener('input', () => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+        updateGamesList();
+    }, 300);
+});
+
 function updateGamesList() {
     if (Object.values(active_slots).every((el) => el == false) && Object.values(active_tags).every((el) => el == false)) {
         games.forEach(game => {
@@ -122,6 +151,29 @@ function updateGamesList() {
             }
         })
     }
+
+    searchGames();
+
+    if (fullCheckbox.checked) {
+        games.forEach(game => {
+            if (game.freeSeats < 1) {
+                game.element.style.display = "none"
+            }
+        })
+    }
+
+    let match = 0;
+    games.forEach(game => {
+        if (game.element.style.display !== "none") {
+            match++;
+        }
+    })
+
+   if (match === 0) {
+        emptyResult.style.display = "";
+   }else{
+       emptyResult.style.display = "none";
+    }
 }
 
 let toggleAllSlots = document.getElementById("selectAllSlots")
@@ -166,3 +218,5 @@ toggleAllTags.querySelector('input').onchange = (e) => {
     }
     updateGamesList()
 }
+
+updateGamesList()
