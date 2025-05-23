@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block customcss %}
+    <link rel="stylesheet" href="/css/planning.css"/>
+{% endblock %}
+
 {% block javascripts %}
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
     <script>
@@ -58,39 +62,13 @@
         -->
     {% if planning %}
         <div id="calendar-holder"></div>
-
-        <!-- <div class="w-100">
-         <a href="/img/planning/planning_XX.webp">
-             <img alt="planning" src="/img/planning/planning_XX.webp" class="w-100"/>
-         </a>
-     </div>
-
-         <div>
-             <div class="row justify-content-center mb-3">
-                 <div class="col-lg d-flex justify-content-center">
-                     <a href="/img/planning/planning_ven.jpg">
-                         <img alt="vendredi" src="/img/planning/planning_ven.jpg" class="img-fluid"/>
-                     </a>
-                 </div>
-             </div>
-             <div class="row justify-content-center mb-3">
-                 <div class="col-lg d-flex justify-content-center">
-                     <a href="/img/planning/planning_sam.jpg">
-                         <img alt="samedi" src="/img/planning/planning_sam.jpg"class="img-fluid"/>
-                     </a>
-                 </div>
-             </div>
-             <div class="row justify-content-center">
-                 <div class="col-lg d-flex justify-content-center">
-                     <a href="/img/planning/planning_dim.jpg">
-                         <img alt="dimanche" src="/img/planning/planning_dim.jpg" class="img-fluid"/>
-                     </a>
-                 </div>
-             </div>
-         </div>
-     -->
     {% else %}
-        <p> Le planning n'est pas encore disponible. Revenez plus tard !</p>
+        <p id="message"> Le planning n'est pas encore disponible. Revenez plus tard !</p>
+    {% endif %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <form method="get" action="{{ path('app_event_index') }}">
+            <button class="btn">Gestion du planning</button>
+        </form>
     {% endif %}
 
 {% endblock %}
