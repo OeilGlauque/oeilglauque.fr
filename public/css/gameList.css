@@ -11,6 +11,10 @@ body{
 	margin-bottom: 1rem;
 }
 
+.no-games{
+	text-align: center;
+}
+
 .game-list-view{
 	margin-top: 2rem;
 }

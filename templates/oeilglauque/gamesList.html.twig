@@ -16,58 +16,58 @@
         <div class="alert alert-secondary">
             <a style="color: black; text-decoration: underline" href="{{ path('nouvellePartie') }}">Meujeuter une partie</a> est gratuit et vous permet de participer gratuitement à un autre jdr en tant que joueur !</p>
         </div>
-        <div class="alert alert-danger">
-            Si vous êtes inscrit sur le site, votre place est réservée à condition que vous soyez présent <strong>10 minutes</strong> avant le début de la partie et que vous achetiez un <strong>ticket Jeu de Rôle (2€) à l'accueil</strong>.
-        </div>
-        {% if hasRegistered %}
-            <b>Parties jouées cette année :</b><br />
-            <ul>
-            {% for g in userGames %}
-            <li><a href="{{ path('showGame', {'id': g.getId()}) }}">{{ g.getTitle }}</a> ({{ g.getGameSlot().getText() }})</li>
-            {% endfor %}
-            </ul>
-        {% endif %}
 
-        {% if isMJ %}
-            <b>Parties organisées par vous cette année :</b><br />
-            <ul>
-            {% for g in userProposedGames %}
-            <li><a href="{{ path('showGame', {'id': g.getId()}) }}">{{ g.getTitle() }}</a> ({{ g.getGameSlot().getText() }})</li>
-            {% endfor %}
-            </ul>
-        {% endif %}
-
-        <div class="game-list-view"> <!-- d-flex flex-sm-row flex-column -->
-            <div class="games-filters"> <!-- mt-10 me-sm-4 col-sm-2 -->
-                <b>Créneaux :</b><br />
-                <label class="btn" id="selectAllSlots"> <!--  my-3 d-flex justify-content-center align-items-center -->
-                    <span>Tout sélectionner</span>
-                    <input type="checkbox" hidden autocomplete="off" />
-                </label>
-                <div class="btn-filters"> <!-- slot-filters d-flex flex-wrap justify-content-between -->
-                    {% for g in gameSlots %}
-                        <label inactive="true" class="btn btn-filter btn-slot"> <!-- btn-slot mb-3 flex-grow-1 d-flex justify-content-between align-items-center -->
-                            <div></div>
-                            <span>{{ g.getText() }}</span>
-                            <input type="checkbox" data="{{ g.getId() }}" autocomplete="off" />
-                        </label>
-                    {% endfor %}
-                </div>
-                <b>Tags :</b><br />
-                <label class="btn" id="selectAllTags"> <!-- my-3 d-flex justify-content-center align-items-center onmouseup="selectAllTags(this)" -->
-                    <span>Tout sélectionner</span>
-                    <input type="checkbox" hidden autocomplete="off" />
-                </label>
-                <div class="btn-filters"> <!--d-flex flex-wrap justify-content-between -->
-                </div>
-                <div class="btn-options">
-                    <label class="btn btn-filter">
-                        <span>Masquer parties pleines</span>
-                        <input type="checkbox" id="full-checkbox" checked>
-                    </label>
-                </div>
-            </div>
             {% if hasGames %}
+                <div class="alert alert-danger">
+                    Si vous êtes inscrit sur le site, votre place est réservée à condition que vous soyez présent <strong>10 minutes</strong> avant le début de la partie et que vous achetiez un <strong>ticket Jeu de Rôle (2€) à l'accueil</strong>.
+                </div>
+
+                {% if hasRegistered %}
+                    <b>Parties jouées cette année :</b><br />
+                    <ul>
+                        {% for g in userGames %}
+                            <li><a href="{{ path('showGame', {'id': g.getId()}) }}">{{ g.getTitle }}</a> ({{ g.getGameSlot().getText() }})</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if isMJ %}
+                    <b>Parties organisées par vous cette année :</b><br />
+                    <ul>
+                        {% for g in userProposedGames %}
+                            <li><a href="{{ path('showGame', {'id': g.getId()}) }}">{{ g.getTitle() }}</a> ({{ g.getGameSlot().getText() }})</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <div class="game-list-view">
+                <div class="games-filters"> <!-- mt-10 me-sm-4 col-sm-2 -->
+                    <b>Créneaux :</b><br />
+                    <label class="btn" id="selectAllSlots"> <!--  my-3 d-flex justify-content-center align-items-center -->
+                        <span>Tout sélectionner</span>
+                        <input type="checkbox" hidden autocomplete="off" />
+                    </label>
+                    <div class="btn-filters"> <!-- slot-filters d-flex flex-wrap justify-content-between -->
+                        {% for g in gameSlots %}
+                            <label inactive="true" class="btn btn-filter btn-slot"> <!-- btn-slot mb-3 flex-grow-1 d-flex justify-content-between align-items-center -->
+                                <div></div>
+                                <span>{{ g.getText() }}</span>
+                                <input type="checkbox" data="{{ g.getId() }}" autocomplete="off" />
+                            </label>
+                        {% endfor %}
+                    </div>
+                    <b>Tags :</b><br />
+                    <label class="btn" id="selectAllTags"> <!-- my-3 d-flex justify-content-center align-items-center onmouseup="selectAllTags(this)" -->
+                        <span>Tout sélectionner</span>
+                        <input type="checkbox" hidden autocomplete="off" />
+                    </label>
+                    <div class="btn-filters"> <!--d-flex flex-wrap justify-content-between -->
+                    </div>
+                    <div class="btn-options">
+                        <label class="btn btn-filter">
+                            <span>Masquer parties pleines</span>
+                            <input type="checkbox" id="full-checkbox" checked>
+                        </label>
+                    </div>
+                </div>
                 <div class="games">
 
                     <input
@@ -87,10 +87,11 @@
                         <p id="empty-result">Aucun jdr correspond avec votre recherche...</p>
                     </div>
                 </div>
+                </div>
             {% else %}
-                <p>Il n'y a pas encore de partie cette année... Revenez bientôt !</p>
+                <p class="no-games">Il n'y a pas encore de partie cette année... Revenez bientôt !</p>
             {% endif %}
-        </div>
+
 {% endblock %}
 
 {% block scripts %}
