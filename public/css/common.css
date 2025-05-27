@@ -214,10 +214,12 @@ form .row {
 #username {
 	margin-left:auto;
 	margin-right:auto;
+    width: 80%;
 }
 #password {
 	margin-left:auto;
 	margin-right:auto;
+    width: 80%;
 }
 
 input {

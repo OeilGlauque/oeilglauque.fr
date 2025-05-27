@@ -34,7 +34,8 @@ class SecurityController extends FOGController
         $lastUsername = $authenticationUtils->getLastUsername();
         return $this->render('oeilglauque/login.html.twig', [
             'last_username' => $lastUsername,
-            'error'         => $error
+            'error'         => $error,
+            'newHeader' => true,
         ]);
     }
 
