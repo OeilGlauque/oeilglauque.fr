@@ -45,4 +45,8 @@
        </div>
    </div>
 
+    {% block scripts %}
+        <script src="{{ asset('js/scrolledHeader.js') }}"></script>
+        <script src='/js/filterGames.js'></script>
+    {% endblock %}
 {% endblock %}
