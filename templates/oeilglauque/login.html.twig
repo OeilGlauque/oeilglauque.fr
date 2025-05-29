@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block body %}
-
+    <h2 class="title">Bienvenue sur le site de l'oeil glauque</h2>
    <div class="login_container">
        <img src="img/index_XX.webp" alt="Le Festival de l'Oeil Glauque"/>
 
@@ -40,6 +40,7 @@
                    <button class="btn" type="submit">Connexion</button>
                </form>
                <a  href="/forgotpwd">Mot de passe oublié ?</a>
+               <p>Pas encore de compte ? <a href="{{ path('register') }}">S'inscrire</a></p>
            </div>
        </div>
    </div>

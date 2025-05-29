@@ -2,6 +2,7 @@ body{
   background-color: #FFF2DA;
 }
 
+
 .container{
   background-color: transparent;
   padding: 0 0.4rem 0 0.4rem;
@@ -9,6 +10,12 @@ body{
 
 img{
   max-width: 28%;
+}
+
+.title{
+  text-align: center;
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
 }
 
 .login_container{
@@ -28,7 +35,7 @@ img{
 }
 
 .pwd{
-  min-width: 30vw;
+  min-width: 35vw;
   background-color: #3D1A21;
   color: white;
   border-radius: 20px;
@@ -54,12 +61,29 @@ img{
 }
 
 .pwd button{
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.pwd p{
+  color: white;
 }
 
 .pwd a{
+  font-family: 'Andada', sans-serif;
   color: white;
+}
+
+.pwd input{
+  background-color: white;
+  outline: none;
+  border: 2px solid white;
+  margin: 0.5rem;
+  padding: 0.3rem;
+}
+
+.pwd input:focus{
+  border: 2px solid black;
 }
 
 @media (max-width: 768px) {
@@ -81,9 +105,5 @@ img{
 @media screen and (max-width: 1000px) {
   .pwd{
     width: 97%;
-  }
-
-  h2{
-    font-size: 1rem;
   }
 }
