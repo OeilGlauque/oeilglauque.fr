@@ -34,9 +34,8 @@ class Edition
     private Collection $itemShopType;
 
     #[ORM\Column(type: "string", length: 255)]
-    #[Assert\Length(min: 1, max: 255)]
-    #[Assert\NotBlank()]
-    private $dates;
+    #[Assert\Length(min: 0, max: 255)]
+    private $dates = '';
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank()]

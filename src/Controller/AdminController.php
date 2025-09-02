@@ -76,6 +76,7 @@ class AdminController extends FOGController {
         if($request->query->get('start') != "" && $request->query->get('end') != "") {
             $editionval->setStart(\DateTime::createFromFormat('Y-m-d', $request->query->get('start')));
             $editionval->setEnd(\DateTime::createFromFormat('Y-m-d', $request->query->get('end')));
+            $editionval->setAnnee($editionval->getStart()->format('Y'));
             $editionval->setHomeText($request->query->get('homeText'));
             $doctrine->flush();
             $this->addFlash('success', "L'édition " . $editionval->getAnnee() . " a bien été mise à jour.");
