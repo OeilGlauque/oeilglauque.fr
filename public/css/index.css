@@ -218,17 +218,6 @@ article{
     }
 }
 
-.scroll-animation {
-    opacity: 0;
-    transform: translateY(50px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.scroll-animation.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
 /* Media queries */
 @media (max-width: 1300px) {
     .title #home_img{

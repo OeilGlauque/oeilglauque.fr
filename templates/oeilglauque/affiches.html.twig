@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block customcss %}
+	<link rel="stylesheet" href="/css/affiches.css"/>
+{% endblock %}
+
+{% block mainPage %}
+	<section class="landing_page"></section>
+{% endblock %}
+
+{% block body %}
+
+	<div class="poster-header">
+		<h1 class="titre small">
+			Affiches
+		</h1>
+
+		<p>A l'instar des plus grandes associations de ce pays, le FOG possède une équipe grapgique hors du commun qui
+		au fil des années a conconctée les plus belles affiches jamais crées. Sur cette page, elles y sont humblement
+		exposées</p>
+	</div>
+
+	<section class="afficheWrapper">
+		<article class="scroll-animation">
+			<a href="img/affiche_XX.webp"><img  loading="lazy" alt="Affiche FOG" src="img/affiche_XX.webp"></a>
+			<p>Michel, Xavier, ...</p>
+		</article>
+		<article class="scroll-animation">
+			<a href="img/affiche_XX.webp"><img  loading="lazy" alt="Affiche FOG" src="img/affiche_XX.webp"></a>
+			<p>Michel, Xavier, ...</p>
+		</article>
+		<article class="scroll-animation">
+			<a href="img/affiche_XX.webp"><img  loading="lazy" alt="Affiche FOG" src="img/affiche_XX.webp"></a>
+			<p>Michel, Xavier, ...</p>
+		</article>
+		<article class="scroll-animation">
+			<a href="img/affiche_XX.webp"><img  loading="lazy" alt="Affiche FOG" src="img/affiche_XX.webp"></a>
+			<p>Michel, Xavier, ...</p>
+		</article>
+		<article class="scroll-animation">
+			<a href="img/affiche_XX.webp"><img  loading="lazy" alt="Affiche FOG" src="img/affiche_XX.webp"></a>
+			<p>Michel, Xavier, ...</p>
+		</article>
+		<article class="scroll-animation">
+			<a href="img/affiche_XX.webp"><img  loading="lazy" alt="Affiche FOG" src="img/affiche_XX.webp"></a>
+			<p>Michel, Xavier, ...</p>
+		</article>
+		<article class="scroll-animation">
+			<a href="img/affiche_XX.webp"><img  loading="lazy" alt="Affiche FOG" src="img/affiche_XX.webp"></a>
+			<p>Michel, Xavier, ...</p>
+		</article>
+		<article class="scroll-animation">
+			<a href="img/affiche_XX.webp"><img  loading="lazy" alt="Affiche FOG" src="img/affiche_XX.webp"></a>
+			<p>Michel, Xavier, ...</p>
+		</article>
+		<article class="scroll-animation">
+			<a href="img/affiche_XX.webp"><img  loading="lazy" alt="Affiche FOG" src="img/affiche_XX.webp"></a>
+			<p>Michel, Xavier, ...</p>
+		</article>
+		<article class="scroll-animation">
+			<a href="img/affiche_XX.webp"><img  loading="lazy" alt="Affiche FOG" src="img/affiche_XX.webp"></a>
+			<p>Michel, Xavier, ...</p>
+		</article>
+	</section>
+	<script src="{{ asset('js/scrolledHeader.js') }}"></script>
+	<script src="{{ asset('js/revealOnScroll.js') }}"></script>
+
+{% endblock %}

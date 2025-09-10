@@ -49,4 +49,11 @@ class StaticPagesController extends FOGController {
     {
         return $this->render('oeilglauque/menu.html.twig');
     }
+
+    #[Route("/affiches", name: "affiches", methods: ['GET'])]
+    public function affiches() : Response{
+        return $this->render('oeilglauque/affiches.html.twig', [
+            'newHeader' => true
+        ]);
+    }
 }
