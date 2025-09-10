@@ -1,7 +1,7 @@
 #particles-js{
     position: absolute;
     width: 100%;
-    height: 87vh;
+    height: 94vh;
     background-image: url("");
     background-repeat: no-repeat;
     background-size: cover;
@@ -71,7 +71,7 @@ article{
 .landing_page{
     background-image: url(/img/indexBg.webp);
     background-size: cover;
-    height: 87vh;
+    height: 94vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -98,42 +98,31 @@ article{
 }
 
 .lead {
-    background-color: #3D1A21;
-    padding: 1.5em;
     font-family: 'Andada', sans-serif;
     border-radius: 20px;
-    box-shadow: 4px 4px 0 black;
-    color: white;
-    text-align: center;
-    margin: 0.5em 5% 3em 5%;
+    text-align: start;
+    width: 50vw;
 }
 
-.lead strong {
-    color: #FFF2DA;
+#main-article{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 0 1em 0 1em;
+    gap: 2em;
+}
+
+#main-article img{
+    width: 25vw;
+    min-width: 220px;
 }
 
 .lead a{
     font-style: italic;
-    color: white;
     text-decoration: underline;
     transition: 0.2s zoom ease-in;
-}
-
-.lead a:hover{
-    color: #f5dcc0;
-}
-
-/* affiches */
-.afficheWrapper{
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-    margin: auto;
-}
-
-.afficheWrapper img {
-    width: 68vw;
-    margin-top: 1em;
 }
 
 /** Video **/
@@ -275,6 +264,11 @@ article{
 @media (max-width: 480px){
     .title #home_img{
         width: 60%;
+    }
+
+    .lead{
+        width: 100%;
+        text-align: center;
     }
 }
 
