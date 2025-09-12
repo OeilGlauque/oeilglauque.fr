@@ -19,11 +19,11 @@ body{
 }
 
 .poster-header p{
-    background-color: #3D1A21;
-    color: #fff7f3;
+    background-color: #c1c38e;
+    color: white;
     padding: 1em 1.4em 1em 1.4em;
     border-radius: 20px;
-    box-shadow: 4px 4px 0 #000000;
+    box-shadow: 4px 4px 0 #8b8c68;
 }
 
 .afficheWrapper{
@@ -42,8 +42,15 @@ body{
     transition: 0.2s ease-in-out transform;
 }
 
+.afficheWrapper article h3{
+    margin: 0.3em 0 0 0;
+    font-family: Andada sans-serif;
+    font-size: 1.3em;
+}
+
 .afficheWrapper article p{
-    margin-top: 10px;
+    text-align: start;
+    font-size: 0.8em;
 }
 
 .afficheWrapper article img:hover{
