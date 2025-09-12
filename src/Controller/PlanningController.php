@@ -2,18 +2,20 @@
 
 namespace App\Controller;
 
-use App\Repository\EventRepository;
+use App\Entity\Edition;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PlanningController extends FOGController
 {
     #[Route("/planning", name: "planning", methods: ['GET'])]
-    public function planning(EventRepository $eventRepository) : Response
+    public function planning(EntityManagerInterface $doctrine) : Response
     {
-        if ($this->FogParams->getCurrentEdition()->getId() != null) {
+        $editionId = $this->FogParams->getCurrentEdition()->getId();
+        if ($editionId != null) {
             return $this->render('oeilglauque/planning.html.twig', [
-                'events' => $eventRepository->findByEdition($this->FogParams->getCurrentEdition()->getId()),
+                'events' => $doctrine->getRepository(Edition::class)->find($editionId)->getEvents(),
                 'edition' => $this->FogParams->getCurrentEdition()
             ]);
         }

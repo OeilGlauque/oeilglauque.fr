@@ -26,13 +26,8 @@ class Event
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $color = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $edition = null;
-
-    function __construct(int $edition)
-    {
-        $this->edition = $edition;
-    }
+    #[ORM\ManyToOne(inversedBy: 'events')]
+    private ?Edition $edition = null;
 
     public function getId(): ?int
     {
@@ -87,12 +82,12 @@ class Event
         return $this;
     }
 
-    public function getEdition(): ?int
+    public function getEdition(): ?Edition
     {
         return $this->edition;
     }
 
-    public function setEdition(?int $edition): static
+    public function setEdition(?Edition $edition): static
     {
         $this->edition = $edition;
 

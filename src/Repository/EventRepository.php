@@ -31,13 +31,4 @@ class EventRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-        public function findByEdition(int $edition)
-        {
-            return $this->createQueryBuilder('e')
-                ->andWhere('e.edition = :edition')
-                ->setParameter('edition', $edition)
-                ->getQuery()
-                ->getResult();
-
-        }
 }

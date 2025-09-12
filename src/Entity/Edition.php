@@ -47,11 +47,18 @@ class Edition
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $end = null;
 
+    /**
+     * @var Collection<int, Event>
+     */
+    #[ORM\OneToMany(mappedBy: 'edition', targetEntity: Event::class)]
+    private Collection $events;
+
     public function __construct()
     {
         $this->gameSlots = new ArrayCollection();
         $this->items = new ArrayCollection();
         $this->itemShopType = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     public function getId(): int
@@ -164,4 +171,34 @@ class Edition
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    /*public function addEvent(Event $event): static
+    {
+        if (!$this->events->contains($event)) {
+            $this->events->add($event);
+            $event->setEdition($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): static
+    {
+        if ($this->events->removeElement($event)) {
+            // set the owning side to null (unless already changed)
+            if ($event->getEdition() === $this) {
+                $event->setEdition(null);
+            }
+        }
+
+        return $this;
+    }*/
 }

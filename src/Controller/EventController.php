@@ -41,7 +41,8 @@ final class EventController extends FOGController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         if($this->FogParams->getCurrentEdition()->getId() != null){
-            $event = new Event($this->FogParams->getCurrentEdition()->getId());
+            $event = new Event();
+            $event->setEdition($this->FogParams->getCurrentEdition());
             $form = $this->createForm(EventType::class, $event);
             $form->handleRequest($request);
 
