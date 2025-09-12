@@ -10,12 +10,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class PlanningController extends FOGController
 {
     #[Route("/planning", name: "planning", methods: ['GET'])]
-    public function planning(EntityManagerInterface $doctrine) : Response
+    public function planning() : Response
     {
-        $editionId = $this->FogParams->getCurrentEdition()->getId();
-        if ($editionId != null) {
+        $edition = $this->FogParams->getCurrentEdition();
+        if ($edition->getId() != null) {
             return $this->render('oeilglauque/planning.html.twig', [
-                'events' => $doctrine->getRepository(Edition::class)->find($editionId)->getEvents(),
+                'events' => $edition->getEvents(),
                 'edition' => $this->FogParams->getCurrentEdition()
             ]);
         }
