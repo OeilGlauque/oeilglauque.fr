@@ -1,13 +1,4 @@
 /* Client reservation */
-
-.landing_page{
-	background-image: url(/img/indexBg.webp);
-	background-size: cover;
-	height: 17vh;
-	background-position: bottom;
-	background-repeat: no-repeat;
-}
-
 body{
 	background-color: #FFF2DA;
 }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Game;
 use App\Entity\GameSlot;
@@ -102,9 +103,10 @@ class GameController extends FOGController {
             return $this->redirectToRoute('listeParties');
         }
 
-        return $this->renderForm('oeilglauque/newGame.html.twig', [
+        return $this->render('oeilglauque/newGame.html.twig', [
             'form' => $form, 
-            'edit' => false
+            'edit' => false,
+            'newHeader' => true
         ]);
     }
 
@@ -146,12 +148,14 @@ class GameController extends FOGController {
             }
     
             return $this->render('oeilglauque/gamesList.html.twig', [
-                'games' => $games,
                 'gameSlots' => $gameSlots,
                 'userGames' => $userGames, 
                 'hasRegistered' => count($userGames) > 0, 
                 'userProposedGames' => $userProposedGames, 
-                'isMJ' => count($userProposedGames) > 0, 
+                'isMJ' => count($userProposedGames) > 0,
+                'hasGames' => count($games) > 0,
+                'games' => $games,
+                'newHeader' => true
             ]);
         }
         $this->addFlash('danger', "Il n'y a pas d'édition du FOG prévu pour le moment.");
@@ -173,7 +177,7 @@ class GameController extends FOGController {
             return $this->redirectToRoute('showGame', ["id" => $id]);
         }
 
-        $form = $this->createForm(GameEditType::class, $game, ['slots' => $this->FogParams->getCurrentEdition()->getGameSlots(), 'seats' => $game->getBookedSeats()]);
+        $form = $this->createForm(GameEditType::class, $game, ['slots' => $this->FogParams->getCurrentEdition()->getGameSlots(), 'seats' => $game->getBookedSeats(), 'tags' => $game->getTagsList()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -229,9 +233,10 @@ class GameController extends FOGController {
             return $this->redirectToRoute('showGame', ["id" => $id]);
         }
 
-        return $this->renderForm('oeilglauque/newGame.html.twig', [
+        return $this->render('oeilglauque/newGame.html.twig', [
             'form' => $form, 
-            'edit' => true
+            'edit' => true,
+            'newHeader' => true
         ]);
     }
 
@@ -252,7 +257,8 @@ class GameController extends FOGController {
 
             return $this->render('oeilglauque/showGame.html.twig', [
                 'game' => $game, 
-                'registered' => $game->getPlayers()->contains($this->getUser()), 
+                'registered' => $game->getPlayers()->contains($this->getUser()),
+                'newHeader' => true
             ]);
         }else{
             throw $this->createNotFoundException('Impossible de trouver la partie demandée. ');
@@ -312,7 +318,7 @@ class GameController extends FOGController {
 
 
     #[Route("/partie/unregister/{id}", name: "unregisterGame")]
-    public function unregisterGame(Game $game, EntityManagerInterface $manager) {
+    public function unregisterGame(Game $game, EntityManagerInterface $manager, FOGGmail $mailer) {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         if($game) {
@@ -320,6 +326,17 @@ class GameController extends FOGController {
             $game->removePlayer($user); // Handles 'contains' verification
             $manager->flush();
             $this->addFlash('info', "Vous avez bien été désinscrit de la partie ".$game->getTitle());
+
+            /* Mail for the MJ */
+            $mailer->sendTemplatedEmail(
+                new Address($game->getAuthor()->getEmail(), $game->getAuthor()->getPseudo()),
+                'Désinscription d\'un participant à votre JDR',
+                'oeilglauque/emails/game/gamePlayerCancel.html.twig',
+                ['player' => $user, 'game' => $game],
+                [],
+                []
+            );
+
             return $this->redirectToRoute('showGame', ["id" => $game->getId()]);
         }else{
             throw $this->createNotFoundException('Impossible de trouver la partie demandée. ');

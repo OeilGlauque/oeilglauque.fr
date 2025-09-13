@@ -22,7 +22,12 @@ class GameType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, ['label' => 'Titre'])
-            ->add('description', TextareaType::class, ['label' => 'Description'])
+            ->add('description', TextareaType::class, [
+                'label' => 'Description (max 1 000 caractères)',
+                'attr' => [
+                    'maxlength' => 1000,
+                ]
+            ])
             ->add('gameSlot', EntityType::class, [
                 'class' => GameSlot::class, 
                 'choice_label' => 'text', 
@@ -31,32 +36,37 @@ class GameType extends AbstractType
                 'required' => true,
             ])
             ->add('seats', IntegerType::class, ['label' => 'Places disponibles', 'invalid_message' => "Veuillez entrer un nombre"])
-            //->add('tags', TextType::class, ['label' => 'Tags', 'required' => false])
             ->add('tags', ChoiceType::class, [
+                'label' => 'Tags',
+                'autocomplete' => true,
                 'choices' => [
-                    'cyberpunk' => 'cyberpunk',
-                    'débutants' => 'débutants',
-                    'enfants' => 'enfants',
-                    'enquête' => 'enquête',
-                    'escape game' => 'escape game',
-                    'exploration' => 'exploration',
+                    'Cyberpunk' => 'cyberpunk',
+                    'Débutants' => 'débutants',
+                    'Enfants' => 'enfants',
+                    'Enquête' => 'enquête',
+                    'Escape game' => 'escape game',
+                    'Exploration' => 'exploration',
                     'Historique' => 'Historique',
-                    'humour' => 'humour',
-                    'horreur' => 'horreur',
-                    'magie' => 'magie',
-                    'manga' => 'manga',
-                    'médiéval' => 'médiéval',
-                    'murder' => 'murder',
-                    'post-apocalyptique' => 'post-apocalyptique',
+                    'Humour' => 'humour',
+                    'Horreur' => 'horreur',
+                    'Magie' => 'magie',
+                    'Manga' => 'manga',
+                    'Médiéval' => 'médiéval',
+                    'Murder' => 'murder',
+                    'Post-apocalyptique' => 'post-apocalyptique',
                     'SF' => 'SF',
-                    'sombre' => 'sombre',
-                    'surnaturel' => 'surnaturel',
-                    'voyage' => 'voyage'
+                    'Sombre' => 'sombre',
+                    'Surnaturel' => 'surnaturel',
+                    'Voyage' => 'voyage'
                 ],
                 'required' => false,
                 'multiple' => true,
-                'attr' => ['style' => 'height: 200px']
+                'expanded' => false,
+                'attr' => ['style' => 'height: 200px', 'class' => 'tom-select', 'placeholder' => 'Choisissez des tags...'],
             ])
+            ->add('tw', TextType::class, ['label' => 'Trigger Warning (Avertissements)', 'required' => false, 'attr' => array(
+                'placeholder' => 'Gore, déconseillé aux enfants, suicide, ...'
+            )])
             ->add('forceOnlineSeats', CheckboxType::class, ['label' => 'Permettre de réserver toutes les places en ligne (déconseillé). Par défaut, la moitié des places sont réservable en ligne et l\'autre moitié réservable sur place.', 'required' => false])
             ->add('img', FileType::class, [
                 'label' => "Image (optionel)",
