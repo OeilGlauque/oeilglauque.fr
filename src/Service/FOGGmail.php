@@ -21,7 +21,7 @@ class FOGGmail
     private Environment $twig;
     private bool $dev_env = false;
 
-    public function __construct(EntityManagerInterface $manager, /*Client $client,*/ string $address_mail, string $address_name, Environment $twig, string $dev_env, MailerInterface $dev_mailer)
+    public function __construct(EntityManagerInterface $manager, Client $client, string $address_mail, string $address_name, Environment $twig, string $dev_env, MailerInterface $dev_mailer)
     {
         $this->twig = $twig;
         $this->mailFOG = new Address($address_mail, $address_name);
