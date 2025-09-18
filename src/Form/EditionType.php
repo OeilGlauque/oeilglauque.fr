@@ -16,48 +16,29 @@ class EditionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('annee', ChoiceType::class, [
+            /*->add('annee', ChoiceType::class, [
                 'label' => 'Année :',
                 'choices' => range((int)date("Y"),(int)date("Y")+5),
                 'choice_label' => function ($choice, $key, $value) {
                     return $value;
-                }/*
-                'label_attr' => [
-                    'class' => 'col-md-4'
-                ],
-                'row_attr' => [
-                    'class' => 'd-flex justify-content-center col-md-8'
-                ]*/
+                }
+            ])*/
+            ->add('start', null, [
+                'label' => 'Début',
+                'widget' => 'single_text',
+            ])
+            ->add('end', null, [
+                'label' => 'Fin',
+                'widget' => 'single_text',
             ])
             ->add('type', TextType::class, [
-                'label' => 'Type d\'évènement :',/*
-                'label_attr' => [
-                    'class' => 'col-md-4'
-                ],
-                'row_attr' => [
-                    'class' => 'd-flex justify-content-center col-md-8'
-                ]*/
-            ])
-            ->add('dates', TextType::class, [
-                'label' => 'Dates :',/*
-                'label_attr' => [
-                    'class' => 'col-md-4'
-                ],
-                'row_attr' => [
-                    'class' => 'd-flex justify-content-center col-md-8'
-                ]*/
+                'label' => 'Type d\'évènement :',
             ])
             ->add('homeText', TextareaType::class, [
                 'label' => 'Text d\'accueil :',
                 'attr' => [
                     'rows' => 10
-                ],/*
-                'label_attr' => [
-                    'class' => 'col-md-4'
                 ],
-                'row_attr' => [
-                    'class' => 'd-flex justify-content-center col-md-8'
-                ]*/
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Valider',

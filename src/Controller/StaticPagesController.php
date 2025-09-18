@@ -19,12 +19,6 @@ class StaticPagesController extends FOGController {
         return $this->render('oeilglauque/infosClub.html.twig');
     }
 
-    #[Route("/planning", name: "planning", methods: ['GET'])]
-    public function planning() : Response
-    {
-        return $this->render('oeilglauque/planning.html.twig');
-    }
-
     #[Route("/contact", name: "contact", methods: ['GET'])]
     public function contact() : Response
     {
