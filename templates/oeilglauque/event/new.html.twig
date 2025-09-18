@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Event{% endblock %}
+
+{% block body %}
+    <h1>Nouvel event</h1>
+
+    {{ include('oeilglauque/event/_form.html.twig') }}
+
+    <a href="{{ path('app_event_index') }}">Retour à la liste</a>
+{% endblock %}

@@ -1,0 +1,12 @@
+#message{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 2rem;
+    height: 40vh;
+}
+
+form button{
+    margin-top: 2rem;
+}

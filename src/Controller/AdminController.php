@@ -73,11 +73,15 @@ class AdminController extends FOGController {
                 'Aucune édition n\'a pour id '.$edition
             );
         }
-        if($request->query->get('dates') != "") {
-            $editionval->setDates($request->query->get('dates'));
+        if($request->query->get('start') != "" && $request->query->get('end') != "") {
+            $editionval->setStart(\DateTime::createFromFormat('Y-m-d', $request->query->get('start')));
+            $editionval->setEnd(\DateTime::createFromFormat('Y-m-d', $request->query->get('end')));
+            $editionval->setAnnee($editionval->getStart()->format('Y'));
             $editionval->setHomeText($request->query->get('homeText'));
             $doctrine->flush();
             $this->addFlash('success', "L'édition " . $editionval->getAnnee() . " a bien été mise à jour.");
+        }else{
+            $this->addFlash('danger', "Veuillez remplir toutes les dates");
         }
         return $this->redirectToRoute('admin_editions');
     }
@@ -210,6 +214,7 @@ class AdminController extends FOGController {
 
         if ($form->isSubmitted() && $form->isValid())
         {
+            $edition->setAnnee($edition->getStart()->format('Y'));
             if ($editionRepository->findOneBy(['annee' => $edition->getAnnee(), 'type' => $edition->getType()]) != null)
             {
                 $this->addFlash('danger', 'Une édition du même type existe déjà pour cette année.');

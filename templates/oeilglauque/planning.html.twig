@@ -1,5 +1,59 @@
 {% extends 'base.html.twig' %}
 
+{% block customcss %}
+    <link rel="stylesheet" href="/css/planning.css"/>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const calendarEl = document.getElementById('calendar-holder');
+
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridTwoDays',
+                locale: 'fr',
+                 minTime: '10:00:00',
+                maxTime: '21:00:00',
+                height: 900,
+                views: {
+                    dayGridTwoDays:{
+                        type: 'timeGridDay',
+                        duration: { days: 3},
+                        slotMinTime: "08:00:00",
+                        slotMaxTime: "23:00:00"
+                    }
+                },
+                headerToolbar: {
+                    start: '',
+                    center: 'title',
+                    end: ''
+                },
+                titleFormat: {
+                    month: 'long',
+                    year: 'numeric',
+                    weekday: 'short'
+                },
+                events: [
+                    {% for event in events %}
+                        {
+                            title: '{{ event.title }}',
+                            start: '{{ event.beginAt|date('Y-m-d H:i:s') }}',
+                            end: '{{ event.endAt|date('Y-m-d H:i:s') }}',
+                            backgroundColor: '{{ event.color }}',
+                            borderColor: '{{ event.color }}'
+                        },
+                    {% endfor %}
+                ],
+                timeZone: 'local',
+            });
+
+            calendar.gotoDate('{{ edition.start|date('Y-m-d') }}')
+            calendar.render();
+        });
+    </script>
+{% endblock %}
+
 {% block body %}
      <!--
         <p>
@@ -7,38 +61,14 @@
         </p>
         -->
     {% if planning %}
-    <div class="w-100">
-        <a href="/img/planning/planning_XX.webp">
-            <img alt="planning" src="/img/planning/planning_XX.webp" class="w-100"/>
-        </a>
-    </div>
-    <!--
-        <div>
-            <div class="row justify-content-center mb-3">
-                <div class="col-lg d-flex justify-content-center">
-                    <a href="/img/planning/planning_ven.jpg">
-                        <img alt="vendredi" src="/img/planning/planning_ven.jpg" class="img-fluid"/>
-                    </a>
-                </div>
-            </div>
-            <div class="row justify-content-center mb-3">
-                <div class="col-lg d-flex justify-content-center">
-                    <a href="/img/planning/planning_sam.jpg">
-                        <img alt="samedi" src="/img/planning/planning_sam.jpg"class="img-fluid"/>
-                    </a>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg d-flex justify-content-center">
-                    <a href="/img/planning/planning_dim.jpg">
-                        <img alt="dimanche" src="/img/planning/planning_dim.jpg" class="img-fluid"/>
-                    </a>
-                </div>
-            </div>
-        </div>
-    -->
+        <div id="calendar-holder"></div>
     {% else %}
-        <p> Le planning n'est pas encore disponible. Revenez plus tard !</p>
+        <p id="message"> Le planning n'est pas encore disponible. Revenez plus tard !</p>
+    {% endif %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <form method="get" action="{{ path('app_event_index') }}">
+            <button class="btn">Gestion du planning</button>
+        </form>
     {% endif %}
 
 {% endblock %}
