@@ -1,5 +1,9 @@
-body {
-	/*background-color: #a1694d;*/
+body{
+    background-color: #FFF2DA;
+}
+
+.container{
+    background-color: transparent;
 }
 
 img {

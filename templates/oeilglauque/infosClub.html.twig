@@ -1,5 +1,17 @@
 {% extends 'base.html.twig' %}
 
+{% block customcss %}
+        <link rel="stylesheet" href="/css/basicpage.css"/>
+{% endblock %}
+
+{% block scripts %}
+        <script src="{{ asset('js/scrolledHeader.js') }}"></script>
+{% endblock %}
+
+{% block mainPage %}
+        <section class="landing_page"></section>
+{% endblock %}
+
 {% block body %}
 
         <h1 class="titre">
