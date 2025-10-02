@@ -1,5 +1,13 @@
 /* Validation Reservation*/
 
+body{
+    background-color: #FFF2DA;
+}
+
+.container{
+    background-color: transparent;
+}
+
 .well{
     background-color: #3D1A21;
     border-radius: 15px;

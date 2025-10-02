@@ -4,9 +4,17 @@
     <link rel="stylesheet" href="/css/admin.css"/>
 {% endblock %}
 
+{% block scripts %}
+    <script src="{{ asset('js/scrolledHeader.js') }}"></script>
+{% endblock %}
+
+{% block mainPage %}
+    <section class="landing_page"></section>
+{% endblock %}
+
 {% block body %}
 
-    <h1>Activer ou désactiver une fonctionnalité</h1>
+    <h1>Fonctionnalitées</h1>
 
     <div class="alert alert-warning" role="alert">
         Attention, désactiver certaines fonctionnalités empêche l'accès à certaines pages du site !

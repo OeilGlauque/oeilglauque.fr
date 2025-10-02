@@ -29,7 +29,8 @@ final class EventController extends FOGController
         if ($this->FogParams->getCurrentEdition()->getId() != null) {
             return $this->render('oeilglauque/event/index.html.twig', [
                 'events' => $eventRepository->findByEdition($this->FogParams->getCurrentEdition()->getId()),
-                'edition' => $this->FogParams->getCurrentEdition()
+                'edition' => $this->FogParams->getCurrentEdition(),
+                'newHeader' => true
             ]);
         }
 
@@ -56,6 +57,7 @@ final class EventController extends FOGController
             return $this->render('oeilglauque/event/new.html.twig', [
                 'event' => $event,
                 'form' => $form,
+                'newHeader' => true
             ]);
         }
         $this->addFlash('danger', "Il n'y a pas d'édition du FOG prévu pour le moment.");
@@ -68,6 +70,7 @@ final class EventController extends FOGController
     {
         return $this->render('oeilglauque/event/show.html.twig', [
             'event' => $event,
+            'newHeader' => true
         ]);
     }
 
@@ -86,6 +89,7 @@ final class EventController extends FOGController
         return $this->render('oeilglauque/event/edit.html.twig', [
             'event' => $event,
             'form' => $form,
+            'newHeader' => true
         ]);
     }
 

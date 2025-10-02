@@ -16,7 +16,8 @@ class PlanningController extends FOGController
         if ($edition->getId() != null) {
             return $this->render('oeilglauque/planning.html.twig', [
                 'events' => $edition->getEvents(),
-                'edition' => $this->FogParams->getCurrentEdition()
+                'edition' => $this->FogParams->getCurrentEdition(),
+                'newHeader' => true
             ]);
         }
 
