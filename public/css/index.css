@@ -104,6 +104,10 @@ article{
     width: 50vw;
 }
 
+.lead span{
+    font-size: 1.26em;
+}
+
 #main-article{
     display: flex;
     flex-direction: row;
