@@ -2,6 +2,9 @@
 
 {% block customcss %}
         <link rel="stylesheet" href="css/index.css"/>
+		{% if artistes %}
+			<link rel="stylesheet" href="css/artistes.css">
+		{% endif %}
 {% endblock %}
 
 {% block customGraph %}
@@ -88,6 +91,101 @@
 				<img loading="lazy" alt="Affiche concert FOG" src="img/concert_XX.webp">
 			</div>
 		</article>
+
+		{% if artistes %}
+			<article class="artistes-article scroll-animation">
+				<h2 class="home-title">Artistes</h2>
+				<div class="title-img"><img loading="lazy" src="{{ asset('img/deco_bas.webp') }}"></div>
+				<p>Retrouvez les stands et créations originales d'une quinzaine d'artistes pendant toute la durée du FOG !</p>
+				<div class="artistes-container">
+					<div class="artistes-item">
+						<a href="https://www.instagram.com/mandrake_alter/"><img loading="lazy" src="img/artistes/mandrake.webp" alt="logo"></a>
+						<h3>Mandrake Alters</h3>
+						<p>Illustrations - Alteriste</p>
+					</div>
+					<div class="artistes-item">
+						<a href="https://www.instagram.com/sharp_chivers/"><img loading="lazy" src="img/artistes/sharp_chivers.webp" alt="logo"></a>
+						<h3>Sharp Chivers</h3>
+						<p>Illustrations - Alteriste</p>
+					</div>
+					<div class="artistes-item">
+						<a href="https://www.instagram.com/bubblebee._.art/"><img loading="lazy" src="img/artistes/bubblebee.webp" alt="logo"></a>
+						<h3>Bubblebee</h3>
+						<p>Artiste - auteur</p>
+					</div>
+					<div class="artistes-item">
+						<a href="https://www.instagram.com/kerunn_art/"><img loading="lazy" src="img/artistes/kerunn_art.webp" alt="logo"></a>
+						<h3>Kerunn</h3>
+						<p>Illustrations - graphiste</p>
+					</div>
+					<div class="artistes-item">
+						<a href="https://www.instagram.com/_lyseo_/"><img loading="lazy" src="img/artistes/lyseo.webp" alt="logo"></a>
+						<h3>Lyseo</h3>
+						<p>Illustrations</p>
+					</div>
+					<div class="artistes-item">
+						<a href="https://www.instagram.com/foudubassan/"><img loading="lazy" src="img/artistes/foudubassan.webp" alt="logo"></a>
+						<h3>Fondubassan</h3>
+						<p>Illustrations</p>
+					</div>
+					<div class="artistes-item">
+						<a href="https://www.instagram.com/4rtifour/"><img loading="lazy" src="img/artistes/4rtifour.webp" alt="logo"></a>
+						<h3>4rtifour</h3>
+						<p>Illustrations</p>
+					</div>
+					<div class="artistes-item">
+						<a href="https://www.instagram.com/alca_artiste/"><img loading="lazy" src="img/artistes/alca.webp" alt="logo"></a>
+						<h3>Alca</h3>
+						<p>Roliste et artiste - auteure</p>
+					</div>
+					<div class="artistes-item">
+						<a href="https://www.instagram.com/keyashiro/"><img loading="lazy" src="img/artistes/keyashiro.webp" alt="logo"></a>
+						<h3>Keysahiro</h3>
+						<p>Illustrations - Peinture</p>
+					</div>
+					<div class="artistes-item">
+						<a href="https://www.instagram.com/panthygone/"><img loading="lazy" src="img/artistes/panthygone.webp" alt="logo"></a>
+						<h3>Panthygone</h3>
+						<p>Illustrations - Créations</p>
+					</div>
+					<div class="artistes-item">
+						<a href="https://www.instagram.com/feminin_profane/"><img loading="lazy" src="img/artistes/feminin_profane.webp" alt="logo"></a>
+						<h3>Feminin profane</h3>
+						<p>Illustrations - édition</p>
+					</div>
+					<div class="artistes-item">
+						<a href="https://www.instagram.com/clem_dreaw/"><img loading="lazy" src="img/artistes/clem_dreaw.webp" alt="logo"></a>
+						<h3>Clem Dreaw</h3>
+						<p>Illustrations - Figurines</p>
+					</div>
+					<div class="artistes-item">
+						<a href="https://www.instagram.com/delilah.tralala/"><img loading="lazy" src="img/artistes/delilah_tralala.webp" alt="logo"></a>
+						<h3>Delilah tralala</h3>
+						<p>Bijoux - Figurines</p>
+					</div>
+					<div class="artistes-item">
+						<a href="https://www.instagram.com/ourse.rouge/"><img loading="lazy" src="img/artistes/ourse_rouge.webp" alt="logo"></a>
+						<h3>Ourse rouge</h3>
+						<p>Peluches</p>
+					</div>
+					<div class="artistes-item">
+						<a href="https://www.instagram.com/badmailbox/"><img loading="lazy" src="img/artistes/bad_mailbox.webp" alt="logo"></a>
+						<h3>Badmailbox</h3>
+						<p>Illustrations</p>
+					</div>
+					<div class="artistes-item">
+						<a href="https://www.instagram.com/lenxelle/"><img loading="lazy" src="img/artistes/lenxelle.webp" alt="logo"></a>
+						<h3>lenxelle</h3>
+						<p>Créations</p>
+					</div>
+					<div class="artistes-item">
+						<a href="https://www.instagram.com/_epizeuxe_/"><img loading="lazy" src="img/artistes/epizeuxe.webp" alt="logo"></a>
+						<h3>Epizeuxe</h3>
+						<p>Créations</p>
+					</div>
+				</div>
+			</article>
+		{% endif %}
 
 		<article class="article-reversed scroll-animation">
 			<h2 class="home-title home-title-reversed">AFTER MOVIE FOG XVI</h2>
