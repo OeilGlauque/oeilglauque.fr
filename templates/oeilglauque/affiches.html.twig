@@ -22,10 +22,12 @@
 
 	<section class="afficheWrapper">
 		{% for poster in posters %}
-			<article class="scroll-animation">
-				<a href="{{ poster.getFogImg() }}"><img  loading="lazy" alt="Affiche FOG" src="{{ poster.getFogImg() }}"></a>
-				<h3>{{ poster.getTitle() }}</h3>
-				<p>{{ poster.getAuthors() }}</p>
+			<article class="scroll-animation" style="--id: {{ poster.getId() }};">
+				<a href="{{ poster.getFogImg() }}"><img loading="lazy" alt="Affiche FOG" src="{{ poster.getFogImg() }}"></a>
+				<div>
+					<h3>{{ poster.getTitle() }}</h3>
+					<p>{{ poster.getAuthors() }}</p>
+				</div>
 			</article>
 		{% else %}
 			<p>Pas d'affiches pour le moment :(</p>
