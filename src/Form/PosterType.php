@@ -20,6 +20,7 @@ class PosterType extends AbstractType
                 'choice_label' => 'annee',
                 'label' => 'Edition (optionnel)',
                 'choices' => $options['editions'],
+                'data' => $options['edition'],
                 'required' => false,
             ])
             ->add('title', null, [
@@ -71,6 +72,7 @@ class PosterType extends AbstractType
             'data_class' => Poster::class,
             'new' => true,
             'editions' => [],
+            'edition' => null,
         ]);
     }
 }

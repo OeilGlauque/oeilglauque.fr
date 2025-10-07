@@ -83,7 +83,7 @@
 			</p>
 
 			{% if edition.getPoster() %}
-				<img  loading="lazy" alt="Affiche FOG" src="uploads/posters/{{ edition.getPoster().getFogImg() }}">
+				<img  loading="lazy" alt="Affiche FOG" src="{{ edition.getPoster().getFogImg() }}">
 			{% endif %}
 		</article>
 

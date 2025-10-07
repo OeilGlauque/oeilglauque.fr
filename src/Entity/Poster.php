@@ -13,7 +13,7 @@ class Poster
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(inversedBy: 'poster', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'poster')]
     private ?Edition $edition = null;
 
     #[ORM\Column(length: 255)]

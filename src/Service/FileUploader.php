@@ -28,15 +28,19 @@ class FileUploader
             return "";
         }
 
-        return $filename;
+        return "uploads/" . $dir . "/" . $filename;
     }
 
     public function remove(string $dir, string $filename): void
     {
-        $filePath = $this->baseTargetDir . '/' . $dir . '/' . $filename;
-
-        if (file_exists($filePath)) {
-            unlink($filePath);
+        if (file_exists($filename)) {
+            try {
+                unlink($filename);
+            } catch (\Exception $e) {
+                throw new \RuntimeException("Erreur lors de la suppression du fichier: " . $e->getMessage());
+            }
+        } else {
+            throw new \RuntimeException("Le fichier $filename n'existe pas.");
         }
     }
 }

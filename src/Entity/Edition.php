@@ -40,7 +40,7 @@ class Edition
     #[Assert\NotBlank()]
     private string $type = 'FOG';
 
-    #[ORM\OneToOne(mappedBy: 'edition', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'edition')]
     private ?Poster $poster = null;
 
     public function __construct()

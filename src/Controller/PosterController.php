@@ -86,14 +86,17 @@ class PosterController extends FOGController
     }
 
     #[Route('/{id}/edit', name: 'app_poster_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Poster $poster, FileUploader $uploader, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request,EditionRepository $editionRepository, Poster $poster, FileUploader $uploader, EntityManagerInterface $entityManager): Response
     {
         $oldFogImg = $poster->getFogImg();
         $oldConcertImg = $poster->getConcertImg();
 
         $form = $this->createForm(PosterType::class, $poster, [
-            'new' => false
+            'new' => false,
+            'editions' => $editionRepository->findAll(),
+            'edition' => $poster->getEdition(),
         ]);
+
         $form->setData($request);
         $form->handleRequest($request);
 

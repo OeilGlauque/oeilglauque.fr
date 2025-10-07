@@ -76,7 +76,7 @@ class GameController extends FOGController {
 
             $file = $form->get('img')->getData();
             if ($file) {
-                $filename = "uploads/games/" . $uploader->upload($file, "games");
+                $filename = $uploader->upload($file, "games");
                 if ($filename != "") {
                     $game->setImage($filename);
                 } else {
@@ -209,7 +209,7 @@ class GameController extends FOGController {
 
                 $file = $form->get('img')->getData();
                 if ($file) {
-                    $filename = "uploads/games/" . $uploader->upload($file, "games");
+                    $filename = $uploader->upload($file, "games");
                     if ($filename != "") {
                         $filesystem = new Filesystem();
 
