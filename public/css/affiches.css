@@ -46,7 +46,7 @@ body{
 }
 
 .afficheWrapper article img{
-    width: 20vw;
+    width: 100%;
     transition: 0.2s ease-in-out transform;
 }
 
