@@ -24,6 +24,7 @@ class MainPageController extends FOGController {
 
         return $this->render('oeilglauque/index.html.twig', [
             'homeText' => $homeText,
+            'edition' => $edition,
             'newHeader' => true
         ]);
     }

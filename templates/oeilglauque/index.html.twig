@@ -82,7 +82,9 @@
 				<a href="{{ path('infosFest') }}">- Plus d'infos sur le festival -</a>
 			</p>
 
-			<img  loading="lazy" alt="Affiche FOG" src="img/affiches/affiche_XX.webp">
+			{% if edition.getPoster() %}
+				<img  loading="lazy" alt="Affiche FOG" src="uploads/posters/{{ edition.getPoster().getFogImg() }}">
+			{% endif %}
 		</article>
 
 		<article class="article-reversed scroll-animation">
