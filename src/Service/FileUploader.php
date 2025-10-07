@@ -13,10 +13,13 @@ class FileUploader
         private SluggerInterface $slugger
     ){}
 
-    public function upload(UploadedFile $file, string $dir) : string
+    public function upload(UploadedFile $file, string $dir, string $filename = null) : string
     {
-        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $safeFilename = $this->slugger->slug($originalFilename);
+        if ($filename == null){
+            $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        }
+
+        $safeFilename = $this->slugger->slug($filename);
         $filename = $safeFilename . "-" . uniqid() . "." . $file->guessExtension();
 
         try {
@@ -25,6 +28,15 @@ class FileUploader
             return "";
         }
 
-        return "uploads/" . $dir . "/" . $filename;
+        return $filename;
+    }
+
+    public function remove(string $dir, string $filename): void
+    {
+        $filePath = $this->baseTargetDir . '/' . $dir . '/' . $filename;
+
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
     }
 }

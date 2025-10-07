@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Affiche{% endblock %}
+
+{% block customcss %}
+    <link rel="stylesheet" href="/css/basicpage.css"/>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/scrolledHeader.js') }}"></script>
+{% endblock %}
+
+{% block mainPage %}
+    <section class="landing_page"></section>
+{% endblock %}
+
+{% block body %}
+    <h1>Edition Affiche</h1>
+
+    <div class="alert alert-primary">
+        Pas besoin de fournir les affiches si vous ne voulez pas les modifier
+    </div>
+
+    {{ include('oeilglauque/poster/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+    <a href="{{ path('app_poster_index') }}">Retour à la liste</a>
+
+    {{ include('oeilglauque/poster/_delete_form.html.twig') }}
+{% endblock %}

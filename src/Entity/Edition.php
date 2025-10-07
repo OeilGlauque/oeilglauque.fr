@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\EditionRepository;
-use App\Entity\GameSlot;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -40,6 +39,9 @@ class Edition
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank()]
     private string $type = 'FOG';
+
+    #[ORM\OneToOne(mappedBy: 'edition', cascade: ['persist', 'remove'])]
+    private ?Poster $poster = null;
 
     public function __construct()
     {
@@ -130,5 +132,10 @@ class Edition
         $this->type = $type;
 
         return $this;
+    }
+
+    public function getPoster(): ?Poster
+    {
+        return $this->poster;
     }
 }

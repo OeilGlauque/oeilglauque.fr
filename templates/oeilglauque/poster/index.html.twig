@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Event index{% endblock %}
+
+{% block customcss %}
+    <link rel="stylesheet" href="/css/basicpage.css"/>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/scrolledHeader.js') }}"></script>
+{% endblock %}
+
+{% block mainPage %}
+    <section class="landing_page"></section>
+{% endblock %}
+
+{% block body %}
+    <h1>Affiches</h1>
+    <p>Affiches sauvegardées dans public/uploads/posters</p>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Edition</th>
+            <th>Titre</th>
+            <th>Auteurs</th>
+            <th>Img</th>
+            <th>Img Concert</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for poster in posters %}
+            <tr>
+                <td>{{ poster.id }}</td>
+                <td>{{ poster.edition.getAnnee() }}</td>
+                <td>{{ poster.title }}</td>
+                <td>{{ poster.authors }}</td>
+                <td>{{ poster.fogImg }}</td>
+                <td>{{ poster.concertImg }}</td>
+                <td>
+                    <a href="{{ path('app_poster_edit', {'id': poster.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Aucune affiche pour le moment !</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <form method="post" action="{{ path('app_poster_new') }}">
+        <button class="btn">Nouvelle Affiche</button>
+    </form>
+{% endblock %}
