@@ -138,7 +138,7 @@ header #appbar-title{
     }
 
     header #appbar-title{
-        font-size: 0.9rem;
+       display: none;
     }
 
 }
@@ -151,9 +151,5 @@ header #appbar-title{
 
     header #login .button{
         font-size: 0.6rem;
-    }
-
-    header #appbar-title{
-        font-size: 0.7rem;
     }
 }
