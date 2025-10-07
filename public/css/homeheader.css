@@ -64,14 +64,20 @@ header #menu-toggle {
     width: 40px;
     height: 35px;
     cursor: pointer;
-    margin-left: 30px;
+    margin-left: 20px;
 }
 
 /* Titre */
-header h1, header #appbar-title{
+header h1{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+header #appbar-title{
     color: #3D1A21;
     font-size: 1.3rem;
     margin: 0 auto 0 2vh;
+    font-family: 'Mirkwood_Chronicle', Arial, serif;
 }
 
 #appbar-title:hover {
@@ -120,7 +126,7 @@ header h1, header #appbar-title{
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 750px) {
     header #login a {
         margin-left: 12px;
         margin-right: 2px;
@@ -131,9 +137,10 @@ header h1, header #appbar-title{
         height: 25px;
     }
 
-    header h1{
-        display: none;
+    header #appbar-title{
+        font-size: 0.9rem;
     }
+
 }
 
 @media (max-width: 480px) {
@@ -144,5 +151,9 @@ header h1, header #appbar-title{
 
     header #login .button{
         font-size: 0.6rem;
+    }
+
+    header #appbar-title{
+        font-size: 0.7rem;
     }
 }
