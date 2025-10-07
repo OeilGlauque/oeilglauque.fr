@@ -90,7 +90,7 @@ article{
 }
 
 .title #home_img{
-    width: 25vw;
+    width: 50vw;
 }
 
 /** Description **/
@@ -233,7 +233,7 @@ article{
 /* Media queries */
 @media (max-width: 1300px) {
     .title #home_img{
-        width: 33%;
+        width: 60%;
     }
 
     .lead {
@@ -247,7 +247,7 @@ article{
 
 @media (max-width: 900px) {
     .title #home_img{
-        width: 36%;
+        width: 65%;
     }
 
     .lead {
@@ -276,7 +276,7 @@ article{
 
 @media (max-width: 500px){
     .title #home_img{
-        width: 60%;
+        width: 100%;
     }
 
     .lead{
@@ -287,7 +287,7 @@ article{
 
 @media (min-width: 570px) {
     #home_img{
-        width: 30%;
+        width: 100%;
     }
 
     .afficheWrapper img{

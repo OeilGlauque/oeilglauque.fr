@@ -19,7 +19,7 @@ fullCheckbox.addEventListener('change', () => {
 })
 
 for (let el of document.getElementsByClassName('gameShard')) {
-    data = el.getAttribute('data').split(',')
+    data = el.getAttribute('data').split('|#')
     games.push({
         id: data[0],
         title: data[4],

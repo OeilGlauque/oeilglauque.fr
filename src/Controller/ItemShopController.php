@@ -33,7 +33,8 @@ class ItemShopController extends FOGController
             'edition' => $edition,
             'types' => $types,
             'slots' => $slots,
-            'items' => $items
+            'items' => $items,
+            'newHeader' => true
         ]);
     }
 

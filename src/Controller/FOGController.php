@@ -34,6 +34,10 @@ class FOGController extends AbstractController {
             $parameters['menu'] = $this->FogParams->getMenuStatus();
         }
 
+        if (!array_key_exists('artistes', $parameters)) {
+            $parameters['artistes'] = $this->FogParams->getArtistesStatus();
+        }
+
         if(!array_key_exists('newHeader', $parameters)) {
             $parameters['newHeader'] = false;
         }

@@ -11,25 +11,25 @@ class StaticPagesController extends FOGController {
     #[Route("/informationsFestival", name: "infosFest", methods: ['GET'])]
     public function infosFest() : Response
     {
-        return $this->render('oeilglauque/infosFest.html.twig');
+        return $this->render('oeilglauque/infosFest.html.twig', [
+            'newHeader' => true
+        ]);
     }
 
     #[Route("/informationsClub", name: "infosClub", methods: ['GET'])]
     public function infosClub() : Response
     {
-        return $this->render('oeilglauque/infosClub.html.twig');
-    }
-
-    #[Route("/planning", name: "planning", methods: ['GET'])]
-    public function planning() : Response
-    {
-        return $this->render('oeilglauque/planning.html.twig');
+        return $this->render('oeilglauque/infosClub.html.twig', [
+            'newHeader' => true
+        ]);
     }
 
     #[Route("/contact", name: "contact", methods: ['GET'])]
     public function contact() : Response
     {
-        return $this->render('oeilglauque/contact.html.twig');
+        return $this->render('oeilglauque/contact.html.twig', [
+            'newHeader' => true
+        ]);
     }
 
     /*
@@ -48,7 +48,9 @@ class StaticPagesController extends FOGController {
     #[Route("/menu", name: "menu", methods:['GET'])]
     public function menu() : Response
     {
-        return $this->render('oeilglauque/menu.html.twig');
+        return $this->render('oeilglauque/menu.html.twig', [
+            'newHeader' => true
+        ]);
     }
 
     #[Route("/affiches", name: "affiches", methods: ['GET'])]

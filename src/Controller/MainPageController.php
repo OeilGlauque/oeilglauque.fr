@@ -10,11 +10,11 @@ class MainPageController extends FOGController {
     #[Route("/", name: "index", methods: ['GET'])]
     public function index() : Response{
 
-        /* Page spécial Alice */
+        /* Page spécial Alice
         $user = $this->getUser();
         if($user && ($user->getUserIdentifier() == "Sironysos")){
             return $this->render('oeilglauque/admin/loveForAlice.html.twig');
-        }
+        }*/
 
         $edition = $this->FogParams->getCurrentEdition();
         $homeText = '';

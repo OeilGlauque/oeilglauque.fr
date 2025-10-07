@@ -1,4 +1,4 @@
-<div class="gameShard ghid_{{ game.getGameSlot().getId() }}" data="{{ game.getId() }},{{ game.getGameSlot().getId() }},{{ game.getTags() }},{{ game.getFreeSeats() }},{{ game.getTitle() }}">
+<div class="gameShard ghid_{{ game.getGameSlot().getId() }}" data="{{ game.getId() }}|#{{ game.getGameSlot().getId() }}|#{{ game.getTags() }}|#{{ game.getFreeSeats() }}|#{{ game.getTitle() }}">
     <div class="game" onclick="location.href='{{ path('showGame', {'id':game.getId()}) }}';">
         <div class="game-desc">
 

@@ -15,6 +15,8 @@ class FOGParametersService {
     private ?bool $planning;
     private ?bool $menu;
 
+    private ?bool $artistes;
+
     public function __construct(EditionRepository $editionRepository, FeatureRepository $featureRepository, int $current_edition, string $current_edition_type) {
         $this->edition = $editionRepository->findOneBy(['annee' => $current_edition,'type' => $current_edition_type]);
 
@@ -27,6 +29,8 @@ class FOGParametersService {
         $this->menu = $featureRepository->find(8)->getState();
 
         $this->gameRegistration = $featureRepository->find(9)->getState();
+
+        $this->artistes = $featureRepository->find(10)->getState();
     }
 
     public function getCurrentEdition(): ?Edition {
@@ -51,5 +55,9 @@ class FOGParametersService {
 
     public function getGameRegistrationStatus(): ?bool {
         return $this->gameRegistration;
+    }
+
+    public function getArtistesStatus() : ?bool {
+        return $this->artistes;
     }
 }

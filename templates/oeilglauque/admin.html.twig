@@ -4,6 +4,14 @@
     <link rel="stylesheet" href="/css/admin.css"/>
 {% endblock %}
 
+{% block scripts %}
+    <script src="{{ asset('js/scrolledHeader.js') }}"></script>
+{% endblock %}
+
+{% block mainPage %}
+    <section class="landing_page"></section>
+{% endblock %}
+
 {% block body %}
 
     <h1 class="titre">Administration</h1>
@@ -44,6 +52,13 @@
         </div>
         <div class="col-md-4 d-flex justify-content-center">
             <a href="{{ path('boardGameReservationList') }}" class="btn btn-lg btn-block btn-admin">Réservations de jeux</a>
+        </div>
+    </div>
+
+    <h2> Planning </h2>
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-4 d-flex justify-content-center">
+            <a href="{{ path('app_event_index') }}" class="btn btn-lg btn-block btn-admin">Gestion du planning</a>
         </div>
     </div>
 

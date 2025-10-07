@@ -4,6 +4,14 @@
         <link rel="stylesheet" href="css/infosFest.css"/>
 {% endblock %}
 
+{% block scripts %}
+    <script src="{{ asset('js/scrolledHeader.js') }}"></script>
+{% endblock %}
+
+{% block mainPage %}
+    <section class="landing_page"></section>
+{% endblock %}
+
 {% block body %}
 
         <h1 class="titre">INFORMATIONS</h1>
@@ -23,7 +31,7 @@
             <li>Une buvette avec ce qu'il faut pour tenir tout le week-end : pizza, boissons, snacks, crêpes, café, thé, cocktails et nos fameux 3D6 !</li>
         </ul>
 
-        <p>L'entrée du FOG est gratuite, et vous permet de participer aux jeux de plateau librement. Le FOG vend aussi des places pour des parties de JdR à 2€ la place pour participer
+        <p>L'entrée du FOG est gratuite, et vous permet de participer aux jeux de plateau librement. Le FOG vend aussi des places pour des parties de JdR à 1€ la place pour participer
         à tous les Jeux de Rôles proposés durant le week-end. Vous pouvez trouver le planning détaillé des activités du week end <a href="{{ path('planning') }}">sur cette page !</a></p><br />
 
         <img src="img/deco_bas_clair.webp" id="deco_clair" alt="Deco" />
@@ -64,6 +72,9 @@
             </a>
             <a href="http://editionsstellamaris.blogspot.com">
                 <img loading="lazy"  alt="Stellamaris" src="img/partenaires/stellamaris.webp"/>
+            </a>
+            <a href="https://cvec.etudiant.gouv.fr/">
+                <img loading="lazy"  alt="CVEC" src="img/partenaires/cvec.webp"/>
             </a>
             <a href="https://sortileges.fr">
                 <img loading="lazy" alt="Sortilèges" src="img/partenaires/sortilege.webp"/>

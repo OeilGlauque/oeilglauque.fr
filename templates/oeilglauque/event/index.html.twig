@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Event index{% endblock %}
+
+{% block customcss %}
+    <link rel="stylesheet" href="/css/basicpage.css"/>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/scrolledHeader.js') }}"></script>
+{% endblock %}
+
+{% block mainPage %}
+    <section class="landing_page"></section>
+{% endblock %}
+
+{% block body %}
+    <h1>Planning ({{ edition.annee }})</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Début</th>
+                <th>Fin</th>
+                <th>Titre</th>
+                <th>action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for event in events %}
+            <tr>
+                <td>{{ event.id }}</td>
+                <td>{{ event.beginAt ? event.beginAt|date('Y-m-d H:i') : '' }}</td>
+                <td>{{ event.endAt ? event.endAt|date('Y-m-d H:i') : '' }}</td>
+                <td>{{ event.title }}</td>
+                <td>
+                    <a href="{{ path('app_event_edit', {'id': event.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Aucun event pour le moment !</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div style="display: flex">
+        <form method="post" action="{{ path('app_event_new') }}">
+            <button class="btn">Nouvel event</button>
+        </form>
+
+        <form method="get" action="{{ path('planning') }}">
+            <button class="btn">Planning</button>
+        </form>
+    </div>
+{% endblock %}

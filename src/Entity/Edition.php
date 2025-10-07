@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\EditionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -32,9 +33,8 @@ class Edition
     private Collection $itemShopType;
 
     #[ORM\Column(type: "string", length: 255)]
-    #[Assert\Length(min: 1, max: 255)]
-    #[Assert\NotBlank()]
-    private $dates;
+    #[Assert\Length(min: 0, max: 255)]
+    private $dates = '';
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank()]
@@ -42,12 +42,25 @@ class Edition
 
     #[ORM\OneToOne(mappedBy: 'edition')]
     private ?Poster $poster = null;
+  
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $start = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $end = null;
+
+    /**
+     * @var Collection<int, Event>
+     */
+    #[ORM\OneToMany(mappedBy: 'edition', targetEntity: Event::class)]
+    private Collection $events;
 
     public function __construct()
     {
         $this->gameSlots = new ArrayCollection();
         $this->items = new ArrayCollection();
         $this->itemShopType = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     public function getId(): int
@@ -112,6 +125,9 @@ class Edition
 
     public function getDates(): ?string
     {
+        if ($this->start !== null) {
+            return "Du " . $this->getStart()->format('d') . " au " . $this->getEnd()->format('d') . " " . $this->getEnd()->format('M');
+        }
         return $this->dates;
     }
 
@@ -138,4 +154,57 @@ class Edition
     {
         return $this->poster;
     }
+    public function getStart(): ?\DateTimeInterface
+    {
+        return $this->start;
+    }
+
+    public function setStart(?\DateTimeInterface $start): static
+    {
+        $this->start = $start;
+
+        return $this;
+    }
+
+    public function getEnd(): ?\DateTimeInterface
+    {
+        return $this->end;
+    }
+
+    public function setEnd(?\DateTimeInterface $end): static
+    {
+        $this->end = $end;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    /*public function addEvent(Event $event): static
+    {
+        if (!$this->events->contains($event)) {
+            $this->events->add($event);
+            $event->setEdition($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): static
+    {
+        if ($this->events->removeElement($event)) {
+            // set the owning side to null (unless already changed)
+            if ($event->getEdition() === $this) {
+                $event->setEdition(null);
+            }
+        }
+
+        return $this;
+    }*/
 }

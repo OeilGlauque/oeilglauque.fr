@@ -43,6 +43,7 @@
             <section class="menu-category">
                 <h1 id="festival">Festival</h1>
                 <ul>
+                    <li><a href="/">Accueil</a></li>
                     <li><a href="/informationsFestival">Informations</a></li>
                     {% if modeFog and planning %}
                         <li><a href="/planning">Planning</a></li>
@@ -80,9 +81,9 @@
             <div id="title_container">
                 <div id="menu-toggle" onclick="document.querySelector('nav.menu').classList.toggle('visible')"></div>
                 {% if modeFog %}
-                    <div id="date"><h1><a href="/" id="appbar-title">{{ dates }}</a></h1></div>
+                    <div id="date"><a href="/" id="appbar-title">{{ dates }}</a></div>
                 {% else %}
-                    <h1><a href="/" id="appbar-title">Festival de l'OEil Glauque</a></h1>
+                    <a href="/" id="appbar-title">Festival de l'OEil Glauque</a>
                 {% endif %}
             </div>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
