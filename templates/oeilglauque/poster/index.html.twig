@@ -33,7 +33,11 @@
         {% for poster in posters %}
             <tr>
                 <td>{{ poster.id }}</td>
-                <td>{{ poster.edition.getAnnee() }}</td>
+                {% if poster.edition %}
+                    <td>{{ poster.edition.getAnnee() }}</td>
+                {% else %}
+                    <td>-</td>
+                {% endif %}
                 <td>{{ poster.title }}</td>
                 <td>{{ poster.authors }}</td>
                 <td>{{ poster.fogImg }}</td>
