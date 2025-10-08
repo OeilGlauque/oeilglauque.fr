@@ -84,16 +84,20 @@
 				<br/>
 				<a href="{{ path('infosFest') }}">- Plus d'infos sur le festival -</a>
 			</p>
-		<article>
-			<h2 class="home-title">Affiches fog XXI</h2>
-			<div class="title-img"><img loading="lazy" src="{{ asset('img/deco_bas.webp') }}"></div>
-			<div class="afficheWrapper">
-        {% if edition.getPoster() %}
-				  <img  loading="lazy" alt="Affiche FOG" src="{{ edition.getPoster().getFogImg() }}">
-			  {% endif %}
-        {% if edition.getPoster() and edition.getPoster().getConcertImg() %}
-				  <img  loading="lazy" alt="Affiche FOG" src="{{ edition.getPoster().getConcertImg() }}">
-			  {% endif %}
+
+			<div>
+				<h2 class="home-title">Affiches fog XXI</h2>
+				<div class="title-img">
+					<img loading="lazy" src="{{ asset('img/deco_bas.webp') }}">
+				</div>
+				<div class="afficheWrapper">
+					{% if edition.getPoster() %}
+						<img loading="lazy" alt="Affiche FOG" src="{{ edition.getPoster().getFogImg() }}">
+					{% endif %}
+					{% if edition.getPoster() and edition.getPoster().getConcertImg() %}
+						<img loading="lazy" alt="Affiche du concert du FOG" src="{{ edition.getPoster().getConcertImg() }}">
+					{% endif %}
+				</div>
 			</div>
 		</article>
 
