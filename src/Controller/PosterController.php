@@ -138,6 +138,7 @@ class PosterController extends FOGController
                 $entityManager->flush();
             }
 
+            $entityManager->flush();
             return $this->redirectToRoute('app_poster_index', [], Response::HTTP_SEE_OTHER);
         }
 
