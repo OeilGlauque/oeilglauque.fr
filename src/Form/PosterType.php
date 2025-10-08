@@ -40,9 +40,9 @@ class PosterType extends AbstractType
                 'mapped' => false,
                 'required' => $options['new'],
                 'constraints' => new File([
-                    'maxSize' => '2M',
-                    'maxSizeMessage' => "(Image FOG) Le fichier est trop lourd ({{ size }} {{ suffix }}), la taille maximale est de 2 Mo.",
-                    'uploadIniSizeErrorMessage' => "(Image FOG) Le fichier est trop lourd, la taille maximale est de 2Mo.",
+                    'maxSize' => '10M',
+                    'maxSizeMessage' => "(Image FOG) Le fichier est trop lourd ({{ size }} {{ suffix }}), la taille maximale est de 10 Mo.",
+                    'uploadIniSizeErrorMessage' => "(Image FOG) Le fichier est trop lourd, la taille maximale est de 25 Mo.",
                     'mimeTypes' => [
                         'image/webp'
                     ],
@@ -54,9 +54,9 @@ class PosterType extends AbstractType
                 'mapped' => false,
                 'required' => false,
                 'constraints' => new File([
-                    'maxSize' => '2M',
-                    'maxSizeMessage' => "(Concert Fog) Le fichier est trop lourd ({{ size }} {{ suffix }}), la taille maximale est de 2 Mo.",
-                    'uploadIniSizeErrorMessage' => "(Concert Fog) Le fichier est trop lourd, la taille maximale est de 2Mo.",
+                    'maxSize' => '10M',
+                    'maxSizeMessage' => "(Concert Fog) Le fichier est trop lourd ({{ size }} {{ suffix }}), la taille maximale est de 10 Mo.",
+                    'uploadIniSizeErrorMessage' => "(Concert Fog) Le fichier est trop lourd, la taille maximale est de 25 Mo.",
                     'mimeTypes' => [
                         'image/webp'
                     ],

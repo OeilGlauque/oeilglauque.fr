@@ -13,7 +13,7 @@ class FileUploader
         private SluggerInterface $slugger
     ){}
 
-    public function upload(UploadedFile $file, string $dir, string $filename = null) : string
+    public function upload(UploadedFile $file, string $dir, string | null $filename = null) : string
     {
         if ($filename == null){
             $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -31,16 +31,23 @@ class FileUploader
         return "uploads/" . $dir . "/" . $filename;
     }
 
-    public function remove(string $dir, string $filename): void
+    public function remove(string|null $filepath): void
     {
-        if (file_exists($filename)) {
+        if ($filepath == null) {
+            return;
+        }
+
+        [$dir, $filename] = array_slice(explode("/",$filepath), -2, 2);
+        $absolute_filepath = join("/",[$this->baseTargetDir,$dir,$filename]);
+
+        if (file_exists($absolute_filepath)) {
             try {
-                unlink($filename);
+                unlink($absolute_filepath);
             } catch (\Exception $e) {
                 throw new \RuntimeException("Erreur lors de la suppression du fichier: " . $e->getMessage());
             }
         } else {
-            throw new \RuntimeException("Le fichier $filename n'existe pas.");
+            throw new \RuntimeException("Le fichier $absolute_filepath n'existe pas.");
         }
     }
 }

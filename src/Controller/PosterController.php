@@ -113,7 +113,7 @@ class PosterController extends FOGController
             $concertImg = $form->get('concertImg')->getData();
 
             if ($fogImg != null){
-                $uploader->remove("posters", $oldFogImg);
+                $uploader->remove($oldFogImg);
 
                 $filename = $uploader->upload($fogImg, "posters", $poster->getTitle());
                 if($filename != ""){
@@ -122,10 +122,11 @@ class PosterController extends FOGController
                     $this->addFlash('danger', "Erreur lors de l'upload de l'image du FOG.");
                     return $this->redirectToRoute('app_poster_edit', ['id' => $poster->getId()]);
                 }
+                $entityManager->flush();
             }
 
             if ($concertImg != null){
-                $uploader->remove("posters", $oldConcertImg);
+                $uploader->remove($oldConcertImg);
 
                 $filename = $uploader->upload($concertImg, "posters", "concert-{$poster->getTitle()}");
                 if($filename != ""){
@@ -134,9 +135,9 @@ class PosterController extends FOGController
                     $this->addFlash('danger', "Erreur lors de l'upload de l'image du concert.");
                     return $this->redirectToRoute('app_poster_edit', ['id' => $poster->getId()]);
                 }
+                $entityManager->flush();
             }
 
-            $entityManager->flush();
             return $this->redirectToRoute('app_poster_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -154,12 +155,12 @@ class PosterController extends FOGController
             $fogImgFilename = $poster->getFogImg();
             $concertImgFilename = $poster->getConcertImg();
 
-            if ($fogImgFilename) {
-                $uploader->remove("posters", $fogImgFilename);
+            if ($fogImgFilename != null) {
+                $uploader->remove($fogImgFilename);
             }
 
-            if ($concertImgFilename) {
-                $uploader->remove("posters", $concertImgFilename);
+            if ($concertImgFilename != null) {
+                $uploader->remove($concertImgFilename);
             }
 
             $entityManager->remove($poster);
