@@ -39,7 +39,7 @@
         <h2 class="titre">{{ game.getTitle() }}</h2>
         {% if not game.getValidated() %}
         <div class="alert alert-danger" role="alert">
-        Attention ! Cette partie n'a pas encore été validée par notre équipe, et n'est donc pas encore publiée. Les joueurs ne peuvent pas encore s'y inscrire. 
+        Attention ! Cette partie n'a pas encore été validée par notre équipe, et n'est donc pas encore publiée. Les joueurs ne peuvent pas encore s'y inscrire.
         </div>
         {% endif %}
 
@@ -64,14 +64,14 @@
             </div>
         </section>
 
-        <b>Participants : </b>
+        <b>Participant(e)s : </b>
         {% for player in game.getPlayers() %}
         <span>
             {{ player.getPseudo() }}
             {% if game.getAuthor() == app.user or is_granted('ROLE_ADMIN') %}({{ player.getEmail() }}){% endif %}{% if not loop.last %},{% endif %}
         </span>
         {% else %}
-        Il n'y a pas encore de joueur inscrit à cette partie. 
+        Il n'y a pas encore de joueur inscri à cette partie.
         {% endfor %}
         <br /><br />
         {% if game.getFreeSeats() > 0 %}

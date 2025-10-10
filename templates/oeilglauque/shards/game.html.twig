@@ -11,7 +11,7 @@
             <h2 class="redandblack">{{ game.getTitle() }}</h2>
             <div class="info-section">
                 <div class="game-infos">
-                    <p class="small">Proposé par {{ game.getAuthor().getPseudo() }}</p>
+                    <p class="small">Proposée par {{ game.getAuthor().getPseudo() }}</p>
                     <p>Créneau : <span class="slot">{{ game.getGameSlot().getText() }}</span></p>
                 </div>
                 {% for tag in game.getTagsList() %}
@@ -25,7 +25,7 @@
             {% if game.getFreeSeats() > 0 %}
 
                 {% if app.user in game.getPlayers() %}
-                    <p>Vous êtes inscrit à cette partie !</p>
+                    <p>Vous êtes inscrit.e à cette partie !</p>
                 {% else %}
                     <p>{{ game.getFreeSeats() }} place{{accord}} disponible{{accord}} en ligne</p>
                 {% endif %}
