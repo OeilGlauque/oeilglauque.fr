@@ -25,8 +25,17 @@ class GameController extends FOGController {
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
+
+        $slots = $this->FogParams->getCurrentEdition()->getGameSlots()->filter(function ($slot) {
+            return count($slot->getGames()) < $slot->getMaxGames();
+        });
+
+        if ($slots->isEmpty()) {
+            $this->addFlash('danger', "Tous les crénaux sont pleins, la réservation de jdr est désactivé");
+        }
+
         $game = new Game();
-        $form = $this->createForm(GameType::class, $game, ['slots' => $this->FogParams->getCurrentEdition()->getGameSlots()]);
+        $form = $this->createForm(GameType::class, $game, ['slots' => $slots]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

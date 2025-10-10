@@ -21,21 +21,32 @@ class GameType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class, ['label' => 'Titre'])
+            ->add('title', TextType::class, [
+                'label' => 'Titre',
+                'disabled' => empty($options['isFull']),
+            ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description (max 1 000 caractères)',
                 'attr' => [
                     'maxlength' => 1000,
-                ]
+                ],
+                'disabled' => empty($options['isFull']),
             ])
             ->add('gameSlot', EntityType::class, [
-                'class' => GameSlot::class, 
-                'choice_label' => 'text', 
+                'class' => GameSlot::class,
+                'choice_label' => function ($slot) {
+                    return $slot->getText() . ' (Places restantes: ' . ($slot->getMaxGames() - count($slot->getGames())) . ')';
+                },
                 'label' => 'Créneau',
                 'choices' => $options['slots'], 
                 'required' => true,
+                'disabled' => empty($options['isFull']),
             ])
-            ->add('seats', IntegerType::class, ['label' => 'Places disponibles', 'invalid_message' => "Veuillez entrer un nombre"])
+            ->add('seats', IntegerType::class, [
+                'label' => 'Places disponibles',
+                'invalid_message' => "Veuillez entrer un nombre",
+                'disabled' => empty($options['isFull']),
+            ])
             ->add('tags', ChoiceType::class, [
                 'label' => 'Tags',
                 'autocomplete' => true,
@@ -62,15 +73,24 @@ class GameType extends AbstractType
                 'required' => false,
                 'multiple' => true,
                 'expanded' => false,
+                'disabled' => empty($options['isFull']),
                 'attr' => ['style' => 'height: 200px', 'class' => 'tom-select', 'placeholder' => 'Choisissez des tags...'],
             ])
-            ->add('tw', TextType::class, ['label' => 'Trigger Warning (Avertissements)', 'required' => false, 'attr' => array(
-                'placeholder' => 'Gore, déconseillé aux enfants, suicide, ...'
-            )])
-            ->add('forceOnlineSeats', CheckboxType::class, ['label' => 'Permettre de réserver toutes les places en ligne (déconseillé). Par défaut, la moitié des places sont réservable en ligne et l\'autre moitié réservable sur place.', 'required' => false])
+            ->add('tw', TextType::class, [
+                'label' => 'Trigger Warning (Avertissements)',
+                'required' => false,
+                'attr' => array('placeholder' => 'Gore, déconseillé aux enfants, suicide, ...',),
+                'disabled' => empty($options['isFull']),
+                ])
+            ->add('forceOnlineSeats', CheckboxType::class, [
+                'label' => 'Permettre de réserver toutes les places en ligne (déconseillé). Par défaut, la moitié des places sont réservable en ligne et l\'autre moitié réservable sur place.',
+                'required' => false,
+                'disabled' => empty($options['isFull']),
+            ])
             ->add('img', FileType::class, [
                 'label' => "Image (optionel)",
                 'mapped' => false,
+                'disabled' => empty($options['isFull']),
                 'required' => false,
                 'constraints' => new File([
                     'maxSize' => '2M',
@@ -85,14 +105,18 @@ class GameType extends AbstractType
                 ])
             ])
             
-            ->add('save', SubmitType::class, ['label' => 'Valider']);
+            ->add('save', SubmitType::class, [
+                'label' => 'Valider',
+                'disabled' => empty($options['isFull']),
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Game::class,
-            'slots' => []
+            'slots' => [],
+            'isFull' => false,
         ]);
     }
 }
