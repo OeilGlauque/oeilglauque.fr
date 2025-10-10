@@ -23,14 +23,14 @@ class GameType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Titre',
-                'disabled' => empty($options['isFull']),
+                'disabled' => $options['slots']->isEmpty(),
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description (max 1 000 caractères)',
                 'attr' => [
                     'maxlength' => 1000,
                 ],
-                'disabled' => empty($options['isFull']),
+                'disabled' => $options['slots']->isEmpty(),
             ])
             ->add('gameSlot', EntityType::class, [
                 'class' => GameSlot::class,
@@ -40,12 +40,12 @@ class GameType extends AbstractType
                 'label' => 'Créneau',
                 'choices' => $options['slots'], 
                 'required' => true,
-                'disabled' => empty($options['isFull']),
+                'disabled' => $options['slots']->isEmpty(),
             ])
             ->add('seats', IntegerType::class, [
                 'label' => 'Places disponibles',
                 'invalid_message' => "Veuillez entrer un nombre",
-                'disabled' => empty($options['isFull']),
+                'disabled' => $options['slots']->isEmpty(),
             ])
             ->add('tags', ChoiceType::class, [
                 'label' => 'Tags',
@@ -73,24 +73,24 @@ class GameType extends AbstractType
                 'required' => false,
                 'multiple' => true,
                 'expanded' => false,
-                'disabled' => empty($options['isFull']),
+                'disabled' => $options['slots']->isEmpty(),
                 'attr' => ['style' => 'height: 200px', 'class' => 'tom-select', 'placeholder' => 'Choisissez des tags...'],
             ])
             ->add('tw', TextType::class, [
                 'label' => 'Trigger Warning (Avertissements)',
                 'required' => false,
                 'attr' => array('placeholder' => 'Gore, déconseillé aux enfants, suicide, ...',),
-                'disabled' => empty($options['isFull']),
+                'disabled' => $options['slots']->isEmpty(),
                 ])
             ->add('forceOnlineSeats', CheckboxType::class, [
                 'label' => 'Permettre de réserver toutes les places en ligne (déconseillé). Par défaut, la moitié des places sont réservable en ligne et l\'autre moitié réservable sur place.',
                 'required' => false,
-                'disabled' => empty($options['isFull']),
+                'disabled' => $options['slots']->isEmpty(),
             ])
             ->add('img', FileType::class, [
                 'label' => "Image (optionel)",
                 'mapped' => false,
-                'disabled' => empty($options['isFull']),
+                'disabled' => $options['slots']->isEmpty(),
                 'required' => false,
                 'constraints' => new File([
                     'maxSize' => '2M',
@@ -107,7 +107,7 @@ class GameType extends AbstractType
             
             ->add('save', SubmitType::class, [
                 'label' => 'Valider',
-                'disabled' => empty($options['isFull']),
+                'disabled' => $options['slots']->isEmpty(),
             ]);
     }
 
@@ -116,7 +116,6 @@ class GameType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Game::class,
             'slots' => [],
-            'isFull' => false,
         ]);
     }
 }
