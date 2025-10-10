@@ -24,6 +24,7 @@ use App\Entity\GoogleAuthToken;
 use App\Repository\GameRepository;
 use App\Service\FOGGmail;
 use App\Service\FOGParametersService;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Mime\Address;
@@ -283,9 +284,8 @@ class AdminController extends FOGController {
     }
 
     #[Route("/admin/games/validate/{id}", name: "validateGame")]
-    public function validateGame($id, FOGGmail $mailer, EntityManagerInterface $doctrine): Response
+    public function validateGame(Game $game, FOGGmail $mailer, EntityManagerInterface $doctrine): Response
     {
-        $game = $doctrine->getRepository(Game::class)->find($id);
         if($game) {
             $game->setValidated(true);
             $doctrine->persist($game);
@@ -316,10 +316,12 @@ class AdminController extends FOGController {
     }
 
     #[Route("/admin/games/unregister/{idGame}/{idPlayer}", name: "unregisterGamePlayer")]
-    public function unregisterGamePlayer(Game $game, int $idPlayer, EntityManagerInterface $doctrine): Response
+    public function unregisterGamePlayer(
+        #[MapEntity(id: "idGame")] Game $game,
+        #[MapEntity(id: "idPlayer")] User $player,
+        EntityManagerInterface $doctrine
+    ): Response
     {
-        //$game = $doctrine->getRepository(Game::class)->find($idGame);
-        $player = $doctrine->getRepository(User::class)->find($idPlayer);
         if ($game && $player) {
             $game->removePlayer($player); // Handles 'contains' verification
             $entityManager = $doctrine;
