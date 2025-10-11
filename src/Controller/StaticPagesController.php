@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\PosterRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -48,6 +49,14 @@ class StaticPagesController extends FOGController {
     public function menu() : Response
     {
         return $this->render('oeilglauque/menu.html.twig', [
+            'newHeader' => true
+        ]);
+    }
+
+    #[Route("/affiches", name: "affiches", methods: ['GET'])]
+    public function affiches(PosterRepository $posterRepository) : Response{
+        return $this->render('oeilglauque/affiches.html.twig', [
+            'posters' => $posterRepository->findAll(),
             'newHeader' => true
         ]);
     }

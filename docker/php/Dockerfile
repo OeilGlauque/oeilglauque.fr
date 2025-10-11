@@ -29,6 +29,7 @@ WORKDIR /srv/app
 VOLUME /srv/app
 
 COPY --link docker/php/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+COPY --link docker/php/zz-upload_size.ini /usr/local/etc/php/conf.d/zz-upload_size.ini
 RUN mkdir -p /var/run/php
 
 #ENV COMPOSER_ALLOW_SUPERUSER=1

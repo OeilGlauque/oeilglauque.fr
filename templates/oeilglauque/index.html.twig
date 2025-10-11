@@ -61,34 +61,43 @@
 	</section>
 
 	<section id="home_content scroll-animation">
-		<p class="lead">
-			<strong>Bienvenue sur le site du Festival de l’&OElig;il Glauque !</strong>
-			<br />
-			{% if modeFog %}
-				{% if homeText %}
-					{{ homeText | raw }}
+		<article id="main-article" class="scroll-animation">
+			<p class="lead">
+				<span>Bienvenue sur le site du Festival de l’&OElig;il Glauque !</span>
+				<br />
+				<br />
+				{% if modeFog %}
+					{% if homeText %}
+						{{ homeText | raw }}
+					{% else %}
+						Jeux de rôle et jeux de plateau vous attendent à la prochaine édition du Festival de l'Oeil Glauque !
+						Pendant 48h vous pourrez profiter de séances de jeux de rôle, découvrir notre ludothèque de plus de 200 jeux de plateau ou assister à un concert de métal.
+						Au cours du week-end n’hésitez pas à prendre part à une murder-party, un escape game, ainsi qu'à des tournois de Magic ou Warhammer.
+						Vous pourrez aussi tout simplement venir profiter de l'ambiance et de nos sandwichs, pizzas, burgers et autres friandises et boissons, notamment nos crêpes et nos fameux 3D6 !
+					{% endif %}
 				{% else %}
-					Jeux de rôle et jeux de plateau vous attendent à la prochaine édition du Festival de l'Oeil Glauque !
-					Pendant 48h vous pourrez profiter de séances de jeux de rôle, découvrir notre ludothèque de plus de 200 jeux de plateau ou assister à un concert de métal.
-					Au cours du week-end n’hésitez pas à prendre part à une murder-party, un escape game, ainsi qu'à des tournois de Magic ou Warhammer.
-					Vous pourrez aussi tout simplement venir profiter de l'ambiance et de nos sandwichs, pizzas, burgers et autres friandises et boissons, notamment nos crêpes et nos fameux 3D6 !
+					Nous sommes l'association de jeux de rôle et de jeux de plateau de l'Amicale des élèves de l’INSA Rennes pardi&nbsp;!
+					Et nous organisons chaque année un festival de jeux où nos bénévoles sont ravis de vous accueillir pour vous guider dans cette aventure de 48h.
+					Alors rendez-vous à notre prochaine édition&nbsp;!
 				{% endif %}
-			{% else %}
-				Comment cela&nbsp;? Vous ne savez point qui nous sommes&nbsp;??? Nous sommes l'association de jeux de rôle et de jeux de plateau de l'Amicale des élèves de l’INSA Rennes pardi&nbsp;!
-				Et nous organisons chaque année un festival de jeux où nos bénévoles sont ravis de vous accueillir pour vous guider dans cette aventure de 48h.
-				Alors rendez-vous à notre prochaine édition&nbsp;!
-			{% endif %}
-			<br />
-			<br/>
-			<a href="{{ path('infosFest') }}">- Plus d'infos sur le festival -</a>
-		</p>
+				<br />
+				<br/>
+				<a href="{{ path('infosFest') }}">- Plus d'infos sur le festival -</a>
+			</p>
 
-		<article>
-			<h2 class="home-title">Affiches fog XXI</h2>
-			<div class="title-img"><img loading="lazy" src="{{ asset('img/deco_bas.webp') }}"></div>
-			<div class="afficheWrapper">
-				<img  loading="lazy" alt="Affiche FOG" src="img/affiche_XXI.webp">
-				<img loading="lazy" alt="Affiche concert FOG" src="img/concert_XXI.webp">
+			<div>
+				<h2 class="home-title">Affiches FOG XXI</h2>
+				<div class="title-img">
+					<img loading="lazy" src="{{ asset('img/deco_bas.webp') }}">
+				</div>
+				<div class="afficheWrapper">
+					{% if edition.getPoster() %}
+						<img loading="lazy" alt="Affiche FOG" src="{{ edition.getPoster().getFogImg() }}">
+					{% endif %}
+					{% if edition.getPoster() and edition.getPoster().getConcertImg() %}
+						<img loading="lazy" alt="Affiche du concert du FOG" src="{{ edition.getPoster().getConcertImg() }}">
+					{% endif %}
+				</div>
 			</div>
 		</article>
 
@@ -188,7 +197,7 @@
 		{% endif %}
 
 		<article class="article-reversed scroll-animation">
-			<h2 class="home-title home-title-reversed">AFTER MOVIE FOG XVI</h2>
+			<h2 class="home-title home-title-reversed">Aftermovie FOG XVI</h2>
 			<div class="title-img"><img loading="lazy" src="{{ asset('img/deco_bas_clair.webp') }}"></div>
 			<div class="videoWrapper">
 				<iframe loading="lazy" title="Aftermovie du FOG" src="https://www.youtube-nocookie.com/embed/Qb0fA_ii_cg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
