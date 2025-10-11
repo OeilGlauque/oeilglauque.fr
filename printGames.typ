@@ -29,9 +29,9 @@
 
   #line(start: (10%,0%), end: (90%, 0%))
   
-  #text(13pt)[ Proposé par #partie.author.pseudo sur le créneau *#partie.gameSlot.text*. ]
+  #text(13pt)[Proposée par #partie.author.pseudo sur le créneau *#partie.gameSlot.text*.]
 
-  == Joueurs (#partie.seats places) :
+  == Participant(e)s (#partie.seats places) :
   #list(
     spacing: 1em,
     ..(partie.players.map(p => p.pseudo) + range(partie.seats - partie.players.len()).map(it => []))
