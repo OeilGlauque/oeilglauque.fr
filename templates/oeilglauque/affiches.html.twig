@@ -22,7 +22,7 @@
 
 	<section class="afficheWrapper">
 		{% for poster in posters %}
-			<article class="scroll-animation" style="--id: {{ poster.getId() }};">
+			<article class="scroll-animation" style="--id: {{ loop.index }};">
 				<a href="{{ poster.getFogImg() }}"><img loading="lazy" alt="Affiche FOG" src="{{ poster.getFogImg() }}"></a>
 				<div>
 					<h3>{{ poster.getTitle() }}</h3>
