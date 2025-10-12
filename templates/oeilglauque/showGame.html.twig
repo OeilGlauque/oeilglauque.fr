@@ -50,7 +50,7 @@
                 <p>Tags:</p>
                 <ul>
                     {% for tag in game.getTagsList() %}
-                        <li>{{ tag }}</li>
+                        <li>{{ tagMapping[tag] }}</li>
                     {% endfor %}
                 </ul>
                 {% if game.getTw() %}

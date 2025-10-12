@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\FOGParametersService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
@@ -19,7 +20,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 class GameController extends FOGController {
-    
+
     #[Route("/nouvellePartie", name: "nouvellePartie")]
     public function newGame(Request $request, FOGGmail $mailer, EntityManagerInterface $entityManager, FileUploader $uploader, FOGDiscordWebhookService $discord): Response
     {
@@ -35,7 +36,11 @@ class GameController extends FOGController {
         }
 
         $game = new Game();
-        $form = $this->createForm(GameType::class, $game, ['slots' => $slots]);
+        $form = $this->createForm(
+            GameType::class,
+            $game,
+            ['slots' => $slots, 'tagMapping' => array_flip($this->getTagMapping())]
+        );
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -164,6 +169,7 @@ class GameController extends FOGController {
                 'isMJ' => count($userProposedGames) > 0,
                 'hasGames' => count($games) > 0,
                 'games' => $games,
+                'tagMapping' => $this->getTagMapping(),
                 'newHeader' => true
             ]);
         }
@@ -186,7 +192,13 @@ class GameController extends FOGController {
             return $this->redirectToRoute('showGame', ["id" => $id]);
         }
 
-        $form = $this->createForm(GameEditType::class, $game, ['slots' => $this->FogParams->getCurrentEdition()->getGameSlots(), 'seats' => $game->getBookedSeats(), 'tags' => $game->getTagsList()]);
+        $form = $this->createForm(GameEditType::class, $game,
+            [
+                'slots' => $this->FogParams->getCurrentEdition()->getGameSlots(),
+                'seats' => $game->getBookedSeats(),
+                'tags' => $game->getTagsList(),
+                'tagMapping' => array_flip($this->getTagMapping()),
+            ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -267,6 +279,7 @@ class GameController extends FOGController {
             return $this->render('oeilglauque/showGame.html.twig', [
                 'game' => $game, 
                 'registered' => $game->getPlayers()->contains($this->getUser()),
+                'tagMapping' => $this->getTagMapping(),
                 'newHeader' => true
             ]);
         }else{
@@ -350,5 +363,29 @@ class GameController extends FOGController {
         }else{
             throw $this->createNotFoundException('Impossible de trouver la partie demandée. ');
         }
+    }
+
+    private function getTagMapping(): array
+    {
+        return [
+            'cyberpunk' => 'Cyberpunk',
+            'débutants' => 'Débutant(e)',
+            'enfants' => 'Enfants',
+            'enquête' => 'Enquête',
+            'escape game' => 'Escape game',
+            'exploration' => 'Exploration',
+            'historique' => 'Historique',
+            'humour' => 'Humour',
+            'horreur' => 'Horreur',
+            'magie' => 'Magie',
+            'manga' => 'Manga',
+            'médiéval' => 'Médiéval',
+            'murder' => 'Murder',
+            'post-apocalyptique' => 'Post-apocalyptique',
+            'SF' => 'SF',
+            'sombre' => 'Sombre',
+            'surnaturel' => 'Surnaturel',
+            'voyage' => 'Voyage'
+        ];
     }
 }

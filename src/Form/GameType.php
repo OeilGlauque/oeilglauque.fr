@@ -50,26 +50,7 @@ class GameType extends AbstractType
             ->add('tags', ChoiceType::class, [
                 'label' => 'Tags',
                 'autocomplete' => true,
-                'choices' => [
-                    'Cyberpunk' => 'cyberpunk',
-                    'Débutants' => 'débutants',
-                    'Enfants' => 'enfants',
-                    'Enquête' => 'enquête',
-                    'Escape game' => 'escape game',
-                    'Exploration' => 'exploration',
-                    'Historique' => 'Historique',
-                    'Humour' => 'humour',
-                    'Horreur' => 'horreur',
-                    'Magie' => 'magie',
-                    'Manga' => 'manga',
-                    'Médiéval' => 'médiéval',
-                    'Murder' => 'murder',
-                    'Post-apocalyptique' => 'post-apocalyptique',
-                    'SF' => 'SF',
-                    'Sombre' => 'sombre',
-                    'Surnaturel' => 'surnaturel',
-                    'Voyage' => 'voyage'
-                ],
+                'choices' => $options['tagMapping'],
                 'required' => false,
                 'multiple' => true,
                 'expanded' => false,
@@ -116,6 +97,7 @@ class GameType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Game::class,
             'slots' => [],
+            'tagMapping' => []
         ]);
     }
 }

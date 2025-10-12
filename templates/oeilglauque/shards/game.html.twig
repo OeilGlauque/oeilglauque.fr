@@ -15,7 +15,7 @@
                     <p>Créneau : <span class="slot">{{ game.getGameSlot().getText() }}</span></p>
                 </div>
                 {% for tag in game.getTagsList() %}
-                    <div class="game-infos"><p>{{ tag }}</p></div>
+                    <div class="game-infos"><p>{{ tagMapping[tag] }}</p></div>
                 {% endfor %}
             </div>
             <div class="description">
