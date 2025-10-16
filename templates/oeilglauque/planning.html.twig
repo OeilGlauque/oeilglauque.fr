@@ -68,7 +68,7 @@
             Les gobelins en charge du planning n'ont pas encore fini leur travail&nbsp;!
         </p>
         -->
-    {% if planning %}
+    {% if planning or is_granted('ROLE_ADMIN') %}
         <div id="calendar-holder"></div>
     {% else %}
         <p id="message"> Le planning n'est pas encore disponible. Revenez plus tard !</p>

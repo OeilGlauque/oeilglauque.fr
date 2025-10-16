@@ -31,7 +31,7 @@
                 <select name="item" required>
                     {% for item in items
 						|filter(item => item.getEdition().getId() == edition.getId()) %}
-                        <option value="{{ item.getId() }}">{{ item.getName() }} ({{ item.getPrice }} €)</option>
+                        <option value="{{ item.getId() }}">{{ item.getName() }} ({{ item.getPrice }} €) (Help: {{ item.getHelperPrice ?: "-" }}€)</option>
                     {% endfor %}
                 </select>
                 <input type="submit" class="me-lg-5 btn btn-danger my-3 my-md-0 flex-shrink-1" value="Valider" /> 
@@ -80,7 +80,7 @@
                         <tr id="order{{ order.getId() }}">
                             <td>{{ order.getTime().format("d/m H:i") }}</td>
                             <td><strong>{{ order.getPseudo() }}</strong></td>
-                            <td>{{ order.getItem().getName() }} ({{ order.getItem().getPrice() }} €)</td>                            
+                            <td>{{ order.getItem().getName() }} ({{ order.getItem().getPrice() }} €) (Help: {{ order.getItem().getHelperPrice() ?: "-" }}€)</td>
                             {% if order.getCollected() %}
                                 <td class="state ok">Livré 👍</td>
                             {% else %}
