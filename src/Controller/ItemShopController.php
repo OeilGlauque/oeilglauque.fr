@@ -234,7 +234,7 @@ class ItemShopController extends FOGController
         $date = new DateTime("now", new DateTimeZone('Europe/Paris'));
         $dateMax = $slot->getOrderTime();
 
-        if ($date->format('Dd') > $dateMax->format('Dd') or $date->format('H:i:s') > $dateMax->modify('+30 minutes')->format('H:i:s')){
+        if ($date->format('Dd') > $dateMax->format('Dd') or $date->format('H:i:s') > $dateMax->format('H:i:s')){
             $this->addFlash('popup', "Heure limite de commande dépassé...");
             return $this->redirectToRoute('orderList', ["id" => $slot->getId()]);
         }
