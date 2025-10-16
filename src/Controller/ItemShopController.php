@@ -90,6 +90,7 @@ class ItemShopController extends FOGController
         $item->setName($request->query->get('name'));
         $item->setDescription($request->query->get('description'));
         $item->setPrice($request->query->get('price'));
+        $item->setHelperPrice($request->query->get('helperprice'));
 
         if (!$edition) {
             throw $this->createNotFoundException(

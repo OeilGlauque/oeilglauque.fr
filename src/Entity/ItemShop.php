@@ -41,6 +41,9 @@ class ItemShop
     #[Assert\NotNull()]
     private float $price;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $helperPrice = null;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -107,6 +110,18 @@ class ItemShop
     public function setPrice(float $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getHelperPrice(): ?float
+    {
+        return $this->helperPrice;
+    }
+
+    public function setHelperPrice(?float $helperPrice): static
+    {
+        $this->helperPrice = $helperPrice;
 
         return $this;
     }
