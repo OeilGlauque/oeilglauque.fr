@@ -249,6 +249,7 @@ class ItemShopController extends FOGController
         $order->setItem($itemval);
 
         $order->setPseudo($request->query->get('pseudo'));
+        $order->setHelperPrice((bool) $request->query->get('isHelper'));
         $order->setTime($date);
         $manager->persist($order);
         $manager->flush();
