@@ -13,8 +13,10 @@
 {% endblock %}
 
 {% block body %}
-    <!-- Var for Total Price -->
+    <!-- Globals var -->
     {% set total = 0 %}
+    {% set clientId = false %}
+
     <h1 class="titre">
         Commandes FOG {{ edition.getAnnee() }}
     </h1>
@@ -33,6 +35,9 @@
                     {% for item in items
 						|filter(item => item.getEdition().getId() == edition.getId()) %}
                         <option value="{{ item.getId() }}">{{ item.getName() }} ({{ item.getPrice }} €) (Help: {{ item.getHelperPrice ?: "-" }}€)</option>
+                        {% if item.getClientId() != null and not clientId%}
+                            {% set clientId=true %}
+                        {% endif %}
                     {% endfor %}
                 </select>
                 <label style="width: max-content; margin-left: 10px" for="isHelper">Prix Helper</label>
@@ -73,6 +78,9 @@
                     <tr>
                         <th><strong class="time">Heure</strong></th>
                         <th><strong>Pseudo</strong></th>
+                        {% if clientId %}
+                            <th><strong>Id dominos</strong></th>
+                        {% endif %}
                         <th><strong>{{ currentSlot.getType().getType() }}</strong></th>
                         <th><strong>Helper</strong></th>
                         <th><strong>État</strong></th>
@@ -84,6 +92,9 @@
                         <tr id="order{{ order.getId() }}">
                             <td>{{ order.getTime().format("d/m H:i") }}</td>
                             <td><strong>{{ order.getPseudo() }}</strong></td>
+                            {% if clientId %}
+                                <th><strong>{{ order.getItem().getClientId() }}</strong></th>
+                            {% endif %}
                             <td>{{ order.getItem().getName() }} ({{ order.isHelperPrice() ? order.getItem().getHelperPrice() ?: "-" : order.getItem().getPrice()}}€)</td>
                             <td>{{ order.isHelperPrice() ? "✅" : "❌" }}</td>
                             {% if order.getCollected() %}
