@@ -13,7 +13,8 @@
 {% endblock %}
 
 {% block body %}
-
+    <!-- Var for Total Price -->
+    {% set total = 0 %}
     <h1 class="titre">
         Commandes FOG {{ edition.getAnnee() }}
     </h1>
@@ -103,6 +104,9 @@
                                 </div>
                             </td>
                         </tr>
+
+                        <!-- Calculate Total Price -->
+                        {% set total = total  + (order.isHelperPrice() ? order.getItem().getHelperPrice() ?: 0 : order.getItem().getPrice()) %}
                     {% endfor %}
                 </tbody>
             {% else %}
@@ -133,6 +137,7 @@
                             {% endfor %}
                         </ul>
                     {% endif %}
+                    <p><strong>Bilan:</strong> {{ total }}€</p>
                 {% endif %}
             </div>
         <a href={{ path('orderIndex') }}>Retour à l'interface de commande</a>
