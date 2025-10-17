@@ -80,7 +80,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for order in orders|sort((a,b) => (a.getPseudo() ~ a.getTime().getTimestamp()) <=> (b.getPseudo() ~ b.getTime().getTimestamp())) %}
+                    {% for order in orders|sort((a,b) => (b.getTime().getTimestamp()) <=> (a.getTime().getTimestamp())) %}
                         <tr id="order{{ order.getId() }}">
                             <td>{{ order.getTime().format("d/m H:i") }}</td>
                             <td><strong>{{ order.getPseudo() }}</strong></td>
