@@ -13,7 +13,8 @@
 {% endblock %}
 
 {% block body %}
-
+    <!-- Var for Total Price -->
+    {% set total = 0 %}
     <h1 class="titre">
         Commandes FOG {{ edition.getAnnee() }}
     </h1>
@@ -34,6 +35,8 @@
                         <option value="{{ item.getId() }}">{{ item.getName() }} ({{ item.getPrice }} €) (Help: {{ item.getHelperPrice ?: "-" }}€)</option>
                     {% endfor %}
                 </select>
+                <label style="width: max-content; margin-left: 10px" for="isHelper">Prix Helper</label>
+                <input style="width: 20px; margin: 0" type="checkbox" name="isHelper">
                 <input type="submit" class="me-lg-5 btn btn-danger my-3 my-md-0 flex-shrink-1" value="Valider" /> 
             </form>
             <div>
@@ -71,6 +74,7 @@
                         <th><strong class="time">Heure</strong></th>
                         <th><strong>Pseudo</strong></th>
                         <th><strong>{{ currentSlot.getType().getType() }}</strong></th>
+                        <th><strong>Helper</strong></th>
                         <th><strong>État</strong></th>
                         <th></th>
                     </tr>
@@ -80,7 +84,8 @@
                         <tr id="order{{ order.getId() }}">
                             <td>{{ order.getTime().format("d/m H:i") }}</td>
                             <td><strong>{{ order.getPseudo() }}</strong></td>
-                            <td>{{ order.getItem().getName() }} ({{ order.getItem().getPrice() }} €) (Help: {{ order.getItem().getHelperPrice() ?: "-" }}€)</td>
+                            <td>{{ order.getItem().getName() }} ({{ order.isHelperPrice() ? order.getItem().getHelperPrice() ?: "-" : order.getItem().getPrice()}}€)</td>
+                            <td>{{ order.isHelperPrice() ? "✅" : "❌" }}</td>
                             {% if order.getCollected() %}
                                 <td class="state ok">Livré 👍</td>
                             {% else %}
@@ -99,6 +104,9 @@
                                 </div>
                             </td>
                         </tr>
+
+                        <!-- Calculate Total Price -->
+                        {% set total = total  + (order.isHelperPrice() ? order.getItem().getHelperPrice() ?: 0 : order.getItem().getPrice()) %}
                     {% endfor %}
                 </tbody>
             {% else %}
@@ -129,6 +137,7 @@
                             {% endfor %}
                         </ul>
                     {% endif %}
+                    <p><strong>Bilan:</strong> {{ total }}€</p>
                 {% endif %}
             </div>
         <a href={{ path('orderIndex') }}>Retour à l'interface de commande</a>

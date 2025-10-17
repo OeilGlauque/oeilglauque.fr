@@ -33,6 +33,9 @@ class ItemShopOrder
     #[ORM\Column(type: "boolean")]
     private bool $collected;
 
+    #[ORM\Column]
+    private ?bool $helperPrice = false;
+
     public function __construct()
     {
         $this->collected = false;
@@ -99,6 +102,18 @@ class ItemShopOrder
     public function setCollected(?bool $collected): self
     {
         $this->collected = $collected;
+
+        return $this;
+    }
+
+    public function isHelperPrice(): ?bool
+    {
+        return $this->helperPrice;
+    }
+
+    public function setHelperPrice(bool $helperPrice): static
+    {
+        $this->helperPrice = $helperPrice;
 
         return $this;
     }

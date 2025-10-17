@@ -207,7 +207,8 @@ class ItemShopController extends FOGController
             'groupedOrders2' => $groupedOrders2,
             'types' => $types,
             'items' => $items,
-            'currentSlot' => $currslot
+            'currentSlot' => $currslot,
+            'newHeader' => true
         ]);
     }
 
@@ -249,6 +250,7 @@ class ItemShopController extends FOGController
         $order->setItem($itemval);
 
         $order->setPseudo($request->query->get('pseudo'));
+        $order->setHelperPrice((bool) $request->query->get('isHelper'));
         $order->setTime($date);
         $manager->persist($order);
         $manager->flush();
