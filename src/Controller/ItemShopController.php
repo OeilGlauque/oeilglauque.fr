@@ -207,7 +207,8 @@ class ItemShopController extends FOGController
             'groupedOrders2' => $groupedOrders2,
             'types' => $types,
             'items' => $items,
-            'currentSlot' => $currslot
+            'currentSlot' => $currslot,
+            'newHeader' => true
         ]);
     }
 
