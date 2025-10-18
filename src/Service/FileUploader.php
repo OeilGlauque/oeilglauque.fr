@@ -13,10 +13,13 @@ class FileUploader
         private SluggerInterface $slugger
     ){}
 
-    public function upload(UploadedFile $file, string $dir) : string
+    public function upload(UploadedFile $file, string $dir, string | null $filename = null) : string
     {
-        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $safeFilename = $this->slugger->slug($originalFilename);
+        if ($filename == null){
+            $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        }
+
+        $safeFilename = $this->slugger->slug($filename);
         $filename = $safeFilename . "-" . uniqid() . "." . $file->guessExtension();
 
         try {
@@ -26,5 +29,25 @@ class FileUploader
         }
 
         return "uploads/" . $dir . "/" . $filename;
+    }
+
+    public function remove(string|null $filepath): void
+    {
+        if ($filepath == null) {
+            return;
+        }
+
+        [$dir, $filename] = array_slice(explode("/",$filepath), -2, 2);
+        $absolute_filepath = join("/",[$this->baseTargetDir,$dir,$filename]);
+
+        if (file_exists($absolute_filepath)) {
+            try {
+                unlink($absolute_filepath);
+            } catch (\Exception $e) {
+                throw new \RuntimeException("Erreur lors de la suppression du fichier: " . $e->getMessage());
+            }
+        } else {
+            throw new \RuntimeException("Le fichier $absolute_filepath n'existe pas.");
+        }
     }
 }

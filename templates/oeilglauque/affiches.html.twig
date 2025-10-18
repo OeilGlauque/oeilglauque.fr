@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block customcss %}
+	<link rel="stylesheet" href="/css/affiches.css"/>
+{% endblock %}
+
+{% block mainPage %}
+	<section class="landing_page"></section>
+{% endblock %}
+
+{% block body %}
+
+	<div class="poster-header">
+		<h1 class="titre small">
+			Affiches
+		</h1>
+
+		<p>A l'instar des plus grandes associations de ce pays, le FOG possède une équipe graphique hors du commun qui
+		au fil des années a conconctée les plus belles affiches jamais créées. Sur cette page, elles y sont humblement
+		exposées</p>
+	</div>
+
+	<section class="afficheWrapper">
+		{% for poster in posters %}
+			<article class="scroll-animation" style="--id: {{ loop.index }};">
+				<a href="{{ poster.getFogImg() }}"><img loading="lazy" alt="Affiche FOG" src="{{ poster.getFogImg() }}"></a>
+				<div>
+					<h3>{{ poster.getTitle() }}</h3>
+					<p>{{ poster.getAuthors() }}</p>
+				</div>
+			</article>
+		{% else %}
+			<p>Pas d'affiches pour le moment :(</p>
+		{% endfor %}
+	</section>
+	<script src="{{ asset('js/scrolledHeader.js') }}"></script>
+	<script src="{{ asset('js/revealOnScroll.js') }}"></script>
+
+{% endblock %}

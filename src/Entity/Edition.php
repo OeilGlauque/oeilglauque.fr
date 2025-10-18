@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\EditionRepository;
-use App\Entity\GameSlot;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -41,6 +40,9 @@ class Edition
     #[Assert\NotBlank()]
     private string $type = 'FOG';
 
+    #[ORM\OneToOne(mappedBy: 'edition')]
+    private ?Poster $poster = null;
+  
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $start = null;
 
@@ -148,6 +150,10 @@ class Edition
         return $this;
     }
 
+    public function getPoster(): ?Poster
+    {
+        return $this->poster;
+    }
     public function getStart(): ?\DateTimeInterface
     {
         return $this->start;
