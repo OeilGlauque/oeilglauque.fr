@@ -40,7 +40,7 @@ header {
     position: fixed;
     width: 100%;
     background-color: transparent;
-    z-index: 2;
+    z-index: 3;
     transition: 0.3s ease-in-out;
 }
 
