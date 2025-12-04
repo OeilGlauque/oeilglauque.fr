@@ -73,13 +73,18 @@ php bin/console doctrine:migrations:migrate
 
 ```bash
 git pull origin master
+
 # si vous utiliser des tags
 git fetch --tags
 git checkout <version tag name>
+
 docker compose exec -it php sh # entrer dans le docker php
 composer install --no-dev --optimize-autoloader # si les dépendances ont changées
-php bin/console doctrine:migrations:diff # si vous avez modifié ou créé des entités
-php bin/console doctrine:migrations:migrate # si vous avez modifié ou créé des entités
+
+# si vous avez modifié ou créé des entités
+php bin/console doctrine:migrations:diff
+php bin/console doctrine:migrations:migrate
+
 php bin/console cache:clear
 ```
 
