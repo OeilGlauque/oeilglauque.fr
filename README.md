@@ -17,7 +17,7 @@ Certains installateurs modifient Path par eux-même. Néanmoins, il reste néces
 
 ### Suite de l'installation
 
-Une fois le git cloné, il faut faire une copie de `.env` en `.env.local` et créer un fichier `docker-compose.override.yaml`.
+Une fois le git cloné `git clone ...`, il faut faire une copie de `.env` en `.env.local` et créer un fichier `docker-compose.override.yaml`.
 Le fichier `docker-compose.override.yaml` doit avoir cette structure :
 
 ```yaml
@@ -86,7 +86,8 @@ docker compose exec -it mysql sh
 mysql -u root -p # le mot de passe demander est celui que vous avez mis dans la variable MYSQL_ROOT_PASSWORD du docker-compose.override.yaml
 ```
 ```SQL
-use DB_NAME;
+use DB_NAME; #DB_NAME correspond à ce que vous avez mis dans le docker-compose.override.yaml
+
 source fogdbsample.sql;
 quit;
 ```
@@ -95,6 +96,11 @@ En particulier, les utilisateurs enregistrés sont :
 - root (pwd : root)
 - TheBoss (pwd : portal)
 - Ours de markarth (pwd : skyrim)
+
+On peut maintenant lancer le site !
+```
+docker compose up -d
+```
 
 ## Déploiement
 
