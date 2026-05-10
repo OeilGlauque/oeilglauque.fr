@@ -178,8 +178,8 @@ CREATE TABLE `edition` (
   `dates` varchar(255) NOT NULL,
   `home_text` longtext NOT NULL,
   `type` varchar(255) NOT NULL,
-  `start` DATE,
-  `end` DATE,
+  `start` DATE DEFAULT NULL,
+  `end` DATE DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -190,7 +190,13 @@ CREATE TABLE `edition` (
 
 LOCK TABLES `edition` WRITE;
 /*!40000 ALTER TABLE `edition` DISABLE KEYS */;
-INSERT INTO `edition` VALUES (1,2021,'Du 18 au 20 octobre','Vive les jeux !','FOG'),(2,2020,'Du 20 au 22 octobre','Jeux de rôle et jeux de plateau vous attendent à la Xème édition du Festival de lŒil Glauque !\r\nPendant 48h vous pourrez profiter de séances de jeux de rôle, découvrir notre ludothèque de plus de 150 jeux de plateau ou assister à un concert de métal par le groupe XXXXX.\r\nAu cours du week-end n\'hésitez pas à prendre part à une murder-party, un escape game, ainsi quà des tournois de Magic ou Warhammer. \r\n Vous pourrez aussi tout simplement venir profiter de lambiance et de nos sandwichs, pizzas, burgers et autres friandises et boissons, notamment nos crêpes et nos fameux 3D6 !\r\n                ','FOG'),(3,2022,'Du 20 au 22 octobre','Jeux de rôle et jeux de plateau vous attendent à la Xème édition du Festival de lŒil Glauque !\r\nPendant 48h vous pourrez profiter de séances de jeux de rôle, découvrir notre ludothèque de plus de 150 jeux de plateau ou assister à un concert de métal par le groupe XXXXX.\r\nAu cours du week-end n\'hésitez pas à prendre part à une murder-party, un escape game, ainsi quà des tournois de Magic ou Warhammer. \r\nVous pourrez aussi tout simplement venir profiter de lambiance et de nos sandwichs, pizzas, burgers et autres friandises et boissons, notamment nos crêpes et nos fameux 3D6 ! <a href=\"https://www.instagram.com/festival_oeil_glauque/\"> TEst </a>\r\n                ','FOG'),(4,2023,'11 Octobre 2023 au 13 Octobre 2023','Jeux de rôle et jeux de plateau vous attendent à la Xème édition du Festival de l\'Œil Glauque !\r\nPendant 48h vous pourrez profiter de séances de jeux de rôle, découvrir notre ludothèque de plus de 150 jeux de plateau ou assister à un concert de métal par le groupe XXXXX.\r\nAu cours du week-end n’hésitez pas à prendre part à une murder-party, un escape game, ainsi qu\'à des tournois de Magic ou Warhammer. \r\nVous pourrez aussi tout simplement venir profiter de l\'ambiance et de nos sandwichs, pizzas, burgers et autres friandises et boissons, notamment nos crêpes et nos fameux 3D6 !\r\n                ','FOG'),(5,2024,'12 Octobre au 14 Octobre','azeflmhzelhajfqsf','FOG'),(7,2025,'ljkzahfel','esmfkajzepofi','FOG');
+INSERT INTO `edition` VALUES
+(1,2021,'Du 18 au 20 octobre','Vive les jeux !','FOG', NULL, NULL),
+(2,2020,'Du 20 au 22 octobre','Jeux de rôle et jeux de plateau vous attendent à la Xème édition du Festival de lŒil Glauque !\r\nPendant 48h vous pourrez profiter de séances de jeux de rôle, découvrir notre ludothèque de plus de 150 jeux de plateau ou assister à un concert de métal par le groupe XXXXX.\r\nAu cours du week-end n\'hésitez pas à prendre part à une murder-party, un escape game, ainsi quà des tournois de Magic ou Warhammer. \r\n Vous pourrez aussi tout simplement venir profiter de lambiance et de nos sandwichs, pizzas, burgers et autres friandises et boissons, notamment nos crêpes et nos fameux 3D6 !\r\n                ','FOG', NULL, NULL),
+(3,2022,'Du 20 au 22 octobre','Jeux de rôle et jeux de plateau vous attendent à la Xème édition du Festival de lŒil Glauque !\r\nPendant 48h vous pourrez profiter de séances de jeux de rôle, découvrir notre ludothèque de plus de 150 jeux de plateau ou assister à un concert de métal par le groupe XXXXX.\r\nAu cours du week-end n\'hésitez pas à prendre part à une murder-party, un escape game, ainsi quà des tournois de Magic ou Warhammer. \r\nVous pourrez aussi tout simplement venir profiter de lambiance et de nos sandwichs, pizzas, burgers et autres friandises et boissons, notamment nos crêpes et nos fameux 3D6 ! <a href=\"https://www.instagram.com/festival_oeil_glauque/\"> TEst </a>\r\n                ','FOG', NULL, NULL),
+(4,2023,'11 Octobre 2023 au 13 Octobre 2023','Jeux de rôle et jeux de plateau vous attendent à la Xème édition du Festival de l\'Œil Glauque !\r\nPendant 48h vous pourrez profiter de séances de jeux de rôle, découvrir notre ludothèque de plus de 150 jeux de plateau ou assister à un concert de métal par le groupe XXXXX.\r\nAu cours du week-end n’hésitez pas à prendre part à une murder-party, un escape game, ainsi qu\'à des tournois de Magic ou Warhammer. \r\nVous pourrez aussi tout simplement venir profiter de l\ambiance et de nos sandwichs, pizzas, burgers et autres friandises et boissons, notamment nos crêpes et nos fameux 3D6 !\r\n                ','FOG', NULL, NULL),
+(5,2024,'12 Octobre au 14 Octobre','azeflmhzelhajfqsf','FOG', NULL, NULL),
+(7,2025,'ljkzahfel','esmfkajzepofi','FOG', NULL, NULL);
 /*!40000 ALTER TABLE `edition` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -215,7 +221,7 @@ CREATE TABLE `feature` (
 
 LOCK TABLES `feature` WRITE;
 /*!40000 ALTER TABLE `feature` DISABLE KEYS */;
-INSERT INTO `feature` VALUES (1,'Shop de noël',0),(2,'Réservations du local',1),(3,'Réservations de jeux',1),(4,'Mode FOG',1),(5,'Système de partie',1),(6,'Système de news',0),(7,'Planning',1),(8,'Menu',1),(9, 'Proposition de parties', 0);
+INSERT INTO `feature` VALUES (1,'Shop de noël',0),(2,'Réservations du local',1),(3,'Réservations de jeux',1),(4,'Mode FOG',1),(5,'Système de partie',1),(6,'Système de news',0),(7,'Planning',1),(8,'Menu',1),(9, 'Proposition de parties', 0),(10,'Artistes',1);
 /*!40000 ALTER TABLE `feature` ENABLE KEYS */;
 UNLOCK TABLES;
 
