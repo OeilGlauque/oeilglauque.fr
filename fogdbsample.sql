@@ -178,6 +178,8 @@ CREATE TABLE `edition` (
   `dates` varchar(255) NOT NULL,
   `home_text` longtext NOT NULL,
   `type` varchar(255) NOT NULL,
+  `start` DATE,
+  `end` DATE,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
