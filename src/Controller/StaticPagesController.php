@@ -41,7 +41,9 @@ class StaticPagesController extends FOGController {
     #[Route("/photos", name: "photos", methods: ['GET'])]
     public function photos() : Response
     {
-        return $this->render('oeilglauque/photos.html.twig');
+        return $this->render('oeilglauque/photos.html.twig', [
+        'newHeader' => true
+        ]);
     }
 
     #[Route("/menu", name: "menu", methods:['GET'])]

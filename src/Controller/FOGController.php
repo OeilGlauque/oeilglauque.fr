@@ -15,9 +15,12 @@ class FOGController extends AbstractController {
     }
 
     public function render(string $view, array $parameters = [], Response $response = null) : Response {
+
         if (!array_key_exists('dates', $parameters)) {
             $parameters['dates'] = $this->FogParams->getCurrentEdition()->getDates();
         }
+
+        // Différentes fonctionalités du site (celles activables via le menu admin
         if (!array_key_exists('modeFog', $parameters)) {
             $parameters['modeFog'] = $this->FogParams->getModeFog();
         }
@@ -40,7 +43,7 @@ class FOGController extends AbstractController {
 
         if(!array_key_exists('newHeader', $parameters)) {
             $parameters['newHeader'] = false;
-        }
+        } // Si la page utilise le nouvel Header, TODO : Idéalement faire disparaitre toute occurence de l'ancien header et donc ne plus avoir besoin de ce tag
         
         return parent::render($view, $parameters);
     }
