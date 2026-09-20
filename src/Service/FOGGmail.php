@@ -16,7 +16,7 @@ use Twig\Environment;
 
 class FOGGmail
 {
-    private Gmail|MailerInterface $mailer;
+    private Gmail|MailerInterface|null $mailer;
     private Address $mailFOG;
     private Environment $twig;
     private bool $dev_env = false;
