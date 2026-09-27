@@ -77,7 +77,12 @@
 								|filter(item => item.getType().getId() == type.getId()) 
 								|filter(item => item.getEdition().getId() == edition.getId()) %}
                                 <li>
-                                    <strong>{{ item.getName() }} ({{ item.getPrice() }}€) (Helper: {{ item.getHelperPrice() ?: "-" }}€)</strong>
+                                    <strong>{{ item.getName() }}
+                                        {% if item.getClientId() != null %}
+                                            (Id Dominos: {{ item.getClientId() }} )
+                                        {% endif %}
+                                    </strong>
+                                    <p>Public: {{ item.getPrice() }}€ -  Helper: {{ item.getHelperPrice() ?: "-" }}€</p>
                                     {% if item.getDescription is not null %}
                                         <p>{{ item.getDescription() }}</p>
                                     {% endif %}
@@ -100,6 +105,8 @@
                     </select>
                     <label for="name">Nom</label>
                     <input type="text" required name="name" />
+                    <label for="clientId">Id Dominos</label>
+                    <input type="text" placeholder="Facultatif" name="clientId">
                     <label for="description">Description</label>
                     <textarea cols="50" rows="5" name="description"></textarea>
                     <label for="price">Prix (€)</label>

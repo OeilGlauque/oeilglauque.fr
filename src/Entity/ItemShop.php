@@ -2,9 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\Edition;
-use App\Entity\ItemShopOrder;
-use App\Entity\ItemShopType;
 use App\Repository\ItemShopRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -43,6 +40,9 @@ class ItemShop
 
     #[ORM\Column(nullable: true)]
     private ?float $helperPrice = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $clientId = null;
 
     public function __construct()
     {
@@ -122,6 +122,18 @@ class ItemShop
     public function setHelperPrice(?float $helperPrice): static
     {
         $this->helperPrice = $helperPrice;
+
+        return $this;
+    }
+
+    public function getClientId(): ?string
+    {
+        return $this->clientId;
+    }
+
+    public function setClientId(?string $clientId): static
+    {
+        $this->clientId = $clientId;
 
         return $this;
     }
