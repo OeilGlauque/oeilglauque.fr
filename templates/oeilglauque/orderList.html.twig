@@ -126,6 +126,7 @@
             </table>
             <div class="total">
                 {% if orders|length > 0 %}
+                    <span>Bonjour, <br>Voici les commandes de Pizza :<br /><br /></span>
                     {% if currentSlot.getPreOrderTime() is not null %}
                         <span>Total : {{ orders|length }}</span><br /><br />
                         <span>Première partie (Sous-total : {{ groupedOrders1|reduce((acc,c) => acc + c.itemcount) }})</span>
@@ -148,6 +149,8 @@
                             {% endfor %}
                         </ul>
                     {% endif %}
+                    <span>Pizzas pour le créneau de {{ currentSlot.getDeliveryTime().format("d/m H:i")}} <br /></span>
+                    <span> Merci d'avance,<br />Cordialement,<br />Le Festival de l'Oeil Glauque <br /><br /></span>
                     <p><strong>Bilan:</strong> {{ total }}€</p>
                 {% endif %}
             </div>

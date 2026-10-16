@@ -18,9 +18,11 @@
         </div>
 
             {% if hasGames %}
+                {% if modeFog %}
                 <div class="alert alert-danger">
                     Si vous êtes inscrit.e sur le site, votre place est réservée à condition que vous soyez présent.e <strong>10 minutes</strong> avant le début de la partie et que vous achetiez un <strong>ticket Jeu de Rôle (1€) à l'accueil</strong>.
                 </div>
+                {% endif %}
 
                 {% if hasRegistered %}
                     <b>Parties jouées cette année :</b><br />
