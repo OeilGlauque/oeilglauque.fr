@@ -71,7 +71,7 @@
             {% if game.getAuthor() == app.user or is_granted('ROLE_ADMIN') %}({{ player.getEmail() }}){% endif %}{% if not loop.last %},{% endif %}
         </span>
         {% else %}
-        Il n'y a pas encore de joueur inscri à cette partie.
+        Il n'y a pas encore de joueur inscrit à cette partie.
         {% endfor %}
         <br /><br />
         {% if game.getFreeSeats() > 0 %}
@@ -97,6 +97,7 @@
                     {% endif %}
                 {% endif %}
             {% endif %}
+            </div>
         {% else %}
             <div class="game-btn">
             {# plus de place #}
