@@ -8,6 +8,15 @@
             "ref": "64d8583af5ea57b7afa4aba4b159907f3a148b05"
         }
     },
+    "doctrine/deprecations": {
+        "version": "1.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "fdd756167454623e21f1d769c5b814b243782a67"
+        }
+    },
     "doctrine/doctrine-bundle": {
         "version": "2.8",
         "recipe": {
@@ -289,5 +298,8 @@
     },
     "twig/extra-bundle": {
         "version": "v3.20.0"
+    },
+    "web-token/jwt-framework": {
+        "version": "3.4.10"
     }
 }
