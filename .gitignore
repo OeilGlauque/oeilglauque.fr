@@ -50,5 +50,3 @@ query.sql
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
-
-json_de_merde.json
