@@ -38,7 +38,7 @@
         "symfony/yaml": "6.4.*",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
-        "web-token/jwt-framework": "3.1.*"
+        "web-token/jwt-framework": "3.4.*"
     },
     "require-dev": {
         "symfony/browser-kit": "6.4.*",

@@ -2,7 +2,7 @@ FROM mlocati/php-extension-installer:latest AS php_extension_installer
 
 FROM ghcr.io/typst/typst:latest AS typst
 
-FROM php:8.2.10-fpm-alpine3.17
+FROM php:8.2.35-fpm-alpine3.23
 
 RUN docker-php-ext-install pdo_mysql
 
